@@ -75,3 +75,10 @@ You will always receive a JSON object in this format:
                                       // could be empty, even on success
       ], // Always a collection, even if empty
     }
+
+### Caveat
+
+The JSON API is very general, and works from it's own idiom about products because it was created to work
+with different types of software that may work and think about sales differently, the JSON communication
+medium is an intermediate representation of Products, Categories and so on. This is to facilitate a
+simple communication between 3rd party software that is not part of the plugin ecosystem and woocommerce.
