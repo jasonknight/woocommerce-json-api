@@ -31,8 +31,8 @@ function woocommerce_json_api_show_user_profile( $user ) {
 		        'name'          => $helpers->getPluginPrefix() . '_settings[token]',
 		        'id'            => 'json_api_token_id',
 		        'value'         => $meta['token'],
-				    'label'         => __( 'API Token', 'woocommerce-json-api' ),
-				    'description'   => __('A large string of letters and numbers, mixed case, that will be used to authenticate requests','woocommerce-json-api')
+				    'label'         => __( 'API Token', $helpers->getPluginTextDomain() ),
+				    'description'   => __('A large string of letters and numbers, mixed case, that will be used to authenticate requests', $helpers->getPluginTextDomain() )
 			    ),
 		  ),
 	  ),
