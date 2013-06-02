@@ -87,7 +87,7 @@ simple communication between 3rd party software that is not part of the plugin e
 
 Wordpress and WooCommerce have their own ideas about coding standards. While these are fine, they are generally
 designed for plugin developers and theme tweakers to follow to smooth their participation within the plugin
-ecosystem of a website. This plugin is about Enterprise Integration, as field of programming that has
+ecosystem of a website. This plugin is about Enterprise Integration, a field of programming that has
 it's own standards of operation and rigeur. All attempts are made to obey WordPress coding standards except
 where they might conflict with established methods of Enterprise Integration and Object Oriented programming.
 
@@ -95,5 +95,5 @@ The goal of this plugin is to be comprehensive and understandable by diverse pro
 so it will strictly adhere to well established OOP patterns and paradigms, or in so much as this is possible.
 
 When designing an API it's not possible to please everyone, so this plugin attempts to displease everyone
-as equally as possible. This is a roundabout way of saying: If you don't like it, don't use it, if you need it,
-learn it, and if you have an opinion, please cat it to /dev/null :)
+as equally as possible. This is a roundabout way of saying: If you don't like it, **don't use it**, if you need it,
+**learn it**, and if you have an opinion, please `cat` it to `/dev/nul`l :)
