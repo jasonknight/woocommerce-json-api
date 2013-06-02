@@ -88,9 +88,12 @@ class RedEHelpers {
   public function getPluginPrefix() {
     return str_replace('-','_',$this->plugin_name);
   }
+  public function getPluginTextDomain() {
+    return $this->getPluginName();
+  }
   /* Checkers */
   function or_eq($array,$key,$default = null) {
-    if ( $default == null ) {
+    if ( $default === null ) {
       $default = __('UnNamed', $this->getPluginName() ) . ' - ' . $key;
     }
     if ( isset($array[$key]) ) {
@@ -101,14 +104,14 @@ class RedEHelpers {
   /* HTML API Helpers */
   public function label_tag($args) {
     $name = $this->or_eq($args,'name');
-    $content = $this->or_eq($args,'content');
+    $content = $this->or_eq($args,'label');
     return "<label for='" . esc_attr( $name ) . "'>" . esc_html( $content ) . "</label>";
   }
   public function input_tag($args) {
     $name = $this->or_eq($args,'name');
-    $content = $this->or_eq($args,'content');
+    $value = $this->or_eq($args,'value','');
     $id = $this->or_eq($args,'id','');
-    return "<input type='text' id='" . esc_attr($id) . "' name='" . esc_attr( $name ) . "' value='" . esc_html( $content ) . "' />";
+    return "<input type='text' id='" . esc_attr($id) . "' name='" . esc_attr( $name ) . "' value='" . esc_html( $value ) . "' />";
   }
   
 }
