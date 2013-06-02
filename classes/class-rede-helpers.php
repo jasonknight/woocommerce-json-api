@@ -60,12 +60,22 @@ class RedEHelpers {
       }
     }
   }
-  // $vars_in_scope is an array like so: {'myvar' => 'some text'} which can
-  // be accessed in the template withe $myvar
+  /** 
+    $vars_in_scope is an array like so: {'myvar' => 'some text'} which can
+    be accessed in the template withe $myvar
+    
+    @param string template path, relative to the plugin
+    @param array of key value pairs to put into scope
+    @return the rendered, filtered, executed content of the php template file
+  */
   public function render_template($template_name, $vars_in_scope = array()) {
     global $woocommerce,$wpdb, $user_ID, $available_methods;
     $vars_in_scope['helpers'] = $this;
-    $vars_in_scope = apply_filters( $this->getPluginPrefix() . '_vars_in_scope_for_' . basename($template_name,".php"), $vars_in_scope );
+    $vars_in_scope['__VIEW__'] = $template_name; //could be user-files.php or somedir/user-files.php
+                                                 
+    // The filter will look like: woo_commerce_json_api_vars_in_scope_for_user_files if the
+    // views name was user-files.php, if it was in a subdir, like dir/user-files.php it would be dir_user_files
+    $vars_in_scope = apply_filters( $this->getPluginPrefix() . '_vars_in_scope_for_' . basename( str_replace('/','_', $template_name),".php"), $vars_in_scope );
     foreach ($vars_in_scope as $name=>$value) {
       $$name = $value;
     }
@@ -75,7 +85,7 @@ class RedEHelpers {
       include $template_path;
       $content = ob_get_contents();
       ob_end_clean();
-      $content = apply_filters( $this->getPluginPrefix() . '_template_rendered_' . basename($template_name,".php") ,$content );
+      $content = apply_filters( $this->getPluginPrefix() . '_template_rendered_' . basename( str_replace('/','_', $template_name) ,".php") ,$content );
     } catch ( Exception $err) {
       ob_end_clean();
       throw new Exception( __('Error while rendering template ' . $template_name . ' -- ' . $err->getMessage() ) );
@@ -110,6 +120,10 @@ class RedEHelpers {
     a) people have weird debug settings and 
     b) Some idiot thought it was a good idea to add in warnings when you access a null array key.
        Whoever that person is, they should be shot. Out of a cannon. Into the Sun.
+       
+    @param array to look in
+    @param string key
+    @param default value if not found (Default is i18n xlated to UnNamed
   */
   function or_eq($array,$key,$default = null) {
     if ( $default === null ) {
