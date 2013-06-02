@@ -66,8 +66,12 @@ You will always receive a JSON object in this format:
       action: "woocommerce_json_api",
       proc:   "api_method_here",
       status: true|false,
-      errors: [], // always an empty collection, when errors are present, they are represented as {text: 'text', code: 12344, retry: true|false ... }
+      errors: [], // always an empty collection, 
+                  // when errors are present, they are represented as 
+                  // {text: 'text', code: 12344, retry: true|false ... }
       payload: [
-        { secret_key: "0ABCDEF456" }, // may be a collection of objects, arrays, strings, or JS values, or could be empty, even on success
+        { secret_key: "0ABCDEF456" }, // may be a collection of objects, 
+                                      // arrays, strings, or JS values, or 
+                                      // could be empty, even on success
       ], // Always a collection, even if empty
     }
