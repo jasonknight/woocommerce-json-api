@@ -82,16 +82,33 @@ class RedEHelpers {
     }
     return $content;
   }
+  /**
+    Return the plugin name.
+  */
   public function getPluginName() {
     return $this->plugin_name;
   }
+  /*
+    Get the PluginPrefix, used for meta data keys to help avoid namespace collisions
+    with other plugins.
+  */
   public function getPluginPrefix() {
     return str_replace('-','_',$this->plugin_name);
   }
+  /*
+    Does this plugin have a special text domain?
+  */
   public function getPluginTextDomain() {
     return $this->getPluginName();
   }
   /* Checkers */
+  
+  /**
+    We want to avoid directly accessing Array keys, because
+    a) people have weird debug settings and 
+    b) Some idiot thought it was a good idea to add in warnings when you access a null array key.
+       Whoever that person is, they should be shot. Out of a cannon. Into the Sun.
+  */
   function or_eq($array,$key,$default = null) {
     if ( $default === null ) {
       $default = __('UnNamed', $this->getPluginName() ) . ' - ' . $key;
@@ -112,6 +129,35 @@ class RedEHelpers {
     $value = $this->or_eq($args,'value','');
     $id = $this->or_eq($args,'id','');
     return "<input type='text' id='" . esc_attr($id) . "' name='" . esc_attr( $name ) . "' value='" . esc_html( $value ) . "' />";
+  }
+  /* WordPress API Helpers */
+  /**
+    Convert a title into a slug
+  */
+  public function create_slug($text) {
+    $text = sanitize_title($text);
+    return $text;
+  }
+  /**
+     We want to ease the creation of pages
+     
+     @param $title - The title you want to use, will be converted to the slug
+     @param $content - the contents of the page
+     @param $publish - boolean
+     @return Array of populated values to send to insert_post
+  */
+  public function new_page($title,$content,$publish = true) {
+    $page = array(
+			'post_status' 		=> $publish === true ? 'publish' : 'pending',
+			'post_type' 		=> 'page',
+			'post_author' 		=> 1,
+			'post_name' 		=> $this->create_slug($title),
+			'post_title' 		=> $title,
+			'post_content' 		=> $content,
+			'post_parent' 		=> 0,
+			'comment_status' 	=> 'closed'
+		);
+		return $page;
   }
   
 }
