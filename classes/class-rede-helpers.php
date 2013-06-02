@@ -101,7 +101,9 @@ class RedEHelpers {
   public function getPluginTextDomain() {
     return $this->getPluginName();
   }
-  /* Checkers */
+  /***************************************************************************/
+  /*                    Checkers, validators                                 */
+  /***************************************************************************/
   
   /**
     We want to avoid directly accessing Array keys, because
@@ -118,7 +120,9 @@ class RedEHelpers {
     }
     return $default;
   }
-  /* HTML API Helpers */
+  /***************************************************************************/
+  /*                         HTML API Helpers                                */
+  /***************************************************************************/
   public function label_tag($args) {
     $name = $this->or_eq($args,'name');
     $content = $this->or_eq($args,'label');
@@ -130,7 +134,11 @@ class RedEHelpers {
     $id = $this->or_eq($args,'id','');
     return "<input type='text' id='" . esc_attr($id) . "' name='" . esc_attr( $name ) . "' value='" . esc_html( $value ) . "' />";
   }
-  /* WordPress API Helpers */
+  
+  /***************************************************************************/
+  /*                       WordPress API Helpers                             */
+  /***************************************************************************/
+  
   /**
     Convert a title into a slug
   */
