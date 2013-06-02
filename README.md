@@ -82,3 +82,18 @@ The JSON API is very general, and works from it's own idiom about products becau
 with different types of software that may work and think about sales differently, the JSON communication
 medium is an intermediate representation of Products, Categories and so on. This is to facilitate a
 simple communication between 3rd party software that is not part of the plugin ecosystem of woocommerce.
+
+### Coding Standards
+
+Wordpress and WooCommerce have their own ideas about coding standards. While these are fine, they are generally
+designed for plugin developers and theme tweakers to follow to smooth their participation within the plugin
+ecosystem of a website. This plugin is about Enterprise Integration, as field of programming that has
+it's own standards of operation and rigeur. All attempts are made to obey WordPress coding standards except
+where they might conflict with established methods of Enterprise Integration and Object Oriented programming.
+
+The goal of this plugin is to be comprehensive and understandable by diverse programmers, from other OOP languages,
+so it will strictly adhere to well established OOP patterns and paradigms, or in so much as this is possible.
+
+When designing an API it's not possible to please everyone, so this plugin attempts to displease everyone
+as equally as possible. This is a roundabout way of saying: If you don't like it, don't use it, if you need it,
+learn it, and if you have an opinion, please cat it to /dev/null :)
