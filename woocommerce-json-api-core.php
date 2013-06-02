@@ -69,7 +69,7 @@ function woocommerce_json_api_update_user_profile( $user_id ) {
 }
 /*
   We want to prevent the json page for showing up in the list
-  ass long as they are using wp_list_pages, then this will
+  as long as they are using wp_list_pages, then this will
   work...
 */
 function woocommerce_json_api_exclude_pages($exclude) {
