@@ -96,4 +96,4 @@ so it will strictly adhere to well established OOP patterns and paradigms, or in
 
 When designing an API it's not possible to please everyone, so this plugin attempts to displease everyone
 as equally as possible. This is a roundabout way of saying: If you don't like it, **don't use it**, if you need it,
-**learn it**, and if you have an opinion, please `cat` it to `/dev/nul`l :)
+**learn it**, and if you have an opinion, please `cat` it to `/dev/null` :)
