@@ -85,7 +85,8 @@ function woocommerce_json_api_exclude_pages($exclude) {
   Shortcode to embed in a page to turn it into a JSON API entry point.
 */
 function woocommerce_json_api_shortcode() {
-  die("Hello World");
+  print_r($_REQUEST);
+  die("Hello World from the shortcode");
 }
 
 /*
@@ -96,7 +97,14 @@ function woocommerce_json_api_template_redirect() {
   $helpers = new RedEHelpers();
   $json_api_slug = get_option( $helpers->getPluginPrefix() . '_slug' );
   $found = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM " . $wpdb->posts . " WHERE post_name = %s LIMIT 1;", $json_api_slug ) );
-  if ( is_page($found) ) {
+  if ( $found && is_page($found) ) {
     woocommerce_json_api_shortcode();
+  } else {
+    // The page was not found, let's check the $_POST params to see if this is a request to
+    // us
+    if ( isset( $_REQUEST['action']) && 'woocommerce_json_api' == $_REQUEST['action']) {
+      woocommerce_json_api_shortcode();
+    }
   }
 }
+
