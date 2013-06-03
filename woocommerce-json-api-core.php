@@ -93,6 +93,7 @@ function woocommerce_json_api_exclude_pages($exclude) {
      You can manually update that slug from the admin settings page for the JSON API
      
      When someone accesses that particular URL, the API works
+  
   Some themes are not using wp_list_pages, which prevents us from filtering the page out
   of the list of pages. If that is so, then this is a major security risk, and irritating
   as there is no simple way to hide a page.
@@ -105,7 +106,7 @@ function woocommerce_json_api_exclude_pages($exclude) {
      This is accomplished by the template_redirect that looks to see if the page is present, if
      not, it inspects the REQUEST vars to see if this is a JSON API post, if so, it will try
      to satisfy it, if not, it will give up on the template redirect and everything will be
-     hunky dory.
+     hunky dory. The page will show as normal, and the API will pretend it doesn't exist.
 */
 function woocommerce_json_api_shortcode() {
   print_r($_REQUEST);
