@@ -83,6 +83,29 @@ function woocommerce_json_api_exclude_pages($exclude) {
 
 /**
   Shortcode to embed in a page to turn it into a JSON API entry point.
+  
+  We don't REALLY use this, it's just there to mark a page visually.
+  
+  What happens is: 
+  
+  1) You have a page with this shortcode in it, created when it you installed the plugin.
+     the slug of this page is saved use: $json_api_slug = get_option( $helpers->getPluginPrefix() . '_slug' );
+     You can manually update that slug from the admin settings page for the JSON API
+     
+     When someone accesses that particular URL, the API works
+  Some themes are not using wp_list_pages, which prevents us from filtering the page out
+  of the list of pages. If that is so, then this is a major security risk, and irritating
+  as there is no simple way to hide a page.
+  
+  So method 2 comes into play:
+  
+  2) After initializing the plugin, you delete the API page. This will cause it to not be present.
+     In that case, any page can be used as an API page, less secure, but at least we are cookin.
+     
+     This is accomplished by the template_redirect that looks to see if the page is present, if
+     not, it inspects the REQUEST vars to see if this is a JSON API post, if so, it will try
+     to satisfy it, if not, it will give up on the template redirect and everything will be
+     hunky dory.
 */
 function woocommerce_json_api_shortcode() {
   print_r($_REQUEST);

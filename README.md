@@ -23,7 +23,15 @@ and Salor Hospitality into a Wordpress/WooCommerce webstore.
 
 ### POSTing Data to WooCommerce via the API
 
-Discover your ajax url, which should be http://yoursite.com/wp-admin/admin-ajax.php
+Upon installing the plugin, a page will be created for you called WooCommerce JSON API. You will
+need to provide the permalink to users of the API.
+
+In some instances, certain themes may not be using wp_list_pages, and so we cannot easily preven the
+page from showing up in the menu. In that case, delete the page, and then any page on the site
+can be used as an entry to the JSON API. This method is less secure, but it will work until you
+get your theme developer to use the standard wp_list_pages so we can filter it out easily, or
+you complain loud enough to Wordpress for them to add hidden pages that don't require a password
+to access. 
 
     {
       action: "woocommerce_json_api",
