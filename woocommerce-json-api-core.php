@@ -80,3 +80,23 @@ function woocommerce_json_api_exclude_pages($exclude) {
   $exclude[] = $found;
   return $exclude;
 }
+
+/**
+  Shortcode to embed in a page to turn it into a JSON API entry point.
+*/
+function woocommerce_json_api_shortcode() {
+  die("Hello World");
+}
+
+/*
+  Prevent template code from loading :)
+*/
+function woocommerce_json_api_template_redirect() {
+  global $wpdb;
+  $helpers = new RedEHelpers();
+  $json_api_slug = get_option( $helpers->getPluginPrefix() . '_slug' );
+  $found = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM " . $wpdb->posts . " WHERE post_name = %s LIMIT 1;", $json_api_slug ) );
+  if ( is_page($found) ) {
+    woocommerce_json_api_shortcode();
+  }
+}
