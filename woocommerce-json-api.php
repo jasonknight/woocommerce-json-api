@@ -42,11 +42,34 @@ function woocommerce_json_api_activate() {
   $found = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM " . $wpdb->posts . " WHERE post_name = %s LIMIT 1;", $page['post_name'] ) );
   if ( ! $found ) {
     $page_id = wp_insert_post($page);
+  } else {
+    // we are probably reactivating the plugin, so turn the page back on
+    $page = array( 'ID' => $found, 'post_status' => 'pending');
+    wp_update_post( $page );
+  }
+
+} // end woocommerce_json_api_activate()
+
+function woocommerce_json_api_deactivate() {
+  global $wpdb;
+  $helpers = new RedEHelpers();
+
+  $json_api_slug = get_option( $helpers->getPluginPrefix() . '_slug' );
+  if ( ! $json_api_slug ) {
+    // Ooops, no api slug?
+  } else {
+    $found = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM " . $wpdb->posts . " WHERE post_name = %s LIMIT 1;", $page['post_name'] ) );
+    if ( $found ) {
+      $page = array( 'ID' => $found, 'post_status' => 'pending');
+      wp_update_post( $page );
+    }
   }
 
 } // end woocommerce_json_api_activate()
 
 
 register_activation_hook( __FILE__, 'woocommerce_json_api_activate' );
+register_deactivation_hook( __FILE__, 'woocommerce_json_api_deactivate' );
+
 add_action( 'init', 'woocommerce_json_api_initialize_plugin' );
 

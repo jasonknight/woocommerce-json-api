@@ -107,4 +107,19 @@ function woocommerce_json_api_template_redirect() {
     }
   }
 }
+function woocommerce_json_api_admin_menu() {
+  global $menu;
+  $json_api_page = add_submenu_page( 
+                                      'woocommerce', 
+                                      __( 'JSON API', 'woocommerce' ),  
+                                      __( 'JSON API', 'woocommerce' ) , 
+                                      'manage_woocommerce', 
+                                      'woocommerce_json_api_settings_page', 
+                                      'woocommerce_json_api_settings_page' 
+  );
+}
+function woocommerce_json_api_settings_page() {
+  $helpers = new RedEHelpers();
+  echo $helpers->render_template('admin-settings-page.php');
+}
 
