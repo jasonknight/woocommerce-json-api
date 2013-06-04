@@ -19,7 +19,7 @@ class WooCommerce_JSON_API_Result {
     $this->params['payload'][] = $hash;
   }
   public function asJSON() {
-    return json_encode($this->params);
+    return json_encode($this->params, JSON_PRETTY_PRINT);
   }
   public function addError( $text, $code ) {
     $this->params['status'] = false;

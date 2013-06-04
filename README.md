@@ -104,6 +104,9 @@ simple communication between 3rd party software that is not part of the plugin e
 
 # JSON API Calls
 
+Here is a list of all API Calls currently supported. All **What you receive** JSON is what is actually
+output from a request. It should not be necessary for you to even look at the PHP code.
+
 ## get_system_time
 
 This call is essentially a test to see if the JSON API is up and running.
@@ -137,3 +140,78 @@ This call is essentially a test to see if the JSON API is up and running.
       ]
     }
 
+## get_products
+
+### What you send
+
+    {
+        "action": "woocommerce_json_api",
+        "proc": "get_products",
+        "arguments": {
+            "token": "1234",
+            "per_page": 2
+        }
+    }
+    
+### What you receive
+
+    {
+        "action": "woocommerce_json_api",
+        "proc": "get_products",
+        "arguments": {
+            "token": "1234",
+            "per_page": "2"
+        },
+        "status": true,
+        "errors": [
+
+        ],
+        "payload": [
+            [
+                {
+                    "name": "Eva Solo My Teapot",
+                    "description": " ... Stuff Here ...",
+                    "price": {
+                        "amount": "75",
+                        "currency": "GBP",
+                        "symbol": "&pound;",
+                        "taxable": true
+                    },
+                    "sku": "W039",
+                    "stock": {
+                        "managed": false,
+                        "for_sale": "",
+                        "in_stock": "",
+                        "downloadable": false,
+                        "virtual": false,
+                        "sold_individually": false,
+                        "download_paths": [
+
+                        ]
+                    }
+                },
+                {
+                    "name": "Eva Solo My Teapot",
+                    "description": " ... stuff here ...",
+                    "price": {
+                        "amount": "75",
+                        "currency": "GBP",
+                        "symbol": "&pound;",
+                        "taxable": true
+                    },
+                    "sku": "W038",
+                    "stock": {
+                        "managed": false,
+                        "for_sale": "",
+                        "in_stock": "",
+                        "downloadable": false,
+                        "virtual": false,
+                        "sold_individually": false,
+                        "download_paths": [
+
+                        ]
+                    }
+                }
+            ]
+        ]
+    }
