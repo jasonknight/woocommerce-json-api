@@ -117,7 +117,7 @@ This call is essentially a test to see if the JSON API is up and running.
       action: "woocommerce_json_api",
       proc:   "get_system_time"
       arguments: {
-        token: "What request_authentication replied with",
+        token: "Your User Token",
       },
     }
 
