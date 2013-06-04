@@ -85,8 +85,11 @@ You will always receive a JSON object in this format:
       errors: [], // always an empty collection, 
                   // when errors are present, they are represented as 
                   // {text: 'text', code: 12344, retry: true|false ... }
+      arguments: {
+         token: "0ABCDEF456" 
+      }
       payload: [
-        { token: "0ABCDEF456" },   // may be a collection of objects, 
+                                      // may be a collection of objects, 
                                       // arrays, strings, or JS values, or 
                                       // could be empty, even on success
       ], // Always a collection, even if empty
