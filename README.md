@@ -44,14 +44,22 @@ to access.
 You will receive:
 
     {
-      action: "woocommerce_json_api",
-      proc:   "request_authentication",
-      status: true|false,
-      errors: [],
-      payload: [
-        { secret_key: "0ABCDEF456" }, // this will end up being the wpnonce
+      "action":"woocommerce_json_api",
+      "proc":"get_system_time",
+      "arguments":{
+        "token":"1234"
+      },
+      "status":true,
+      "errors":[],
+      "payload":[
+        {
+          "timezone":"UTC",
+          "date":"2013-06-04",
+          "time":"04:46:29"
+        }
       ]
     }
+
 
 All requests and responses rigidly follow this format.
 
