@@ -86,7 +86,7 @@ You will always receive a JSON object in this format:
                   // when errors are present, they are represented as 
                   // {text: 'text', code: 12344, retry: true|false ... }
       arguments: {
-         token: "0ABCDEF456" 
+         token: "YourUserToken" 
       }
       payload: [
                                       // may be a collection of objects, 
