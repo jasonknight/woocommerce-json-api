@@ -118,4 +118,22 @@ This call is essentially a test to see if the JSON API is up and running.
       },
     }
 
+### What you receive
+
+    {
+      "action":"woocommerce_json_api",
+      "proc":"get_system_time",
+      "arguments":{
+        "token":"1234"
+      },
+      "status":true,
+      "errors":[],
+      "payload":[
+        {
+          "timezone":"UTC",
+          "date":"2013-06-04",
+          "time":"04:46:29"
+        }
+      ]
+    }
 
