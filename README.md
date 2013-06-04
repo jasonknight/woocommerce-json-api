@@ -35,9 +35,9 @@ to access.
 
     {
       action: "woocommerce_json_api",
-      proc:   "request_authentication"
+      proc:   "get_system_time"
       arguments: {
-        user_token: 'xyz",
+        token: 'xyz",
       },
     }
 
@@ -61,7 +61,7 @@ Sending a request is always in this format:
       action: "woocommerce_json_api",
       proc:   "api_method_here"
       arguments: {
-        secret_key: "What request_authentication replied with",
+        token: "YourUserToken",
         arg1: "xxx",
         arg2: true,
         argn: ...,
@@ -78,7 +78,7 @@ You will always receive a JSON object in this format:
                   // when errors are present, they are represented as 
                   // {text: 'text', code: 12344, retry: true|false ... }
       payload: [
-        { secret_key: "0ABCDEF456" }, // may be a collection of objects, 
+        { token: "0ABCDEF456" },   // may be a collection of objects, 
                                       // arrays, strings, or JS values, or 
                                       // could be empty, even on success
       ], // Always a collection, even if empty
@@ -90,4 +90,21 @@ The JSON API is very general, and works from it's own idiom about products becau
 with different types of software that may work and think about sales differently, the JSON communication
 medium is an intermediate representation of Products, Categories and so on. This is to facilitate a
 simple communication between 3rd party software that is not part of the plugin ecosystem of woocommerce.
+
+# JSON API Calls
+
+## get_system_time
+
+This call is essentially a test to see if the JSON API is up and running.
+
+### What you send
+
+    {
+      action: "woocommerce_json_api",
+      proc:   "get_system_time"
+      arguments: {
+        token: "What request_authentication replied with",
+      },
+    }
+
 

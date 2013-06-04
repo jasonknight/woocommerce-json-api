@@ -30,9 +30,18 @@ function woocommerce_json_api_show_user_profile( $user ) {
 		      array(
 		        'name'          => $helpers->getPluginPrefix() . '_settings[token]',
 		        'id'            => 'json_api_token_id',
-		        'value'         => $meta['token'],
+		        'value'         => $helpers->orEq($meta,'token',''),
+		        'type'          => 'text',
 				    'label'         => __( 'API Token', $helpers->getPluginTextDomain() ),
 				    'description'   => __('A large string of letters and numbers, mixed case, that will be used to authenticate requests', $helpers->getPluginTextDomain() )
+			    ),
+			    array(
+		        'name'          => $helpers->getPluginPrefix() . '_settings[ips_allowed]',
+		        'id'            => 'json_api_ips_allowed_id',
+		        'value'         => $helpers->orEq($meta,'ips_allowed',''),
+		        'type'          => 'textarea',
+				    'label'         => __( 'IPs Allowed', $helpers->getPluginTextDomain() ),
+				    'description'   => __('What ips are permitted to connect with this user...', $helpers->getPluginTextDomain() )
 			    ),
 		  ),
 	  ),
@@ -40,7 +49,7 @@ function woocommerce_json_api_show_user_profile( $user ) {
   $attrs = apply_filters('woocommerce_json_api_settings_fields', $attrs);
                                                                               // The second argument puts this var in scope, similar to a
                                                                               // "binding" in Ruby
-  $content = $helpers->render_template( 'user-fields.php', array( 'attrs' => $attrs) );
+  $content = $helpers->renderTemplate( 'user-fields.php', array( 'attrs' => $attrs) );
   // At this point, content is being rendered in an output buffer for absolute control.
   // You can still overwrite the templates in the usual way, as the current theme is scanned
   // first. There are also hooks defined before and after, that will allow you to alter, replace,
@@ -109,7 +118,9 @@ function woocommerce_json_api_exclude_pages($exclude) {
      hunky dory. The page will show as normal, and the API will pretend it doesn't exist.
 */
 function woocommerce_json_api_shortcode() {
-  print_r($_REQUEST);
+  require_once( plugin_dir_path(__FILE__) . 'classes/class-wc-json-api.php' );
+  $api = new WooCommerce_JSON_API();
+  $api->route($_REQUEST);
   die("Hello World from the shortcode");
 }
 
@@ -144,6 +155,6 @@ function woocommerce_json_api_admin_menu() {
 }
 function woocommerce_json_api_settings_page() {
   $helpers = new RedEHelpers();
-  echo $helpers->render_template('admin-settings-page.php');
+  echo $helpers->renderTemplate('admin-settings-page.php');
 }
 

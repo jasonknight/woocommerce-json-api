@@ -10,6 +10,7 @@
 
 define( 'REDE_PLUGIN_BASE_PATH', plugin_dir_path(__FILE__) );
 require_once( plugin_dir_path(__FILE__) . 'classes/class-rede-helpers.php' );
+
 require_once( plugin_dir_path(__FILE__) . 'woocommerce-json-api-core.php' );
 
 /**
@@ -37,7 +38,7 @@ function woocommerce_json_api_activate() {
     $json_api_slug = md5(uniqid(rand(), true));
     update_option($helpers->getPluginPrefix() . '_slug',$json_api_slug);
   }
-  $page = $helpers->new_page('WooCommerce JSON API','[' . $helpers->getPluginPrefix() . '_shortcode]',true);
+  $page = $helpers->newPage('WooCommerce JSON API','[' . $helpers->getPluginPrefix() . '_shortcode]',true);
   $page['post_name'] = $json_api_slug;
   $found = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM " . $wpdb->posts . " WHERE post_name = %s LIMIT 1;", $page['post_name'] ) );
   if ( ! $found ) {

@@ -47,7 +47,7 @@ class RedEHelpers {
   // This function finds where a template is located in the system
   // and returns an absolute path, or throws an error when it
   // is not present on the system
-  public function find_template($template_name) {
+  public function findTemplate($template_name) {
     $test_path = $this->wp_theme_root . 'templates/' . $template_name;
     if ( file_exists( $test_path ) ) {
       return $test_path;
@@ -68,7 +68,7 @@ class RedEHelpers {
     @param array of key value pairs to put into scope
     @return the rendered, filtered, executed content of the php template file
   */
-  public function render_template($template_name, $vars_in_scope = array()) {
+  public function renderTemplate($template_name, $vars_in_scope = array()) {
     global $woocommerce,$wpdb, $user_ID, $available_methods;
     $vars_in_scope['helpers'] = $this;
     $vars_in_scope['__VIEW__'] = $template_name; //could be user-files.php or somedir/user-files.php
@@ -79,7 +79,7 @@ class RedEHelpers {
     foreach ($vars_in_scope as $name=>$value) {
       $$name = $value;
     }
-    $template_path = $this->find_template($template_name);
+    $template_path = $this->findTemplate($template_name);
     ob_start();
     try {
       include $template_path;
@@ -125,7 +125,7 @@ class RedEHelpers {
     @param string key
     @param default value if not found (Default is i18n xlated to UnNamed
   */
-  function or_eq($array,$key,$default = null) {
+  function orEq($array,$key,$default = null) {
     if ( $default === null ) {
       $default = __('UnNamed', $this->getPluginName() ) . ' - ' . $key;
     }
@@ -134,19 +134,39 @@ class RedEHelpers {
     }
     return $default;
   }
+  /**
+    PHP's array_search is clumsy and not helpful with simple searching where all we want
+    is a true or false value. It's just easier to do it our own way.
+  */
+  public function inArray($needle, $haystack) {
+    foreach ($haystack as $value) {
+      if ($needle === $value) {
+        return true;
+      }
+    }
+    return false;
+  }
   /***************************************************************************/
   /*                         HTML API Helpers                                */
   /***************************************************************************/
-  public function label_tag($args) {
-    $name = $this->or_eq($args,'name');
-    $content = $this->or_eq($args,'label');
-    return "<label for='" . esc_attr( $name ) . "'>" . esc_html( $content ) . "</label>";
+  public function labelTag($args) {
+    $name = $this->orEq($args,'name');
+    $content = $this->orEq($args,'label');
+    $classes = $this->orEq($args,'classes','');
+    return "<label for='" . esc_attr( $name ) . "' for='" . esc_attr( $classes ) . "'>" . esc_html( $content ) . "</label>";
   }
-  public function input_tag($args) {
-    $name = $this->or_eq($args,'name');
-    $value = $this->or_eq($args,'value','');
-    $id = $this->or_eq($args,'id','');
+  public function inputTag($args) {
+    $name = $this->orEq($args,'name');
+    $value = $this->orEq($args,'value','');
+    $id = $this->orEq($args,'id','');
     return "<input type='text' id='" . esc_attr($id) . "' name='" . esc_attr( $name ) . "' value='" . esc_html( $value ) . "' />";
+  }
+  public function textAreaTag($args) {
+    $name = $this->orEq($args,'name');
+    $value = $this->orEq($args,'value','');
+    $id = $this->orEq($args,'id','');
+    $rows = $this->orEq($args,'rows',3);
+    return "<textarea id='" . esc_attr($id) . "' name='" . esc_attr( $name ) . "' rows='" . esc_attr( $rows ) . "'>" . esc_html( $value ) . "</textarea>";
   }
   
   /***************************************************************************/
@@ -156,7 +176,7 @@ class RedEHelpers {
   /**
     Convert a title into a slug
   */
-  public function create_slug($text) {
+  public function createSlug($text) {
     $text = sanitize_title($text);
     return $text;
   }
@@ -168,18 +188,18 @@ class RedEHelpers {
      @param $publish - boolean
      @return Array of populated values to send to insert_post
   */
-  public function new_page($title,$content,$publish = true) {
+  public function newPage($title,$content,$publish = true) {
     $page = array(
 			'post_status' 		=> $publish === true ? 'publish' : 'pending',
 			'post_type' 		=> 'page',
 			'post_author' 		=> 1,
-			'post_name' 		=> $this->create_slug($title),
+			'post_name' 		=> $this->createSlug($title),
 			'post_title' 		=> $title,
 			'post_content' 		=> $content,
 			'post_parent' 		=> 0,
 			'comment_status' 	=> 'closed'
 		);
-		return $page;
+    return $page;
   }
   
 }

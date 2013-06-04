@@ -12,7 +12,7 @@
     -webkit-border-radius: 8px;
     border-radius: 8px;
   }
-  #json_api_token_id {
+  #json_api_token_id,#json_api_ips_allowed_id {
     width: 400px;
   }
   table.woocommerce-json-api-table label {
@@ -33,11 +33,17 @@
   foreach ($attrs['json_api_settings']['fields'] as $value) {
     ?>
       <tr>
-        <td width="200px">
-          <?php echo $helpers->label_tag($value) ?>
+        <td width="200px" valign="top">
+          <?php echo $helpers->labelTag($value) ?>
         </td>
         <td>
-         <?php echo $helpers->input_tag( $value ) ?> 
+         <?php 
+            if ( $helpers->orEq($value,'type','') == 'text') { 
+              echo $helpers->inputTag( $value ); 
+            } else if ( $helpers->orEq($value,'type','') == 'textarea' ) {
+              echo $helpers->textAreaTag( $value ); 
+            }
+         ?> 
         </td>
       </tr>
     <?php
