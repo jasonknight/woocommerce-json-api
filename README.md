@@ -108,7 +108,9 @@ simple communication between 3rd party software that is not part of the plugin e
 Here is a list of all API Calls currently supported. All **What you receive** JSON is what is actually
 output from a request. It should not be necessary for you to even look at the PHP code.
 
-## get_system_time
+## Checking that the API is up, Getting the System's Time and Date
+
+### get_system_time
 
 This call is essentially a test to see if the JSON API is up and running.
 
@@ -142,9 +144,12 @@ This call is essentially a test to see if the JSON API is up and running.
       ]
     }
 
-## get_products
+## Getting products
+
+### get_products
 
 If you want so simply iterate over all products (bad idea unless you know that you really need this), use this call.
+
 ### What you send
 
     {
