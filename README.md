@@ -149,7 +149,8 @@ This call is essentially a test to see if the JSON API is up and running.
         "proc": "get_products",
         "arguments": {
             "token": "1234",
-            "per_page": 2
+            "per_page": 2,
+            "page": 1
         }
     }
     
@@ -160,7 +161,8 @@ This call is essentially a test to see if the JSON API is up and running.
         "proc": "get_products",
         "arguments": {
             "token": "1234",
-            "per_page": "2"
+            "per_page": "2",
+            "page": 1
         },
         "status": true,
         "errors": [
