@@ -16,18 +16,33 @@ class WooCommerce_JSON_API_Result {
     $this->params['payload'] = $collection;
     return $this;
   }
+  
+  /**
+    This is useful when we are looping and grabbing bits, but don't
+    want to create our own array
+  */
   public function addPayload( $hash ) {
     $this->params['payload'][] = $hash;
   }
   public function asJSON() {
+    $this->params['payload_length'] = count($this->params['payload']);
     return json_encode($this->params, JSON_PRETTY_PRINT);
   }
-  public function addError( $text, $code ) {
+  public function addError( $text, $code, $merge = array() ) {
     $this->params['status'] = false;
-    $this->params['errors'][] = array( 'text' => $text, 'code' => $code);
+    $error = array( 'text' => $text, 'code' => $code);
+    foreach ($merge as $k=>$v) {
+      $error[$k] = $v;
+    }
+    $this->params['errors'][] = $error;
+    
   }
-  public function addWarning( $text, $code ) {
-    $this->params['warnings'][] = array( 'text' => $text, 'code' => $code);
+  public function addWarning( $text, $code , $merge = array()) {
+    $warn = array( 'text' => $text, 'code' => $code);
+    foreach ($merge as $k=>$v) {
+      $warn[$k] = $v;
+    }
+    $this->params['warnings'][] = $warn;
   }
   
 }

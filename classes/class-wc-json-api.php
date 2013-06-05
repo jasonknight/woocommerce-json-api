@@ -7,6 +7,8 @@ define('WCAPI_EXPECTED_ARGUMENT',             -1);
 define('WCAPI_NOT_IMPLEMENTED',               -2);
 define('WCAPI_UNEXPECTED_ERROR',              -3);
 define('WCAPI_INVALID_CREDENTIALS',           -4);
+
+define('WCAPI_PRODUCT_NOT_EXISTS', 1);
 require_once( plugin_dir_path(__FILE__) . '/class-rede-helpers.php' );
 require_once( plugin_dir_path(__FILE__) . '/class-wc-json-api-result.php' );
 class WooCommerce_JSON_API {
@@ -52,7 +54,7 @@ class WooCommerce_JSON_API {
     $this->createNewResult( $params );
     if ( !isset($params['proc']) ) {
       $this->result->addError( 
-          __('Expected argument "', $this->helpers->getPluginTextDomain()) . 'proc' . __('" was not present', $this->helpers->getPluginTextDomain()),
+          __('Expected argument was not present', $this->helpers->getPluginTextDomain()) . ' `proc`',
            WCAPI_EXPECTED_ARGUMENT );
     }
     $this->result->addError( __('That API method has not been implemented', $this->helpers->getPluginTextDomain() ), WCAPI_NOT_IMPLEMENTED );
@@ -62,7 +64,7 @@ class WooCommerce_JSON_API {
   
   private function unexpectedError( $params, $error ) {
     $this->createNewResult( $params );
-    $this->result->addError( __('An unexpected error [[',$this->helpers->getPluginTextDomain()) . $error->getMessage() . __(']] has occured', $this->helpers->getPluginTextDomain() ), WCAPI_UNEXPECTED_ERROR );
+    $this->result->addError( __('An unexpected error has occured', $this->helpers->getPluginTextDomain() ), WCAPI_UNEXPECTED_ERROR );
     $this->done();
   }
   
@@ -161,6 +163,7 @@ class WooCommerce_JSON_API {
   }
   
   private function get_products( $params ) {
+    global $wpdb;
     $posts_per_page = $this->helpers->orEq( $params['arguments'], 'per_page', 15 ); 
     $paged          = $this->helpers->orEq( $params['arguments'], 'page', 0 );
     $order_by       = $this->helpers->orEq( $params['arguments'], 'order_by', 'post_date');
@@ -168,7 +171,7 @@ class WooCommerce_JSON_API {
     $ids            = $this->helpers->orEq( $params['arguments'], 'ids', false);
     $skus           = $this->helpers->orEq( $params['arguments'], 'skus', false);
     $by_ids = true;
-    if ( ! $ids ) {
+    if ( ! $ids && ! $skus ) {
       $posts = get_posts( array(
 		      'post_type'      => array( 'product', 'product_variation' ),
 		      'posts_per_page' => $posts_per_page,
@@ -180,21 +183,31 @@ class WooCommerce_JSON_API {
 	      ) 
 	    );
 	  } else if ( $ids ) {
+	  
 	    $posts = $ids;
+	    
 	  } else if ( $skus ) {
-	    $by_ids = false;
-	  }
-	  $products = array();
-	  if ( $by_ids ) {
-	    foreach ( $posts as $post_id) {
-	      $post = get_product($post_id);
-	      $products[] = $this->translateProductAttributes($post);
-	      
+	  
+	    $posts = array();
+	    foreach ($skus as $sku) {
+	      $pid = $wpdb->get_var( $wpdb->prepare( "SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key='_sku' AND meta_value='%s' LIMIT 1",$sku) );
+	      if ( ! $pid ) {
+	        $this->result->addWarning( $sku . ': ' . __('Product does not exist'), WCAPI_PRODUCT_NOT_EXISTS, array( 'sku' => $sku) );
+	      } else {
+	        $posts[] = $pid;
+	      }
 	    }
-	    $this->result->setPayload($products);
-	  } else {
-	    // Then it is by skus.
+	    
 	  }
+
+	  $products = array();
+    foreach ( $posts as $post_id) {
+      $post = get_product($post_id);
+      $products[] = $this->translateProductAttributes($post);
+      
+    }
+    $this->result->setPayload($products);
+
 	  $this->done();
   }
   
