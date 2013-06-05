@@ -8,6 +8,7 @@ class WooCommerce_JSON_API_Result {
     $this->params = $params;
     $this->params['status'] = true;
     $this->params['errors'] = array();
+    $this->params['warnings'] = array();
     $this->params['payload'] = array();
     return $this;
   }
@@ -24,6 +25,9 @@ class WooCommerce_JSON_API_Result {
   public function addError( $text, $code ) {
     $this->params['status'] = false;
     $this->params['errors'][] = array( 'text' => $text, 'code' => $code);
+  }
+  public function addWarning( $text, $code ) {
+    $this->params['warnings'][] = array( 'text' => $text, 'code' => $code);
   }
   
 }

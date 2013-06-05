@@ -2,6 +2,7 @@
 /**
   Core JSON API
 */
+// Error Codes are negative, Warning codes are positive
 define('WCAPI_EXPECTED_ARGUMENT',             -1);
 define('WCAPI_NOT_IMPLEMENTED',               -2);
 define('WCAPI_UNEXPECTED_ERROR',              -3);
@@ -118,6 +119,7 @@ class WooCommerce_JSON_API {
     }
     
     $attrs = array(
+      'id'   => $post->ID,
       'name' => $product->get_title(),
       'description' => $product->get_post_data()->post_content,
       'price' => array( 
@@ -163,23 +165,36 @@ class WooCommerce_JSON_API {
     $paged          = $this->helpers->orEq( $params['arguments'], 'page', 0 );
     $order_by       = $this->helpers->orEq( $params['arguments'], 'order_by', 'post_date');
     $order          = $this->helpers->orEq( $params['arguments'], 'order', 'DESC');
-    $posts = get_posts( array(
-		    'post_type'      => array( 'product', 'product_variation' ),
-		    'posts_per_page' => $posts_per_page,
-		    'post_status'    => 'publish',
-		    'fields'         => 'id',
-		    'order_by'       => $order_by,
-		    'order'          => $order,
-		    'paged'          => $paged,
-	    ) 
-	  );
-	  $products = array();
-	  foreach ( $posts as $post_id) {
-	    $post = get_product($post_id);
-	    $products[] = $this->translateProductAttributes($post);
-	    
+    $ids            = $this->helpers->orEq( $params['arguments'], 'ids', false);
+    $skus           = $this->helpers->orEq( $params['arguments'], 'skus', false);
+    $by_ids = true;
+    if ( ! $ids ) {
+      $posts = get_posts( array(
+		      'post_type'      => array( 'product', 'product_variation' ),
+		      'posts_per_page' => $posts_per_page,
+		      'post_status'    => 'publish',
+		      'fields'         => 'id',
+		      'order_by'       => $order_by,
+		      'order'          => $order,
+		      'paged'          => $paged,
+	      ) 
+	    );
+	  } else if ( $ids ) {
+	    $posts = $ids;
+	  } else if ( $skus ) {
+	    $by_ids = false;
 	  }
-	  $this->result->addPayload($products);
+	  $products = array();
+	  if ( $by_ids ) {
+	    foreach ( $posts as $post_id) {
+	      $post = get_product($post_id);
+	      $products[] = $this->translateProductAttributes($post);
+	      
+	    }
+	    $this->result->addPayload($products);
+	  } else {
+	    // Then it is by skus.
+	  }
 	  $this->done();
   }
   

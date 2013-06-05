@@ -28,7 +28,7 @@ $data = array(
   'arguments'   => array(
     'token' => '1234',
     'per_page' => 2,
-    'page'     => 2
+    'page'     => 1
   )
 );
 echo json_encode($data,JSON_PRETTY_PRINT);

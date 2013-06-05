@@ -85,6 +85,7 @@ You will always receive a JSON object in this format:
       errors: [], // always an empty collection, 
                   // when errors are present, they are represented as 
                   // {text: 'text', code: 12344, retry: true|false ... }
+      warnings: [], // warnings about what you did that didn't succeed, such as not finding one of many products by sku or some such
       arguments: {
          token: "YourUserToken" 
       }
@@ -131,6 +132,7 @@ This call is essentially a test to see if the JSON API is up and running.
       },
       "status":true,
       "errors":[],
+      "warnings":[],
       "payload":[
         {
           "timezone":"UTC",
@@ -162,17 +164,21 @@ This call is essentially a test to see if the JSON API is up and running.
         "arguments": {
             "token": "1234",
             "per_page": "2",
-            "page": 1
+            "page": "1"
         },
         "status": true,
         "errors": [
 
         ],
+        "warnings": [
+
+        ],
         "payload": [
             [
                 {
+                    "id": 1281,
                     "name": "Eva Solo My Teapot",
-                    "description": " ... Stuff Here ...",
+                    "description": "<p>Pellentesque habitant ...</p>",
                     "price": {
                         "amount": "75",
                         "currency": "GBP",
@@ -193,8 +199,9 @@ This call is essentially a test to see if the JSON API is up and running.
                     }
                 },
                 {
+                    "id": 1281,
                     "name": "Eva Solo My Teapot",
-                    "description": " ... stuff here ...",
+                    "description": "<p>Pellentesque habitant ...</p>",
                     "price": {
                         "amount": "75",
                         "currency": "GBP",
@@ -217,3 +224,4 @@ This call is essentially a test to see if the JSON API is up and running.
             ]
         ]
     }
+
