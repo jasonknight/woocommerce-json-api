@@ -229,7 +229,7 @@ If you want so simply iterate over all products (bad idea unless you know that y
         ]
     }
 
-### Getting product(s) by id
+## Getting product(s) by id
 
 You can keep and store the product id, and then use it in later calls. The JSON API **always** returns a collection **even** if all you wanted
 was a single item.
@@ -290,6 +290,73 @@ was a single item.
                 }
             }
         ]
+    }
+
+## Getting product(s) by SKU
+
+### What you send
+
+    {
+        "action": "woocommerce_json_api",
+        "proc": "get_products",
+        "arguments": {
+            "token": "1234",
+            "skus": [
+                "W021",
+                "DOESNTEXIST"
+            ]
+        }
+    }
+    
+### What you receive
+
+    {
+        "action": "woocommerce_json_api",
+        "proc": "get_products",
+        "arguments": {
+            "token": "1234",
+            "skus": [
+                "W021",
+                "DOESNTEXIST"
+            ]
+        },
+        "status": true,
+        "errors": [
+
+        ],
+        "warnings": [
+            {
+                "text": "DOESNTEXIST: Product does not exist",
+                "code": 1,
+                "sku": "DOESNTEXIST"
+            }
+        ],
+        "payload": [
+            {
+                "id": 1285,
+                "name": "KitchenAid Artisan Espresso Machine",
+                "description": "<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus<\/p>",
+                "price": {
+                    "amount": "1140",
+                    "currency": "GBP",
+                    "symbol": "&pound;",
+                    "taxable": true
+                },
+                "sku": "W021",
+                "stock": {
+                    "managed": false,
+                    "for_sale": "",
+                    "in_stock": "",
+                    "downloadable": false,
+                    "virtual": false,
+                    "sold_individually": false,
+                    "download_paths": [
+
+                    ]
+                }
+            }
+        ],
+        "payload_length": 1
     }
 
 
