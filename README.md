@@ -144,6 +144,7 @@ This call is essentially a test to see if the JSON API is up and running.
 
 ## get_products
 
+If you want so simply iterate over all products (bad idea unless you know that you really need this), use this call.
 ### What you send
 
     {
@@ -209,6 +210,70 @@ This call is essentially a test to see if the JSON API is up and running.
                         "taxable": true
                     },
                     "sku": "W038",
+                    "stock": {
+                        "managed": false,
+                        "for_sale": "",
+                        "in_stock": "",
+                        "downloadable": false,
+                        "virtual": false,
+                        "sold_individually": false,
+                        "download_paths": [
+
+                        ]
+                    }
+                }
+            ]
+        ]
+    }
+### Getting product(s) by id
+
+You can keep and store the product id, and then use it in later calls. The JSON API **always** returns a collection **even** if all you wanted
+was a single item.
+
+### What you send
+
+    {
+        "action": "woocommerce_json_api",
+        "proc": "get_products",
+        "arguments": {
+            "token": "1234",
+            "ids": [
+                1288
+            ]
+        }
+    }
+ 
+### What you receive
+
+    {
+        "action": "woocommerce_json_api",
+        "proc": "get_products",
+        "arguments": {
+            "token": "1234",
+            "ids": [
+                "1288"
+            ]
+        },
+        "status": true,
+        "errors": [
+
+        ],
+        "warnings": [
+
+        ],
+        "payload": [
+            [
+                {
+                    "id": 1288,
+                    "name": "Krups IceCream Maker",
+                    "description": "<p>Pellentesque habitant ...<\/p>",
+                    "price": {
+                        "amount": "85",
+                        "currency": "GBP",
+                        "symbol": "&pound;",
+                        "taxable": true
+                    },
+                    "sku": "W018",
                     "stock": {
                         "managed": false,
                         "for_sale": "",
