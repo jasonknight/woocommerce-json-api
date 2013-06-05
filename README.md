@@ -175,56 +175,55 @@ If you want so simply iterate over all products (bad idea unless you know that y
 
         ],
         "payload": [
-            [
-                {
-                    "id": 1281,
-                    "name": "Eva Solo My Teapot",
-                    "description": "<p>Pellentesque habitant ...</p>",
-                    "price": {
-                        "amount": "75",
-                        "currency": "GBP",
-                        "symbol": "&pound;",
-                        "taxable": true
-                    },
-                    "sku": "W039",
-                    "stock": {
-                        "managed": false,
-                        "for_sale": "",
-                        "in_stock": "",
-                        "downloadable": false,
-                        "virtual": false,
-                        "sold_individually": false,
-                        "download_paths": [
-
-                        ]
-                    }
+            {
+                "id": 1281,
+                "name": "Eva Solo My Teapot",
+                "description": "<p>Pellentesque habitant morbi ...<\/p>",
+                "price": {
+                    "amount": "75",
+                    "currency": "GBP",
+                    "symbol": "&pound;",
+                    "taxable": true
                 },
-                {
-                    "id": 1281,
-                    "name": "Eva Solo My Teapot",
-                    "description": "<p>Pellentesque habitant ...</p>",
-                    "price": {
-                        "amount": "75",
-                        "currency": "GBP",
-                        "symbol": "&pound;",
-                        "taxable": true
-                    },
-                    "sku": "W038",
-                    "stock": {
-                        "managed": false,
-                        "for_sale": "",
-                        "in_stock": "",
-                        "downloadable": false,
-                        "virtual": false,
-                        "sold_individually": false,
-                        "download_paths": [
+                "sku": "W039",
+                "stock": {
+                    "managed": false,
+                    "for_sale": "",
+                    "in_stock": "",
+                    "downloadable": false,
+                    "virtual": false,
+                    "sold_individually": false,
+                    "download_paths": [
 
-                        ]
-                    }
+                    ]
                 }
-            ]
+            },
+            {
+                "id": 1281,
+                "name": "Eva Solo My Teapot",
+                "description": "<p>Pellentesque habitant morbi ...<\/p>",
+                "price": {
+                    "amount": "75",
+                    "currency": "GBP",
+                    "symbol": "&pound;",
+                    "taxable": true
+                },
+                "sku": "W038",
+                "stock": {
+                    "managed": false,
+                    "for_sale": "",
+                    "in_stock": "",
+                    "downloadable": false,
+                    "virtual": false,
+                    "sold_individually": false,
+                    "download_paths": [
+
+                    ]
+                }
+            }
         ]
     }
+
 ### Getting product(s) by id
 
 You can keep and store the product id, and then use it in later calls. The JSON API **always** returns a collection **even** if all you wanted
@@ -262,31 +261,30 @@ was a single item.
 
         ],
         "payload": [
-            [
-                {
-                    "id": 1288,
-                    "name": "Krups IceCream Maker",
-                    "description": "<p>Pellentesque habitant ...<\/p>",
-                    "price": {
-                        "amount": "85",
-                        "currency": "GBP",
-                        "symbol": "&pound;",
-                        "taxable": true
-                    },
-                    "sku": "W018",
-                    "stock": {
-                        "managed": false,
-                        "for_sale": "",
-                        "in_stock": "",
-                        "downloadable": false,
-                        "virtual": false,
-                        "sold_individually": false,
-                        "download_paths": [
+            {
+                "id": 1288,
+                "name": "Krups IceCream Maker",
+                "description": "<p>Pellentesque habitant morbi ...<\/p>",
+                "price": {
+                    "amount": "85",
+                    "currency": "GBP",
+                    "symbol": "&pound;",
+                    "taxable": true
+                },
+                "sku": "W018",
+                "stock": {
+                    "managed": false,
+                    "for_sale": "",
+                    "in_stock": "",
+                    "downloadable": false,
+                    "virtual": false,
+                    "sold_individually": false,
+                    "download_paths": [
 
-                        ]
-                    }
+                    ]
                 }
-            ]
+            }
         ]
     }
+
 

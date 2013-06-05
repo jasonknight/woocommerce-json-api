@@ -191,7 +191,7 @@ class WooCommerce_JSON_API {
 	      $products[] = $this->translateProductAttributes($post);
 	      
 	    }
-	    $this->result->addPayload($products);
+	    $this->result->setPayload($products);
 	  } else {
 	    // Then it is by skus.
 	  }
