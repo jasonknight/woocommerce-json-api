@@ -30,11 +30,28 @@ class WooCommerce_JSON_API {
     2) Check to see if it's a valid API User, if not, do stuff and quit
     3) Check to see if the method requested has been implemented
     4) If it's implemented, call and turn over control to the method
+    
+    This function takes a single hash,  usually $_REQUEST
+    
+    WHY? 
+    
+    Well, as you will notice with WooCommerce, there is an irritatingly large
+    dependence on _defined_ and $_GET/$_POST variables, throughout their plugin,
+    each function "depends" on request state, which is fine, except this
+    violates 'dependency injection'. We don't know where data might come from
+    in the future, what if another plugin wants to call this one inside of PHP
+    within a request, multiple times? 
+    
+    No module should ever 'depend' on objects outside of itself, they should be
+    provided with operating data, or 'injected' with it.
+    
+    There is nothing 'wrong' with the way WooCommerce does things, only it leads
+    to a certain inflexibility in what you can do with it.
   */
   public function route( $params ) {
     $this->createNewResult( $params );
     if ( ! $this->isValidAPIUser( $params ) ) {
-      $this->result->addError( __('Not a valid API User', $this->helpers->getPluginTextDomain() ), WCAPI_INVALID_CREDENTIALS );
+      $this->result->addError( __('Not a valid API User', 'woocommerce_json_api' ), WCAPI_INVALID_CREDENTIALS );
       $this->done();
     }
     if ( $this->isImplemented( $params ) ) {
@@ -52,6 +69,10 @@ class WooCommerce_JSON_API {
     $implemented_methods = array(
       'get_system_time',
       'get_products',
+      'get_categories',
+      'get_taxes',
+      'get_shipping_methods',
+      'get_payment_gateways',
     );
     if (isset($params['proc']) &&  $this->helpers->inArray( $params['proc'], $implemented_methods) ) {
       return true;
@@ -64,17 +85,17 @@ class WooCommerce_JSON_API {
     $this->createNewResult( $params );
     if ( !isset($params['proc']) ) {
       $this->result->addError( 
-          __('Expected argument was not present', $this->helpers->getPluginTextDomain()) . ' `proc`',
+          __('Expected argument was not present', 'woocommerce_json_api') . ' `proc`',
            WCAPI_EXPECTED_ARGUMENT );
     }
-    $this->result->addError( __('That API method has not been implemented', $this->helpers->getPluginTextDomain() ), WCAPI_NOT_IMPLEMENTED );
+    $this->result->addError( __('That API method has not been implemented', 'woocommerce_json_api' ), WCAPI_NOT_IMPLEMENTED );
     $this->done();
   }
   
   
   private function unexpectedError( $params, $error ) {
     $this->createNewResult( $params );
-    $this->result->addError( __('An unexpected error has occured', $this->helpers->getPluginTextDomain() ), WCAPI_UNEXPECTED_ERROR );
+    $this->result->addError( __('An unexpected error has occured', 'woocommerce_json_api' ), WCAPI_UNEXPECTED_ERROR );
     $this->done();
   }
   
@@ -94,11 +115,11 @@ class WooCommerce_JSON_API {
   
   private function isValidAPIUser( $params ) {
     if ( ! isset($params['arguments']) ) {
-      $this->result->addError( __( 'Missing `arguments` key',$this->helpers->getPluginTextDomain() ),WCAPI_EXPECTED_ARGUMENT );
+      $this->result->addError( __( 'Missing `arguments` key','woocommerce_json_api' ),WCAPI_EXPECTED_ARGUMENT );
       return false;
     }
     if ( ! isset( $params['arguments']['token'] ) ) {
-      $this->result->addError( __( 'Missing `token` in `arguments`',$this->helpers->getPluginTextDomain() ),WCAPI_EXPECTED_ARGUMENT );
+      $this->result->addError( __( 'Missing `token` in `arguments`','woocommerce_json_api' ),WCAPI_EXPECTED_ARGUMENT );
       return false;
     }
     $key = $this->helpers->getPluginPrefix() . '_settings';
@@ -120,20 +141,44 @@ class WooCommerce_JSON_API {
     wp_set_current_user($user->ID);
     wp_set_auth_cookie( $user->ID, false, is_ssl() );
   }
+  private function translateCategoryAttributes( $cobj ) {
+    $thumb_id = get_woocommerce_term_meta( $cobj->term_id, 'thumbnail_id', true);
+    $image = wp_get_attachment_url( $thumb_id );
+    return array( 
+      'name' => $cobj->name,
+      'slug' => $cobj->slug,
+      'permalink' => get_term_link($cobj,'product_cat'),
+      'id' => $cobj->term_id,
+      'parent_id' => $cobj->parent,
+      'group_id' => $cobj->term_group,
+      'taxonomy_id' => $cobj->term_taxonomy_id,
+      'image' => $image,
+    );
+  }
   private function translateProductAttributes($product) {
     global $wpdb;
-    $meta = array();
-    $post = $product->get_post_data();
+    $permalinks 	                  = get_option( 'woocommerce_permalinks' );
+    $product_category_slug 	        = empty( $permalinks['category_base'] ) ? _x( 'product-category', 'slug', 'woocommerce' ) : $permalinks['category_base'];
+		$shop_page_id 	                = woocommerce_get_page_id( 'shop' );
+    $meta                           = array();
+    $post                           = $product->get_post_data();
     //$meta['query'] = "SELECT `meta_key`, `meta_value` from {$wpdb->postmeta} where `post_id` = '{$post->ID}'";
-    $result = $wpdb->query( "SELECT `meta_key`, `meta_value` from {$wpdb->postmeta} where `post_id` = '{$post->ID}'");
+    $result           = $wpdb->query( "SELECT `meta_key`, `meta_value` from {$wpdb->postmeta} where `post_id` = '{$post->ID}'");
     foreach ($wpdb->last_result as $k => $v) {
       $meta[ $v->meta_key] = $v->meta_value;
     }
-    
+    $category_objs = woocommerce_get_product_terms($post->ID, 'product_cat', 'all');
+    $categories = array();
+
+    foreach ( $category_objs as $cobj ) {
+      $categories[] = $this->translateCategoryAttributes( $cobj );
+    }
     $attrs = array(
       'id'   => $post->ID,
       'name' => $product->get_title(),
       'description' => $product->get_post_data()->post_content,
+      'slug' => $post->post_name,
+      'permalink' => get_permalink( $post->ID ),
       'price' => array( 
         'amount' => $product->get_price(),
         'currency' => get_woocommerce_currency(),
@@ -150,15 +195,25 @@ class WooCommerce_JSON_API {
         'sold_individually' => $product->is_sold_individually(),
         'download_paths' => isset($meta['_file_paths']) ? maybe_unserialize($meta['_file_paths']) : array(),
       ),
+      'categories' => $categories,
     );
     
     
     
     return $attrs;
   }
-  
+  private function translateTaxRateAttributes( $rate ) {
+    $attrs = array();
+    foreach ( $rate as $k=>$v ) {
+      $attrs[ str_replace('tax_rate_','',$k) ] = $v;
+    }
+    return $attrs;
+  }
   /*******************************************************************
-                            Core API Functions
+  *                         Core API Functions                       *
+  ********************************************************************
+  * These functions are called as a result of what was set in the
+  * JSON Object for `proc`.
   ********************************************************************/
   
   private function get_system_time( $params ) {
@@ -178,14 +233,14 @@ class WooCommerce_JSON_API {
   */
   private function get_products( $params ) {
     global $wpdb;
-    $allowed_order_bys = array('post_title','post_date','post_author','post_modified');
+    $allowed_order_bys = array('ID','post_title','post_date','post_author','post_modified');
     /**
       Read this section to get familiar with the arguments of this method.
     */
     $posts_per_page = $this->helpers->orEq( $params['arguments'], 'per_page', 15 ); 
     $paged          = $this->helpers->orEq( $params['arguments'], 'page', 0 );
-    $order_by       = $this->helpers->orEq( $params['arguments'], 'order_by', 'post_date');
-    $order          = $this->helpers->orEq( $params['arguments'], 'order', 'DESC');
+    $order_by       = $this->helpers->orEq( $params['arguments'], 'order_by', 'ID');
+    $order          = $this->helpers->orEq( $params['arguments'], 'order', 'ASC');
     $ids            = $this->helpers->orEq( $params['arguments'], 'ids', false);
     $skus           = $this->helpers->orEq( $params['arguments'], 'skus', false);
     
@@ -234,9 +289,116 @@ class WooCommerce_JSON_API {
       }
       
     }
+    // We manage the array ourselves, so call setPayload, instead of addPayload
     $this->result->setPayload($products);
 
 	  $this->done();
   }
   
+  /**
+     Get product categories
+  */
+  private function get_categories( $params ) {
+  
+    $allowed_order_bys = array('id','count','name','slug');
+    
+    $order_by       = $this->helpers->orEq( $params['arguments'], 'order_by', 'name');
+    if ( ! $this->helpers->inArray($order_by,$allowed_order_bys) ) {
+      $this->result->addError( __('order_by must be one of these:','woocommerce_json_api') . join( $allowed_order_bys, ','), WCAPI_BAD_ARGUMENT );
+      $this->done();
+      return;
+    }
+    $order          = $this->helpers->orEq( $params['arguments'], 'order', 'ASC');
+    $ids            = $this->helpers->orEq( $params['arguments'], 'ids', false);
+    
+    $hide_empty     = $this->helpers->orEq( $params['arguments'], 'hide_empty', false);
+    
+    $args = array(
+  	  'fields'         => 'all',
+      'order_by'       => $order_by,
+      'order'          => $order,
+    );
+    
+    if ($ids) {
+      $args['include'] = $ids;
+    }
+    
+    $categories = get_terms('product_cat', $args);
+    foreach ( $categories as $cobj ) {
+      $this->result->addPayload( $this->translateCategoryAttributes( $cobj ) );
+    }
+    $this->done();
+  }
+  
+  /**
+    Get tax rates defined for store
+  */
+  private function get_taxes( $params ) {
+    global $wpdb;
+    
+    $tax_classes = explode("\n",get_option('woocommerce_tax_classes'));
+    $tax_classes = array_merge($tax_classes, array(''));
+    
+    $tax_rates = array();
+    
+    foreach ( $tax_classes as $tax) {
+      $name = $tax;
+      if ( $name == '' ) {
+        $name = "DefaultRate";
+      } 
+      // Never have a select * without a limit statement.
+      $found_rates = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}woocommerce_tax_rates where tax_rate_class = %s LIMIT %d",$tax,100) );
+      $rates = array();
+      foreach ( $found_rates as $rate ) {
+       
+        $rates[] = $this->translateTaxRateAttributes($rate);
+      }
+      $tax_rates[] = array(
+        'name' => $name,
+        'rates' => $rates
+      );
+    }
+    $this->result->setPayload($tax_rates); 
+    $this->done();   
+  }
+  /**
+    WooCommerce handles shipping methods on a per class/instance basis. So in order to have a
+    shipping method, we must have a class file that registers itself with 'woocommerce_shipping_methods'.
+  */
+  private function get_shipping_methods( $params ) {
+    $klass = new WC_Shipping();
+    $klass->load_shipping_methods();
+    $methods = array();
+    foreach ( $klass->shipping_methods as $sm ) {
+      $methods[] = array(
+        'id' => $sm->id,
+        'name' => $sm->title,
+        'display_name' => $sm->method_title,
+        'enabled' => $sm->enabled,
+        'settings' => $sm->settings,
+        'plugin_id' => $sm->plugin_id,
+      );
+    }
+    $this->result->setPayload( $methods );
+    $this->done();
+  }
+  
+  /**
+    Get info on Payment Gateways
+  */
+  private function get_payment_gateways( $params ) {
+    $klass = new WC_Payment_Gateways();
+    foreach ( $klass->payment_gateways as $sm ) {
+      $methods[] = array(
+        'id' => $sm->id,
+        'name' => $sm->title,
+        'display_name' => $sm->method_title,
+        'enabled' => $sm->enabled,
+        'settings' => $sm->settings,
+        'plugin_id' => $sm->plugin_id,
+      );
+    }
+    $this->result->setPayload( $methods );
+    $this->done();
+  }
 }
