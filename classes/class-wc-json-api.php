@@ -7,6 +7,7 @@ define('WCAPI_EXPECTED_ARGUMENT',             -1);
 define('WCAPI_NOT_IMPLEMENTED',               -2);
 define('WCAPI_UNEXPECTED_ERROR',              -3);
 define('WCAPI_INVALID_CREDENTIALS',           -4);
+define('WCAPI_BAD_ARGUMENT',                  -5);
 
 define('WCAPI_PRODUCT_NOT_EXISTS', 1);
 require_once( plugin_dir_path(__FILE__) . '/class-rede-helpers.php' );
@@ -20,15 +21,24 @@ class WooCommerce_JSON_API {
     $this->helpers = new RedEHelpers();
     $this->result = null;
   }
-  
+  /**
+    This function is the single entry point into the API.
+    
+    The order of operations goes like this:
+    
+    1) A new result object is created.
+    2) Check to see if it's a valid API User, if not, do stuff and quit
+    3) Check to see if the method requested has been implemented
+    4) If it's implemented, call and turn over control to the method
+  */
   public function route( $params ) {
+    $this->createNewResult( $params );
+    if ( ! $this->isValidAPIUser( $params ) ) {
+      $this->result->addError( __('Not a valid API User', $this->helpers->getPluginTextDomain() ), WCAPI_INVALID_CREDENTIALS );
+      $this->done();
+    }
     if ( $this->isImplemented( $params ) ) {
       try {
-        $this->createNewResult( $params );
-        if ( ! $this->isValidAPIUser( $params ) ) {
-          $this->result->addError( __('Not a valid API User', $this->helpers->getPluginTextDomain() ), WCAPI_INVALID_CREDENTIALS );
-          $this->done();
-        }
         $this->{ $params['proc'] }($params);
       } catch ( Exception $e ) {
         $this->unexpectedError( $params, $e);
@@ -162,15 +172,29 @@ class WooCommerce_JSON_API {
     $this->done();
   }
   
+  /**
+    This is the single entry point for fetching products, ordering, paging, as well
+    as "finding" by ID or SKU.
+  */
   private function get_products( $params ) {
     global $wpdb;
+    $allowed_order_bys = array('post_title','post_date','post_author','post_modified');
+    /**
+      Read this section to get familiar with the arguments of this method.
+    */
     $posts_per_page = $this->helpers->orEq( $params['arguments'], 'per_page', 15 ); 
     $paged          = $this->helpers->orEq( $params['arguments'], 'page', 0 );
     $order_by       = $this->helpers->orEq( $params['arguments'], 'order_by', 'post_date');
     $order          = $this->helpers->orEq( $params['arguments'], 'order', 'DESC');
     $ids            = $this->helpers->orEq( $params['arguments'], 'ids', false);
     $skus           = $this->helpers->orEq( $params['arguments'], 'skus', false);
+    
     $by_ids = true;
+    if ( ! $this->helpers->inArray($order_by,$allowed_order_bys) ) {
+      $this->result->addError( __('order_by must be one of these:','woocommerce_json_api') . join( $allowed_order_bys, ','), WCAPI_BAD_ARGUMENT );
+      $this->done();
+      return;
+    }
     if ( ! $ids && ! $skus ) {
       $posts = get_posts( array(
 		      'post_type'      => array( 'product', 'product_variation' ),
@@ -203,7 +227,11 @@ class WooCommerce_JSON_API {
 	  $products = array();
     foreach ( $posts as $post_id) {
       $post = get_product($post_id);
-      $products[] = $this->translateProductAttributes($post);
+      if ( !$post ) {
+        $this->result->addWarning( $post_id. ': ' . __('Product does not exist'), WCAPI_PRODUCT_NOT_EXISTS, array( 'id' => $post_id) );
+      } else {
+        $products[] = $this->translateProductAttributes($post);
+      }
       
     }
     $this->result->setPayload($products);
