@@ -168,6 +168,28 @@ class RedEHelpers {
     $rows = $this->orEq($args,'rows',3);
     return "<textarea id='" . esc_attr($id) . "' name='" . esc_attr( $name ) . "' rows='" . esc_attr( $rows ) . "'>" . esc_html( $value ) . "</textarea>";
   }
+  public function selectTag( $args ) {
+    $name = $this->orEq($args,'name');
+    $value = $this->orEq($args,'value','');
+    $id = $this->orEq($args,'id','');
+    $options = $this->orEq($args,'options', array() );
+    $content = "<select name='$name' id='$id'>\n";
+    foreach ( $options as $option ) {
+      $opt = "<option value='%s' %s> %s </option>";
+      $selected = '';
+      if ( $option['value'] == $value ) {
+        $selected = " selected='selected'";
+      }
+      $opt = sprintf($opt,$option['value'],$selected,$option['content']);
+      $content .= $opt;
+    }
+    $content .= "</select>\n";
+    return $content;
+  } 
+  public function hiddenFormFields( $action ) {
+    $output = wp_nonce_field($action,'_wpnonce',true,false);
+    return $output;
+  }
   
   /***************************************************************************/
   /*                       WordPress API Helpers                             */
@@ -201,6 +223,22 @@ class RedEHelpers {
 		);
     return $page;
   }
+  
+ /*
+  
+ */
+ public function getTitleBySlug( $slug, $default = '' ) {
+   $page = get_page_by_path( $slug );
+   $title = get_the_title($page->ID);
+   if ( empty( $title ) ) {
+    $title = $default;
+   }
+   return $title;
+ }
+ public function getPermalinkBySlug( $slug ) {
+  $page = get_page_by_path( $slug );
+  return get_permalink( $page );
+ }
   
 }
 ?>

@@ -25,23 +25,23 @@ function woocommerce_json_api_show_user_profile( $user ) {
   */
   $attrs = array (
 	  'json_api_settings' => array(
-		  'title' => __( 'WooCommerce JSON API Settings', $helpers->getPluginTextDomain() ),
+		  'title' => __( 'WooCommerce JSON API Settings', 'woocommerce_json_api' ),
 		  'fields' => array(
 		      array(
 		        'name'          => $helpers->getPluginPrefix() . '_settings[token]',
 		        'id'            => 'json_api_token_id',
 		        'value'         => $helpers->orEq($meta,'token',''),
 		        'type'          => 'text',
-				    'label'         => __( 'API Token', $helpers->getPluginTextDomain() ),
-				    'description'   => __('A large string of letters and numbers, mixed case, that will be used to authenticate requests', $helpers->getPluginTextDomain() )
+				    'label'         => __( 'API Token', 'woocommerce_json_api' ),
+				    'description'   => __('A large string of letters and numbers, mixed case, that will be used to authenticate requests', 'woocommerce_json_api' )
 			    ),
 			    array(
 		        'name'          => $helpers->getPluginPrefix() . '_settings[ips_allowed]',
 		        'id'            => 'json_api_ips_allowed_id',
 		        'value'         => $helpers->orEq($meta,'ips_allowed',''),
 		        'type'          => 'textarea',
-				    'label'         => __( 'IPs Allowed', $helpers->getPluginTextDomain() ),
-				    'description'   => __('What ips are permitted to connect with this user...', $helpers->getPluginTextDomain() )
+				    'label'         => __( 'IPs Allowed', 'woocommerce_json_api' ),
+				    'description'   => __('What ips are permitted to connect with this user...', 'woocommerce_json_api' )
 			    ),
 		  ),
 	  ),
@@ -128,12 +128,16 @@ function woocommerce_json_api_shortcode() {
   Prevent template code from loading :)
 */
 function woocommerce_json_api_template_redirect() {
-  global $wpdb;
+  global $wpdb, $post;
   $helpers = new RedEHelpers();
   $json_api_slug = get_option( $helpers->getPluginPrefix() . '_slug' );
-  $found = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM " . $wpdb->posts . " WHERE post_name = %s LIMIT 1;", $json_api_slug ) );
-  if ( $found && is_page($found) ) {
-    woocommerce_json_api_shortcode();
+  $found = get_page_by_path( $json_api_slug );
+  if ( $found ) {
+    if ( $post->ID == $found->ID ) {
+      woocommerce_json_api_shortcode();
+    } else { 
+      return;
+    }
   } else {
     // The page was not found, let's check the $_POST params to see if this is a request to
     // us
@@ -155,6 +159,37 @@ function woocommerce_json_api_admin_menu() {
 }
 function woocommerce_json_api_settings_page() {
   $helpers = new RedEHelpers();
-  echo $helpers->renderTemplate('admin-settings-page.php');
+  $params = $_POST;
+  $nonce = $helpers->orEq( $params, '_wpnonce',false);
+
+  if ( $nonce  && wp_verify_nonce( $nonce, $helpers->getPluginPrefix() . '_sitewide_settings' ) ) {
+    $key = $helpers->getPluginPrefix() . '_sitewide_settings';
+    update_option($helpers->getPluginPrefix() . '_slug', $params[$key]['slug']);
+  }
+  
+  $json_api_slug = get_option( $helpers->getPluginPrefix() . '_slug' );
+  $pages = get_pages( array('post_type' => 'page') );
+  $options = array();
+  foreach ( $pages as $page ) {
+    $options[] = array('value' => $page->post_name, 'content' => $page->post_title);
+  }
+  $attrs = array (
+	  'json_api_sitewide_settings' => array(
+		  'title' => __( 'WooCommerce JSON API Settings', 'woocommerce_json_api' ),
+		  'fields' => array(
+		      array(
+		        'name'          => $helpers->getPluginPrefix() . '_sitewide_settings[slug]',
+		        'id'            => 'json_api_page_id',
+		        'value'         => $json_api_slug,
+		        'options'       => $options,
+		        'type'          => 'select',
+				    'label'         => __( 'API Page', 'woocommerce_json_api' ),
+				    'description'   => __('slug of the page to use as the api entry point. Currently: ', 'woocommerce_json_api' ) . $helpers->getTitleBySlug($json_api_slug),
+			    )
+		  ),
+	  ),
+	);
+  $attrs = apply_filters('woocommerce_json_api_settings_fields', $attrs);
+  echo $helpers->renderTemplate('admin-settings-page.php', array( 'attrs' => $attrs, 'json_api_slug' => $json_api_slug) );
 }
 
