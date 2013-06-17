@@ -102,7 +102,7 @@ class WooCommerce_JSON_API {
   
   private function unexpectedError( $params, $error ) {
     $this->createNewResult( $params );
-    $this->result->addError( __('An unexpected error has occured', 'woocommerce_json_api' ), WCAPI_UNEXPECTED_ERROR );
+    $this->result->addError( __('An unexpected error has occured', 'woocommerce_json_api' ) . $error->getMessage(), WCAPI_UNEXPECTED_ERROR );
     $this->done();
   }
   
@@ -437,6 +437,14 @@ class WooCommerce_JSON_API {
         
     //   } // end if ( ! $post ) {
     // } // end foreach ($products as $product)
+    $products = $this->helpers->orEq( $params, 'payload', array() );
+    foreach ( $products as $attrs) {
+      $product = WC_JSON_API_Product::find($attrs['id']);
+      if ($product->isValid()) {
+        $product->fromApiArray( $attrs );
+        $product->update()->done();
+      }
+    }
     $this->done();
   }
   

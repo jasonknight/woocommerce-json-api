@@ -27,7 +27,7 @@ class RedEBaseRecord {
     $this->_invalid = $bool;
     return $this;
   }
-  public function show_sql() {
+  public function showSQL() {
     $sql = "";
     foreach ($this->_queries_to_run as $key => $query) {
       $sql .= "$key => [[[ $query ]]]\n";
@@ -81,7 +81,7 @@ class RedEBaseRecord {
       return null;
     }
   }
-  
+
   public function dynamic_set( $name, $desc, $value, $filter_value = null ) {
     if ( $desc['type'] == 'array') {
       $value = serialize( $value );
@@ -99,13 +99,16 @@ class RedEBaseRecord {
   }
 
   public function dynamic_get( $name, $desc, $filter_value = null ) {
-    if ( isset($desc['getter'])) {
+    if ( isset($desc['getter']) ) {
       $value = $this->{ $desc['getter'] }();
     } else {
       $value = $this->{ $name };
     }
     if ( isset($desc['type']) && $desc['type'] == 'array') {
       $value = maybe_unserialize( $value );
+    }
+    if ( isset($desc['type']) && $desc['type'] == 'array' && empty($value) ) {
+      $value = array();
     }
     return $value;
   }

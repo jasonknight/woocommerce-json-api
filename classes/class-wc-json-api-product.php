@@ -69,7 +69,10 @@ class WC_JSON_API_Product extends RedEBaseRecord {
       'sale_price'        => array('name' => '_sale_price',       'type' => 'number'),
       'sale_from'         => array('name' => '_sale_price_dates_from', 'type' => 'timestamp'),
       'sale_to'           => array('name' => '_sale_price_dates_to',   'type' => 'timestamp'),
-      'download_paths'    => array('name' => '_file_paths',            'type' => 'array', 'filters' => array('woocommerce_file_download_paths') ),
+      'download_paths'    => array('name' => '_file_paths',            
+                                   'type' => 'array', 
+                                   'filters' => array('woocommerce_file_download_paths') 
+                              ),
       'status'            => array(
                                'name' => '_stock_status',          
                                'type' => 'string', 
@@ -111,7 +114,7 @@ class WC_JSON_API_Product extends RedEBaseRecord {
       'slug'            => array('name' => 'post_name',              'type' => 'string'),
       'type'            => array('name' => 'post_type',              'type' => 'string'),
       'description'     => array('name' => 'post_content',           'type' => 'string'),
-      'live'            => array(
+      'product_status'            => array(
                                   'name' => 'post_status',            
                                   'type' => 'string',
                                   'values' => array(
@@ -123,8 +126,6 @@ class WC_JSON_API_Product extends RedEBaseRecord {
                                     'draft',
                                     'trash',
                                   ),
-                                  'getter' => 'getLive',
-                                  'setter' => 'setLive',
                           ),
     );
     self::$_post_attributes_table = apply_filters( 'woocommerce_json_api_product_post_attributes_table', self::$_post_attributes_table );
@@ -142,18 +143,24 @@ class WC_JSON_API_Product extends RedEBaseRecord {
                       // that modify state of the object, return the object.
       $categories[] = (new WC_JSON_API_Category)->setCategory( $cobj )->asApiArray();
     }
-    $attributes = array_merge($this->_post_attributes, $this->_meta_attributes);
-    $attributes_to_send = array();
+    $attributes = array_merge(self::$_post_attributes_table, self::$_meta_attributes_table);
     $attributes_to_send['id'] = $this->getProductId();
     foreach ( $attributes as $name => $desc ) {
+
       $attributes_to_send[$name] = $this->dynamic_get( $name, $desc, $this->getProductId());
     }
     $attributes_to_send['categories'] = $categories;
     return $attributes_to_send;
   }
-
   public function fromApiArray( $attrs ) {
-
+    $attributes = array_merge(self::$_post_attributes_table, self::$_meta_attributes_table);
+    foreach ( $attrs as $name => $value ) {
+      if ( isset($attributes[$name]) ) {
+        $desc = $attributes[$name];
+        $this->dynamic_set( $name, $desc, $value, $this->getProductId());
+      }
+    }
+    return $this;
   }
   /**
     From here we have a dynamic getter. We return a special REDENOTSET variable.
@@ -166,13 +173,13 @@ class WC_JSON_API_Product extends RedEBaseRecord {
       if ( isset ( $this->_meta_attributes[$name] ) ) {
         return $this->_meta_attributes[$name];
       } else {
-        return REDENOTSET;
+        return '';
       }
     } else if ( isset( self::$_post_attributes_table[$name] ) ) {
       if ( isset( $this->_post_attributes[$name] ) ) {
         return $this->_post_attributes[$name];
       } else {
-        return REDENOTSET;
+        return '';
       }
     }
   } // end __get
@@ -190,16 +197,6 @@ class WC_JSON_API_Product extends RedEBaseRecord {
       throw new Exception( __('That attribute does not exist to be set.','woocommerce_json_api') . " `$name`");
     }
   } 
-  public function getLive() {
-    return ( $this->_post_attributes[live] === true );
-  }
-  public function setLive( $value ) {
-    if ( $value === true ) {
-      $this->_post_attributes['live'] = 'publish';
-    } else {
-      $this->_post_attributes['live'] = 'draft';
-    }
-  }
   public function setProductId( $id ) {
     $this->_actual_product_id = $id;
   }
@@ -261,18 +258,31 @@ class WC_JSON_API_Product extends RedEBaseRecord {
   public function update() {
     global $wpdb;
     $meta_sql = "
-      UPDATE {$wpdb->postmeta}
-        SET meta_value = CASE `meta_key`";
+UPDATE {$wpdb->postmeta}
+  SET meta_value = CASE `meta_key`
+    ";
     foreach (self::$_meta_attributes_table as $attr => $desc) {
       if ( isset( $this->_meta_attributes[$attr] ) ) {
         $value = $this->_meta_attributes[$attr];
-        $meta_sql .= $wpdb->prepare( "\tWHEN `{$desc['name']}` THEN %s\n ", $value);
+        if ( ! empty($value) ) {
+          $meta_sql .= $wpdb->prepare( "\tWHEN '{$desc['name']}' THEN %s\n ", $value);
+        }
       } 
     }
-    $meta_sql .= "END 
-    WHERE post_id = '{$this->_actual_product_id}';";
+    $meta_sql .= "
+  END 
+WHERE post_id = '{$this->_actual_product_id}'
+    ";
     $key = md5($meta_sql);
     $this->_queries_to_run[$key] = $meta_sql; 
+    $values = array();
+    foreach (self::$_post_attributes_table as $attr => $desc) {
+      $value = $this->dynamic_get( $attr, $desc, $this->getProductId());
+      $values[] = $wpdb->prepare("`{$desc['name']}` = %s", $value );
+    }
+    $post_sql = "UPDATE {$wpdb->posts} SET " . join(',',$values) . " WHERE ID = '{$this->_actual_product_id}'";
+    $key = md5($post_sql);
+    $this->_queries_to_run[$key] = $post_sql;
     return $this;
   }
   /**
