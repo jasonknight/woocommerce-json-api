@@ -1,6 +1,6 @@
 <?php
 /**
-  A Product class to insulate the API from the dirty details of the
+  A Product class to insulate the API from the details of the
   database representation
 */
 require_once(dirname(__FILE__) . "/class-rede-base-record.php");
@@ -20,9 +20,8 @@ class WC_JSON_API_Product extends RedEBaseRecord {
 
   // A the id for the actual product, used for queries.
   private $_actual_product_id;
-   
- 
-  
+
+    
   /**
     Here we normalize the attributes, giving them a consistent name scheme and obvious
     meaning, as well as making them easier to type so that we have a nice, user
@@ -35,6 +34,14 @@ class WC_JSON_API_Product extends RedEBaseRecord {
     When we say bool, we mean a WP Bool, which is `yes` or `no`. I actually prefer this
     idea, because of the way PHP and many languages handle boolean values. It's just
     so much more clear.
+
+    The fundamental idea for this class is that there doesn't seem to be a single entry
+    point into and out of the database for WooCom which provides a mixture of classes
+    and functions that get, process, display, and save products to the database and that
+    depend on things like $_POST and various Defines. 
+
+    We want to abstract away the naughty bits of the database representation of the product
+    in question.
   */
   public static function setupMetaAttributes() {
     if ( self::$_meta_attributes_table ) {
@@ -107,6 +114,10 @@ class WC_JSON_API_Product extends RedEBaseRecord {
     $categories = array();
 
     foreach ( $category_objs as $cobj ) {
+                      // This looks scary if you've never used Javascript () evaluates the
+                      // the contents and returns the value, in the same way that (3+4) * 8 
+                      // works. Because we define the class with a Fluid API, most functions
+                      // that modify state of the object, return the object.
       $categories[] = (new WC_JSON_API_Category)->setCategory( $cobj )->asApiArray();
     }
     $attrs = array(
@@ -135,19 +146,21 @@ class WC_JSON_API_Product extends RedEBaseRecord {
       );
     return $attrs;
   }
-  // Dynamic getter
+  /**
+    From here we have a dynamic getter. We return a special REDENOTSET variable.
+  */
   public function __get( $name ) {
     if ( isset( self::$_meta_attributes_table[$name] ) ) {
       if ( isset ( $this->_meta_attributes[$name] ) ) {
         return $this->_meta_attributes[$name];
       } else {
-        return WC_JSON_API_NOTSET;
+        return REDENOTSET;
       }
     } else if ( isset( self::$_post_attributes_table[$name] ) ) {
       if ( isset( $this->_post_attributes[$name] ) ) {
         return $this->_post_attributes[$name];
       } else {
-        return WC_JSON_API_NOTSET;
+        return REDENOTSET;
       }
     }
   } // end __get
@@ -158,6 +171,8 @@ class WC_JSON_API_Product extends RedEBaseRecord {
       $this->_meta_attributes[$name] = $value;
     } else if ( isset( self::$_post_attributes_table[$name] ) ) {
       $this->_post_attributes[$name] = $value;
+    } else {
+      throw new Exception( __('That attribute does not exist to be set.','woocommerce_json_api') . " `$name`");
     }
   } 
   public function setProductId( $id ) {
@@ -177,7 +192,7 @@ class WC_JSON_API_Product extends RedEBaseRecord {
     self::setupPostAttributes();
     self::setupMetaAttributes();
     $product = new WC_JSON_API_Product();
-    $product->setInvalid();
+    $product->setValid( false );
     $post = get_post( $id, 'ARRAY_A' );
     if ( $post ) {
       $product->setProductId( $id );
@@ -195,15 +210,21 @@ class WC_JSON_API_Product extends RedEBaseRecord {
           }
         }
       }
-      $product->setValid();
+      $product->setValid( true );
+      $product->setNewRecord( false );
     }
     return $product;
   }
-  
+  public function setNewRecord( $bool ) {
+    $this->_new_record = $bool;
+  }
+  public function isNewRecord() {
+    return $this->_new_record;
+  }
   public static function find_by_sku( $sku ) {
     global $wpdb;
     $product = new WC_JSON_API_Product();
-    $product->setInvalid();
+    $product->setValid( false );
     $pid = $wpdb->get_var( $wpdb->prepare( "SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key='_sku' AND meta_value='%s' LIMIT 1",$sku) );
     if ( $pid ) {
       $product = WC_JSON_API_Product::find( $pid );
@@ -237,6 +258,10 @@ class WC_JSON_API_Product extends RedEBaseRecord {
     $product->addQuery($sql);
     return $product;
   }
+  /**
+    Sometimes we want to act directly on the result to be sent to the user.
+    This allows us to add errors and warnings.
+  */
   public function setResult ( $result ) {
     $this->_result = $result;
     return $this;

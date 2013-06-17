@@ -23,12 +23,8 @@ class RedEBaseRecord {
   
   
 
-  protected function setInvalid() {
-    $this->_invalid = true;
-    return $this;
-  }
-  protected function setValid() {
-    $this->_invalid = false;
+  protected function setValid( $bool ) {
+    $this->_invalid = $bool;
     return $this;
   }
   public function show_sql() {

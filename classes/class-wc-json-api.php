@@ -3,7 +3,7 @@
   Core JSON API
 */
 
-define('WC_JSON_API_NOTSET','__WC_JSON_API_NOTSET__');
+
 // Error Codes are negative, Warning codes are positive
 define('WCAPI_EXPECTED_ARGUMENT',             -1);
 define('WCAPI_NOT_IMPLEMENTED',               -2);
@@ -314,129 +314,129 @@ class WooCommerce_JSON_API {
     and then just make setter methods modify internal state and then abstract out.
   */
   private function set_products( $params ) {
-    global $woocommerce, $wpdb;
-    $products = $this->helpers->orEq( $params, 'payload', array() );
-    $_notset = '___NOT___SET___';
-    foreach ($products as $product) {
-      $id                     = $this->helpers->orEq( $product, 'id', $_notset );
-      $name                   = $this->helpers->orEq( $product, 'name', $_notset );
-      $description            = $this->helpers->orEq( $product, 'description', $_notset );
-      $slug                   = $this->helpers->orEq( $product, 'slug', $_notset );
-      if ( isset($product['price'])) {
-        $price                = $this->helpers->orEq( $product['price'], 'amount', $_notset );
-        $taxable              = $this->helpers->orEq( $product['price'], 'taxable', $_notset );
-        $sale_price           = $this->helpers->orEq( $product['price'], 'sale_price', $_notset );
-        $tax_shipping_only    = $this->helpers->orEq( $product['price'], 'taxable_on_shipping_only', $_notset );
-      }
-      $sku                    = $this->helpers->orEq( $product, 'sku', $_notset );
-      if ( isset( $product['stock'] ) ) {
-        $managed              = $this->helpers->orEq( $product['stock'], 'managed', $_notset );
-        $for_sale             = $this->helpers->orEq( $product['stock'], 'for_sale', $_notset );
-        $in_stock             = $this->helpers->orEq( $product['stock'], 'in_stock', $_notset );
-        $downloadable         = $this->helpers->orEq( $product['stock'], 'downloadable', $_notset );
-        $virtual              = $this->helpers->orEq( $product['stock'], 'virtual', $_notset );
-        $sold_individually    = $this->helpers->orEq( $product['stock'], 'sold_individually', $_notset );
-        $file_paths           = $this->helpers->orEq( $product['stock'], 'download_paths', $_notset );
-        $weight               = $this->helpers->orEq( $product['stock'], 'weight', $_notset );
-        $length               = $this->helpers->orEq( $product['stock'], 'length', $_notset );
-        $height               = $this->helpers->orEq( $product['stock'], 'length', $_notset );
-      }
-      $categories      = $this->helpers->orEq( $product, 'categories', $_notset );
-      // We need to see if the product exists
-      $post = null;
-      if ( $id == $_notset && $sku == $_notset) {
-        $this->result->addError( __('You must specify a valid `id` or `sku` when setting products.','woocommerce_json_api'), WCAPI_BAD_ARGUMENT);
-        $this->done();
-      } else if ( $id ) { // id takes precedence over sku
-        $post = get_product($id);
-        if ( !$post ) {
-          $this->result->addWarning( $id. ': ' . __('Product does not exist'), WCAPI_PRODUCT_NOT_EXISTS, array( 'id' => $id) );
-        }
-      } else if ( $sku ) {
-        $id = $wpdb->get_var( $wpdb->prepare( "SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key='_sku' AND meta_value='%s' LIMIT 1", $sku) );
-	      if ( ! $id ) {
-	        $this->result->addWarning( $sku . ': ' . __('Product does not exist'), WCAPI_PRODUCT_NOT_EXISTS, array( 'sku' => $sku) );
-	      } else {
-	        $post = get_product($id);
-          if ( !$post ) {
-            $this->result->addWarning( $id. ': ' . __('Product does not exist by `id` found by `sku`'), WCAPI_PRODUCT_NOT_EXISTS, array( 'id' => $id, 'sku' => $sku ) );
-          }
-	      }
-      }
-      if ( ! $post ) {
-        $this->result->addWarning( __('Product could not be found, adding','woocommerce_json_api'),WCAPI_PRODUCT_NOT_EXISTS );
-        // At this point, the product doesn't exist, so we have to add it, which should be fun...
-        // this will be sparated out into a function to add products, otherwise it's just
-        // getting too long and the code smell is already overwhelming.
-      } else {
+    // global $woocommerce, $wpdb;
+    // $products = $this->helpers->orEq( $params, 'payload', array() );
+    // $_notset = '___NOT___SET___';
+    // foreach ($products as $product) {
+    //   $id                     = $this->helpers->orEq( $product, 'id', $_notset );
+    //   $name                   = $this->helpers->orEq( $product, 'name', $_notset );
+    //   $description            = $this->helpers->orEq( $product, 'description', $_notset );
+    //   $slug                   = $this->helpers->orEq( $product, 'slug', $_notset );
+    //   if ( isset($product['price'])) {
+    //     $price                = $this->helpers->orEq( $product['price'], 'amount', $_notset );
+    //     $taxable              = $this->helpers->orEq( $product['price'], 'taxable', $_notset );
+    //     $sale_price           = $this->helpers->orEq( $product['price'], 'sale_price', $_notset );
+    //     $tax_shipping_only    = $this->helpers->orEq( $product['price'], 'taxable_on_shipping_only', $_notset );
+    //   }
+    //   $sku                    = $this->helpers->orEq( $product, 'sku', $_notset );
+    //   if ( isset( $product['stock'] ) ) {
+    //     $managed              = $this->helpers->orEq( $product['stock'], 'managed', $_notset );
+    //     $for_sale             = $this->helpers->orEq( $product['stock'], 'for_sale', $_notset );
+    //     $in_stock             = $this->helpers->orEq( $product['stock'], 'in_stock', $_notset );
+    //     $downloadable         = $this->helpers->orEq( $product['stock'], 'downloadable', $_notset );
+    //     $virtual              = $this->helpers->orEq( $product['stock'], 'virtual', $_notset );
+    //     $sold_individually    = $this->helpers->orEq( $product['stock'], 'sold_individually', $_notset );
+    //     $file_paths           = $this->helpers->orEq( $product['stock'], 'download_paths', $_notset );
+    //     $weight               = $this->helpers->orEq( $product['stock'], 'weight', $_notset );
+    //     $length               = $this->helpers->orEq( $product['stock'], 'length', $_notset );
+    //     $height               = $this->helpers->orEq( $product['stock'], 'length', $_notset );
+    //   }
+    //   $categories      = $this->helpers->orEq( $product, 'categories', $_notset );
+    //   // We need to see if the product exists
+    //   $post = null;
+    //   if ( $id == $_notset && $sku == $_notset) {
+    //     $this->result->addError( __('You must specify a valid `id` or `sku` when setting products.','woocommerce_json_api'), WCAPI_BAD_ARGUMENT);
+    //     $this->done();
+    //   } else if ( $id ) { // id takes precedence over sku
+    //     $post = get_product($id);
+    //     if ( !$post ) {
+    //       $this->result->addWarning( $id. ': ' . __('Product does not exist'), WCAPI_PRODUCT_NOT_EXISTS, array( 'id' => $id) );
+    //     }
+    //   } else if ( $sku ) {
+    //     $id = $wpdb->get_var( $wpdb->prepare( "SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key='_sku' AND meta_value='%s' LIMIT 1", $sku) );
+	   //    if ( ! $id ) {
+	   //      $this->result->addWarning( $sku . ': ' . __('Product does not exist'), WCAPI_PRODUCT_NOT_EXISTS, array( 'sku' => $sku) );
+	   //    } else {
+	   //      $post = get_product($id);
+    //       if ( !$post ) {
+    //         $this->result->addWarning( $id. ': ' . __('Product does not exist by `id` found by `sku`'), WCAPI_PRODUCT_NOT_EXISTS, array( 'id' => $id, 'sku' => $sku ) );
+    //       }
+	   //    }
+    //   }
+    //   if ( ! $post ) {
+    //     $this->result->addWarning( __('Product could not be found, adding','woocommerce_json_api'),WCAPI_PRODUCT_NOT_EXISTS );
+    //     // At this point, the product doesn't exist, so we have to add it, which should be fun...
+    //     // this will be sparated out into a function to add products, otherwise it's just
+    //     // getting too long and the code smell is already overwhelming.
+    //   } else {
       
-        // Okay, we found the product, now we need to edit the fields.      
+    //     // Okay, we found the product, now we need to edit the fields.      
         
-        // Start Price Editing
-        if ( $_notset != $price ) {
-          $old_regular_price = $post->regular_price;
-	        $old_sale_price    = $post->sale_price;
-	        if ( woocommerce_clean( $price ) != $old_regular_price ) $price_changed = true;
+    //     // Start Price Editing
+    //     if ( $_notset != $price ) {
+    //       $old_regular_price = $post->regular_price;
+	   //      $old_sale_price    = $post->sale_price;
+	   //      if ( woocommerce_clean( $price ) != $old_regular_price ) $price_changed = true;
 	        
-	        if ( $price_changed ) {
-			      if ( isset( $sale_price ) && $sale_price != $_notset ) {
-			        update_post_meta( $id, '_sale_price_dates_from', '' );
-			        update_post_meta( $id, '_sale_price_dates_to', '' );
-				      update_post_meta( $id, '_sale_price', woocommerce_clean( $sale_price ) );
-			      }
-			      if ( isset( $price ) ) {
-			        update_post_meta( $id, '_regular_price', woocommerce_clean( $price ) );
-			      }
-		      }
-        }
-        // Begin Tax Editing
-        if ( $_notset != $taxable ) {
-          if ( $taxable === true) update_post_meta( $id, '_tax_status', 'taxable' );
-          if ( $taxable === false) update_post_meta( $id, '_tax_status', 'none' );
-        }
-        if ( $_notset != $tax_shipping_only ) {
-          if ( $tax_shipping_only === true) update_post_meta( $id, '_tax_status', 'shipping' );
-        }
-        // End Price Editing
+	   //      if ( $price_changed ) {
+			 //      if ( isset( $sale_price ) && $sale_price != $_notset ) {
+			 //        update_post_meta( $id, '_sale_price_dates_from', '' );
+			 //        update_post_meta( $id, '_sale_price_dates_to', '' );
+				//       update_post_meta( $id, '_sale_price', woocommerce_clean( $sale_price ) );
+			 //      }
+			 //      if ( isset( $price ) ) {
+			 //        update_post_meta( $id, '_regular_price', woocommerce_clean( $price ) );
+			 //      }
+		  //     }
+    //     }
+    //     // Begin Tax Editing
+    //     if ( $_notset != $taxable ) {
+    //       if ( $taxable === true) update_post_meta( $id, '_tax_status', 'taxable' );
+    //       if ( $taxable === false) update_post_meta( $id, '_tax_status', 'none' );
+    //     }
+    //     if ( $_notset != $tax_shipping_only ) {
+    //       if ( $tax_shipping_only === true) update_post_meta( $id, '_tax_status', 'shipping' );
+    //     }
+    //     // End Price Editing
         
-        // Begin Stock Editing
+    //     // Begin Stock Editing
         
-        $boolean_fields = array('manage_stock','downloadable','virtual','sold_individually');
+    //     $boolean_fields = array('manage_stock','downloadable','virtual','sold_individually');
         
-        foreach ( $boolean_fields as $bf ) {
-          $value = $$bf; // variable variable, so it will be $manage_stock, then $downloadable etc etc
-          if ( $value != $_notset ) {
-            if ( $value === true ) {
-              update_post_meta( $id, "_{$bf}", 'yes' );
-            } else {
-              update_post_meta( $id, "_{$bf}", 'no' );
-            }
-          }
-        } // end foreach ( $boolean_fields as $bf )
+    //     foreach ( $boolean_fields as $bf ) {
+    //       $value = $$bf; // variable variable, so it will be $manage_stock, then $downloadable etc etc
+    //       if ( $value != $_notset ) {
+    //         if ( $value === true ) {
+    //           update_post_meta( $id, "_{$bf}", 'yes' );
+    //         } else {
+    //           update_post_meta( $id, "_{$bf}", 'no' );
+    //         }
+    //       }
+    //     } // end foreach ( $boolean_fields as $bf )
         
-        if ( $_notset != $for_sale ) {
-          update_post_meta( $post_id, '_stock', (int) $for_sale );
-        } 
-        if ( $_notset != $in_stock  ) { 
-          if ($in_stock === true)   update_post_meta( $id, '_stock_status', 'instock' ); 
-          if ($in_stock === false)  update_post_meta( $id, '_stock_status', 'outofstock' ); 
-        }
-        if ( $_notset != $file_paths) {
-          update_post_meta( $id, '_file_paths', serialize($file_paths) );
-        }
+    //     if ( $_notset != $for_sale ) {
+    //       update_post_meta( $post_id, '_stock', (int) $for_sale );
+    //     } 
+    //     if ( $_notset != $in_stock  ) { 
+    //       if ($in_stock === true)   update_post_meta( $id, '_stock_status', 'instock' ); 
+    //       if ($in_stock === false)  update_post_meta( $id, '_stock_status', 'outofstock' ); 
+    //     }
+    //     if ( $_notset != $file_paths) {
+    //       update_post_meta( $id, '_file_paths', serialize($file_paths) );
+    //     }
         
-        $easy_to_edit = array('sku','height','weight','length');
-        foreach ( $easy_to_edit as $e2e ) {
-          $value = $$e2e;
-          update_post_meta( $id, "_{$e2e}", woocommerce_clean( $value ) );
-        }
+    //     $easy_to_edit = array('sku','height','weight','length');
+    //     foreach ( $easy_to_edit as $e2e ) {
+    //       $value = $$e2e;
+    //       update_post_meta( $id, "_{$e2e}", woocommerce_clean( $value ) );
+    //     }
         
-        // End Stock Editing
+    //     // End Stock Editing
         
-        // End of editing product fields.
+    //     // End of editing product fields.
         
-      } // end if ( ! $post ) {
-    } // end foreach ($products as $product)
+    //   } // end if ( ! $post ) {
+    // } // end foreach ($products as $product)
     $this->done();
   }
   

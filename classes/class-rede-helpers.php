@@ -1,10 +1,21 @@
 <?php
+function _rede_notset( $mixed ) {
+  if (defined('REDENOTSET')) {
+    if ($mixed == REDENOTSET) {
+      return true;
+    } else {
+      return false;
+    }
+  } else {
+    throw new Exception( __('REDENOTSET is not defined!','rede_plugins') );
+  }
+}
 /**
   This class needs to be instantiated as helpers, and provides all the helper 
   functionality needed by the PHP side of the API
 */
 class RedEHelpers {
-  private $plugin_name = 'woocommerce-json-api';
+  public $plugin_name = 'woocommerce-json-api';
   private $path;
   private $css;
   private $js;
@@ -88,7 +99,7 @@ class RedEHelpers {
       $content = apply_filters( $this->getPluginPrefix() . '_template_rendered_' . basename( str_replace('/','_', $template_name) ,".php") ,$content );
     } catch ( Exception $err) {
       ob_end_clean();
-      throw new Exception( __('Error while rendering template ' . $template_name . ' -- ' . $err->getMessage() ) );
+      throw new Exception( __('Error while rendering template ' . $template_name . ' -- ' . $err->getMessage(), 'rede_plugins' ) );
     }
     return $content;
   }

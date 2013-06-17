@@ -33,7 +33,7 @@ class WC_JSON_API_Category extends RedEBaseRecord {
     if (isset(self::$_attributes_table[$name])) {
       return $this->$_attributes[$name];
     } else {
-      throw new Exception( __('That attribute does not exist!', 'woocommerce_json_api') );
+      return REDENOTSET;
     }
   }
 
@@ -41,7 +41,7 @@ class WC_JSON_API_Category extends RedEBaseRecord {
     if ( isset(self::$_attributes_table[$name])) {
       $this->_attributes[$name] = $value;
     } else {
-      throw new Exception( __('That attribute does not exist to be set.','woocommerce_json_api'));
+      throw new Exception( __('That attribute does not exist to be set.','woocommerce_json_api')  . " `$name`" );
     }
   }
 }

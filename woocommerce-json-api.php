@@ -9,6 +9,11 @@
 */
 
 define( 'REDE_PLUGIN_BASE_PATH', plugin_dir_path(__FILE__) );
+if (! defined('REDENOTSET')) {
+  define( 'REDENOTSET','__RED_E_NOTSET__' ); // because sometimes false, 0 etc are
+  // exspected but consistently dealing with these situations is tiresome.
+}
+
 require_once( plugin_dir_path(__FILE__) . 'classes/class-rede-helpers.php' );
 
 require_once( plugin_dir_path(__FILE__) . 'woocommerce-json-api-core.php' );
