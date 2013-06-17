@@ -94,6 +94,12 @@ class WC_JSON_API_Product extends RedEBaseRecord {
                                ),
                              ),
     );
+    /*
+      With this filter, plugins can extend this ones handling of meta attributes for a product,
+      this helps to facilitate interoperability with other plugins that may be making arcane
+      magic with a product, or want to expose their product extensions via the api.
+    */
+    self::$_meta_attributes_table = apply_filters( 'woocommerce_json_api_product_meta_attributes_table', self::$_meta_attributes_table );
   } // end setupMetaAttributes
   
   public static function setupPostAttributes() {
@@ -105,7 +111,23 @@ class WC_JSON_API_Product extends RedEBaseRecord {
       'slug'            => array('name' => 'post_name',              'type' => 'string'),
       'type'            => array('name' => 'post_type',              'type' => 'string'),
       'description'     => array('name' => 'post_content',           'type' => 'string'),
+      'live'            => array(
+                                  'name' => 'post_status',            
+                                  'type' => 'string',
+                                  'values' => array(
+                                    'publish',
+                                    'inherit',
+                                    'pending',
+                                    'private',
+                                    'future',
+                                    'draft',
+                                    'trash',
+                                  ),
+                                  'getter' => 'getLive',
+                                  'setter' => 'setLive',
+                          ),
     );
+    self::$_post_attributes_table = apply_filters( 'woocommerce_json_api_product_post_attributes_table', self::$_post_attributes_table );
   }
   
   public function asApiArray() {
@@ -120,37 +142,27 @@ class WC_JSON_API_Product extends RedEBaseRecord {
                       // that modify state of the object, return the object.
       $categories[] = (new WC_JSON_API_Category)->setCategory( $cobj )->asApiArray();
     }
-    $attrs = array(
-        'id'   => $this->getProductId(),
-        'name' => $this->name,
-        'description' => $this->description,
-        'slug' => $this->slug,
-        'permalink' => get_permalink( $this->_actual_product_id ),
-        'price' => array( 
-          'amount' => $this->price,
-          'currency' => get_woocommerce_currency(),
-          'symbol' => get_woocommerce_currency_symbol(),
-          'taxable' => $this->taxable,
-        ),
-        'sku' => $this->sku,
-        'stock' => array(
-          'managed' => $this->manage_stock,
-          'for_sale' => $this->quantity,
-          'in_stock' => $this->stock,
-          'downloadable' => $this->downloadable,
-          'virtual' => $this->virtual,
-          'sold_individually' => $this->sold_individually,
-          'download_paths' => isset( $_meta_attributes['download_paths'] ) ? $this->download_paths : array(),
-        ),
-        'categories' => $categories,
-      );
-    return $attrs;
+    $attributes = array_merge($this->_post_attributes, $this->_meta_attributes);
+    $attributes_to_send = array();
+    $attributes_to_send['id'] = $this->getProductId();
+    foreach ( $attributes as $name => $desc ) {
+      $attributes_to_send[$name] = $this->dynamic_get( $name, $desc, $this->getProductId());
+    }
+    $attributes_to_send['categories'] = $categories;
+    return $attributes_to_send;
+  }
+
+  public function fromApiArray( $attrs ) {
+
   }
   /**
     From here we have a dynamic getter. We return a special REDENOTSET variable.
   */
   public function __get( $name ) {
     if ( isset( self::$_meta_attributes_table[$name] ) ) {
+      if ( isset(self::$_meta_attributes_table[$name]['getter'])) {
+        return $this->{self::$_meta_attributes_table[$name]['getter']}();
+      }
       if ( isset ( $this->_meta_attributes[$name] ) ) {
         return $this->_meta_attributes[$name];
       } else {
@@ -168,6 +180,9 @@ class WC_JSON_API_Product extends RedEBaseRecord {
   // Dynamic setter
   public function __set( $name, $value ) {
     if ( isset( self::$_meta_attributes_table[$name] ) ) {
+      if ( isset(self::$_meta_attributes_table[$name]['setter'])) {
+        $this->{self::$_meta_attributes_table[$name]['setter']}( $value );
+      }
       $this->_meta_attributes[$name] = $value;
     } else if ( isset( self::$_post_attributes_table[$name] ) ) {
       $this->_post_attributes[$name] = $value;
@@ -175,6 +190,16 @@ class WC_JSON_API_Product extends RedEBaseRecord {
       throw new Exception( __('That attribute does not exist to be set.','woocommerce_json_api') . " `$name`");
     }
   } 
+  public function getLive() {
+    return ( $this->_post_attributes[live] === true );
+  }
+  public function setLive( $value ) {
+    if ( $value === true ) {
+      $this->_post_attributes['live'] = 'publish';
+    } else {
+      $this->_post_attributes['live'] = 'draft';
+    }
+  }
   public function setProductId( $id ) {
     $this->_actual_product_id = $id;
   }
@@ -197,18 +222,18 @@ class WC_JSON_API_Product extends RedEBaseRecord {
     if ( $post ) {
       $product->setProductId( $id );
       foreach ( self::$_post_attributes_table as $name => $desc ) {
-        $product->{$name} = $post[$desc['name']];
+        $product->dynamic_set( $name, $desc,$post[$desc['name']] );
+        //$product->{$name} = $post[$desc['name']];
       }
       foreach ( self::$_meta_attributes_table as $name => $desc ) {
-        $product->{$name} = get_post_meta( $id, $desc['name'], true );
-        if ( $desc['type'] == 'array') {
-          $product->{$name} = maybe_unserialize( $product->{$name} );
-        }
-        if ( isset($desc['filters']) ) {
-          foreach ( $desc['filters'] as $filter ) {
-            $product->{$name} = apply_filters($filter, $product->{$name}, $product->getProductId() );
-          }
-        }
+        $value = get_post_meta( $id, $desc['name'], true );
+        // We may want to do some "funny stuff" with setters and getters.
+        // I know, I know, "no funny stuff" is generally the rule.
+        // But WooCom or WP could change stuff that would break a lot
+        // of code if we try to be explicity about each attribute.
+        // Also, we may want other people to extend the objects via
+        // filters.
+        $product->dynamic_set( $name, $desc, $value, $product->getProductId() );
       }
       $product->setValid( true );
       $product->setNewRecord( false );
@@ -250,7 +275,9 @@ class WC_JSON_API_Product extends RedEBaseRecord {
     $this->_queries_to_run[$key] = $meta_sql; 
     return $this;
   }
-  
+  /**
+    Similar in function to Model.all in Rails, it's just here for convenience.
+  */
   public static function all($fields = 'id') {
     global $wpdb;
     $sql = "SELECT $fields from {$wpdb->posts} WHERE post_type IN ('product')";

@@ -81,4 +81,33 @@ class RedEBaseRecord {
       return null;
     }
   }
+  
+  public function dynamic_set( $name, $desc, $value, $filter_value = null ) {
+    if ( $desc['type'] == 'array') {
+      $value = serialize( $value );
+    }
+    if ( isset($desc['filters']) ) {
+      foreach ( $desc['filters'] as $filter ) {
+        $value = apply_filters( $filter, $value, $filter_value );
+      }
+    }
+    if ( isset($desc['setter']) ) {
+      $this->{ $desc['setter'] }( $value );
+    } else {
+      $this->{ $name } = $value;
+    }
+  }
+
+  public function dynamic_get( $name, $desc, $filter_value = null ) {
+    if ( isset($desc['getter'])) {
+      $value = $this->{ $desc['getter'] }();
+    } else {
+      $value = $this->{ $name };
+    }
+    if ( isset($desc['type']) && $desc['type'] == 'array') {
+      $value = maybe_unserialize( $value );
+    }
+    return $value;
+  }
 }
+
