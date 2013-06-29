@@ -88,7 +88,7 @@ class WC_JSON_API_Product extends RedEBaseRecord {
                              ), 
       'tax_class'         => array('name' => '_tax_class',        'type' => 'string'),
       'tax_status'        => array(
-                               'name' => '_height',           
+                               'name' => '_tax_status',           
                                'type' => 'string',
                                'values' => array(
                                 'taxable',
@@ -114,7 +114,7 @@ class WC_JSON_API_Product extends RedEBaseRecord {
       'slug'            => array('name' => 'post_name',              'type' => 'string'),
       'type'            => array('name' => 'post_type',              'type' => 'string'),
       'description'     => array('name' => 'post_content',           'type' => 'string'),
-      'product_status'            => array(
+      'mikey'            => array(
                                   'name' => 'post_status',            
                                   'type' => 'string',
                                   'values' => array(
@@ -285,6 +285,45 @@ WHERE post_id = '{$this->_actual_product_id}'
     $this->_queries_to_run[$key] = $post_sql;
     return $this;
   }
+
+  public function create( $attrs = null ) {
+    global $wpdb, $user_ID;
+    // We should setup attrib tables if it hasn't
+    // already been done
+    self::setupPostAttributes();
+    self::setupMetaAttributes();
+    // Maybe we want to set attribs and create in one go.
+    if ( $attrs ) {
+      foreach ( $attrs as $name=>$value ) {
+        $this->{ $name } = $value;
+      }
+    }
+    $post = array( 'post_author' => $user_ID, 'post_type' => 'product');
+    foreach (self::$_post_attributes_table as $attr => $desc) {
+      $value = $this->dynamic_get( $attr, $desc, null);
+      $post[ $desc['name'] ] = $value;
+    }
+    $post['post_type'] = 'product';
+    $id = wp_insert_post( $post, true);
+    if ( is_wp_error( $id )) {
+      // we  should handle errors
+      $this->setValid(false);
+      $this->_result->addError( __('Failed to create product'), WCAPI_CANNOT_INSERT_RECORD );
+    } else {
+      $this->setValid(true);
+      foreach (self::$_meta_attributes_table as $attr => $desc) {
+        if ( isset( $this->_meta_attributes[$attr] ) ) {
+          $value = $this->_meta_attributes[$attr];
+          if ( ! empty($value) ) {
+            update_post_meta($id,$desc['name'],$value);
+          }
+        } 
+      }  
+      $this->_actual_product_id = $id;
+    }
+    return $this;
+  }
+
   /**
     Similar in function to Model.all in Rails, it's just here for convenience.
   */
