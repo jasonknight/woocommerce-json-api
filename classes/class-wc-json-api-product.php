@@ -114,7 +114,7 @@ class WC_JSON_API_Product extends RedEBaseRecord {
       'slug'            => array('name' => 'post_name',              'type' => 'string'),
       'type'            => array('name' => 'post_type',              'type' => 'string'),
       'description'     => array('name' => 'post_content',           'type' => 'string'),
-      'mikey'            => array(
+      'status'          => array(
                                   'name' => 'post_status',            
                                   'type' => 'string',
                                   'values' => array(
@@ -201,9 +201,7 @@ class WC_JSON_API_Product extends RedEBaseRecord {
     $this->_actual_product_id = $id;
   }
   
-  public function isValid() {
-    return $this->_invalid;
-  }
+  
   public function getProductId() {
     return $this->_actual_product_id;
   }

@@ -46,7 +46,7 @@ function verifySuccess($test,$result) {
     echo "PASSED\n";
   } else {
     echo "FAILED\n";
-    echo $result . "\n\n";
+    echo "Result is: " . $result . "\n\n";
   }
 }
 $url = 'http://woo.localhost/c6db13944977ac5f7a8305bbfb06fd6a/';

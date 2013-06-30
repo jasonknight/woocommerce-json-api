@@ -80,7 +80,8 @@ class WooCommerce_JSON_API {
       
       // Write capable methods
       
-      'set_products'
+      'set_products',
+      'set_categories',
     );
     if (isset($params['proc']) &&  $this->helpers->inArray( $params['proc'], $implemented_methods) ) {
       return true;
@@ -260,8 +261,8 @@ class WooCommerce_JSON_API {
     }
     if ( ! $ids && ! $skus ) {
       
-	    $posts = WC_JSON_API_Product::all()->per($posts_per_page)->page($paged)->fetch(function ( $result) {
-	      return $result['id'];
+      $posts = WC_JSON_API_Product::all()->per($posts_per_page)->page($paged)->fetch(function ( $result) {
+        return $result['id'];
 	    });
 	  } else if ( $ids ) {
 	  
@@ -314,6 +315,9 @@ class WooCommerce_JSON_API {
     I'd write a custom Product class that knows how to save itself,
     and then just make setter methods modify internal state and then abstract out.
   */
+    // FIXME: We need some way to ensure that adding of products is not
+    // exploited. we need to track errors, and temporarily ban users with
+    // too many. We need a way to lift the ban in the interface and so on.
   private function set_products( $params ) {
     
     $products = $this->helpers->orEq( $params, 'payload', array() );
@@ -347,7 +351,9 @@ class WooCommerce_JSON_API {
       }
     }
     $this->done();
+
   }
+
   
   /**
      Get product categories
@@ -368,7 +374,7 @@ class WooCommerce_JSON_API {
     $hide_empty     = $this->helpers->orEq( $params['arguments'], 'hide_empty', false);
     
     $args = array(
-  	  'fields'         => 'all',
+  	  'fields'         => 'ids',
       'order_by'       => $order_by,
       'order'          => $order,
     );
@@ -378,12 +384,21 @@ class WooCommerce_JSON_API {
     }
     
     $categories = get_terms('product_cat', $args);
-    foreach ( $categories as $cobj ) {
-      $this->result->addPayload( $this->translateCategoryAttributes( $cobj ) );
+    foreach ( $categories as $id ) {
+      $category = WC_JSON_API_Category::find( $id );
+      $this->result->addPayload( $category->asApiArray() );
     }
     $this->done();
   }
   
+  private function set_categories( $params ) {
+    $categories = $this->helpers->orEq( $params, 'payload', array());
+    foreach ( $categories as $category ) {
+      $actual = WC_JSON_API_Category::find_by_name( $category['name'] );
+      print_r($actual->asApiArray());
+    }
+    $this->done();
+  }
   /**
     Get tax rates defined for store
   */

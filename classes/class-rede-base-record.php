@@ -9,7 +9,7 @@ class RedEBaseRecord {
   // We need to know if this record exists in the database?
   // if not, then update should fail.
   protected $_new_record;
-  protected $_invalid;
+  protected $_valid;
   protected $_page;
   protected $_per_page;
   protected $_result; // so we can add errors
@@ -22,9 +22,11 @@ class RedEBaseRecord {
   */
   
   
-
+  public function isValid() {
+    return $this->_valid;
+  }
   protected function setValid( $bool ) {
-    $this->_invalid = $bool;
+    $this->_valid = $bool;
     return $this;
   }
   public function showSQL() {
@@ -83,6 +85,7 @@ class RedEBaseRecord {
   }
 
   public function dynamic_set( $name, $desc, $value, $filter_value = null ) {
+
     if ( $desc['type'] == 'array') {
       $value = serialize( $value );
     }
