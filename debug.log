@@ -722,3 +722,35 @@ Beggining request
 Beggining request
 Beggining request
 Beggining request
+Beggining request
+in function fetch: WPDB returned 20 results
+in function fetch: 20 were returned from: SELECT id from wp_posts WHERE post_type IN ('product') LIMIT 1,20
+IDs from all() are: array (
+  0 => '1461',
+  1 => '1462',
+  2 => '1463',
+  3 => '1279',
+  4 => '1280',
+  5 => '1281',
+  6 => '1282',
+  7 => '1283',
+  8 => '1284',
+  9 => '1285',
+  10 => '1286',
+  11 => '1287',
+  12 => '1288',
+  13 => '1289',
+  14 => '1296',
+  15 => '1297',
+  16 => '1298',
+  17 => '1325',
+  18 => '1326',
+  19 => '1327',
+)
+Beggining request
+in function fetch: WPDB returned 2 results
+in function fetch: 2 were returned from: SELECT id from wp_posts WHERE post_type IN ('product') LIMIT 1,2
+IDs from all() are: array (
+  0 => '1461',
+  1 => '1462',
+)

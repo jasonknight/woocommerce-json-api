@@ -27,7 +27,7 @@ $data = array(
   'proc'        => 'get_products',
   'arguments'   => array(
     'token' => '1234',
-    'per_page' => 20,
+    'per_page' => 2,
     'page'     => 1
   )
 );

@@ -180,63 +180,75 @@ If you want so simply iterate over all products (bad idea unless you know that y
 
         ],
         "payload": [
-        {
-            "id": "1304",
-            "name": "Rainbow Salt",
-            "slug": "rainbow-salt",
-            "type": "product",
-            "description": "",
-            "status": "instock",
-            "sku": "W003",
-            "downloadable": "no",
-            "virtual": "no",
-            "manage_stock": "yes",
-            "sold_individually": "",
-            "featured": "no",
-            "allow_backorders": "no",
-            "quantity": 3,
-            "height": "",
-            "weight": "",
-            "length": "",
-            "price": "3",
-            "regular_price": "3",
-            "sale_price": "",
-            "sale_from": "",
-            "sale_to": "",
-            "attributes": "",
-            "tax_class": "",
-            "tax_status": "taxable",
-            "categories": [
+          {
+              "id": "1461",
+              "name": "Api created product 14",
+              "slug": "",
+              "type": "product",
+              "description": "",
+              "status": "",
+              "sku": "A349",
+              "downloadable": "",
+              "virtual": "",
+              "manage_stock": "",
+              "sold_individually": "",
+              "featured": "",
+              "allow_backorders": "",
+              "quantity": 0,
+              "height": "",
+              "weight": "",
+              "length": "",
+              "price": "15.95",
+              "regular_price": "15.95",
+              "sale_price": "",
+              "sale_from": "",
+              "sale_to": "",
+              "attributes": "",
+              "tax_class": "",
+              "tax_status": "",
+              "categories": [
 
-            ],
-            "tags": [
-                {
-                    "term_id": "56",
-                    "name": "tag 2",
-                    "slug": "tag-2",
-                    "term_group": "0",
-                    "term_taxonomy_id": "58",
-                    "taxonomy": "product_tag",
-                    "description": "",
-                    "parent": "0",
-                    "count": "1"
-                },
-                {
-                    "term_id": "55",
-                    "name": "Tes tag",
-                    "slug": "tes-tag",
-                    "term_group": "0",
-                    "term_taxonomy_id": "57",
-                    "taxonomy": "product_tag",
-                    "description": "",
-                    "parent": "0",
-                    "count": "1"
-                }
-            ],
-            "featured_image": "http:\/\/woo.localhost\/wp-content\/uploads\/2012\/12\/Zoku-Quick-Pop-Maker-3.jpg"
-        }
-    ],
+              ],
+              "tags": [
 
+              ],
+              "featured_image": false
+          },
+          {
+              "id": "1462",
+              "name": "Api created product 26",
+              "slug": "",
+              "type": "product",
+              "description": "<b>Hello World!<\/b>",
+              "status": "",
+              "sku": "A241",
+              "downloadable": "",
+              "virtual": "",
+              "manage_stock": "",
+              "sold_individually": "",
+              "featured": "",
+              "allow_backorders": "",
+              "quantity": 0,
+              "height": "",
+              "weight": "",
+              "length": "",
+              "price": "15.95",
+              "regular_price": "15.95",
+              "sale_price": "",
+              "sale_from": "",
+              "sale_to": "",
+              "attributes": "",
+              "tax_class": "",
+              "tax_status": "none",
+              "categories": [
+
+              ],
+              "tags": [
+
+              ],
+              "featured_image": false
+          }
+      ],
     }
 
 ## Getting product(s) by id
@@ -257,83 +269,7 @@ was a single item.
         }
     }
  
-### What you receive
 
-    {
-        "action": "woocommerce_json_api",
-        "proc": "get_products",
-        "arguments": {
-            "token": "1234",
-            "ids": [
-                "1288"
-            ]
-        },
-        "status": true,
-        "errors": [
-
-        ],
-        "warnings": [
-
-        ],
-        "payload": [
-          {
-              "id": "1304",
-              "name": "Rainbow Salt",
-              "slug": "rainbow-salt",
-              "type": "product",
-              "description": "",
-              "status": "instock",
-              "sku": "W003",
-              "downloadable": "no",
-              "virtual": "no",
-              "manage_stock": "yes",
-              "sold_individually": "",
-              "featured": "no",
-              "allow_backorders": "no",
-              "quantity": 3,
-              "height": "",
-              "weight": "",
-              "length": "",
-              "price": "3",
-              "regular_price": "3",
-              "sale_price": "",
-              "sale_from": "",
-              "sale_to": "",
-              "attributes": "",
-              "tax_class": "",
-              "tax_status": "taxable",
-              "categories": [
-
-              ],
-              "tags": [
-                  {
-                      "term_id": "56",
-                      "name": "tag 2",
-                      "slug": "tag-2",
-                      "term_group": "0",
-                      "term_taxonomy_id": "58",
-                      "taxonomy": "product_tag",
-                      "description": "",
-                      "parent": "0",
-                      "count": "1"
-                  },
-                  {
-                      "term_id": "55",
-                      "name": "Tes tag",
-                      "slug": "tes-tag",
-                      "term_group": "0",
-                      "term_taxonomy_id": "57",
-                      "taxonomy": "product_tag",
-                      "description": "",
-                      "parent": "0",
-                      "count": "1"
-                  }
-              ],
-              "featured_image": "http:\/\/woo.localhost\/wp-content\/uploads\/2012\/12\/Zoku-Quick-Pop-Maker-3.jpg"
-          }
-      ],
-
-    }
 
 ## Getting product(s) by SKU
 
@@ -351,89 +287,6 @@ was a single item.
         }
     }
     
-### What you receive
-
-    {
-        "action": "woocommerce_json_api",
-        "proc": "get_products",
-        "arguments": {
-            "token": "1234",
-            "skus": [
-                "W021",
-                "DOESNTEXIST"
-            ]
-        },
-        "status": true,
-        "errors": [
-
-        ],
-        "warnings": [
-            {
-                "text": "DOESNTEXIST: Product does not exist",
-                "code": 1,
-                "sku": "DOESNTEXIST"
-            }
-        ],
-        "payload": [
-          {
-              "id": "1304",
-              "name": "Rainbow Salt",
-              "slug": "rainbow-salt",
-              "type": "product",
-              "description": "",
-              "status": "instock",
-              "sku": "W003",
-              "downloadable": "no",
-              "virtual": "no",
-              "manage_stock": "yes",
-              "sold_individually": "",
-              "featured": "no",
-              "allow_backorders": "no",
-              "quantity": 3,
-              "height": "",
-              "weight": "",
-              "length": "",
-              "price": "3",
-              "regular_price": "3",
-              "sale_price": "",
-              "sale_from": "",
-              "sale_to": "",
-              "attributes": "",
-              "tax_class": "",
-              "tax_status": "taxable",
-              "categories": [
-
-              ],
-              "tags": [
-                  {
-                      "term_id": "56",
-                      "name": "tag 2",
-                      "slug": "tag-2",
-                      "term_group": "0",
-                      "term_taxonomy_id": "58",
-                      "taxonomy": "product_tag",
-                      "description": "",
-                      "parent": "0",
-                      "count": "1"
-                  },
-                  {
-                      "term_id": "55",
-                      "name": "Tes tag",
-                      "slug": "tes-tag",
-                      "term_group": "0",
-                      "term_taxonomy_id": "57",
-                      "taxonomy": "product_tag",
-                      "description": "",
-                      "parent": "0",
-                      "count": "1"
-                  }
-              ],
-              "featured_image": "http:\/\/woo.localhost\/wp-content\/uploads\/2012\/12\/Zoku-Quick-Pop-Maker-3.jpg"
-          }
-      ],
-
-        "payload_length": 1
-    }
 
 ## Getting product(s) by tags
 
