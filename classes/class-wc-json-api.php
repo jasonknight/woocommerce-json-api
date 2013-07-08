@@ -62,9 +62,12 @@ class WooCommerce_JSON_API {
       try {
         $this->{ $params['proc'] }($params);
       } catch ( Exception $e ) {
+        RedEHelpers::error($e->getMessage());
         $this->unexpectedError( $params, $e);
+
       }
     } else {
+      RedEHelpers::warn("{$params['proc']} is not implemented...");
       $this->notImplemented( $params );
     }
   }
@@ -284,7 +287,14 @@ class WooCommerce_JSON_API {
 
 	  $products = array();
     foreach ( $posts as $post_id) {
-      $post = WC_JSON_API_Product::find($post_id);
+      try {
+        $post = WC_JSON_API_Product::find($post_id);
+      } catch (Exception $e) {
+        RedEHelpers::error("An exception occurred attempting to instantiate a Product object: " . $e->getMessage());
+        $this->result->addError( __("Error occurred instantiating product object"),-99);
+        $this->done();
+      }
+      
       if ( !$post ) {
         $this->result->addWarning( $post_id. ': ' . __('Product does not exist','woocommerce_json_api'), WCAPI_PRODUCT_NOT_EXISTS, array( 'id' => $post_id) );
       } else {

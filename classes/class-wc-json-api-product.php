@@ -145,6 +145,7 @@ class WC_JSON_API_Product extends RedEBaseRecord {
         $categories[] = (new WC_JSON_API_Category)->setCategory( $cobj )->asApiArray();
       } catch (Exception $e) {
         // we should put some logging here soon!
+        RedEHelpers::error( $e->getMessage() );
       }
       
     }
