@@ -69,10 +69,10 @@ class WC_JSON_API_Product extends RedEBaseRecord {
       'sale_price'        => array('name' => '_sale_price',       'type' => 'number'),
       'sale_from'         => array('name' => '_sale_price_dates_from', 'type' => 'timestamp'),
       'sale_to'           => array('name' => '_sale_price_dates_to',   'type' => 'timestamp'),
-      'download_paths'    => array('name' => '_file_paths',            
-                                   'type' => 'array', 
-                                   'filters' => array('woocommerce_file_download_paths') 
-                              ),
+      // 'download_paths'    => array('name' => '_file_paths',            
+      //                              'type' => 'array', 
+      //                              'filters' => array('woocommerce_file_download_paths') 
+      //                         ),
       'status'            => array(
                                'name' => '_stock_status',          
                                'type' => 'string', 

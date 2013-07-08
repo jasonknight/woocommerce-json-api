@@ -160,14 +160,26 @@ class RedEHelpers {
     @param string key
     @param default value if not found (Default is i18n xlated to UnNamed
   */
-  function orEq($array,$key,$default = null) {
+  function orEq($array,$key,$default = null, $valid_values_list = null) {
     if ( $default === null ) {
       $default = __('UnNamed', $this->getPluginName() ) . ' - ' . $key;
     }
     if ( isset($array[$key]) ) {
-      return $array[$key];
+      $value = $array[$key];
+    } else {
+      $value = $default;
     }
-    return $default;
+    if ($valid_values_list) {
+      foreach ( $valid_values_list as $val) {
+        if ($value == $val)
+          return $value;
+      }
+      RedEHelpers::warn("orEq was passed a valid_values_list, but inputs did not match, so returning default");
+      return $default;
+    } else {
+      return $value;
+    }
+    
   }
   /**
     PHP's array_search is clumsy and not helpful with simple searching where all we want

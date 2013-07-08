@@ -90,6 +90,7 @@ class WooCommerce_JSON_API {
       'get_taxes',
       'get_shipping_methods',
       'get_payment_gateways',
+      'get_tags',
       
       // Write capable methods
       
@@ -489,6 +490,41 @@ class WooCommerce_JSON_API {
       );
     }
     $this->result->setPayload( $methods );
+    $this->done();
+  }
+  private function get_tags( $params ) {
+    $allowed_order_bys = array('name','count','term_id');
+    $allowed_orders = array('DESC','ASC');
+    $args['order']                = $this->helpers->orEq( $params['arguments'], 'order', 'DESC');
+    $args['order_by']             = $this->helpers->orEq( $params['arguments'], 'order_by', 'name');
+
+    if ( ! $this->helpers->inArray($args['order_by'],$allowed_order_bys) ) {
+      $this->result->addError( __('order_by must be one of these:','woocommerce_json_api') . join( $allowed_order_bys, ','), WCAPI_BAD_ARGUMENT, $args );
+      $this->done();
+      return;
+    }
+
+    if ( ! $this->helpers->inArray($args['order'],$allowed_orders) ) {
+      $this->result->addError( __('order must be one of these:','woocommerce_json_api') . join( $allowed_orders, ','), WCAPI_BAD_ARGUMENT );
+      $this->done();
+      return;
+    }
+
+    $args['hide_empty']           = $this->helpers->orEq( $params['arguments'], 'hide_empty', true);
+    $include                      = $this->helpers->orEq( $params['arguments'], 'include', false);
+    if ( $include ) {
+      $args['include'] = $include;
+    }
+    $number                       = $this->helpers->orEq( $params['arguments'], 'per_page', false);
+    if ( $number ) {
+      $args['number'] = $number;
+    }
+    $like                         = $this->helpers->orEq( $params['arguments'], 'like', false);
+    if ( $like ) {
+      $args['name__like'] = $like;
+    }
+    $tags = get_terms('product_tag', $args);
+    $this->result->setPayload($tags);
     $this->done();
   }
 }
