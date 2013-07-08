@@ -180,53 +180,63 @@ If you want so simply iterate over all products (bad idea unless you know that y
 
         ],
         "payload": [
-            {
-                "id": 1281,
-                "name": "Eva Solo My Teapot",
-                "description": "<p>Pellentesque habitant morbi ...<\/p>",
-                "price": {
-                    "amount": "75",
-                    "currency": "GBP",
-                    "symbol": "&pound;",
-                    "taxable": true
-                },
-                "sku": "W039",
-                "stock": {
-                    "managed": false,
-                    "for_sale": "",
-                    "in_stock": "",
-                    "downloadable": false,
-                    "virtual": false,
-                    "sold_individually": false,
-                    "download_paths": [
+        {
+            "id": "1304",
+            "name": "Rainbow Salt",
+            "slug": "rainbow-salt",
+            "type": "product",
+            "description": "",
+            "status": "instock",
+            "sku": "W003",
+            "downloadable": "no",
+            "virtual": "no",
+            "manage_stock": "yes",
+            "sold_individually": "",
+            "featured": "no",
+            "allow_backorders": "no",
+            "quantity": 3,
+            "height": "",
+            "weight": "",
+            "length": "",
+            "price": "3",
+            "regular_price": "3",
+            "sale_price": "",
+            "sale_from": "",
+            "sale_to": "",
+            "attributes": "",
+            "tax_class": "",
+            "tax_status": "taxable",
+            "categories": [
 
-                    ]
-                }
-            },
-            {
-                "id": 1281,
-                "name": "Eva Solo My Teapot",
-                "description": "<p>Pellentesque habitant morbi ...<\/p>",
-                "price": {
-                    "amount": "75",
-                    "currency": "GBP",
-                    "symbol": "&pound;",
-                    "taxable": true
+            ],
+            "tags": [
+                {
+                    "term_id": "56",
+                    "name": "tag 2",
+                    "slug": "tag-2",
+                    "term_group": "0",
+                    "term_taxonomy_id": "58",
+                    "taxonomy": "product_tag",
+                    "description": "",
+                    "parent": "0",
+                    "count": "1"
                 },
-                "sku": "W038",
-                "stock": {
-                    "managed": false,
-                    "for_sale": "",
-                    "in_stock": "",
-                    "downloadable": false,
-                    "virtual": false,
-                    "sold_individually": false,
-                    "download_paths": [
-
-                    ]
+                {
+                    "term_id": "55",
+                    "name": "Tes tag",
+                    "slug": "tes-tag",
+                    "term_group": "0",
+                    "term_taxonomy_id": "57",
+                    "taxonomy": "product_tag",
+                    "description": "",
+                    "parent": "0",
+                    "count": "1"
                 }
-            }
-        ]
+            ],
+            "featured_image": "http:\/\/woo.localhost\/wp-content\/uploads\/2012\/12\/Zoku-Quick-Pop-Maker-3.jpg"
+        }
+    ],
+
     }
 
 ## Getting product(s) by id
@@ -266,30 +276,63 @@ was a single item.
 
         ],
         "payload": [
-            {
-                "id": 1288,
-                "name": "Krups IceCream Maker",
-                "description": "<p>Pellentesque habitant morbi ...<\/p>",
-                "price": {
-                    "amount": "85",
-                    "currency": "GBP",
-                    "symbol": "&pound;",
-                    "taxable": true
-                },
-                "sku": "W018",
-                "stock": {
-                    "managed": false,
-                    "for_sale": "",
-                    "in_stock": "",
-                    "downloadable": false,
-                    "virtual": false,
-                    "sold_individually": false,
-                    "download_paths": [
+          {
+              "id": "1304",
+              "name": "Rainbow Salt",
+              "slug": "rainbow-salt",
+              "type": "product",
+              "description": "",
+              "status": "instock",
+              "sku": "W003",
+              "downloadable": "no",
+              "virtual": "no",
+              "manage_stock": "yes",
+              "sold_individually": "",
+              "featured": "no",
+              "allow_backorders": "no",
+              "quantity": 3,
+              "height": "",
+              "weight": "",
+              "length": "",
+              "price": "3",
+              "regular_price": "3",
+              "sale_price": "",
+              "sale_from": "",
+              "sale_to": "",
+              "attributes": "",
+              "tax_class": "",
+              "tax_status": "taxable",
+              "categories": [
 
-                    ]
-                }
-            }
-        ]
+              ],
+              "tags": [
+                  {
+                      "term_id": "56",
+                      "name": "tag 2",
+                      "slug": "tag-2",
+                      "term_group": "0",
+                      "term_taxonomy_id": "58",
+                      "taxonomy": "product_tag",
+                      "description": "",
+                      "parent": "0",
+                      "count": "1"
+                  },
+                  {
+                      "term_id": "55",
+                      "name": "Tes tag",
+                      "slug": "tes-tag",
+                      "term_group": "0",
+                      "term_taxonomy_id": "57",
+                      "taxonomy": "product_tag",
+                      "description": "",
+                      "parent": "0",
+                      "count": "1"
+                  }
+              ],
+              "featured_image": "http:\/\/woo.localhost\/wp-content\/uploads\/2012\/12\/Zoku-Quick-Pop-Maker-3.jpg"
+          }
+      ],
+
     }
 
 ## Getting product(s) by SKU
@@ -332,31 +375,89 @@ was a single item.
             }
         ],
         "payload": [
-            {
-                "id": 1285,
-                "name": "KitchenAid Artisan Espresso Machine",
-                "description": "<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus<\/p>",
-                "price": {
-                    "amount": "1140",
-                    "currency": "GBP",
-                    "symbol": "&pound;",
-                    "taxable": true
-                },
-                "sku": "W021",
-                "stock": {
-                    "managed": false,
-                    "for_sale": "",
-                    "in_stock": "",
-                    "downloadable": false,
-                    "virtual": false,
-                    "sold_individually": false,
-                    "download_paths": [
+          {
+              "id": "1304",
+              "name": "Rainbow Salt",
+              "slug": "rainbow-salt",
+              "type": "product",
+              "description": "",
+              "status": "instock",
+              "sku": "W003",
+              "downloadable": "no",
+              "virtual": "no",
+              "manage_stock": "yes",
+              "sold_individually": "",
+              "featured": "no",
+              "allow_backorders": "no",
+              "quantity": 3,
+              "height": "",
+              "weight": "",
+              "length": "",
+              "price": "3",
+              "regular_price": "3",
+              "sale_price": "",
+              "sale_from": "",
+              "sale_to": "",
+              "attributes": "",
+              "tax_class": "",
+              "tax_status": "taxable",
+              "categories": [
 
-                    ]
-                }
-            }
-        ],
+              ],
+              "tags": [
+                  {
+                      "term_id": "56",
+                      "name": "tag 2",
+                      "slug": "tag-2",
+                      "term_group": "0",
+                      "term_taxonomy_id": "58",
+                      "taxonomy": "product_tag",
+                      "description": "",
+                      "parent": "0",
+                      "count": "1"
+                  },
+                  {
+                      "term_id": "55",
+                      "name": "Tes tag",
+                      "slug": "tes-tag",
+                      "term_group": "0",
+                      "term_taxonomy_id": "57",
+                      "taxonomy": "product_tag",
+                      "description": "",
+                      "parent": "0",
+                      "count": "1"
+                  }
+              ],
+              "featured_image": "http:\/\/woo.localhost\/wp-content\/uploads\/2012\/12\/Zoku-Quick-Pop-Maker-3.jpg"
+          }
+      ],
+
         "payload_length": 1
     }
 
+## Getting product(s) by tags
 
+### What you send
+
+    {
+        "action": "woocommerce_json_api",
+        "proc": "get_products_by_tags",
+        "arguments": {
+            "token": "1234",
+            "tags": [
+                'slug-1',
+                'another-slug'
+            ]
+        }
+    }
+## Getting Tags
+
+### What you send
+
+    {
+        "action": "woocommerce_json_api",
+        "proc": "get_tags",
+        "arguments": {
+            "token": "1234",
+        }
+    }
