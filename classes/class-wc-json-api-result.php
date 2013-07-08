@@ -27,7 +27,13 @@ class WooCommerce_JSON_API_Result {
   }
   public function asJSON() {
     $this->params['payload_length'] = count($this->params['payload']);
-    return json_encode($this->params, JSON_PRETTY_PRINT);
+    if (PHP_MINOR_VERSION < 4) {
+      RedEHelpers::warn("PHP 5.4 and above recommended for the API.");
+      return json_encode($this->params);
+    } else {
+      return json_encode($this->params, JSON_PRETTY_PRINT);
+    }
+    
   }
   public function addError( $text, $code, $merge = array() ) {
     $this->params['status'] = false;

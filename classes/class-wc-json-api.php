@@ -16,6 +16,15 @@ define('WCAPI_PRODUCT_NOT_EXISTS', 1);
 require_once( plugin_dir_path(__FILE__) . '/class-rede-helpers.php' );
 require_once( plugin_dir_path(__FILE__) . '/class-wc-json-api-result.php' );
 require_once( plugin_dir_path(__FILE__) . '/class-wc-json-api-product.php' );
+
+if ( !defined('PHP_VERSION_ID')) {
+  $version = explode('.',PHP_VERSION);
+  if ( PHP_VERSION_ID < 50207 ) {
+    define('PHP_MAJOR_VERSION',$version[0]);
+    define('PHP_MINOR_VERSION',$version[1]);
+    define('PHP_RELEASE_VERSION',$version[2]);
+  }
+}
 class WooCommerce_JSON_API {
     // Call this function to setup a new response
   private $helpers;
