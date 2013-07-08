@@ -142,7 +142,8 @@ class WC_JSON_API_Product extends RedEBaseRecord {
       // works. Because we define the class with a Fluid API, most functions
       // that modify state of the object, return the object.
       try {
-        $categories[] = (new WC_JSON_API_Category)->setCategory( $cobj )->asApiArray();
+        $_cat = new WC_JSON_API_Category();
+        $categories[] = $_cat->setCategory( $cobj )->asApiArray();
       } catch (Exception $e) {
         // we should put some logging here soon!
         RedEHelpers::error( $e->getMessage() );
