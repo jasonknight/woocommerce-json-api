@@ -52,7 +52,8 @@ class RedEBaseRecord {
   }
 
   public function page( $num = 0 ) {
-    if ( $num == 0 ) {
+    $tnum = $num - 1;
+    if ( $tnum == 0 ) {
       $this->_page = $num;
     } else {
       $num = ($num * $this->_per_page) - 1;
