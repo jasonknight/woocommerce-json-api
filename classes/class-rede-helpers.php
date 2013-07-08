@@ -23,7 +23,20 @@ class RedEHelpers {
   
   private $wp_template;
   private $wp_theme_root;
-  
+  public static function warn($text) {
+    $file = REDE_PLUGIN_BASE_PATH . "warnings.log";
+    $fp = fopen($file,'a');
+    if (!$fp) {
+      die("Could not open log file");
+    }
+    fwrite($fp,$text . "\n");
+    fclose($fp);
+  }
+  public static function error($text) {
+    $fp = fopen(REDE_PLUGIN_BASE_PATH . "errors.log",'a');
+    fwrite($fp,$text . "\n");
+    fclose($fp);
+  }
   public function __construct() {
     // README
     // I wrote this file so that I could explore
