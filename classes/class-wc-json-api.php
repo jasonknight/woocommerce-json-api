@@ -91,6 +91,7 @@ class WooCommerce_JSON_API {
       'get_shipping_methods',
       'get_payment_gateways',
       'get_tags',
+      'get_products_by_tags',
       
       // Write capable methods
       
@@ -318,6 +319,50 @@ class WooCommerce_JSON_API {
     $this->result->setPayload($products);
 
 	  $this->done();
+  }
+  private function get_products_by_tags($params) {
+    global $wpdb;
+    $allowed_order_bys = array('id','name','post_title');
+    $terms = $this->helpers->orEq( $params['arguments'], 'terms', array());
+    foreach ($terms as &$term) {
+      $term = $wpdb->prepare("%s",$term);
+    }
+    if ( count($terms) < 1) {
+      $this->result->addError( __('you must specify at least one term','woocommerce_json_api'), WCAPI_BAD_ARGUMENT );
+      $this->done();
+    }
+    $posts_per_page = $this->helpers->orEq( $params['arguments'], 'per_page', 15 ); 
+    $paged          = $this->helpers->orEq( $params['arguments'], 'page', 0 );
+    $order_by       = $this->helpers->orEq( $params['arguments'], 'order_by', 'id');
+    if ( ! $this->helpers->inArray($order_by,$allowed_order_bys) ) {
+      $this->result->addError( __('order_by must be one of these:','woocommerce_json_api') . join( $allowed_order_bys, ','), WCAPI_BAD_ARGUMENT );
+      $this->done();
+      return;
+    }
+    $order          = $this->helpers->orEq( $params['arguments'], 'order', 'ASC');
+    
+    // It would be nice to use WP_Query here, but it seems to be semi-broken when working
+    // with custom taxonomies like product_tag...
+    // We don't really care about the distinctions here anyway, it's mostly superfluous, because
+    // we only want posts of type product so we can just select against the terms and not care.
+
+    $sql = "
+              SELECT
+                p.id 
+              FROM 
+                {$wpdb->posts} AS p, 
+                {$wpdb->terms} AS t, 
+                {$wpdb->term_taxonomy} AS tt, 
+                {$wpdb->term_relationships} AS tr 
+              WHERE 
+                t.slug IN (" . join(',',$terms) . ") AND 
+                tt.term_id = t.term_id AND 
+                tr.term_taxonomy_id = tt.term_taxonomy_id AND 
+                p.id = tr.object_id
+            ";
+    $ids = $wpdb->get_col( $sql );
+    $params['arguments']['ids'] = $ids;
+    $this->get_products( $params );
   }
   /*
     Similar to get products, in fact, we should be able to resuse te response
