@@ -323,7 +323,7 @@ class WooCommerce_JSON_API {
   private function get_products_by_tags($params) {
     global $wpdb;
     $allowed_order_bys = array('id','name','post_title');
-    $terms = $this->helpers->orEq( $params['arguments'], 'terms', array());
+    $terms = $this->helpers->orEq( $params['arguments'], 'tags', array());
     foreach ($terms as &$term) {
       $term = $wpdb->prepare("%s",$term);
     }

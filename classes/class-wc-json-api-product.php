@@ -158,6 +158,8 @@ class WC_JSON_API_Product extends RedEBaseRecord {
     }
     $attributes_to_send['categories'] = $categories;
     $attributes_to_send['tags'] = wp_get_post_terms($this->_actual_product_id,'product_tag');
+    $feat_image = wp_get_attachment_url( get_post_thumbnail_id( $this->_actual_product_id) );
+    $attributes_to_send['featured_image'] = $feat_image;
     return $attributes_to_send;
   }
   public function fromApiArray( $attrs ) {
