@@ -34,6 +34,17 @@ class RedEHelpers {
   }
   public static function error($text) {
     $fp = fopen(REDE_PLUGIN_BASE_PATH . "errors.log",'a');
+    if (!$fp) {
+      die("Could not open log file");
+    }
+    fwrite($fp,$text . "\n");
+    fclose($fp);
+  }
+  public static function debug($text) {
+    $fp = fopen(REDE_PLUGIN_BASE_PATH . "debug.log",'a');
+    if (!$fp) {
+      die("Could not open log file");
+    }
     fwrite($fp,$text . "\n");
     fclose($fp);
   }

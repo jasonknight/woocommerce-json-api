@@ -63,6 +63,7 @@ class WooCommerce_JSON_API {
   */
   public function route( $params ) {
     $this->createNewResult( $params );
+    RedEHelpers::debug( "Beggining request" );
     if ( ! $this->isValidAPIUser( $params ) ) {
       $this->result->addError( __('Not a valid API User', 'woocommerce_json_api' ), WCAPI_INVALID_CREDENTIALS );
       $this->done();
@@ -276,6 +277,7 @@ class WooCommerce_JSON_API {
       $posts = WC_JSON_API_Product::all()->per($posts_per_page)->page($paged)->fetch(function ( $result) {
         return $result['id'];
 	    });
+      RedEHelpers::debug( "IDs from all() are: " . var_export($posts,true) );
 	  } else if ( $ids ) {
 	  
 	    $posts = $ids;
