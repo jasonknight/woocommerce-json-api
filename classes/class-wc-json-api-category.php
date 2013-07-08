@@ -25,7 +25,9 @@ class WC_JSON_API_Category extends RedEBaseRecord {
   }
   public function setCategory( $category_object ) {
     foreach (self::$_attributes_table as $name=>$attrs) {
-      $this->{$name} = $category_object->{$attrs['name']};
+      if (is_object($category_object)) {
+        $this->{$name} = $category_object->{$attrs['name']};
+      } 
     }
     return $this;
   }

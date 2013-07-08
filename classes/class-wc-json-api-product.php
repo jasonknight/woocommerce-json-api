@@ -137,11 +137,16 @@ class WC_JSON_API_Product extends RedEBaseRecord {
     $categories = array();
 
     foreach ( $category_objs as $cobj ) {
-                      // This looks scary if you've never used Javascript () evaluates the
-                      // the contents and returns the value, in the same way that (3+4) * 8 
-                      // works. Because we define the class with a Fluid API, most functions
-                      // that modify state of the object, return the object.
-      $categories[] = (new WC_JSON_API_Category)->setCategory( $cobj )->asApiArray();
+      // This looks scary if you've never used Javascript () evaluates the
+      // the contents and returns the value, in the same way that (3+4) * 8 
+      // works. Because we define the class with a Fluid API, most functions
+      // that modify state of the object, return the object.
+      try {
+        $categories[] = (new WC_JSON_API_Category)->setCategory( $cobj )->asApiArray();
+      } catch (Exception $e) {
+        // we should put some logging here soon!
+      }
+      
     }
     $attributes = array_merge(self::$_post_attributes_table, self::$_meta_attributes_table);
     $attributes_to_send['id'] = $this->getProductId();
