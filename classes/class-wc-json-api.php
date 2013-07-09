@@ -64,6 +64,7 @@ class WooCommerce_JSON_API {
   public function route( $params ) {
     $this->createNewResult( $params );
     RedEHelpers::debug( "Beggining request" );
+    RedEHelpers::debug( var_export($params,true));
     if ( ! $this->isValidAPIUser( $params ) ) {
       $this->result->addError( __('Not a valid API User', 'woocommerce_json_api' ), WCAPI_INVALID_CREDENTIALS );
       $this->done();
