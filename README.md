@@ -1,27 +1,27 @@
-# woocommerce-json-api
+# WooCommerce JSON API
 
 
 A simple, Abstract JSON API for Wordpress' Awesome Plugin: WooCommerce
 
-## How to install
+### How to install
 
 `cd` into your wp-content/plugins directory and clone the repo
 
 `git clone git://github.com/jasonknight/woocommerce-json-api.git`
 
-## How to update
+### How to update
 
 `cd` into your wp-content/plugins/woocommerce-json-api directory and run:
 
 `git pull`
 
-## How it works
+### How it works
 
 This is a generalized JSON api to connect to woocommerce for thirdparty non PHP apps,
 that may or may not be running on the same server. It was built to integrate Salor Retail
 and Salor Hospitality into a Wordpress/WooCommerce webstore.
 
-### POSTing Data to WooCommerce via the API
+#### POSTing Data to WooCommerce via the API
 
 Upon installing the plugin, a page will be created for you called WooCommerce JSON API. You will
 need to provide the permalink to users of the API.
@@ -96,25 +96,25 @@ You will always receive a JSON object in this format:
       ], // Always a collection, even if empty
     }
 
-### Caveat
+#### Caveat
 
 The JSON API is very general, and works from it's own idiom about products because it was created to work
 with different types of software that may work and think about sales differently, the JSON communication
 medium is an intermediate representation of Products, Categories and so on. This is to facilitate a
 simple communication between 3rd party software that is not part of the plugin ecosystem of woocommerce.
 
-# JSON API Calls
+## JSON API Calls
 
 Here is a list of all API Calls currently supported. All **What you receive** JSON is what is actually
 output from a request. It should not be necessary for you to even look at the PHP code.
 
-## Checking that the API is up, Getting the System's Time and Date
+### Checking that the API is up, Getting the System's Time and Date
 
-### get_system_time
+#### get_system_time
 
 This call is essentially a test to see if the JSON API is up and running.
 
-### What you send
+#### What you send
 
     {
       action: "woocommerce_json_api",
@@ -124,7 +124,7 @@ This call is essentially a test to see if the JSON API is up and running.
       },
     }
 
-### What you receive
+#### What you receive
 
     {
       "action":"woocommerce_json_api",
@@ -144,13 +144,13 @@ This call is essentially a test to see if the JSON API is up and running.
       ]
     }
 
-## Getting products
+### Getting products
 
-### get_products
+#### get_products
 
 If you want so simply iterate over all products (bad idea unless you know that you really need this), use this call.
 
-### What you send
+#### What you send
 
     {
         "action": "woocommerce_json_api",
@@ -162,7 +162,7 @@ If you want so simply iterate over all products (bad idea unless you know that y
         }
     }
     
-### What you receive
+#### What you receive
 
     {
         "action": "woocommerce_json_api",
@@ -251,12 +251,12 @@ If you want so simply iterate over all products (bad idea unless you know that y
       ],
     }
 
-## Getting product(s) by id
+### Getting product(s) by id
 
 You can keep and store the product id, and then use it in later calls. The JSON API **always** returns a collection **even** if all you wanted
 was a single item.
 
-### What you send
+#### What you send
 
     {
         "action": "woocommerce_json_api",
@@ -273,7 +273,7 @@ was a single item.
 
 ## Getting product(s) by SKU
 
-### What you send
+#### What you send
 
     {
         "action": "woocommerce_json_api",
@@ -290,7 +290,7 @@ was a single item.
 
 ## Getting product(s) by tags
 
-### What you send
+#### What you send
 
     {
         "action": "woocommerce_json_api",
@@ -303,9 +303,9 @@ was a single item.
             ]
         }
     }
-## Getting Tags
+### Getting Tags
 
-### What you send
+#### What you send
 
     {
         "action": "woocommerce_json_api",
