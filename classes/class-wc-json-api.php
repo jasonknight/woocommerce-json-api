@@ -171,68 +171,7 @@ class WooCommerce_JSON_API {
     wp_set_current_user($user->ID);
     wp_set_auth_cookie( $user->ID, false, is_ssl() );
   }
-  // private function translateCategoryAttributes( $cobj ) {
-  //   $thumb_id = get_woocommerce_term_meta( $cobj->term_id, 'thumbnail_id', true);
-  //   $image = wp_get_attachment_url( $thumb_id );
-  //   return array( 
-  //     'name' => $cobj->name,
-  //     'slug' => $cobj->slug,
-  //     'permalink' => get_term_link($cobj,'product_cat'),
-  //     'id' => $cobj->term_id,
-  //     'parent_id' => $cobj->parent,
-  //     'group_id' => $cobj->term_group,
-  //     'taxonomy_id' => $cobj->term_taxonomy_id,
-  //     'image' => $image,
-  //   );
-  // }
-  // private function translateProductAttributes($product) {
-  //   global $wpdb;
-  //   $permalinks 	                  = get_option( 'woocommerce_permalinks' );
-  //   $product_category_slug 	        = empty( $permalinks['category_base'] ) ? _x( 'product-category', 'slug', 'woocommerce' ) : $permalinks['category_base'];
-		// $shop_page_id 	                = woocommerce_get_page_id( 'shop' );
-  //   $meta                           = array();
-  //   $post                           = $product->get_post_data();
-  //   //$meta['query'] = "SELECT `meta_key`, `meta_value` from {$wpdb->postmeta} where `post_id` = '{$post->ID}'";
-  //   $result           = $wpdb->query( "SELECT `meta_key`, `meta_value` from {$wpdb->postmeta} where `post_id` = '{$post->ID}'");
-  //   foreach ($wpdb->last_result as $k => $v) {
-  //     $meta[ $v->meta_key] = $v->meta_value;
-  //   }
-  //   $category_objs = woocommerce_get_product_terms($post->ID, 'product_cat', 'all');
-  //   $categories = array();
-
-  //   foreach ( $category_objs as $cobj ) {
-  //     $categories[] = $this->translateCategoryAttributes( $cobj );
-  //   }
-  //   $attrs = array(
-  //     'id'   => $post->ID,
-  //     'name' => $product->get_title(),
-  //     'description' => $product->get_post_data()->post_content,
-  //     'slug' => $post->post_name,
-  //     'permalink' => get_permalink( $post->ID ),
-  //     'price' => array( 
-  //       'amount' => $product->get_price(),
-  //       'currency' => get_woocommerce_currency(),
-  //       'symbol' => get_woocommerce_currency_symbol(),
-  //       'taxable' => $product->is_taxable(),
-  //     ),
-  //     'sku' => $product->get_sku(),
-  //     'stock' => array(
-  //       'managed' => $product->managing_stock(),
-  //       'for_sale' => $product->get_stock_quantity(),
-  //       'in_stock' => $product->get_total_stock(),
-  //       'downloadable' => $product->is_downloadable(),
-  //       'virtual' => $product->is_virtual(),
-  //       'sold_individually' => $product->is_sold_individually(),
-  //       'download_paths' => isset($meta['_file_paths']) ? maybe_unserialize($meta['_file_paths']) : array(),
-  //     ),
-  //     'categories' => $categories,
-  //   );
-    
-    
-    
-  //   return $attrs;
-  // }
-  private function translateTaxRateAttributes( $rate ) {
+   private function translateTaxRateAttributes( $rate ) {
     $attrs = array();
     foreach ( $rate as $k=>$v ) {
       $attrs[ str_replace('tax_rate_','',$k) ] = $v;
