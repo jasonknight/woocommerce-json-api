@@ -1164,3 +1164,166 @@ IDs from all() are: array (
   8 => '1284',
   9 => '1285',
 )
+Beggining request
+array (
+  'callback' => 'jQuery171020958687388338149_1373358917458',
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_products',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '10',
+    'page' => '1',
+  ),
+  '_' => '1373365756581',
+)
+class name to load is TokenValidator
+class name to load is PerPageValidator
+class name to load is PageValidator
+in function fetch: WPDB returned 10 results
+in function fetch: 10 were returned from: SELECT id from wp_posts WHERE post_type IN ('product') LIMIT 1,10
+IDs from all() are: array (
+  0 => '1461',
+  1 => '1462',
+  2 => '1463',
+  3 => '1279',
+  4 => '1280',
+  5 => '1281',
+  6 => '1282',
+  7 => '1283',
+  8 => '1284',
+  9 => '1285',
+)
+Beggining request
+array (
+  'callback' => 'jQuery171020958687388338149_1373358917459',
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_products',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '10',
+    'page' => '1',
+  ),
+  '_' => '1373365790439',
+)
+class name to load is TokenValidator
+class name to load is PerPageValidator
+class name to load is PageValidator
+[Warn] Arguments did not pass validation
+Beggining request
+array (
+  'callback' => 'jQuery171020958687388338149_1373358917460',
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_products',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '10',
+    'page' => '1',
+  ),
+  '_' => '1373365824667',
+)
+class name to load is TokenValidator
+class name to load is PerPageValidator
+class name to load is PageValidator
+in function fetch: WPDB returned 10 results
+in function fetch: 10 were returned from: SELECT id from wp_posts WHERE post_type IN ('product') LIMIT 1,10
+IDs from all() are: array (
+  0 => '1461',
+  1 => '1462',
+  2 => '1463',
+  3 => '1279',
+  4 => '1280',
+  5 => '1281',
+  6 => '1282',
+  7 => '1283',
+  8 => '1284',
+  9 => '1285',
+)
+Beggining request
+array (
+  'callback' => 'jQuery171020958687388338149_1373358917461',
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_products',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '10',
+    'page' => '1',
+  ),
+  '_' => '1373365926721',
+)
+class name to load is TokenValidator
+class name to load is PerPageValidator
+class name to load is PageValidator
+in function fetch: WPDB returned 10 results
+in function fetch: 10 were returned from: SELECT id from wp_posts WHERE post_type IN ('product') LIMIT 1,10
+IDs from all() are: array (
+  0 => '1461',
+  1 => '1462',
+  2 => '1463',
+  3 => '1279',
+  4 => '1280',
+  5 => '1281',
+  6 => '1282',
+  7 => '1283',
+  8 => '1284',
+  9 => '1285',
+)
+Beggining request
+array (
+  'callback' => 'jQuery171020958687388338149_1373358917462',
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_products',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '10',
+    'page' => '1',
+  ),
+  '_' => '1373365998308',
+)
+class name to load is TokenValidator
+class name to load is PerPageValidator
+class name to load is PageValidator
+in function fetch: WPDB returned 10 results
+in function fetch: 10 were returned from: SELECT id from wp_posts WHERE post_type IN ('product') LIMIT 1,10
+IDs from all() are: array (
+  0 => '1461',
+  1 => '1462',
+  2 => '1463',
+  3 => '1279',
+  4 => '1280',
+  5 => '1281',
+  6 => '1282',
+  7 => '1283',
+  8 => '1284',
+  9 => '1285',
+)
+Beggining request
+array (
+  'callback' => 'jQuery171020958687388338149_1373358917463',
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_products',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '10',
+    'page' => '1',
+  ),
+  '_' => '1373366045984',
+)
+Beggining request
+array (
+  'callback' => 'jQuery171020958687388338149_1373358917464',
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_products',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '10',
+    'page' => '1',
+  ),
+  '_' => '1373366075445',
+)

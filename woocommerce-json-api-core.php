@@ -10,13 +10,14 @@
   
   @param $user the user
 */
+require_once( plugin_dir_path(__FILE__) . 'classes/class-wc-json-api.php' );
 function woocommerce_json_api_show_user_profile( $user ) {
   $helpers = new RedEHelpers();
   // We use PluginPrefic, which is just the plugin name
   // with - replaced with _, easier to type and more
   // extensible. 
   $key = $helpers->getPluginPrefix() . '_settings';
-  $meta = unserialize( get_user_meta( $user->ID, $key, true ) );
+  $meta = maybe_unserialize( get_user_meta( $user->ID, $key, true ) );
   /*
     The general format at this point should be something like this:
     {
@@ -46,6 +47,37 @@ function woocommerce_json_api_show_user_profile( $user ) {
 		  ),
 	  ),
 	);
+  // Here we implement some permissions, a simple yes/no.
+    $method = 'access_the_api';
+    $field = array(
+      'name'          => $helpers->getPluginPrefix() . '_settings[can_' . $method . ']',
+      'id'            => 'json_api_can_' . $method . '_id',
+      'value'         => $helpers->orEq($meta,'can_' . $method, 'yes'),
+      'type'          => 'select',
+      'options'       => array(
+          array( 'value' => 'yes', 'content' => __('Yes','woocommerce_json_api') ),
+          array( 'value' => 'no', 'content' => __('No','woocommerce_json_api') ),
+        ),
+      'label'         => __( 'Can access ', 'woocommerce_json_api' ) . ucwords(str_replace('_',' ', $method)),
+      'description'   => __('Whether or not this user can access this method', 'woocommerce_json_api' )
+    );
+    $attrs['json_api_settings']['fields'][] = $field;
+  foreach (WooCommerce_JSON_API::getImplementedMethods() as $method) {
+    $field = array(
+      'name'          => $helpers->getPluginPrefix() . '_settings[can_' . $method . ']',
+      'id'            => 'json_api_can_' . $method . '_id',
+      'value'         => $helpers->orEq($meta,'can_' . $method, 'yes'),
+      'type'          => 'select',
+      'options'       => array(
+          array( 'value' => 'yes', 'content' => __('Yes','woocommerce_json_api') ),
+          array( 'value' => 'no', 'content' => __('No','woocommerce_json_api') ),
+        ),
+      'label'         => __( 'Can access ', 'woocommerce_json_api' ) . ucwords(str_replace('_',' ', $method)),
+      'description'   => __('Whether or not this user can access this method', 'woocommerce_json_api' )
+    );
+    $attrs['json_api_settings']['fields'][] = $field;
+  }
+
   $attrs = apply_filters('woocommerce_json_api_settings_fields', $attrs);
                                                                               // The second argument puts this var in scope, similar to a
                                                                               // "binding" in Ruby
@@ -118,7 +150,7 @@ function woocommerce_json_api_exclude_pages($exclude) {
      hunky dory. The page will show as normal, and the API will pretend it doesn't exist.
 */
 function woocommerce_json_api_shortcode() {
-  require_once( plugin_dir_path(__FILE__) . 'classes/class-wc-json-api.php' );
+  
   $api = new WooCommerce_JSON_API();
   $api->route($_REQUEST);
   die("Hello World from the shortcode");

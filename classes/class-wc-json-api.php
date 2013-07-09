@@ -10,7 +10,9 @@ define('WCAPI_NOT_IMPLEMENTED',               -2);
 define('WCAPI_UNEXPECTED_ERROR',              -3);
 define('WCAPI_INVALID_CREDENTIALS',           -4);
 define('WCAPI_BAD_ARGUMENT',                  -5);
-define('WCAPI_CANNOT_INSERT_RECORD',          -5);
+define('WCAPI_CANNOT_INSERT_RECORD',          -6);
+define('WCAPI_PERMSNOTSET',                   -7);
+define('WCAPI_PERMSINSUFF',                   -8);
 
 define('WCAPI_PRODUCT_NOT_EXISTS', 1);
 require_once( plugin_dir_path(__FILE__) . '/class-rede-helpers.php' );
@@ -29,10 +31,33 @@ class WooCommerce_JSON_API {
     // Call this function to setup a new response
   private $helpers;
   private $result;
-  
+  public static $implemented_methods;
+  public static function getImplementedMethods() {
+    if (self::$implemented_methods) {
+      return self::$implemented_methods;
+    }
+    self::$implemented_methods = array(
+      'get_system_time',
+      'get_products',
+      'get_categories',
+      'get_taxes',
+      'get_shipping_methods',
+      'get_payment_gateways',
+      'get_tags',
+      'get_products_by_tags',
+      
+      // Write capable methods
+      
+      'set_products',
+      'set_categories',
+    );
+    return self::$implemented_methods;
+  }
   public function __construct() {
     $this->helpers = new RedEHelpers();
     $this->result = null;
+    // We will use this to set perms
+    self::getImplementedMethods();
   }
   /**
     This function is the single entry point into the API.
@@ -90,22 +115,8 @@ class WooCommerce_JSON_API {
   }
   
   private function isImplemented( $params ) {
-    $implemented_methods = array(
-      'get_system_time',
-      'get_products',
-      'get_categories',
-      'get_taxes',
-      'get_shipping_methods',
-      'get_payment_gateways',
-      'get_tags',
-      'get_products_by_tags',
-      
-      // Write capable methods
-      
-      'set_products',
-      'set_categories',
-    );
-    if (isset($params['proc']) &&  $this->helpers->inArray( $params['proc'], $implemented_methods) ) {
+    
+    if (isset($params['proc']) &&  $this->helpers->inArray( $params['proc'], self::$implemented_methods) ) {
       return true;
     } else {
       return false;
@@ -160,8 +171,20 @@ class WooCommerce_JSON_API {
     );
     $users = get_users( $args );
     foreach ($users as $user) {
-      $meta = unserialize( get_user_meta( $user->ID, $key, true ) );
+      $meta = maybe_unserialize( get_user_meta( $user->ID, $key, true ) );
       if (isset( $meta['token']) &&  $params['arguments']['token'] == $meta['token']) {
+        if (!isset($meta[ 'can_' . $params['proc'] ]) || !isset($meta[ 'can_access_the_api' ])) {
+          $this->result->addError( __( 'Permissions for this user have not been set','woocommerce_json_api' ),WCAPI_PERMSNOTSET );
+          return false;
+        }
+        if ( $meta[ 'can_access_the_api' ] == 'no' ) {
+          $this->result->addError( __( 'You have been banned.','woocommerce_json_api' ), WCAPI_PERMSINSUFF );
+          return false;
+        }
+        if ( $meta[ 'can_' . $params['proc'] ] == 'no' ) {
+          $this->result->addError( __( 'You do not have sufficient permissions.','woocommerce_json_api' ), WCAPI_PERMSINSUFF );
+          return false;
+        }
         $this->logUserIn($user);
         return true;
       }

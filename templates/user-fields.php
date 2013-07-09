@@ -42,6 +42,8 @@
               echo $helpers->inputTag( $value ); 
             } else if ( $helpers->orEq($value,'type','') == 'textarea' ) {
               echo $helpers->textAreaTag( $value ); 
+            }  else if ( $helpers->orEq($value,'type','') == 'select' ) {
+              echo $helpers->selectTag( $value ); 
             }
          ?> 
         </td>
