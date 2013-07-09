@@ -4,6 +4,12 @@
 */
 class WooCommerce_JSON_API_Result {
   private $params;
+  public function status() {
+    return $this->params['status'];
+  }
+  public function setStatus($bool) {
+    $this->params['status'] = $bool;
+  }
   public function setParams( $params ) {
     $this->params = $params;
     $this->params['status'] = true;

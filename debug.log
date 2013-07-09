@@ -754,3 +754,222 @@ IDs from all() are: array (
   0 => '1461',
   1 => '1462',
 )
+Beggining request
+in function fetch: WPDB returned 10 results
+in function fetch: 10 were returned from: SELECT id from wp_posts WHERE post_type IN ('product') LIMIT 1,10
+IDs from all() are: array (
+  0 => '1461',
+  1 => '1462',
+  2 => '1463',
+  3 => '1279',
+  4 => '1280',
+  5 => '1281',
+  6 => '1282',
+  7 => '1283',
+  8 => '1284',
+  9 => '1285',
+)
+Beggining request
+class name to load is TokenValidator
+class name to load is PerPageValidator
+class name to load is PageValidator
+in function fetch: WPDB returned 10 results
+in function fetch: 10 were returned from: SELECT id from wp_posts WHERE post_type IN ('product') LIMIT 1,10
+IDs from all() are: array (
+  0 => '1461',
+  1 => '1462',
+  2 => '1463',
+  3 => '1279',
+  4 => '1280',
+  5 => '1281',
+  6 => '1282',
+  7 => '1283',
+  8 => '1284',
+  9 => '1285',
+)
+Beggining request
+class name to load is TokenValidator
+class name to load is PerPageValidator
+class name to load is PageValidator
+in function fetch: WPDB returned 10 results
+in function fetch: 10 were returned from: SELECT id from wp_posts WHERE post_type IN ('product') LIMIT 1,10
+IDs from all() are: array (
+  0 => '1461',
+  1 => '1462',
+  2 => '1463',
+  3 => '1279',
+  4 => '1280',
+  5 => '1281',
+  6 => '1282',
+  7 => '1283',
+  8 => '1284',
+  9 => '1285',
+)
+Beggining request
+class name to load is TokenValidator
+class name to load is PerPageValidator
+class name to load is PageValidator
+class name to load is OrderByValidator
+Beggining validation of OrderBy
+Beggining request
+class name to load is TokenValidator
+class name to load is PerPageValidator
+class name to load is PageValidator
+class name to load is OrderByValidator
+Beggining validation of OrderBy
+Beggining request
+class name to load is TokenValidator
+class name to load is PerPageValidator
+class name to load is PageValidator
+class name to load is OrderByValidator
+Beggining validation of OrderBy
+Beggining request
+class name to load is TokenValidator
+class name to load is PerPageValidator
+class name to load is PageValidator
+Beggining request
+class name to load is TokenValidator
+class name to load is PerPageValidator
+class name to load is PageValidator
+Beggining request
+class name to load is TokenValidator
+class name to load is PerPageValidator
+class name to load is PageValidator
+[Warn] Arguments did not pass validation
+Beggining request
+class name to load is TokenValidator
+class name to load is PerPageValidator
+class name to load is PageValidator
+in function fetch: WPDB returned 2 results
+in function fetch: 2 were returned from: SELECT id from wp_posts WHERE post_type IN ('product') LIMIT 1,2
+IDs from all() are: array (
+  0 => '1461',
+  1 => '1462',
+)
+Beggining request
+class name to load is TokenValidator
+class name to load is PerPageValidator
+class name to load is PageValidator
+in function fetch: WPDB returned 2 results
+in function fetch: 2 were returned from: SELECT id from wp_posts WHERE post_type IN ('product') LIMIT 1,2
+IDs from all() are: array (
+  0 => '1461',
+  1 => '1462',
+)
+Beggining request
+class name to load is TokenValidator
+class name to load is PerPageValidator
+class name to load is PageValidator
+in function fetch: WPDB returned 2 results
+in function fetch: 2 were returned from: SELECT id from wp_posts WHERE post_type IN ('product') LIMIT 1,2
+IDs from all() are: array (
+  0 => '1461',
+  1 => '1462',
+)
+Beggining request
+class name to load is TokenValidator
+class name to load is PerPageValidator
+class name to load is PageValidator
+class name to load is OrderByValidator
+Beggining request
+class name to load is TokenValidator
+class name to load is PerPageValidator
+class name to load is PageValidator
+class name to load is OrderByValidator
+Beggining request
+class name to load is TokenValidator
+class name to load is PerPageValidator
+class name to load is PageValidator
+in function fetch: WPDB returned 2 results
+in function fetch: 2 were returned from: SELECT id from wp_posts WHERE post_type IN ('product') LIMIT 1,2
+IDs from all() are: array (
+  0 => '1461',
+  1 => '1462',
+)
+Beggining request
+class name to load is TokenValidator
+class name to load is PerPageValidator
+class name to load is PageValidator
+class name to load is OrderByValidator
+Beggining request
+class name to load is TokenValidator
+class name to load is PerPageValidator
+class name to load is PageValidator
+class name to load is OrderByValidator
+Beggining validation of OrderBy
+Beggining request
+class name to load is TokenValidator
+class name to load is PerPageValidator
+class name to load is PageValidator
+class name to load is OrderByValidator
+Beggining validation of OrderBy
+WooCommerce_JSON_API_Result::__set_state(array(
+   'params' => 
+  array (
+    'action' => 'woocommerce_json_api',
+    'proc' => 'get_products',
+    'arguments' => 
+    array (
+      'token' => '1234',
+      'per_page' => '10',
+      'page' => '1',
+      'order_by' => 'name',
+    ),
+    'status' => true,
+    'errors' => 
+    array (
+    ),
+    'warnings' => 
+    array (
+      0 => 
+      array (
+        'text' => 'Looks like I can edit things',
+        'code' => -1,
+      ),
+    ),
+    'notifications' => 
+    array (
+    ),
+    'payload' => 
+    array (
+    ),
+  ),
+))
+Beggining request
+class name to load is TokenValidator
+class name to load is PerPageValidator
+class name to load is PageValidator
+class name to load is OrderByValidator
+Beggining validation of OrderBy
+WooCommerce_JSON_API_Result::__set_state(array(
+   'params' => 
+  array (
+    'action' => 'woocommerce_json_api',
+    'proc' => 'get_products',
+    'arguments' => 
+    array (
+      'token' => '1234',
+      'per_page' => '10',
+      'page' => '1',
+      'order_by' => 'name',
+    ),
+    'status' => true,
+    'errors' => 
+    array (
+    ),
+    'warnings' => 
+    array (
+      0 => 
+      array (
+        'text' => 'Looks like I can edit things',
+        'code' => -1,
+      ),
+    ),
+    'notifications' => 
+    array (
+    ),
+    'payload' => 
+    array (
+    ),
+  ),
+))

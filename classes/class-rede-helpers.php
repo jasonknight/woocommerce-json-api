@@ -23,6 +23,9 @@ class RedEHelpers {
   
   private $wp_template;
   private $wp_theme_root;
+
+  // Later on, these will be configurable and can be
+  // turned off completely from the controls in the UI.
   public static function warn($text) {
     $file = REDE_PLUGIN_BASE_PATH . "warnings.log";
     $fp = fopen($file,'a');
@@ -30,6 +33,7 @@ class RedEHelpers {
       die("Could not open log file");
     }
     fwrite($fp,$text . "\n");
+    self::debug("[Warn] " . $text);
     fclose($fp);
   }
   public static function error($text) {
@@ -38,6 +42,7 @@ class RedEHelpers {
       die("Could not open log file");
     }
     fwrite($fp,$text . "\n");
+    self::debug("[Error] " . $text);
     fclose($fp);
   }
   public static function debug($text) {
@@ -92,6 +97,23 @@ class RedEHelpers {
         return $test_path;
       } else {
         throw new Exception( __('Core Template was not found: ') . ' ' . $template_name );
+      }
+    }
+  }
+  public function findClassFile( $filename, $throw_error = false ) {
+    $test_path = $this->wp_theme_root . 'classes/' . $filename;
+    if ( file_exists( $test_path ) ) {
+      return $test_path;
+    } else {
+      $test_path = $this->path . 'classes/' . $filename;
+      if ( file_exists($test_path) ) {
+        return $test_path;
+      } else {
+        if ( $throw_error ) {
+          throw new Exception( __('Core Class File was not found: ') . ' ' . $filename );
+        } else {
+          return false;
+        }
       }
     }
   }
@@ -192,6 +214,32 @@ class RedEHelpers {
       }
     }
     return false;
+  }
+  /**
+    We pass in the params, usually $params['arguments'] by reference, as well as
+    a reference to the result object so that we can invalidate and add errors to it.
+  */
+  public function validateParameters( &$params, &$target ) {
+    $params = apply_filters('rede_pre_validate_parameters',$params, $target);
+    foreach ( $params as $key=>&$value ) {
+      $tmp_key = str_replace('_','-',$key);
+      $fname = "class-{$tmp_key}-validator.php";
+      $tmp_key =  str_replace('-',' ', $tmp_key);
+      $tmp_key = ucwords($tmp_key);
+      $tmp_key = str_replace(" ",'', $tmp_key);
+      $class_name = "{$tmp_key}Validator";
+      RedEHelpers::debug("class name to load is {$class_name}");
+      $path = $this->findClassFile($fname, false);
+      if ( $path ) {
+        require_once $path;
+        if ( class_exists($class_name) ) {
+          $validator = new $class_name();
+          $validator->validate( $this, $params, $target );
+        }
+      }
+    }
+    $params = apply_filters('rede_post_validate_parameters',$params, $target);
+    //return array($params, $target);
   }
   /***************************************************************************/
   /*                         HTML API Helpers                                */
