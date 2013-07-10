@@ -5,7 +5,7 @@
 */
 require_once(dirname(__FILE__) . "/class-rede-base-record.php");
 require_once(dirname(__FILE__) . "/class-wc-json-api-category.php");
-class WC_JSON_API_Product extends RedEBaseRecord {
+class WC_JSON_API_Product extends JSONAPIBaseRecord {
   // Products are split off into two
   // datasources, posteta, and the posts
   // themselves.
@@ -146,7 +146,7 @@ class WC_JSON_API_Product extends RedEBaseRecord {
         $categories[] = $_cat->setCategory( $cobj )->asApiArray();
       } catch (Exception $e) {
         // we should put some logging here soon!
-        RedEHelpers::error( $e->getMessage() );
+        JSONAPIHelpers::error( $e->getMessage() );
       }
       
     }

@@ -19,6 +19,9 @@ class WooCommerce_JSON_API_Result {
     $this->params['payload'] = array();
     return $this;
   }
+  public function getParams() {
+    return $this->params;
+  }
   public function setPayload( $collection ) {
     $this->params['payload'] = $collection;
     return $this;
@@ -34,7 +37,7 @@ class WooCommerce_JSON_API_Result {
   public function asJSON() {
     $this->params['payload_length'] = count($this->params['payload']);
     if (PHP_MINOR_VERSION < 4) {
-      RedEHelpers::warn("PHP 5.4 and above recommended for the API.");
+      JSONAPIHelpers::warn("PHP 5.4 and above recommended for the API.");
       $text = json_encode($this->params);
     } else {
       $text = json_encode($this->params, JSON_PRETTY_PRINT);

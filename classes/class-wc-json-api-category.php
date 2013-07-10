@@ -1,6 +1,6 @@
 <?php
 require_once(dirname(__FILE__) . "/class-rede-base-record.php");
-class WC_JSON_API_Category extends RedEBaseRecord {
+class WC_JSON_API_Category extends JSONAPIBaseRecord {
   private $_attributes;
   public static $_attributes_table;
   public function __construct() {
@@ -29,7 +29,7 @@ class WC_JSON_API_Category extends RedEBaseRecord {
       if (is_object($category_object)) {
         $this->{$name} = $category_object->{$attrs['name']};
       } else {
-        RedEHelpers::warn("Category was not an object, but was of type: " . gettype($category_object));
+        JSONAPIHelpers::warn("Category was not an object, but was of type: " . gettype($category_object));
       }
     }
     return $this;

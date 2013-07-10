@@ -1,5 +1,5 @@
 <?php
-class RedEBaseRecord {
+class JSONAPIBaseRecord {
   // We want to be able to update the product in one go, as quickly
   // as possible because it is not unrealistic for us to want to
   // update hundres of products in one API call. We don't want to
@@ -76,18 +76,18 @@ class RedEBaseRecord {
         $sql .= " LIMIT {$this->_page},{$this->_per_page}";
       }
       $results = $wpdb->get_results($sql,'ARRAY_A');
-      RedEHelpers::debug("in function fetch: WPDB returned " . count($results) . " results");
+      JSONAPIHelpers::debug("in function fetch: WPDB returned " . count($results) . " results");
       foreach ( $results as &$result ) {
         $result = call_user_func($callback,$result);
       }
       if (count($results) < 1) {
-        RedEHelpers::debug("in function fetch, empty result set using: $sql");
+        JSONAPIHelpers::debug("in function fetch, empty result set using: $sql");
       } else {
-        RedEHelpers::debug("in function fetch: " . count($results) . " were returned from: " . $sql);
+        JSONAPIHelpers::debug("in function fetch: " . count($results) . " were returned from: " . $sql);
       }
       return $results;
     } else {
-      RedEHelpers::debug("in function fetch, sql was empty.");
+      JSONAPIHelpers::debug("in function fetch, sql was empty.");
       return null;
     }
   }

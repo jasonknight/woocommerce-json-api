@@ -7,7 +7,7 @@ function woocommerce_json_api_uninstall() {
   if ( !defined('WP_UNINSTALL_PLUGIN') ) {
     exit;
   }
-  $helpers = new RedEHelpers();
+  $helpers = new JSONAPIHelpers();
 
   $json_api_slug = get_option( $helpers->getPluginPrefix() . '_slug' );
   if ( ! $json_api_slug ) {

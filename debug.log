@@ -1327,3 +1327,113 @@ array (
   ),
   '_' => '1373366075445',
 )
+Beggining request
+array (
+  'callback' => 'jQuery171020958687388338149_1373358917465',
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_products',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '10',
+    'page' => '1',
+  ),
+  '_' => '1373370908148',
+)
+class name to load is TokenValidator
+class name to load is PerPageValidator
+class name to load is PageValidator
+in function fetch: WPDB returned 10 results
+in function fetch: 10 were returned from: SELECT id from wp_posts WHERE post_type IN ('product') LIMIT 1,10
+IDs from all() are: array (
+  0 => '1461',
+  1 => '1462',
+  2 => '1463',
+  3 => '1279',
+  4 => '1280',
+  5 => '1281',
+  6 => '1282',
+  7 => '1283',
+  8 => '1284',
+  9 => '1285',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_products',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '2',
+    'page' => '1',
+  ),
+)
+class name to load is TokenValidator
+class name to load is PerPageValidator
+class name to load is PageValidator
+in function fetch: WPDB returned 2 results
+in function fetch: 2 were returned from: SELECT id from wp_posts WHERE post_type IN ('product') LIMIT 1,2
+IDs from all() are: array (
+  0 => '1461',
+  1 => '1462',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_products',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '2',
+    'page' => '1',
+  ),
+)
+class name to load is TokenValidator
+class name to load is PerPageValidator
+class name to load is PageValidator
+in function fetch: WPDB returned 2 results
+in function fetch: 2 were returned from: SELECT id from wp_posts WHERE post_type IN ('product') LIMIT 1,2
+IDs from all() are: array (
+  0 => '1461',
+  1 => '1462',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_products',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '2',
+    'page' => '1',
+  ),
+)
+class name to load is TokenValidator
+class name to load is PerPageValidator
+class name to load is PageValidator
+in function fetch: WPDB returned 2 results
+in function fetch: 2 were returned from: SELECT id from wp_posts WHERE post_type IN ('product') LIMIT 1,2
+IDs from all() are: array (
+  0 => '1461',
+  1 => '1462',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_products',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '2',
+    'page' => '1',
+  ),
+)
+class name to load is TokenValidator
+class name to load is PerPageValidator
+class name to load is PageValidator
+in function fetch: WPDB returned 2 results
+in function fetch: 2 were returned from: SELECT id from wp_posts WHERE post_type IN ('product') LIMIT 1,2
+IDs from all() are: array (
+  0 => '1461',
+  1 => '1462',
+)

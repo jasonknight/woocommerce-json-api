@@ -1,20 +1,22 @@
 <?php
-function _rede_notset( $mixed ) {
-  if (defined('REDENOTSET')) {
-    if ($mixed == REDENOTSET) {
-      return true;
+if ( ! function_exists('_rede_notset') ) {
+  function _rede_notset( $mixed ) {
+    if (defined('REDENOTSET')) {
+      if ($mixed == REDENOTSET) {
+        return true;
+      } else {
+        return false;
+      }
     } else {
-      return false;
+      throw new Exception( __('REDENOTSET is not defined!','rede_plugins') );
     }
-  } else {
-    throw new Exception( __('REDENOTSET is not defined!','rede_plugins') );
   }
 }
 /**
   This class needs to be instantiated as helpers, and provides all the helper 
   functionality needed by the PHP side of the API
 */
-class RedEHelpers {
+class JSONAPIHelpers {
   public $plugin_name = 'woocommerce-json-api';
   private $path;
   private $css;
@@ -171,7 +173,16 @@ class RedEHelpers {
   /***************************************************************************/
   /*                    Checkers, validators                                 */
   /***************************************************************************/
-  
+  public function isHTTPS() {
+    if (
+      (! empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') ||
+      $_SERVER['port'] == 443
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
   /**
     We want to avoid directly accessing Array keys, because
     a) people have weird debug settings and 
@@ -196,7 +207,7 @@ class RedEHelpers {
         if ($value == $val)
           return $value;
       }
-      RedEHelpers::warn("orEq was passed a valid_values_list, but inputs did not match, so returning default");
+      JSONAPIHelpers::warn("orEq was passed a valid_values_list, but inputs did not match, so returning default");
       return $default;
     } else {
       return $value;
@@ -228,7 +239,7 @@ class RedEHelpers {
       $tmp_key = ucwords($tmp_key);
       $tmp_key = str_replace(" ",'', $tmp_key);
       $class_name = "{$tmp_key}Validator";
-      RedEHelpers::debug("class name to load is {$class_name}");
+      JSONAPIHelpers::debug("class name to load is {$class_name}");
       $path = $this->findClassFile($fname, false);
       if ( $path ) {
         require_once $path;
@@ -251,6 +262,12 @@ class RedEHelpers {
     return "<label for='" . esc_attr( $name ) . "' for='" . esc_attr( $classes ) . "'>" . esc_html( $content ) . "</label>";
   }
   public function inputTag($args) {
+    $name = $this->orEq($args,'name');
+    $value = $this->orEq($args,'value','');
+    $id = $this->orEq($args,'id','');
+    return "<input type='text' id='" . esc_attr($id) . "' name='" . esc_attr( $name ) . "' value='" . esc_html( $value ) . "' />";
+  }
+  public function checkboxTag( $args ) {
     $name = $this->orEq($args,'name');
     $value = $this->orEq($args,'value','');
     $id = $this->orEq($args,'id','');

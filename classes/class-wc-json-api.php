@@ -31,7 +31,18 @@ class WooCommerce_JSON_API {
     // Call this function to setup a new response
   private $helpers;
   private $result;
+  private $return_type;
+  private $the_user;
   public static $implemented_methods;
+  public function setOut($t) {
+    $this->return_type = $t;
+  }
+  public function setUser($user) {
+    $this->the_user = $user;
+  }
+  public function getUser() {
+    return $this->the_user;
+  }
   public static function getImplementedMethods() {
     if (self::$implemented_methods) {
       return self::$implemented_methods;
@@ -54,7 +65,7 @@ class WooCommerce_JSON_API {
     return self::$implemented_methods;
   }
   public function __construct() {
-    $this->helpers = new RedEHelpers();
+    $this->helpers = new JSONAPIHelpers();
     $this->result = null;
     // We will use this to set perms
     self::getImplementedMethods();
@@ -88,28 +99,28 @@ class WooCommerce_JSON_API {
   */
   public function route( $params ) {
     $this->createNewResult( $params );
-    RedEHelpers::debug( "Beggining request" );
-    RedEHelpers::debug( var_export($params,true));
+    JSONAPIHelpers::debug( "Beggining request" );
+    JSONAPIHelpers::debug( var_export($params,true));
     if ( ! $this->isValidAPIUser( $params ) ) {
       $this->result->addError( __('Not a valid API User', 'woocommerce_json_api' ), WCAPI_INVALID_CREDENTIALS );
-      $this->done();
+      return $this->done();
     }
     if ( $this->isImplemented( $params ) ) {
       try {
         // The arguments are passed by reference here
         $this->helpers->validateParameters( $params['arguments'], $this->result);
         if ( $this->result->status() == false ) {
-          RedEHelpers::warn("Arguments did not pass validation");
-          $this->done();
+          JSONAPIHelpers::warn("Arguments did not pass validation");
+          return $this->done();
           return;
         }
         $this->{ $params['proc'] }($params);
       } catch ( Exception $e ) {
-        RedEHelpers::error($e->getMessage());
+        JSONAPIHelpers::error($e->getMessage());
         $this->unexpectedError( $params, $e);
       }
     } else {
-      RedEHelpers::warn("{$params['proc']} is not implemented...");
+      JSONAPIHelpers::warn("{$params['proc']} is not implemented...");
       $this->notImplemented( $params );
     }
   }
@@ -131,14 +142,14 @@ class WooCommerce_JSON_API {
            WCAPI_EXPECTED_ARGUMENT );
     }
     $this->result->addError( __('That API method has not been implemented', 'woocommerce_json_api' ), WCAPI_NOT_IMPLEMENTED );
-    $this->done();
+    return $this->done();
   }
   
   
   private function unexpectedError( $params, $error ) {
     $this->createNewResult( $params );
     $this->result->addError( __('An unexpected error has occured', 'woocommerce_json_api' ) . $error->getMessage(), WCAPI_UNEXPECTED_ERROR );
-    $this->done();
+    return $this->done();
   }
   
   
@@ -150,12 +161,23 @@ class WooCommerce_JSON_API {
   }
   
   private function done() {
-    header("Content-type: application/json");
-    echo( $this->result->asJSON() );
-    die;
+    if ( $this->return_type == 'HTTP') {
+      header("Content-type: application/json");
+      echo( $this->result->asJSON() );
+      die;
+    } else if ( $this->return_type == "ARRAY") {
+      return $this->result->getParams();
+    } else if ( $this->return_type == "JSON") {
+      return $this->result->asJSON();
+    } else if ( $this->return_type == "OBJECT") {
+      return $this->result;
+    } 
   }
   
   private function isValidAPIUser( $params ) {
+    if ( $this->the_user ) {
+      return true;
+    }
     if ( ! isset($params['arguments']) ) {
       $this->result->addError( __( 'Missing `arguments` key','woocommerce_json_api' ),WCAPI_EXPECTED_ARGUMENT );
       return false;
@@ -194,6 +216,7 @@ class WooCommerce_JSON_API {
   private function logUserIn( $user ) {
     wp_set_current_user($user->ID);
     wp_set_auth_cookie( $user->ID, false, is_ssl() );
+    $this->setUser($user);
   }
    private function translateTaxRateAttributes( $rate ) {
     $attrs = array();
@@ -217,7 +240,7 @@ class WooCommerce_JSON_API {
       'time'      => date("h:i:s",time())
     );
     $this->result->addPayload($data);
-    $this->done();
+    return $this->done();
   }
   
   /**
@@ -240,7 +263,7 @@ class WooCommerce_JSON_API {
     $by_ids = true;
     if ( ! $this->helpers->inArray($order_by,$allowed_order_bys) ) {
       $this->result->addError( __('order_by must be one of these:','woocommerce_json_api') . join( $allowed_order_bys, ','), WCAPI_BAD_ARGUMENT );
-      $this->done();
+      return $this->done();
       return;
     }
     if ( ! $ids && ! $skus ) {
@@ -248,7 +271,7 @@ class WooCommerce_JSON_API {
       $posts = WC_JSON_API_Product::all()->per($posts_per_page)->page($paged)->fetch(function ( $result) {
         return $result['id'];
 	    });
-      RedEHelpers::debug( "IDs from all() are: " . var_export($posts,true) );
+      JSONAPIHelpers::debug( "IDs from all() are: " . var_export($posts,true) );
 	  } else if ( $ids ) {
 	  
 	    $posts = $ids;
@@ -272,9 +295,9 @@ class WooCommerce_JSON_API {
       try {
         $post = WC_JSON_API_Product::find($post_id);
       } catch (Exception $e) {
-        RedEHelpers::error("An exception occurred attempting to instantiate a Product object: " . $e->getMessage());
+        JSONAPIHelpers::error("An exception occurred attempting to instantiate a Product object: " . $e->getMessage());
         $this->result->addError( __("Error occurred instantiating product object"),-99);
-        $this->done();
+        return $this->done();
       }
       
       if ( !$post ) {
@@ -287,7 +310,7 @@ class WooCommerce_JSON_API {
     // We manage the array ourselves, so call setPayload, instead of addPayload
     $this->result->setPayload($products);
 
-	  $this->done();
+	  return $this->done();
   }
   private function get_products_by_tags($params) {
     global $wpdb;
@@ -298,14 +321,14 @@ class WooCommerce_JSON_API {
     }
     if ( count($terms) < 1) {
       $this->result->addError( __('you must specify at least one term','woocommerce_json_api'), WCAPI_BAD_ARGUMENT );
-      $this->done();
+      return $this->done();
     }
     $posts_per_page = $this->helpers->orEq( $params['arguments'], 'per_page', 15 ); 
     $paged          = $this->helpers->orEq( $params['arguments'], 'page', 0 );
     $order_by       = $this->helpers->orEq( $params['arguments'], 'order_by', 'id');
     if ( ! $this->helpers->inArray($order_by,$allowed_order_bys) ) {
       $this->result->addError( __('order_by must be one of these:','woocommerce_json_api') . join( $allowed_order_bys, ','), WCAPI_BAD_ARGUMENT );
-      $this->done();
+      return $this->done();
       return;
     }
     $order          = $this->helpers->orEq( $params['arguments'], 'order', 'ASC');
@@ -386,8 +409,7 @@ class WooCommerce_JSON_API {
         }
       }
     }
-    $this->done();
-
+    return $this->done();
   }
 
   
@@ -401,7 +423,7 @@ class WooCommerce_JSON_API {
     $order_by       = $this->helpers->orEq( $params['arguments'], 'order_by', 'name');
     if ( ! $this->helpers->inArray($order_by,$allowed_order_bys) ) {
       $this->result->addError( __('order_by must be one of these:','woocommerce_json_api') . join( $allowed_order_bys, ','), WCAPI_BAD_ARGUMENT );
-      $this->done();
+      return $this->done();
       return;
     }
     $order          = $this->helpers->orEq( $params['arguments'], 'order', 'ASC');
@@ -424,7 +446,7 @@ class WooCommerce_JSON_API {
       $category = WC_JSON_API_Category::find( $id );
       $this->result->addPayload( $category->asApiArray() );
     }
-    $this->done();
+    return $this->done();
   }
   
   private function set_categories( $params ) {
@@ -433,7 +455,7 @@ class WooCommerce_JSON_API {
       $actual = WC_JSON_API_Category::find_by_name( $category['name'] );
       print_r($actual->asApiArray());
     }
-    $this->done();
+    return $this->done();
   }
   /**
     Get tax rates defined for store
@@ -464,7 +486,7 @@ class WooCommerce_JSON_API {
       );
     }
     $this->result->setPayload($tax_rates); 
-    $this->done();   
+    return $this->done();   
   }
   /**
     WooCommerce handles shipping methods on a per class/instance basis. So in order to have a
@@ -485,7 +507,7 @@ class WooCommerce_JSON_API {
       );
     }
     $this->result->setPayload( $methods );
-    $this->done();
+    return $this->done();
   }
   
   /**
@@ -504,7 +526,7 @@ class WooCommerce_JSON_API {
       );
     }
     $this->result->setPayload( $methods );
-    $this->done();
+    return $this->done();
   }
   private function get_tags( $params ) {
     $allowed_order_bys = array('name','count','term_id');
@@ -514,13 +536,13 @@ class WooCommerce_JSON_API {
 
     if ( ! $this->helpers->inArray($args['order_by'],$allowed_order_bys) ) {
       $this->result->addError( __('order_by must be one of these:','woocommerce_json_api') . join( $allowed_order_bys, ','), WCAPI_BAD_ARGUMENT, $args );
-      $this->done();
+      return $this->done();
       return;
     }
 
     if ( ! $this->helpers->inArray($args['order'],$allowed_orders) ) {
       $this->result->addError( __('order must be one of these:','woocommerce_json_api') . join( $allowed_orders, ','), WCAPI_BAD_ARGUMENT );
-      $this->done();
+      return $this->done();
       return;
     }
 
@@ -539,6 +561,6 @@ class WooCommerce_JSON_API {
     }
     $tags = get_terms('product_tag', $args);
     $this->result->setPayload($tags);
-    $this->done();
+    return $this->done();
   }
 }

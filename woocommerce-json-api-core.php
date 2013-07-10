@@ -12,7 +12,7 @@
 */
 require_once( plugin_dir_path(__FILE__) . 'classes/class-wc-json-api.php' );
 function woocommerce_json_api_show_user_profile( $user ) {
-  $helpers = new RedEHelpers();
+  $helpers = new JSONAPIHelpers();
   // We use PluginPrefic, which is just the plugin name
   // with - replaced with _, easier to type and more
   // extensible. 
@@ -103,7 +103,7 @@ function woocommerce_json_api_edit_user_profile( $user ) {
   of all the little bits of info we need.
 */
 function woocommerce_json_api_update_user_profile( $user_id ) {
-  $helpers = new RedEHelpers();
+  $helpers = new JSONAPIHelpers();
   $key = $helpers->getPluginPrefix() . '_settings';
   $params = serialize($_POST[$key]);
   update_user_meta($user_id,$key,$params);
@@ -115,7 +115,7 @@ function woocommerce_json_api_update_user_profile( $user_id ) {
 */
 function woocommerce_json_api_exclude_pages($exclude) {
   global $wpdb;
-  $helpers = new RedEHelpers();
+  $helpers = new JSONAPIHelpers();
   $json_api_slug = get_option( $helpers->getPluginPrefix() . '_slug' );
   $found = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM " . $wpdb->posts . " WHERE post_name = %s LIMIT 1;", $json_api_slug ) );
   $exclude[] = $found;
@@ -150,10 +150,18 @@ function woocommerce_json_api_exclude_pages($exclude) {
      hunky dory. The page will show as normal, and the API will pretend it doesn't exist.
 */
 function woocommerce_json_api_shortcode() {
-  
-  $api = new WooCommerce_JSON_API();
-  $api->route($_REQUEST);
-  die("Hello World from the shortcode");
+  $helpers = new JSONAPIHelpers();
+  $enabled = get_option( $helpers->getPluginPrefix() . '_enabled');
+  $require_https = get_option( $helpers->getPluginPrefix() . '_require_https' );
+  if ( $enabled != 'no') {
+    if ( $require_https == 'yes' && $helpers->isHTTPS() == false ) {
+      return;
+    }
+    $api = new WooCommerce_JSON_API();
+    $api->setOut('HTTP');
+    $api->setUser(null);
+    $api->route($_REQUEST);
+  }
 }
 
 /*
@@ -161,7 +169,7 @@ function woocommerce_json_api_shortcode() {
 */
 function woocommerce_json_api_template_redirect() {
   global $wpdb, $post;
-  $helpers = new RedEHelpers();
+  $helpers = new JSONAPIHelpers();
   $json_api_slug = get_option( $helpers->getPluginPrefix() . '_slug' );
   $found = get_page_by_path( $json_api_slug );
   if ( $found ) {
@@ -190,14 +198,17 @@ function woocommerce_json_api_admin_menu() {
   );
 }
 function woocommerce_json_api_settings_page() {
-  $helpers = new RedEHelpers();
+  $helpers = new JSONAPIHelpers();
   $params = $_POST;
   $nonce = $helpers->orEq( $params, '_wpnonce',false);
-
-  if ( $nonce  && wp_verify_nonce( $nonce, $helpers->getPluginPrefix() . '_sitewide_settings' ) ) {
-    $key = $helpers->getPluginPrefix() . '_sitewide_settings';
-    update_option($helpers->getPluginPrefix() . '_slug', $params[$key]['slug']);
+  $key = $helpers->getPluginPrefix() . '_sitewide_settings';
+  if ( $nonce  && wp_verify_nonce( $nonce, $helpers->getPluginPrefix() . '_sitewide_settings' ) && isset($params[$key]) ) { 
+    foreach ($params[$key] as $key2=>$value) {
+      update_option($helpers->getPluginPrefix() . '_' . $key2, maybe_serialize($value));
+    }
+    
   }
+  
   
   $json_api_slug = get_option( $helpers->getPluginPrefix() . '_slug' );
   $pages = get_pages( array('post_type' => 'page') );
@@ -217,11 +228,36 @@ function woocommerce_json_api_settings_page() {
 		        'type'          => 'select',
 				    'label'         => __( 'API Page', 'woocommerce_json_api' ),
 				    'description'   => __('slug of the page to use as the api entry point. Currently: ', 'woocommerce_json_api' ) . $helpers->getTitleBySlug($json_api_slug),
-			    )
+			    ),
+          array(
+            'name'          => $helpers->getPluginPrefix() . '_sitewide_settings[enabled]',
+            'id'            => 'json_api_enabled_id',
+            'value'         => get_option( $helpers->getPluginPrefix() . '_enabled' ),
+            'options'       => array(
+                array( 'value' => 'yes', 'content' => __('Yes','woocommerce_json_api')),
+                array( 'value' => 'no', 'content' => __('No','woocommerce_json_api')),
+            ),
+            'type'          => 'select',
+            'label'         => __( 'API Enabled?', 'woocommerce_json_api' ),
+            'description'   => __('Quickly enable/disable The API', 'woocommerce_json_api' ),
+          ),
+          array(
+            'name'          => $helpers->getPluginPrefix() . '_sitewide_settings[require_https]',
+            'id'            => 'json_api_require_https_id',
+            'value'         => get_option( $helpers->getPluginPrefix() . '_require_https' ),
+            'options'       => array(
+                array( 'value' => 'yes', 'content' => __('Yes','woocommerce_json_api')),
+                array( 'value' => 'no', 'content' => __('No','woocommerce_json_api')),
+            ),
+            'type'          => 'select',
+            'label'         => __( 'Require HTTPS', 'woocommerce_json_api' ),
+            'description'   => __('Only serve HTTPS requests?', 'woocommerce_json_api' ),
+          )
 		  ),
 	  ),
 	);
-  $attrs = apply_filters('woocommerce_json_api_settings_fields', $attrs);
+  $attrs = apply_filters('woocommerce_json_api_sitewide_settings_fields', $attrs);
+  
   echo $helpers->renderTemplate('admin-settings-page.php', array( 'attrs' => $attrs, 'json_api_slug' => $json_api_slug) );
 }
 
