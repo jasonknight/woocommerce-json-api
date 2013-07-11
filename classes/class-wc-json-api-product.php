@@ -114,7 +114,7 @@ class WC_JSON_API_Product extends JSONAPIBaseRecord {
       'slug'            => array('name' => 'post_name',              'type' => 'string'),
       'type'            => array('name' => 'post_type',              'type' => 'string'),
       'description'     => array('name' => 'post_content',           'type' => 'string'),
-      'status'          => array(
+      'publishing'          => array(
                                   'name' => 'post_status',            
                                   'type' => 'string',
                                   'values' => array(
@@ -153,7 +153,6 @@ class WC_JSON_API_Product extends JSONAPIBaseRecord {
     $attributes = array_merge(self::$_post_attributes_table, self::$_meta_attributes_table);
     $attributes_to_send['id'] = $this->getProductId();
     foreach ( $attributes as $name => $desc ) {
-
       $attributes_to_send[$name] = $this->dynamic_get( $name, $desc, $this->getProductId());
     }
     $attributes_to_send['categories'] = $categories;

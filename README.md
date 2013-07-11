@@ -5,13 +5,16 @@ A simple, Abstract JSON API for Wordpress' Awesome Plugin: WooCommerce
 
 Here is an example, using jQuery
 
+```javascript
     var url = 'http://woo.localhost/c6db13944977ac5f7a8305bbfb06fd6a/?callback=?';
     params = { action: 'woocommerce_json_api', proc:"get_products"};
     params.arguments = {token: 1234, per_page: 10, page: 1}
     jQuery.getJSON(url,params).done(function (data) { console.log(data);});
+```
 
 And here would be the response, trimmed down a bit:
 
+```javascript
     jQuery171020958687388338149_1373358917457({
         "callback": "jQuery171020958687388338149_1373358917457",
         "action": "woocommerce_json_api",
@@ -67,47 +70,13 @@ And here would be the response, trimmed down a bit:
                 ],
                 "featured_image": false
             },
-            {
-                "id": "1462",
-                "name": "Api created product 26",
-                "slug": "",
-                "type": "product",
-                "description": "<b>Hello World!<\/b>",
-                "status": "",
-                "sku": "A241",
-                "downloadable": "",
-                "virtual": "",
-                "manage_stock": "",
-                "sold_individually": "",
-                "featured": "",
-                "allow_backorders": "",
-                "quantity": 0,
-                "height": "",
-                "weight": "",
-                "length": "",
-                "price": "15.95",
-                "regular_price": "15.95",
-                "sale_price": "",
-                "sale_from": "",
-                "sale_to": "",
-                "attributes": "",
-                "tax_class": "",
-                "tax_status": "none",
-                "categories": [
-
-                ],
-                "tags": [
-
-                ],
-                "featured_image": false
-            },
             ...
             {
                 "id": "1279",
                 "name": "Bodum Brazil Coffee Press 8 Cup",
                 "slug": "bodum-brazil-coffee-press-8-cup",
                 "type": "product",
-                "description": "<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus<\/p>",
+                "description": "<p>Pellentesque habitant morbi ...<\/p>",
                 "status": "instock",
                 "sku": "W027",
                 "downloadable": "no",
@@ -159,6 +128,7 @@ And here would be the response, trimmed down a bit:
         ],
         "payload_length": 10
     });
+```
 
 ### How to install
 
@@ -173,3 +143,5 @@ And here would be the response, trimmed down a bit:
 `git pull`
 
 ### Visit the Wiki for more Documentation
+
+### TODO

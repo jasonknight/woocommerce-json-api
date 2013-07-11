@@ -1437,3 +1437,220 @@ IDs from all() are: array (
   0 => '1461',
   1 => '1462',
 )
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'arguments' => 
+  array (
+    'token' => '1234',
+  ),
+  'proc' => 'get_products',
+)
+class name to load is TokenValidator
+in function fetch: WPDB returned 0 results
+in function fetch, empty result set using: SELECT id from wp_posts WHERE post_type IN ('product') LIMIT -1,15
+IDs from all() are: array (
+)
+Beggining request
+array (
+  'callback' => 'jQuery18304252234452869743_1373534458096',
+  'action' => 'woocommerce_json_api',
+  'arguments' => 
+  array (
+    'token' => '1234',
+  ),
+  'proc' => 'get_products',
+  '_' => '1373534665308',
+)
+class name to load is TokenValidator
+in function fetch: WPDB returned 0 results
+in function fetch, empty result set using: SELECT id from wp_posts WHERE post_type IN ('product') LIMIT -1,15
+IDs from all() are: array (
+)
+Beggining request
+array (
+  'callback' => 'jQuery18304252234452869743_1373534458096',
+  'action' => 'woocommerce_json_api',
+  'arguments' => 
+  array (
+    'token' => '1234',
+  ),
+  'proc' => 'get_products',
+  '_' => '1373534742316',
+)
+class name to load is TokenValidator
+in function fetch: WPDB returned 32 results
+in function fetch: 32 were returned from: SELECT id from wp_posts WHERE post_type IN ('product')
+IDs from all() are: array (
+  0 => '1460',
+  1 => '1461',
+  2 => '1462',
+  3 => '1463',
+  4 => '1279',
+  5 => '1280',
+  6 => '1281',
+  7 => '1282',
+  8 => '1283',
+  9 => '1284',
+  10 => '1285',
+  11 => '1286',
+  12 => '1287',
+  13 => '1288',
+  14 => '1289',
+  15 => '1296',
+  16 => '1297',
+  17 => '1298',
+  18 => '1325',
+  19 => '1326',
+  20 => '1327',
+  21 => '1328',
+  22 => '1329',
+  23 => '1330',
+  24 => '1299',
+  25 => '1300',
+  26 => '1301',
+  27 => '1302',
+  28 => '1303',
+  29 => '1304',
+  30 => '1305',
+  31 => '1306',
+)
+Beggining request
+array (
+  'callback' => 'jQuery18304252234452869743_1373534458096',
+  'action' => 'woocommerce_json_api',
+  'arguments' => 
+  array (
+    'token' => '1234',
+  ),
+  'proc' => 'get_products',
+  '_' => '1373534846531',
+)
+class name to load is TokenValidator
+in function fetch: WPDB returned 32 results
+in function fetch: 32 were returned from: SELECT id from wp_posts WHERE post_type IN ('product')
+IDs from all() are: array (
+  0 => '1460',
+  1 => '1461',
+  2 => '1462',
+  3 => '1463',
+  4 => '1279',
+  5 => '1280',
+  6 => '1281',
+  7 => '1282',
+  8 => '1283',
+  9 => '1284',
+  10 => '1285',
+  11 => '1286',
+  12 => '1287',
+  13 => '1288',
+  14 => '1289',
+  15 => '1296',
+  16 => '1297',
+  17 => '1298',
+  18 => '1325',
+  19 => '1326',
+  20 => '1327',
+  21 => '1328',
+  22 => '1329',
+  23 => '1330',
+  24 => '1299',
+  25 => '1300',
+  26 => '1301',
+  27 => '1302',
+  28 => '1303',
+  29 => '1304',
+  30 => '1305',
+  31 => '1306',
+)
+Beggining request
+array (
+  'callback' => 'jQuery18304252234452869743_1373534458096',
+  'action' => 'woocommerce_json_api',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'page' => '1',
+    'per_page' => '3',
+  ),
+  'proc' => 'get_products',
+  '_' => '1373534853681',
+)
+class name to load is TokenValidator
+class name to load is PageValidator
+class name to load is PerPageValidator
+in function fetch: WPDB returned 3 results
+in function fetch: 3 were returned from: SELECT id from wp_posts WHERE post_type IN ('product') LIMIT 1,3
+IDs from all() are: array (
+  0 => '1461',
+  1 => '1462',
+  2 => '1463',
+)
+Beggining request
+array (
+  'callback' => 'jQuery18304252234452869743_1373534458096',
+  'action' => 'woocommerce_json_api',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'tags' => 
+    array (
+      0 => 'test-tag',
+    ),
+  ),
+  'proc' => 'get_products_by_tags',
+  '_' => '1373536263805',
+)
+class name to load is TokenValidator
+class name to load is TagsValidator
+Beggining request
+array (
+  'callback' => 'jQuery18304252234452869743_1373534458096',
+  'action' => 'woocommerce_json_api',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'tags' => 
+    array (
+      0 => 'test-tag',
+    ),
+  ),
+  'proc' => 'get_products_by_tags',
+  '_' => '1373536294655',
+)
+class name to load is TokenValidator
+class name to load is TagsValidator
+Beggining request
+array (
+  'callback' => 'jQuery18304252234452869743_1373534458096',
+  'action' => 'woocommerce_json_api',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'tags' => 
+    array (
+      0 => 'test-tag',
+    ),
+  ),
+  'proc' => 'get_products_by_tags',
+  '_' => '1373536533568',
+)
+class name to load is TokenValidator
+class name to load is TagsValidator
+Beggining request
+array (
+  'callback' => 'jQuery18304252234452869743_1373534458096',
+  'action' => 'woocommerce_json_api',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'tags' => 
+    array (
+      0 => 'test-tag',
+    ),
+  ),
+  'proc' => 'get_products_by_tags',
+  '_' => '1373537136613',
+)
+class name to load is TokenValidator
+class name to load is TagsValidator
