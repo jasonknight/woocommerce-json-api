@@ -172,6 +172,27 @@ function woocommerce_json_api_template_redirect() {
   $helpers = new JSONAPIHelpers();
   $json_api_slug = get_option( $helpers->getPluginPrefix() . '_slug' );
   $found = get_page_by_path( $json_api_slug );
+  $headers = woocommerce_json_api_parse_headers();
+
+  if ( $headers['Content-Type'] == 'application/json') {
+    $fp = @fopen('php://input','r');
+    $body = '';
+    if ($fp) {
+      while ( !feof($fp) ) {
+        $buf = fread( $fp,1024 );
+        if (is_string( $buf )) {
+          $body .= $buf;
+        }
+      }
+      fclose( $fp );
+    }
+    $hash = json_decode( $body, true );
+    foreach ( $hash as $key => $value ) {
+      $_REQUEST[$key] = $value;
+    }
+  }
+
+  JSONAPIHelpers::debug( var_export( $headers, true) );
   if ( $found ) {
     if ( $post->ID == $found->ID ) {
       woocommerce_json_api_shortcode();
@@ -181,6 +202,7 @@ function woocommerce_json_api_template_redirect() {
   } else {
     // The page was not found, let's check the $_POST params to see if this is a request to
     // us
+
     if ( isset( $_REQUEST['action']) && 'woocommerce_json_api' == $_REQUEST['action']) {
       woocommerce_json_api_shortcode();
     }
@@ -259,5 +281,17 @@ function woocommerce_json_api_settings_page() {
   $attrs = apply_filters('woocommerce_json_api_sitewide_settings_fields', $attrs);
   
   echo $helpers->renderTemplate('admin-settings-page.php', array( 'attrs' => $attrs, 'json_api_slug' => $json_api_slug) );
+}
+
+function woocommerce_json_api_parse_headers() {
+  $headers = array();
+  foreach ( $_SERVER as $key=>$value) {
+    if ( substr($key,0,5) == 'HTTP_' ) {
+      continue;
+    }
+    $h = str_replace(' ', '-', ucwords( str_replace('_', ' ', strtolower( $key ) ) ) );
+    $headers[$h] = $value;
+  }
+  return $headers;
 }
 

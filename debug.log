@@ -1654,3 +1654,239 @@ array (
 )
 class name to load is TokenValidator
 class name to load is TagsValidator
+Beggining request
+array (
+  'callback' => '?',
+  'action' => 'woocommerce_json_api',
+  'arguments' => '[object Object]',
+  'proc' => 'get_products',
+)
+Beggining request
+array (
+  'callback' => '?',
+  'action' => 'woocommerce_json_api',
+  'arguments' => '{\\"token\\"=>1234, \\"page\\"=>1, \\"per_page\\"=>2}',
+  'proc' => 'get_products',
+)
+Beggining request
+array (
+  'callback' => '?',
+)
+Beggining request
+array (
+  'callback' => '?',
+)
+array (
+  0 => 'R-Software',
+  1 => 'St-Uri',
+  2 => 'Ect-Status',
+  3 => 'Nt-Type',
+  4 => 'Nt-Length',
+  5 => '',
+  6 => 'R-Signature',
+  7 => 'R-Name',
+  8 => 'R-Addr',
+  9 => 'R-Port',
+  10 => 'E-Addr',
+  11 => 'Ent-Root',
+  12 => 'R-Admin',
+  13 => 'T-Filename',
+  14 => 'E-Port',
+  15 => 'Ect-Query-String',
+  16 => 'Ect-Url',
+  17 => 'Ay-Interface',
+  18 => 'R-Protocol',
+  19 => 'St-Method',
+  20 => '-String',
+  21 => 'T-Name',
+  22 => 'Elf',
+  23 => 'St-Time-Float',
+  24 => 'St-Time',
+)
+Beggining request
+array (
+  'callback' => '?',
+)
+array (
+  0 => 'R-Software',
+  1 => 'St-Uri',
+  2 => 'Ect-Status',
+  3 => 'Nt-Type',
+  4 => 'Nt-Length',
+  5 => '',
+  6 => 'R-Signature',
+  7 => 'R-Name',
+  8 => 'R-Addr',
+  9 => 'R-Port',
+  10 => 'E-Addr',
+  11 => 'Ent-Root',
+  12 => 'R-Admin',
+  13 => 'T-Filename',
+  14 => 'E-Port',
+  15 => 'Ect-Query-String',
+  16 => 'Ect-Url',
+  17 => 'Ay-Interface',
+  18 => 'R-Protocol',
+  19 => 'St-Method',
+  20 => '-String',
+  21 => 'T-Name',
+  22 => 'Elf',
+  23 => 'St-Time-Float',
+  24 => 'St-Time',
+)
+Beggining request
+array (
+  'callback' => '?',
+)
+array (
+  0 => 'Server-Software',
+  1 => 'Request-Uri',
+  2 => 'Redirect-Status',
+  3 => 'Content-Type',
+  4 => 'Content-Length',
+  5 => 'Path',
+  6 => 'Server-Signature',
+  7 => 'Server-Name',
+  8 => 'Server-Addr',
+  9 => 'Server-Port',
+  10 => 'Remote-Addr',
+  11 => 'Document-Root',
+  12 => 'Server-Admin',
+  13 => 'Script-Filename',
+  14 => 'Remote-Port',
+  15 => 'Redirect-Query-String',
+  16 => 'Redirect-Url',
+  17 => 'Gateway-Interface',
+  18 => 'Server-Protocol',
+  19 => 'Request-Method',
+  20 => 'Query-String',
+  21 => 'Script-Name',
+  22 => 'Php-Self',
+  23 => 'Request-Time-Float',
+  24 => 'Request-Time',
+)
+Beggining request
+array (
+  'callback' => '?',
+)
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/c6db13944977ac5f7a8305bbfb06fd6a/?callback=?',
+  'Redirect-Status' => '200',
+  'Content-Type' => 'application/json',
+  'Content-Length' => '104',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '37114',
+  'Redirect-Query-String' => 'callback=?',
+  'Redirect-Url' => '/c6db13944977ac5f7a8305bbfb06fd6a/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => 'callback=?',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1373973197.501',
+  'Request-Time' => '1373973197',
+)
+Beggining request
+array (
+  'callback' => '?',
+)
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/c6db13944977ac5f7a8305bbfb06fd6a/?callback=?',
+  'Redirect-Status' => '200',
+  'Content-Type' => 'application/json',
+  'Content-Length' => '104',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '37120',
+  'Redirect-Query-String' => 'callback=?',
+  'Redirect-Url' => '/c6db13944977ac5f7a8305bbfb06fd6a/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => 'callback=?',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1373973558.456',
+  'Request-Time' => '1373973558',
+)
+Beggining request
+array (
+  'callback' => '?',
+  'action' => 'woocommerce_json_api',
+  'arguments' => 
+  stdClass::__set_state(array(
+     'token' => 1234,
+     'page' => 1,
+     'per_page' => 2,
+  )),
+  'proc' => 'get_products',
+)
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/c6db13944977ac5f7a8305bbfb06fd6a/?callback=?',
+  'Redirect-Status' => '200',
+  'Content-Type' => 'application/json',
+  'Content-Length' => '104',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '37123',
+  'Redirect-Query-String' => 'callback=?',
+  'Redirect-Url' => '/c6db13944977ac5f7a8305bbfb06fd6a/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => 'callback=?',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1373973613.06',
+  'Request-Time' => '1373973613',
+)
+Beggining request
+array (
+  'callback' => '?',
+  'action' => 'woocommerce_json_api',
+  'arguments' => 
+  array (
+    'token' => 1234,
+    'page' => 1,
+    'per_page' => 2,
+  ),
+  'proc' => 'get_products',
+)
+class name to load is TokenValidator
+class name to load is PageValidator
+class name to load is PerPageValidator
+in function fetch: WPDB returned 2 results
+in function fetch: 2 were returned from: SELECT id from wp_posts WHERE post_type IN ('product') LIMIT 1,2
+IDs from all() are: array (
+  0 => '1461',
+  1 => '1462',
+)
