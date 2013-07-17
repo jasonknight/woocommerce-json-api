@@ -30,30 +30,30 @@ class JSONAPIHelpers {
   // turned off completely from the controls in the UI.
   public static function warn($text) {
     $file = REDE_PLUGIN_BASE_PATH . "warnings.log";
-    $fp = fopen($file,'a');
-    if (!$fp) {
-      die("Could not open log file");
+    $fp = @fopen($file,'a');
+    if ($fp) {
+      fwrite($fp,$text . "\n");
+      self::debug("[Warn] " . $text);
+      fclose($fp);
     }
-    fwrite($fp,$text . "\n");
-    self::debug("[Warn] " . $text);
-    fclose($fp);
+    
   }
   public static function error($text) {
-    $fp = fopen(REDE_PLUGIN_BASE_PATH . "errors.log",'a');
-    if (!$fp) {
-      die("Could not open log file");
+    $fp = @fopen(REDE_PLUGIN_BASE_PATH . "errors.log",'a');
+    if ($fp) {
+      fwrite($fp,$text . "\n");
+      self::debug("[Error] " . $text);
+      fclose($fp);
     }
-    fwrite($fp,$text . "\n");
-    self::debug("[Error] " . $text);
-    fclose($fp);
+    
   }
   public static function debug($text) {
-    $fp = fopen(REDE_PLUGIN_BASE_PATH . "debug.log",'a');
-    if (!$fp) {
-      die("Could not open log file");
+    $fp = @fopen(REDE_PLUGIN_BASE_PATH . "debug.log",'a');
+    if ($fp) {
+      fwrite($fp,$text . "\n");
+      fclose($fp);
     }
-    fwrite($fp,$text . "\n");
-    fclose($fp);
+    
   }
   public function __construct() {
     // README

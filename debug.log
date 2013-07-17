@@ -1890,3 +1890,639 @@ IDs from all() are: array (
   0 => '1461',
   1 => '1462',
 )
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/c6db13944977ac5f7a8305bbfb06fd6a/?callback=?',
+  'Redirect-Status' => '200',
+  'Content-Type' => 'application/json',
+  'Content-Length' => '104',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '37181',
+  'Redirect-Query-String' => 'callback=?',
+  'Redirect-Url' => '/c6db13944977ac5f7a8305bbfb06fd6a/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => 'callback=?',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1373979654.477',
+  'Request-Time' => '1373979654',
+)
+Beggining request
+array (
+  'callback' => '?',
+  'action' => 'woocommerce_json_api',
+  'arguments' => 
+  array (
+    'token' => 1234,
+    'page' => 1,
+    'per_page' => 2,
+  ),
+  'proc' => 'get_products',
+)
+class name to load is TokenValidator
+class name to load is PageValidator
+class name to load is PerPageValidator
+in function fetch: WPDB returned 2 results
+in function fetch: 2 were returned from: SELECT id from wp_posts WHERE post_type IN ('product') LIMIT 1,2
+IDs from all() are: array (
+  0 => '1461',
+  1 => '1462',
+)
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/c6db13944977ac5f7a8305bbfb06fd6a/?callback=?',
+  'Redirect-Status' => '200',
+  'Content-Type' => 'application/json',
+  'Content-Length' => '104',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '37333',
+  'Redirect-Query-String' => 'callback=?',
+  'Redirect-Url' => '/c6db13944977ac5f7a8305bbfb06fd6a/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => 'callback=?',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1373979675.477',
+  'Request-Time' => '1373979675',
+)
+Beggining request
+array (
+  'callback' => '?',
+  'action' => 'woocommerce_json_api',
+  'arguments' => 
+  array (
+    'token' => 1234,
+    'page' => 1,
+    'per_page' => 2,
+  ),
+  'proc' => 'get_products',
+)
+class name to load is TokenValidator
+class name to load is PageValidator
+class name to load is PerPageValidator
+in function fetch: WPDB returned 2 results
+in function fetch: 2 were returned from: SELECT id from wp_posts WHERE post_type IN ('product') LIMIT 1,2
+IDs from all() are: array (
+  0 => '1461',
+  1 => '1462',
+)
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/c6db13944977ac5f7a8305bbfb06fd6a/?callback=?',
+  'Redirect-Status' => '200',
+  'Content-Type' => 'application/json',
+  'Content-Length' => '104',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '37338',
+  'Redirect-Query-String' => 'callback=?',
+  'Redirect-Url' => '/c6db13944977ac5f7a8305bbfb06fd6a/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => 'callback=?',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1373979774.33',
+  'Request-Time' => '1373979774',
+)
+Beggining request
+array (
+  'callback' => '?',
+  'action' => 'woocommerce_json_api',
+  'arguments' => 
+  array (
+    'token' => 1234,
+    'page' => 1,
+    'per_page' => 2,
+  ),
+  'proc' => 'get_products',
+)
+class name to load is TokenValidator
+class name to load is PageValidator
+class name to load is PerPageValidator
+in function fetch: WPDB returned 2 results
+in function fetch: 2 were returned from: SELECT id from wp_posts WHERE post_type IN ('product') LIMIT 1,2
+IDs from all() are: array (
+  0 => '1461',
+  1 => '1462',
+)
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '37343',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'GET',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1373980541.397',
+  'Request-Time' => '1373980541',
+)
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/wp-content/uploads/2012/12/Zoku-Quick-Pop-Maker-3-90x90.jpg',
+  'Redirect-Status' => '200',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '37348',
+  'Redirect-Url' => '/wp-content/uploads/2012/12/Zoku-Quick-Pop-Maker-3-90x90.jpg',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'GET',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1373980560.835',
+  'Request-Time' => '1373980560',
+)
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/wp-content/uploads/2012/12/Le-Creuset-Frying-Pan-1-90x90.jpg',
+  'Redirect-Status' => '200',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '37377',
+  'Redirect-Url' => '/wp-content/uploads/2012/12/Le-Creuset-Frying-Pan-1-90x90.jpg',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'GET',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1373980560.836',
+  'Request-Time' => '1373980560',
+)
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/wp-content/uploads/2012/12/Vinturi-Aerator-1-90x90.jpg',
+  'Redirect-Status' => '200',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '37374',
+  'Redirect-Url' => '/wp-content/uploads/2012/12/Vinturi-Aerator-1-90x90.jpg',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'GET',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1373980560.835',
+  'Request-Time' => '1373980560',
+)
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/wp-content/uploads/2012/12/Nomu-Grinders-1-90x90.jpg',
+  'Redirect-Status' => '200',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '37379',
+  'Redirect-Url' => '/wp-content/uploads/2012/12/Nomu-Grinders-1-90x90.jpg',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'GET',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1373980560.847',
+  'Request-Time' => '1373980560',
+)
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/wp-content/uploads/2012/12/Master-Class-Icing-Set-1-90x90.jpg',
+  'Redirect-Status' => '200',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '37375',
+  'Redirect-Url' => '/wp-content/uploads/2012/12/Master-Class-Icing-Set-1-90x90.jpg',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'GET',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1373980560.835',
+  'Request-Time' => '1373980560',
+)
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/wp-content/uploads/2012/12/Zoku-Quick-Pop-Maker-1-90x90.jpg',
+  'Redirect-Status' => '200',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '37378',
+  'Redirect-Url' => '/wp-content/uploads/2012/12/Zoku-Quick-Pop-Maker-1-90x90.jpg',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'GET',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1373980561.01',
+  'Request-Time' => '1373980561',
+)
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/wp-content/uploads/2012/12/Weber-Braai-1-90x90.jpg',
+  'Redirect-Status' => '200',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '37374',
+  'Redirect-Url' => '/wp-content/uploads/2012/12/Weber-Braai-1-90x90.jpg',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'GET',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1373980562.51',
+  'Request-Time' => '1373980562',
+)
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/wp-content/uploads/2012/12/Sodastream-Penguin-1-90x90.jpg',
+  'Redirect-Status' => '200',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '37377',
+  'Redirect-Url' => '/wp-content/uploads/2012/12/Sodastream-Penguin-1-90x90.jpg',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'GET',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1373980562.515',
+  'Request-Time' => '1373980562',
+)
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/wp-content/uploads/2012/12/Wusthof-Knife-Set-1-90x90.jpg',
+  'Redirect-Status' => '200',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '37348',
+  'Redirect-Url' => '/wp-content/uploads/2012/12/Wusthof-Knife-Set-1-90x90.jpg',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'GET',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1373980562.492',
+  'Request-Time' => '1373980562',
+)
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/wp-content/uploads/2012/12/Oscar-Juicer-1-90x90.jpg',
+  'Redirect-Status' => '200',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '37379',
+  'Redirect-Url' => '/wp-content/uploads/2012/12/Oscar-Juicer-1-90x90.jpg',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'GET',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1373980562.537',
+  'Request-Time' => '1373980562',
+)
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/wp-content/uploads/2012/12/Morphy-Richards-Kettle-1-90x90.jpg',
+  'Redirect-Status' => '200',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '37375',
+  'Redirect-Url' => '/wp-content/uploads/2012/12/Morphy-Richards-Kettle-1-90x90.jpg',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'GET',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1373980562.542',
+  'Request-Time' => '1373980562',
+)
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/c6db13944977ac5f7a8305bbfb06fd6a/?callback=?',
+  'Redirect-Status' => '200',
+  'Content-Type' => 'application/json',
+  'Content-Length' => '104',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '37529',
+  'Redirect-Query-String' => 'callback=?',
+  'Redirect-Url' => '/c6db13944977ac5f7a8305bbfb06fd6a/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => 'callback=?',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1373980671.029',
+  'Request-Time' => '1373980671',
+)
+Beggining request
+array (
+  'callback' => '?',
+  'action' => 'woocommerce_json_api',
+  'arguments' => 
+  array (
+    'token' => 1234,
+    'page' => 1,
+    'per_page' => 2,
+  ),
+  'proc' => 'get_products',
+)
+class name to load is TokenValidator
+class name to load is PageValidator
+class name to load is PerPageValidator
+in function fetch: WPDB returned 2 results
+in function fetch: 2 were returned from: SELECT id from wp_posts WHERE post_type IN ('product') LIMIT 1,2
+IDs from all() are: array (
+  0 => '1461',
+  1 => '1462',
+)
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/c6db13944977ac5f7a8305bbfb06fd6a/?callback=?',
+  'Redirect-Status' => '200',
+  'Content-Type' => 'application/json',
+  'Content-Length' => '122',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '38351',
+  'Redirect-Query-String' => 'callback=?',
+  'Redirect-Url' => '/c6db13944977ac5f7a8305bbfb06fd6a/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => 'callback=?',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1373981182.754',
+  'Request-Time' => '1373981182',
+)
+Beggining request
+array (
+  'callback' => '?',
+  'action' => 'woocommerce_json_api',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'page' => 1,
+    'per_page' => 1,
+    'skus' => 
+    array (
+      0 => 'A666',
+    ),
+  ),
+  'proc' => 'get_products',
+)
+class name to load is TokenValidator
+class name to load is PageValidator
+class name to load is PerPageValidator
+class name to load is SkusValidator
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/c6db13944977ac5f7a8305bbfb06fd6a/?callback=?',
+  'Redirect-Status' => '200',
+  'Content-Type' => 'application/json',
+  'Content-Length' => '122',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '38612',
+  'Redirect-Query-String' => 'callback=?',
+  'Redirect-Url' => '/c6db13944977ac5f7a8305bbfb06fd6a/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => 'callback=?',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1373981362.942',
+  'Request-Time' => '1373981362',
+)
+Beggining request
+array (
+  'callback' => '?',
+  'action' => 'woocommerce_json_api',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'page' => 1,
+    'per_page' => 1,
+    'skus' => 
+    array (
+      0 => 'A666',
+    ),
+  ),
+  'proc' => 'get_products',
+)
+class name to load is TokenValidator
+class name to load is PageValidator
+class name to load is PerPageValidator
+class name to load is SkusValidator
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/c6db13944977ac5f7a8305bbfb06fd6a/',
+  'Redirect-Status' => '200',
+  'Content-Type' => 'application/json',
+  'Content-Length' => '122',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '38873',
+  'Redirect-Url' => '/c6db13944977ac5f7a8305bbfb06fd6a/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1373981425.421',
+  'Request-Time' => '1373981425',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'page' => 1,
+    'per_page' => 1,
+    'skus' => 
+    array (
+      0 => 'A666',
+    ),
+  ),
+  'proc' => 'get_products',
+)
+class name to load is TokenValidator
+class name to load is PageValidator
+class name to load is PerPageValidator
+class name to load is SkusValidator
