@@ -453,7 +453,7 @@ class WooCommerce_JSON_API {
     $categories = $this->helpers->orEq( $params, 'payload', array());
     foreach ( $categories as $category ) {
       $actual = WC_JSON_API_Category::find_by_name( $category['name'] );
-      print_r($actual->asApiArray());
+      //print_r($actual->asApiArray());
     }
     return $this->done();
   }
