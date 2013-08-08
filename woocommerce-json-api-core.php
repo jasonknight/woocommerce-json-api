@@ -1,14 +1,14 @@
 <?php 
 /**
-  Add fields to the user profile that allow the addition 
-  of a "token" that can be used by the API to log that
-  user into the system for performing actions.
-  
-  The API is not limited to admins, in fact, the general idea
-  is to limit the API by applying whatever limits apply
-  to the user.
-  
-  @param $user the user
+ * Add fields to the user profile that allow the addition 
+ * of a "token" that can be used by the API to log that
+ * user into the system for performing actions.
+ * 
+ * The API is not limited to admins, in fact, the general idea
+ * is to limit the API by applying whatever limits apply
+ * to the user.
+ * 
+ * @param $user the user
 */
 require_once( plugin_dir_path(__FILE__) . 'classes/class-wc-json-api.php' );
 function woocommerce_json_api_show_user_profile( $user ) {
@@ -90,17 +90,17 @@ function woocommerce_json_api_show_user_profile( $user ) {
   echo $content;
 }
 /**
-    Here we just pass this off to the above function: woocommerce_json_api_show_user_profile( $user )
+  *  Here we just pass this off to the above function: woocommerce_json_api_show_user_profile( $user )
 */
 function woocommerce_json_api_edit_user_profile( $user ) {
   woocommerce_json_api_show_user_profile( $user );
 }
 /**
-  Here we edit the key, which should only be woocommerce_json_api_settings
-  at this point, though more info and keys could be added.
-  
-  Here we are trying to simply use one key that is a serialized array
-  of all the little bits of info we need.
+ * Here we edit the key, which should only be woocommerce_json_api_settings
+ * at this point, though more info and keys could be added.
+ * 
+ * Here we are trying to simply use one key that is a serialized array
+ * of all the little bits of info we need.
 */
 function woocommerce_json_api_update_user_profile( $user_id ) {
   $helpers = new JSONAPIHelpers();
@@ -123,33 +123,35 @@ function woocommerce_json_api_exclude_pages($exclude) {
 }
 
 /**
-  Shortcode to embed in a page to turn it into a JSON API entry point.
-  
-  We don't REALLY use this, it's just there to mark a page visually.
-  
-  What happens is: 
-  
-  1) You have a page with this shortcode in it, created when it you installed the plugin.
-     the slug of this page is saved use: $json_api_slug = get_option( $helpers->getPluginPrefix() . '_slug' );
-     You can manually update that slug from the admin settings page for the JSON API
-     
-     When someone accesses that particular URL, the API works
-  
-  Some themes are not using wp_list_pages, which prevents us from filtering the page out
-  of the list of pages. If that is so, then this is a major security risk, and irritating
-  as there is no simple way to hide a page.
-  
-  So method 2 comes into play:
-  
-  2) After initializing the plugin, you delete the API page. This will cause it to not be present.
-     In that case, any page can be used as an API page, less secure, but at least we are cookin.
-     
-     This is accomplished by the template_redirect that looks to see if the page is present, if
-     not, it inspects the REQUEST vars to see if this is a JSON API post, if so, it will try
-     to satisfy it, if not, it will give up on the template redirect and everything will be
-     hunky dory. The page will show as normal, and the API will pretend it doesn't exist.
+ *  Shortcode to embed in a page to turn it into a JSON API entry point.
+ *  
+ *  We don't REALLY use this, it's just there to mark a page visually.
+ *  
+ *  What happens is: 
+ *  
+ *  1) You have a page with this shortcode in it, created when it you installed the plugin.
+ *     the slug of this page is saved use: $json_api_slug = get_option( $helpers->getPluginPrefix() . '_slug' );
+ *     You can manually update that slug from the admin settings page for the JSON API
+ *     
+ *     When someone accesses that particular URL, the API works
+ *  
+ *  Some themes are not using wp_list_pages, which prevents us from filtering the page out
+ *  of the list of pages. If that is so, then this is a major security risk, and irritating
+ *  as there is no simple way to hide a page.
+ *  
+ *  So method 2 comes into play:
+ *  
+ *  2) After initializing the plugin, you delete the API page. This will cause it to not be present.
+ *     In that case, any page can be used as an API page, less secure, but at least we are cookin.
+ *     
+ *     This is accomplished by the template_redirect that looks to see if the page is present, if
+ *     not, it inspects the REQUEST vars to see if this is a JSON API post, if so, it will try
+ *     to satisfy it, if not, it will give up on the template redirect and everything will be
+ *     hunky dory. The page will show as normal, and the API will pretend it doesn't exist.
 */
 function woocommerce_json_api_shortcode() {
+  if (!isset($_REQUEST['action']) || $_REQUEST['action'] != 'woocommerce_json_api')
+    return;
   $helpers = new JSONAPIHelpers();
   $enabled = get_option( $helpers->getPluginPrefix() . '_enabled');
   $require_https = get_option( $helpers->getPluginPrefix() . '_require_https' );
@@ -169,6 +171,8 @@ function woocommerce_json_api_shortcode() {
 */
 function woocommerce_json_api_template_redirect() {
   global $wpdb, $post;
+  if (!isset($_REQUEST['action']) || $_REQUEST['action'] != 'woocommerce_json_api')
+    return;
   $helpers = new JSONAPIHelpers();
   $json_api_slug = get_option( $helpers->getPluginPrefix() . '_slug' );
   $found = get_page_by_path( $json_api_slug );

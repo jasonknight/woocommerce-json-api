@@ -19,7 +19,7 @@ require_once( plugin_dir_path(__FILE__) . 'classes/class-rede-helpers.php' );
 require_once( plugin_dir_path(__FILE__) . 'woocommerce-json-api-core.php' );
 
 /**
-  Initialize the plugin. This plugin will be called at the end of the file.
+ * Initialize the plugin. This plugin will be called at the end of the file.
 */
 function woocommerce_json_api_initialize_plugin() {
   $helpers = new JSONAPIHelpers();

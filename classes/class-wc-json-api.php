@@ -71,31 +71,31 @@ class WooCommerce_JSON_API {
     self::getImplementedMethods();
   }
   /**
-    This function is the single entry point into the API.
-    
-    The order of operations goes like this:
-    
-    1) A new result object is created.
-    2) Check to see if it's a valid API User, if not, do stuff and quit
-    3) Check to see if the method requested has been implemented
-    4) If it's implemented, call and turn over control to the method
-    
-    This function takes a single hash,  usually $_REQUEST
-    
-    WHY? 
-    
-    Well, as you will notice with WooCommerce, there is an irritatingly large
-    dependence on _defined_ and $_GET/$_POST variables, throughout their plugin,
-    each function "depends" on request state, which is fine, except this
-    violates 'dependency injection'. We don't know where data might come from
-    in the future, what if another plugin wants to call this one inside of PHP
-    within a request, multiple times? 
-    
-    No module should ever 'depend' on objects outside of itself, they should be
-    provided with operating data, or 'injected' with it.
-    
-    There is nothing 'wrong' with the way WooCommerce does things, only it leads
-    to a certain inflexibility in what you can do with it.
+  *  This function is the single entry point into the API.
+  *  
+  *  The order of operations goes like this:
+  *  
+  *  1) A new result object is created.
+  *  2) Check to see if it's a valid API User, if not, do stuff and quit
+  *  3) Check to see if the method requested has been implemented
+  *  4) If it's implemented, call and turn over control to the method
+  *  
+  *  This function takes a single hash,  usually $_REQUEST
+  *  
+  *  WHY? 
+  *  
+  *  Well, as you will notice with WooCommerce, there is an irritatingly large
+  *  dependence on _defined_ and $_GET/$_POST variables, throughout their plugin,
+  *  each function "depends" on request state, which is fine, except this
+  *  violates 'dependency injection'. We don't know where data might come from
+  *  in the future, what if another plugin wants to call this one inside of PHP
+  *  within a request, multiple times? 
+  *  
+  *  No module should ever 'depend' on objects outside of itself, they should be
+  *  provided with operating data, or 'injected' with it.
+  *  
+  *  There is nothing 'wrong' with the way WooCommerce does things, only it leads
+  *  to a certain inflexibility in what you can do with it.
   */
   public function route( $params ) {
     $this->createNewResult( $params );
