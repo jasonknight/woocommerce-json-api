@@ -152,6 +152,9 @@ function woocommerce_json_api_exclude_pages($exclude) {
 function woocommerce_json_api_shortcode() {
   if (!isset($_REQUEST['action']) || $_REQUEST['action'] != 'woocommerce_json_api')
     return;
+  if (is_user_logged_in()) {
+    return;
+  }
   $helpers = new JSONAPIHelpers();
   $enabled = get_option( $helpers->getPluginPrefix() . '_enabled');
   $require_https = get_option( $helpers->getPluginPrefix() . '_require_https' );
@@ -171,8 +174,12 @@ function woocommerce_json_api_shortcode() {
 */
 function woocommerce_json_api_template_redirect() {
   global $wpdb, $post;
-  if (!isset($_REQUEST['action']) || $_REQUEST['action'] != 'woocommerce_json_api')
+  if (!isset($_REQUEST['action']) || $_REQUEST['action'] != 'woocommerce_json_api') {
     return;
+  }
+  if (is_user_logged_in()) {
+    return;
+  }
   $helpers = new JSONAPIHelpers();
   $json_api_slug = get_option( $helpers->getPluginPrefix() . '_slug' );
   $found = get_page_by_path( $json_api_slug );
