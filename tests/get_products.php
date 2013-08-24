@@ -1,6 +1,7 @@
 <?php
 require_once "functions.php";
 $url = 'http://woo.localhost/c6db13944977ac5f7a8305bbfb06fd6a/';
+//$url = 'http://woo.localhost/cart/';
 $data = array(
   'action'      => 'woocommerce_json_api',
   'proc'        => 'get_products',
