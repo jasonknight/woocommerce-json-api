@@ -1,7 +1,7 @@
 <?php
 /**
-  A Product class to insulate the API from the details of the
-  database representation
+ * A Product class to insulate the API from the details of the
+ * database representation
 */
 require_once(dirname(__FILE__) . "/class-rede-base-record.php");
 require_once(dirname(__FILE__) . "/class-wc-json-api-category.php");
@@ -23,25 +23,25 @@ class WC_JSON_API_Product extends JSONAPIBaseRecord {
 
     
   /**
-    Here we normalize the attributes, giving them a consistent name scheme and obvious
-    meaning, as well as making them easier to type so that we have a nice, user
-    friendly interface into WooCom.
-    
-    We also need to be able to validate the inputs from outside, so we have to 
-    attach information to each key about what it can contain, and how we should
-    cast things to and from the DB.
-    
-    When we say bool, we mean a WP Bool, which is `yes` or `no`. I actually prefer this
-    idea, because of the way PHP and many languages handle boolean values. It's just
-    so much more clear.
-
-    The fundamental idea for this class is that there doesn't seem to be a single entry
-    point into and out of the database for WooCom which provides a mixture of classes
-    and functions that get, process, display, and save products to the database and that
-    depend on things like $_POST and various Defines. 
-
-    We want to abstract away the naughty bits of the database representation of the product
-    in question.
+  * Here we normalize the attributes, giving them a consistent name scheme and obvious
+  * meaning, as well as making them easier to type so that we have a nice, user
+  * friendly interface into WooCom.
+  * 
+  * We also need to be able to validate the inputs from outside, so we have to 
+  * attach information to each key about what it can contain, and how we should
+  * cast things to and from the DB.
+  * 
+  * When we say bool, we mean a WP Bool, which is `yes` or `no`. I actually prefer this
+  * idea, because of the way PHP and many languages handle boolean values. It's just
+  * so much more clear.
+  *
+  * The fundamental idea for this class is that there doesn't seem to be a single entry
+  * point into and out of the database for WooCom which provides a mixture of classes
+  * and functions that get, process, display, and save products to the database and that
+  * depend on things like $_POST and various Defines. 
+  *
+  * We want to abstract away the naughty bits of the database representation of the product
+  * in question.
   */
   public static function setupMetaAttributes() {
     if ( self::$_meta_attributes_table ) {
@@ -172,7 +172,7 @@ class WC_JSON_API_Product extends JSONAPIBaseRecord {
     return $this;
   }
   /**
-    From here we have a dynamic getter. We return a special REDENOTSET variable.
+  *  From here we have a dynamic getter. We return a special REDENOTSET variable.
   */
   public function __get( $name ) {
     if ( isset( self::$_meta_attributes_table[$name] ) ) {
@@ -244,12 +244,7 @@ class WC_JSON_API_Product extends JSONAPIBaseRecord {
     }
     return $product;
   }
-  public function setNewRecord( $bool ) {
-    $this->_new_record = $bool;
-  }
-  public function isNewRecord() {
-    return $this->_new_record;
-  }
+  
   public static function find_by_sku( $sku ) {
     global $wpdb;
     $product = new WC_JSON_API_Product();
@@ -332,7 +327,7 @@ WHERE post_id = '{$this->_actual_product_id}'
   }
 
   /**
-    Similar in function to Model.all in Rails, it's just here for convenience.
+  *  Similar in function to Model.all in Rails, it's just here for convenience.
   */
   public static function all($fields = 'id') {
     global $wpdb;
@@ -341,14 +336,7 @@ WHERE post_id = '{$this->_actual_product_id}'
     $product->addQuery($sql);
     return $product;
   }
-  /**
-    Sometimes we want to act directly on the result to be sent to the user.
-    This allows us to add errors and warnings.
-  */
-  public function setResult ( $result ) {
-    $this->_result = $result;
-    return $this;
-  }
+  
   
   
 }

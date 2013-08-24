@@ -1,14 +1,14 @@
 <?php 
 /**
-  Add fields to the user profile that allow the addition 
-  of a "token" that can be used by the API to log that
-  user into the system for performing actions.
-  
-  The API is not limited to admins, in fact, the general idea
-  is to limit the API by applying whatever limits apply
-  to the user.
-  
-  @param $user the user
+* Add fields to the user profile that allow the addition 
+* of a "token" that can be used by the API to log that
+* user into the system for performing actions.
+* 
+* The API is not limited to admins, in fact, the general idea
+* is to limit the API by applying whatever limits apply
+* to the user.
+* 
+* @param $user the user
 */
 require_once( plugin_dir_path(__FILE__) . 'classes/class-wc-json-api.php' );
 function woocommerce_json_api_show_user_profile( $user ) {

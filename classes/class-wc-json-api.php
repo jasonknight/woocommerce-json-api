@@ -1,6 +1,6 @@
 <?php
 /**
-  Core JSON API
+ * Core JSON API
 */
 
 
@@ -56,11 +56,13 @@ class WooCommerce_JSON_API {
       'get_payment_gateways',
       'get_tags',
       'get_products_by_tags',
+      'get_customers',
       
       // Write capable methods
       
       'set_products',
       'set_categories',
+
     );
     return self::$implemented_methods;
   }
@@ -71,31 +73,31 @@ class WooCommerce_JSON_API {
     self::getImplementedMethods();
   }
   /**
-    This function is the single entry point into the API.
-    
-    The order of operations goes like this:
-    
-    1) A new result object is created.
-    2) Check to see if it's a valid API User, if not, do stuff and quit
-    3) Check to see if the method requested has been implemented
-    4) If it's implemented, call and turn over control to the method
-    
-    This function takes a single hash,  usually $_REQUEST
-    
-    WHY? 
-    
-    Well, as you will notice with WooCommerce, there is an irritatingly large
-    dependence on _defined_ and $_GET/$_POST variables, throughout their plugin,
-    each function "depends" on request state, which is fine, except this
-    violates 'dependency injection'. We don't know where data might come from
-    in the future, what if another plugin wants to call this one inside of PHP
-    within a request, multiple times? 
-    
-    No module should ever 'depend' on objects outside of itself, they should be
-    provided with operating data, or 'injected' with it.
-    
-    There is nothing 'wrong' with the way WooCommerce does things, only it leads
-    to a certain inflexibility in what you can do with it.
+  * This function is the single entry point into the API.
+  * 
+  * The order of operations goes like this:
+  * 
+  * 1) A new result object is created.
+  * 2) Check to see if it's a valid API User, if not, do stuff and quit
+  * 3) Check to see if the method requested has been implemented
+  * 4) If it's implemented, call and turn over control to the method
+  * 
+  * This function takes a single hash,  usually $_REQUEST
+  * 
+  * WHY? 
+  * 
+  * Well, as you will notice with WooCommerce, there is an irritatingly large
+  * dependence on _defined_ and $_GET/$_POST variables, throughout their plugin,
+  * each function "depends" on request state, which is fine, except this
+  * violates 'dependency injection'. We don't know where data might come from
+  * in the future, what if another plugin wants to call this one inside of PHP
+  * within a request, multiple times? 
+  * 
+  * No module should ever 'depend' on objects outside of itself, they should be
+  * provided with operating data, or 'injected' with it.
+  * 
+  * There is nothing 'wrong' with the way WooCommerce does things, only it leads
+  * to a certain inflexibility in what you can do with it.
   */
   public function route( $params ) {
     $this->createNewResult( $params );
@@ -244,14 +246,14 @@ class WooCommerce_JSON_API {
   }
   
   /**
-    This is the single entry point for fetching products, ordering, paging, as well
-    as "finding" by ID or SKU.
+  * This is the single entry point for fetching products, ordering, paging, as well
+  * as "finding" by ID or SKU.
   */
   private function get_products( $params ) {
     global $wpdb;
     $allowed_order_bys = array('ID','post_title','post_date','post_author','post_modified');
     /**
-      Read this section to get familiar with the arguments of this method.
+    *  Read this section to get familiar with the arguments of this method.
     */
     $posts_per_page = $this->helpers->orEq( $params['arguments'], 'per_page', 15 ); 
     $paged          = $this->helpers->orEq( $params['arguments'], 'page', 0 );
@@ -414,7 +416,7 @@ class WooCommerce_JSON_API {
 
   
   /**
-     Get product categories
+   *  Get product categories
   */
   private function get_categories( $params ) {
   
@@ -458,7 +460,7 @@ class WooCommerce_JSON_API {
     return $this->done();
   }
   /**
-    Get tax rates defined for store
+   * Get tax rates defined for store
   */
   private function get_taxes( $params ) {
     global $wpdb;
@@ -489,8 +491,8 @@ class WooCommerce_JSON_API {
     return $this->done();   
   }
   /**
-    WooCommerce handles shipping methods on a per class/instance basis. So in order to have a
-    shipping method, we must have a class file that registers itself with 'woocommerce_shipping_methods'.
+  * WooCommerce handles shipping methods on a per class/instance basis. So in order to have a
+  * shipping method, we must have a class file that registers itself with 'woocommerce_shipping_methods'.
   */
   private function get_shipping_methods( $params ) {
     $klass = new WC_Shipping();
@@ -511,7 +513,7 @@ class WooCommerce_JSON_API {
   }
   
   /**
-    Get info on Payment Gateways
+  *  Get info on Payment Gateways
   */
   private function get_payment_gateways( $params ) {
     $klass = new WC_Payment_Gateways();
@@ -561,6 +563,15 @@ class WooCommerce_JSON_API {
     }
     $tags = get_terms('product_tag', $args);
     $this->result->setPayload($tags);
+    return $this->done();
+  }
+  public function get_customers( $params ) {
+    global $wpdb;
+    $customer_ids = $wpdb->get_col("SELECT user_id FROM {$wpdb->usermeta} WHERE meta_key = 'wp_capabilities' AND meta_value LIKE '%customer%'");
+    foreach ( $customer_id as $id ) {
+
+    }
+    $this->result->setPayload($customer_ids);
     return $this->done();
   }
 }

@@ -15,13 +15,18 @@ class JSONAPIBaseRecord {
   protected $_result; // so we can add errors
   
   /**
-    We want to establish a "fluid" API for the objects.
-    which is why most of these methods return $this.
-    
-    ( new Object() )->setup()->doCalculation()->update()->done();
+  * We want to establish a "fluid" API for the objects.
+  * which is why most of these methods return $this.
+  * 
+  * ( new Object() )->setup()->doCalculation()->update()->done();
   */
   
-  
+  public function setNewRecord( $bool ) {
+    $this->_new_record = $bool;
+  }
+  public function isNewRecord() {
+    return $this->_new_record;
+  }
   public function isValid() {
     return $this->_valid;
   }
@@ -37,7 +42,7 @@ class JSONAPIBaseRecord {
     echo $sql; 
   }
   /**
-    You will need to define an all and where method on the child model.
+  *  You will need to define an all and where method on the child model.
   */
   public function done() {
     global $wpdb;
@@ -122,6 +127,14 @@ class JSONAPIBaseRecord {
       $value = array();
     }
     return $value;
+  }
+  /**
+  * Sometimes we want to act directly on the result to be sent to the user.
+  * This allows us to add errors and warnings.
+  */
+  public function setResult ( $result ) {
+    $this->_result = $result;
+    return $this;
   }
 }
 
