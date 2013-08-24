@@ -18,6 +18,7 @@ define('WCAPI_PRODUCT_NOT_EXISTS', 1);
 require_once( plugin_dir_path(__FILE__) . '/class-rede-helpers.php' );
 require_once( plugin_dir_path(__FILE__) . '/class-wc-json-api-result.php' );
 require_once( plugin_dir_path(__FILE__) . '/class-wc-json-api-product.php' );
+require_once( plugin_dir_path(__FILE__) . '/class-wc-json-api-customer.php' );
 
 if ( !defined('PHP_VERSION_ID')) {
   $version = explode('.',PHP_VERSION);
@@ -568,10 +569,12 @@ class WooCommerce_JSON_API {
   public function get_customers( $params ) {
     global $wpdb;
     $customer_ids = $wpdb->get_col("SELECT user_id FROM {$wpdb->usermeta} WHERE meta_key = 'wp_capabilities' AND meta_value LIKE '%customer%'");
-    foreach ( $customer_id as $id ) {
-
+    $customers = array();
+    foreach ( $customer_ids as $id ) {
+      $c = WC_JSON_API_Customer::find( $id );
+      $customers[] = $c->asApiArray();
     }
-    $this->result->setPayload($customer_ids);
+    $this->result->setPayload($customers);
     return $this->done();
   }
 }

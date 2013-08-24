@@ -51,10 +51,10 @@ class WC_JSON_API_Customer extends JSONAPIBaseRecord {
   }
   public function asApiArray() {
     $attributes = array_merge(self::$_user_attributes_table, self::$_meta_attributes_table);
-    $attributes_to_send['id'] = $this->getCustomerId();
+    $attributes_to_send['id'] = $this->getUserId();
     $attributes_to_send = array();
     foreach ( $attributes as $name => $desc ) {
-      $attributes_to_send[$name] = $this->dynamic_get( $name, $desc, $this->getProductId());
+      $attributes_to_send[$name] = $this->dynamic_get( $name, $desc, $this->getUserId());
     }
     return $attributes_to_send;
   }
@@ -121,7 +121,7 @@ class WC_JSON_API_Customer extends JSONAPIBaseRecord {
         // of code if we try to be explicity about each attribute.
         // Also, we may want other people to extend the objects via
         // filters.
-        $customer->dynamic_set( $name, $desc, $value, $customer->getProductId() );
+        $customer->dynamic_set( $name, $desc, $value, $customer->getUserId() );
       }
       $customer->setValid( true );
       $customer->setNewRecord( false );
