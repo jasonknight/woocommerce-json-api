@@ -33,7 +33,7 @@ class WC_JSON_API_Customer extends JSONAPIBaseRecord {
       this helps to facilitate interoperability with other plugins that may be making arcane
       magic with a customer, or want to expose their customer extensions via the api.
     */
-    self::$_meta_attributes_table = apply_filters( 'woocommerce_json_api_customer_meta_attributes_table', self::$_meta_attributes_table );
+    self::$_meta_attributes_table = apply_filters( 'woocommerce_json_api_user_meta_attributes_table', self::$_meta_attributes_table );
   } // end setupMetaAttributes
   public static function setupUserAttributes() {
     if ( self::$_user_attributes_table ) {
@@ -47,7 +47,7 @@ class WC_JSON_API_Customer extends JSONAPIBaseRecord {
       'status'          => array('name' => 'user_status',            'type' => 'number'),
       'date_registered' => array('name' => 'user_registered',        'type' => 'datetime'),
     );
-    self::$_user_attributes_table = apply_filters( 'woocommerce_json_api_customer_attributes_table', self::$_user_attributes_table );
+    self::$_user_attributes_table = apply_filters( 'woocommerce_json_api_user_attributes_table', self::$_user_attributes_table );
   }
   public function asApiArray() {
     $attributes = array_merge(self::$_user_attributes_table, self::$_meta_attributes_table);
