@@ -23,3 +23,31 @@ function curl_post($url, array $post = NULL, array $options = array()) {
     curl_close($ch); 
     return $result; 
 } 
+function verifyHasErrors($test,$result, $code) {
+  echo "Verifying: $test\n";
+  $r = json_decode($result,true);
+  if ( $r['status'] == false && $r['errors'][0]['code'] == $code) {
+    echo "PASSED\n";
+  } else {
+    echo "FAILED\n";
+  }
+}
+function verifyHasWarnings($test,$result, $code) {
+  echo "Verifying: $test\n";
+  $r = json_decode($result,true);
+  if ( $r['status'] == true && $r['warnings'][0]['code'] == $code) {
+    echo "PASSED\n";
+  } else {
+    echo "FAILED\n";
+  }
+}
+function verifySuccess($test,$result) {
+  echo "Verifying: $test\n";
+  $r = json_decode($result,true);
+  if ( $r['status'] == true) {
+    echo "PASSED\n";
+  } else {
+    echo "FAILED\n";
+    echo $result . "\n\n";
+  }
+}

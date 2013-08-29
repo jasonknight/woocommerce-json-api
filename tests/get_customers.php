@@ -1,11 +1,12 @@
 <?php
-require_once "functions.php";
-$url = 'http://woo.localhost/c6db13944977ac5f7a8305bbfb06fd6a/';
+include "functions.php";
+include "config.php";
+
 $data = array(
   'action'      => 'woocommerce_json_api',
   'proc'        => 'get_customers',
   'arguments'   => array(
-    'token' => '1234',
+    'token' => $token,
     'per_page' => 2,
     'page'     => 1
   )

@@ -1,12 +1,12 @@
 <?php
 require_once "functions.php";
-$url = 'http://woo.localhost/c6db13944977ac5f7a8305bbfb06fd6a/';
+include "config.php";
 //$url = 'http://woo.localhost/cart/';
 $data = array(
   'action'      => 'woocommerce_json_api',
   'proc'        => 'get_products',
   'arguments'   => array(
-    'token' => '1234',
+    'token' => $token,
     'per_page' => 2,
     'page'     => 1
   )

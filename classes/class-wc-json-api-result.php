@@ -1,7 +1,4 @@
 <?php
-/**
-
-*/
 class WooCommerce_JSON_API_Result {
   private $params;
   public function status() {
@@ -28,8 +25,8 @@ class WooCommerce_JSON_API_Result {
   }
   
   /**
-    This is useful when we are looping and grabbing bits, but don't
-    want to create our own array
+  * This is useful when we are looping and grabbing bits, but don't
+  * want to create our own array
   */
   public function addPayload( $hash ) {
     $this->params['payload'][] = $hash;
