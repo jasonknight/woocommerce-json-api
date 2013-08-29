@@ -173,7 +173,7 @@ function woocommerce_json_api_shortcode() {
   Prevent template code from loading :)
 */
 function woocommerce_json_api_template_redirect() {
-  global $wpdb, $post;
+  global $wpdb;
   if (!isset($_REQUEST['action']) || $_REQUEST['action'] != 'woocommerce_json_api') {
     return;
   }
@@ -183,6 +183,8 @@ function woocommerce_json_api_template_redirect() {
   $helpers = new JSONAPIHelpers();
   $json_api_slug = get_option( $helpers->getPluginPrefix() . '_slug' );
   $found = get_page_by_path( $json_api_slug );
+  $path = strtok($_SERVER['REQUEST_URI'], '?');
+  $post = get_page_by_path( $path );
   $headers = woocommerce_json_api_parse_headers();
 
   if ( isset($headers['Content-Type']) && $headers['Content-Type'] == 'application/json') {
