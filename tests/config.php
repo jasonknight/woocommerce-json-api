@@ -1,3 +1,3 @@
 <?php
-	$url = 'http://woo.localhost/c6db13944977ac5f7a8305bbfb06fd6a/?jsonp=abc123';
+	$url = 'http://woo.localhost/shop/';
 	$token = '1234';

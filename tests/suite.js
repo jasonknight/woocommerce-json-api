@@ -5,7 +5,7 @@ var params = {
     token: 1234,
   }
 };
-var url = 'http://woo.localhost/c6db13944977ac5f7a8305bbfb06fd6a/?callback=?';
+var url = 'http://woo.localhost/shop?callback=?';
 
 function inspect_api_result(data) {
   for ( var i in data.payload) {

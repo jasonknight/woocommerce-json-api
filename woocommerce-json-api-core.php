@@ -185,6 +185,7 @@ function woocommerce_json_api_template_redirect() {
   $found = get_page_by_path( $json_api_slug );
   $path = strtok($_SERVER['REQUEST_URI'], '?');
   $post = get_page_by_path( $path );
+
   $headers = woocommerce_json_api_parse_headers();
 
   if ( isset($headers['Content-Type']) && $headers['Content-Type'] == 'application/json') {
