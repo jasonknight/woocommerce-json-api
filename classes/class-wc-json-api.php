@@ -164,6 +164,7 @@ class WooCommerce_JSON_API {
   }
   
   private function done() {
+    wp_logout();
     if ( $this->return_type == 'HTTP') {
       header("Content-type: application/json");
       echo( $this->result->asJSON() );
