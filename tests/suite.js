@@ -8,6 +8,7 @@ var params = {
 var url = 'http://woo.localhost/shop?callback=?';
 
 function inspect_api_result(data) {
+  console.log( new Date() );
   for ( var i in data.payload) {
     if ( data.proc.indexOf("get_products") != -1) {
       console.log(data.payload[i].name + " " + data.payload[i].price + " " + data.payload[i].publishing, data.payload[i]);
