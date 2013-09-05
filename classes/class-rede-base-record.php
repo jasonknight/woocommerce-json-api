@@ -301,7 +301,7 @@ class JSONAPIBaseRecord extends JSONAPIHelpers {
     /**
   *  Similar in function to Model.all in Rails, it's just here for convenience.
   */
-  public static function all($fields = 'id') {
+  public static function all($fields = 'id', $conditions = null) {
     global $wpdb;
     static::setupModelAttributes();
     static::setupMetaAttributes();
@@ -314,6 +314,11 @@ class JSONAPIBaseRecord extends JSONAPIHelpers {
       $model_table             = $wpdb->posts;  
       $model_table_id          = 'ID'; 
       $model_conditions        = '';  
+    }
+    if ( ! empty( $model_conditions) && $conditions && ! empty( $conditions )) {
+      $model_conditions .= " AND ($conditions)";
+    } else if ( empty( $model_conditions) && $conditions && ! empty( $conditions )) {
+      $model_conditions = $conditions;
     }
     $sql = "SELECT $fields FROM {$model_table} {$model_conditions}";
     $model->addQuery($sql);

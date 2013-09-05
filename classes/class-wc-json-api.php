@@ -267,6 +267,7 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
     $order_by       = $this->orEq( $params['arguments'], 'order_by', 'ID');
     $order          = $this->orEq( $params['arguments'], 'order', 'ASC');
     $ids            = $this->orEq( $params['arguments'], 'ids', false);
+    $parent_ids     = $this->orEq( $params['arguments'], 'parent_ids', false);
     $skus           = $this->orEq( $params['arguments'], 'skus', false);
     
     $by_ids = true;
@@ -276,10 +277,16 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
       return;
     }
     if ( ! $ids && ! $skus ) {
-      
-      $posts = WC_JSON_API_Product::all()->per($posts_per_page)->page($paged)->fetch(function ( $result) {
-        return $result['id'];
-	    });
+        if ($parent_ids) {
+          $posts = WC_JSON_API_Product::all('id', "`post_parent` IN (" . join(",",$parent_ids) . ")")->per($posts_per_page)->page($paged)->fetch(function ( $result) {
+            return $result['id'];
+          });
+        } else {
+          $posts = WC_JSON_API_Product::all()->per($posts_per_page)->page($paged)->fetch(function ( $result) {
+            return $result['id'];
+          });
+        }
+        
       JSONAPIHelpers::debug( "IDs from all() are: " . var_export($posts,true) );
 	  } else if ( $ids ) {
 	  
