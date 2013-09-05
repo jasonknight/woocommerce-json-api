@@ -170,6 +170,7 @@ function woocommerce_json_api_shortcode() {
     $api->setOut('HTTP');
     $api->setUser(null);
     $api->route($_REQUEST);
+
   } else {
     JSONAPIHelpers::debug("JSON API is not set to enabled.");
   }
