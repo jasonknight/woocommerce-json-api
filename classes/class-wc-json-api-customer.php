@@ -18,8 +18,6 @@ class WC_JSON_API_Customer extends JSONAPIBaseRecord {
   private $_user_attributes;
   public static $_user_attributes_table;
 
-  // A the id for the actual Customer, used for queries.
-  private $_actual_user_id;
   public static function setupMetaAttributes() {
     if ( self::$_meta_attributes_table ) {
       return;
@@ -51,10 +49,10 @@ class WC_JSON_API_Customer extends JSONAPIBaseRecord {
   }
   public function asApiArray() {
     $attributes = array_merge(self::$_user_attributes_table, self::$_meta_attributes_table);
-    $attributes_to_send['id'] = $this->getUserId();
+    $attributes_to_send['id'] = $this->getModelId();
     $attributes_to_send = array();
     foreach ( $attributes as $name => $desc ) {
-      $attributes_to_send[$name] = $this->dynamic_get( $name, $desc, $this->getUserId());
+      $attributes_to_send[$name] = $this->dynamic_get( $name, $desc, $this->getModelId());
     }
     return $attributes_to_send;
   }
@@ -92,14 +90,6 @@ class WC_JSON_API_Customer extends JSONAPIBaseRecord {
       throw new Exception( __('That attribute does not exist to be set.','woocommerce_json_api') . " `$name`");
     }
   } 
-  public function setUserId( $id ) {
-    $this->_actual_user_id = $id;
-  }
-  
-  
-  public function getUserId() {
-    return $this->_actual_user_id;
-  }
   public static function find( $id ) {
     global $wpdb;
     self::setupUserAttributes();
@@ -108,7 +98,7 @@ class WC_JSON_API_Customer extends JSONAPIBaseRecord {
     $customer->setValid( false );
     $user = $wpdb->get_row( $wpdb->prepare("SELECT * FROM {$wpdb->users} WHERE ID = %d", (int) $id), 'ARRAY_A' );
     if ( $user ) {
-      $customer->setUserId( $id );
+      $customer->setModelId( $id );
       foreach ( self::$_user_attributes_table as $name => $desc ) {
         $customer->dynamic_set( $name, $desc,$user[ $desc['name'] ] );
         //$customer->{$name} = $user[$desc['name']];
@@ -121,7 +111,7 @@ class WC_JSON_API_Customer extends JSONAPIBaseRecord {
         // of code if we try to be explicity about each attribute.
         // Also, we may want other people to extend the objects via
         // filters.
-        $customer->dynamic_set( $name, $desc, $value, $customer->getUserId() );
+        $customer->dynamic_set( $name, $desc, $value, $customer->getModelId() );
       }
       $customer->setValid( true );
       $customer->setNewRecord( false );

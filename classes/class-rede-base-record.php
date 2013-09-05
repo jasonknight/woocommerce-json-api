@@ -6,6 +6,7 @@ class JSONAPIBaseRecord {
   // impose an arbitrary limit, instead leaving that up to the
   // host user and as a configuration variable
   protected $_queries_to_run;
+  protected $_actual_model_id;
   // We need to know if this record exists in the database?
   // if not, then update should fail.
   protected $_new_record;
@@ -41,6 +42,13 @@ class JSONAPIBaseRecord {
     }
     echo $sql; 
   }
+  public function getModelId() {
+    return $this->_actual_model_id;
+  }
+  public function setModelId( $id ) {
+    $this->_actual_model_id = $id;
+  }
+  
   /**
   *  You will need to define an all and where method on the child model.
   */
@@ -83,7 +91,9 @@ class JSONAPIBaseRecord {
       $results = $wpdb->get_results($sql,'ARRAY_A');
       JSONAPIHelpers::debug("in function fetch: WPDB returned " . count($results) . " results");
       foreach ( $results as &$result ) {
-        $result = call_user_func($callback,$result);
+        if ( $callback ) {
+          $result = call_user_func($callback,$result);
+        }
       }
       if (count($results) < 1) {
         JSONAPIHelpers::debug("in function fetch, empty result set using: $sql");
@@ -95,6 +105,36 @@ class JSONAPIBaseRecord {
       JSONAPIHelpers::debug("in function fetch, sql was empty.");
       return null;
     }
+  }
+  public function update() {
+    global $wpdb;
+    $meta_sql = "
+      UPDATE {$wpdb->postmeta}
+        SET meta_value = CASE `meta_key`
+          ";
+          foreach (self::$_meta_attributes_table as $attr => $desc) {
+            if ( isset( $this->_meta_attributes[$attr] ) ) {
+              $value = $this->_meta_attributes[$attr];
+              if ( ! empty($value) ) {
+                $meta_sql .= $wpdb->prepare( "\tWHEN '{$desc['name']}' THEN %s\n ", $value);
+              }
+            } 
+          }
+          $meta_sql .= "
+        END 
+      WHERE post_id = '{$this->_actual_model_id}'
+    ";
+    $key = md5($meta_sql);
+    $this->_queries_to_run[$key] = $meta_sql;
+    $values = array();
+    foreach (self::$_post_attributes_table as $attr => $desc) {
+      $value = $this->dynamic_get( $attr, $desc, $this->getModelId());
+      $values[] = $wpdb->prepare("`{$desc['name']}` = %s", $value );
+    }
+    $post_sql = "UPDATE {$wpdb->posts} SET " . join(',',$values) . " WHERE ID = '{$this->_actual_model_id}'";
+    $key = md5($post_sql);
+    $this->_queries_to_run[$key] = $post_sql;
+    return $this;
   }
 
   public function dynamic_set( $name, $desc, $value, $filter_value = null ) {

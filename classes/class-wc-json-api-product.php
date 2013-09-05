@@ -18,8 +18,6 @@ class WC_JSON_API_Product extends JSONAPIBaseRecord {
   private $_post_attributes;
   public static $_post_attributes_table;
 
-  // A the id for the actual product, used for queries.
-  private $_actual_product_id;
 
     
   /**
@@ -133,7 +131,7 @@ class WC_JSON_API_Product extends JSONAPIBaseRecord {
   
   public function asApiArray() {
     global $wpdb;
-    $category_objs = woocommerce_get_product_terms($this->_actual_product_id, 'product_cat', 'all');
+    $category_objs = woocommerce_get_product_terms($this->_actual_model_id, 'product_cat', 'all');
     $categories = array();
 
     foreach ( $category_objs as $cobj ) {
@@ -151,13 +149,13 @@ class WC_JSON_API_Product extends JSONAPIBaseRecord {
       
     }
     $attributes = array_merge(self::$_post_attributes_table, self::$_meta_attributes_table);
-    $attributes_to_send['id'] = $this->getProductId();
+    $attributes_to_send['id'] = $this->getModelId();
     foreach ( $attributes as $name => $desc ) {
-      $attributes_to_send[$name] = $this->dynamic_get( $name, $desc, $this->getProductId());
+      $attributes_to_send[$name] = $this->dynamic_get( $name, $desc, $this->getModelId());
     }
     $attributes_to_send['categories'] = $categories;
-    $attributes_to_send['tags'] = wp_get_post_terms($this->_actual_product_id,'product_tag');
-    $feat_image = wp_get_attachment_url( get_post_thumbnail_id( $this->_actual_product_id) );
+    $attributes_to_send['tags'] = wp_get_post_terms($this->_actual_model_id,'product_tag');
+    $feat_image = wp_get_attachment_url( get_post_thumbnail_id( $this->_actual_model_id) );
     $attributes_to_send['featured_image'] = $feat_image;
     return $attributes_to_send;
   }
@@ -166,7 +164,7 @@ class WC_JSON_API_Product extends JSONAPIBaseRecord {
     foreach ( $attrs as $name => $value ) {
       if ( isset($attributes[$name]) ) {
         $desc = $attributes[$name];
-        $this->dynamic_set( $name, $desc, $value, $this->getProductId());
+        $this->dynamic_set( $name, $desc, $value, $this->getModelId());
       }
     }
     return $this;
@@ -206,13 +204,13 @@ class WC_JSON_API_Product extends JSONAPIBaseRecord {
       throw new Exception( __('That attribute does not exist to be set.','woocommerce_json_api') . " `$name`");
     }
   } 
-  public function setProductId( $id ) {
-    $this->_actual_product_id = $id;
+  public function setModelId( $id ) {
+    $this->_actual_model_id = $id;
   }
   
   
-  public function getProductId() {
-    return $this->_actual_product_id;
+  public function getModelId() {
+    return $this->_actual_model_id;
   }
   // How do we find Products?
   
@@ -224,7 +222,7 @@ class WC_JSON_API_Product extends JSONAPIBaseRecord {
     $product->setValid( false );
     $post = get_post( $id, 'ARRAY_A' );
     if ( $post ) {
-      $product->setProductId( $id );
+      $product->setModelId( $id );
       foreach ( self::$_post_attributes_table as $name => $desc ) {
         $product->dynamic_set( $name, $desc,$post[$desc['name']] );
         //$product->{$name} = $post[$desc['name']];
@@ -237,7 +235,7 @@ class WC_JSON_API_Product extends JSONAPIBaseRecord {
         // of code if we try to be explicity about each attribute.
         // Also, we may want other people to extend the objects via
         // filters.
-        $product->dynamic_set( $name, $desc, $value, $product->getProductId() );
+        $product->dynamic_set( $name, $desc, $value, $product->getModelId() );
       }
       $product->setValid( true );
       $product->setNewRecord( false );
@@ -256,38 +254,6 @@ class WC_JSON_API_Product extends JSONAPIBaseRecord {
     return $product;
   }
   
-  // How do we update products?
-  public function update() {
-    global $wpdb;
-    $meta_sql = "
-UPDATE {$wpdb->postmeta}
-  SET meta_value = CASE `meta_key`
-    ";
-    foreach (self::$_meta_attributes_table as $attr => $desc) {
-      if ( isset( $this->_meta_attributes[$attr] ) ) {
-        $value = $this->_meta_attributes[$attr];
-        if ( ! empty($value) ) {
-          $meta_sql .= $wpdb->prepare( "\tWHEN '{$desc['name']}' THEN %s\n ", $value);
-        }
-      } 
-    }
-    $meta_sql .= "
-  END 
-WHERE post_id = '{$this->_actual_product_id}'
-    ";
-    $key = md5($meta_sql);
-    $this->_queries_to_run[$key] = $meta_sql; 
-    $values = array();
-    foreach (self::$_post_attributes_table as $attr => $desc) {
-      $value = $this->dynamic_get( $attr, $desc, $this->getProductId());
-      $values[] = $wpdb->prepare("`{$desc['name']}` = %s", $value );
-    }
-    $post_sql = "UPDATE {$wpdb->posts} SET " . join(',',$values) . " WHERE ID = '{$this->_actual_product_id}'";
-    $key = md5($post_sql);
-    $this->_queries_to_run[$key] = $post_sql;
-    return $this;
-  }
-
   public function create( $attrs = null ) {
     global $wpdb, $user_ID;
     // We should setup attrib tables if it hasn't
@@ -321,7 +287,7 @@ WHERE post_id = '{$this->_actual_product_id}'
           }
         } 
       }  
-      $this->_actual_product_id = $id;
+      $this->_actual_model_id = $id;
     }
     return $this;
   }

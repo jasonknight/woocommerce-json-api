@@ -150,9 +150,12 @@ function woocommerce_json_api_exclude_pages($exclude) {
  *     hunky dory. The page will show as normal, and the API will pretend it doesn't exist.
 */
 function woocommerce_json_api_shortcode() {
-  if (!isset($_REQUEST['action']) || $_REQUEST['action'] != 'woocommerce_json_api')
+  if (!isset($_REQUEST['action']) || $_REQUEST['action'] != 'woocommerce_json_api') {
+    JSONAPIHelpers::debug("REQUEST['action']  was not properly set.");
     return;
+  }
   if (is_user_logged_in()) {
+    JSONAPIHelpers::debug("A user is currently logged in.");
     return;
   }
   $helpers = new JSONAPIHelpers();
@@ -160,12 +163,15 @@ function woocommerce_json_api_shortcode() {
   $require_https = get_option( $helpers->getPluginPrefix() . '_require_https' );
   if ( $enabled != 'no') {
     if ( $require_https == 'yes' && $helpers->isHTTPS() == false ) {
+      JSONAPIHelpers::debug("Cannot continue, HTTPS is required.");
       return;
     }
     $api = new WooCommerce_JSON_API();
     $api->setOut('HTTP');
     $api->setUser(null);
     $api->route($_REQUEST);
+  } else {
+    JSONAPIHelpers::debug("JSON API is not set to enabled.");
   }
 }
 

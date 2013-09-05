@@ -15,10 +15,13 @@ define('WCAPI_PERMSNOTSET',                   -7);
 define('WCAPI_PERMSINSUFF',                   -8);
 
 define('WCAPI_PRODUCT_NOT_EXISTS', 1);
+define('WCAPI_ORDER_NOT_EXISTS', 2);
+
 require_once( plugin_dir_path(__FILE__) . '/class-rede-helpers.php' );
 require_once( plugin_dir_path(__FILE__) . '/class-wc-json-api-result.php' );
 require_once( plugin_dir_path(__FILE__) . '/class-wc-json-api-product.php' );
 require_once( plugin_dir_path(__FILE__) . '/class-wc-json-api-customer.php' );
+require_once( plugin_dir_path(__FILE__) . '/class-wc-json-api-order.php' );
 
 if ( !defined('PHP_VERSION_ID')) {
   $version = explode('.',PHP_VERSION);
@@ -58,6 +61,7 @@ class WooCommerce_JSON_API {
       'get_tags',
       'get_products_by_tags',
       'get_customers',
+      'get_orders', // New Method
       
       // Write capable methods
       
@@ -576,6 +580,43 @@ class WooCommerce_JSON_API {
       $customers[] = $c->asApiArray();
     }
     $this->result->setPayload($customers);
+    return $this->done();
+  }
+
+  public function get_orders( $params ) {
+    $posts_per_page = $this->helpers->orEq( $params['arguments'], 'per_page', 15 ); 
+    $paged          = $this->helpers->orEq( $params['arguments'], 'page', 0 );
+    $ids            = $this->helpers->orEq( $params['arguments'], 'ids', false);
+
+    if ( ! $ids ) {
+      
+      $posts = WC_JSON_API_Order::all()->per($posts_per_page)->page($paged)->fetch(function ( $result) {
+        return $result['id'];
+      });
+      JSONAPIHelpers::debug( "IDs from all() are: " . var_export($posts,true) );
+    } else if ( $ids ) {
+    
+      $posts = $ids;
+      
+    }
+    $orders = array();
+    foreach ( $posts as $post_id) {
+      try {
+        $post = WC_JSON_API_Order::find($post_id);
+      } catch (Exception $e) {
+        JSONAPIHelpers::error("An exception occurred attempting to instantiate a Order object: " . $e->getMessage());
+        $this->result->addError( __("Error occurred instantiating Order object"),-99);
+        return $this->done();
+      }
+      
+      if ( !$post ) {
+        $this->result->addWarning( $post_id. ': ' . __('Order does not exist','woocommerce_json_api'), WCAPI_ORDER_NOT_EXISTS, array( 'id' => $post_id) );
+      } else {
+        $orders[] = $post->asApiArray();
+      }
+      
+    }
+    $this->result->setPayload($orders);
     return $this->done();
   }
 }

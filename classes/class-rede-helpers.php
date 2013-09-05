@@ -13,8 +13,8 @@ if ( ! function_exists('_rede_notset') ) {
   }
 }
 /**
-  This class needs to be instantiated as helpers, and provides all the helper 
-  functionality needed by the PHP side of the API
+* This class needs to be instantiated as helpers, and provides all the helper 
+* functionality needed by the PHP side of the API
 */
 class JSONAPIHelpers {
   public $plugin_name = 'woocommerce-json-api';
@@ -29,6 +29,9 @@ class JSONAPIHelpers {
   // Later on, these will be configurable and can be
   // turned off completely from the controls in the UI.
   public static function warn($text) {
+    if ( ! defined('WC_JSON_API_DEBUG') ) {
+      return;
+    }
     $file = REDE_PLUGIN_BASE_PATH . "warnings.log";
     $fp = @fopen($file,'a');
     if ($fp) {
@@ -48,6 +51,9 @@ class JSONAPIHelpers {
     
   }
   public static function debug($text) {
+    if ( ! defined('WC_JSON_API_DEBUG') ) {
+      return;
+    }
     $fp = @fopen(REDE_PLUGIN_BASE_PATH . "debug.log",'a');
     if ($fp) {
       fwrite($fp,$text . "\n");

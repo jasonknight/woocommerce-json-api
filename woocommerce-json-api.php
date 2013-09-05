@@ -8,6 +8,9 @@
   Author URI: http://red-e.eu
 */
 
+  // Turn on debugging?
+  // define('WC_JSON_API_DEBUG',true);
+
 define( 'REDE_PLUGIN_BASE_PATH', plugin_dir_path(__FILE__) );
 if (! defined('REDENOTSET')) {
   define( 'REDENOTSET','__RED_E_NOTSET__' ); // because sometimes false, 0 etc are
