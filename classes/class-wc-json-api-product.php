@@ -91,7 +91,7 @@ class WC_JSON_API_Product extends JSONAPIBaseRecord {
   
   public static function setupModelAttributes() {
     self::$_model_settings = array(
-      'model_conditions' => "WHERE post_type IN ('product')",
+      'model_conditions' => "WHERE post_type IN ('product','product_variation')",
     );
     if ( self::$_model_attributes_table ) {
       return;
@@ -101,6 +101,7 @@ class WC_JSON_API_Product extends JSONAPIBaseRecord {
       'slug'            => array('name' => 'post_name',              'type' => 'string'),
       'type'            => array('name' => 'post_type',              'type' => 'string'),
       'description'     => array('name' => 'post_content',           'type' => 'string'),
+      'parent_id'       => array('name' => 'post_parent',           'type' => 'string'),
       'publishing'          => array(
                                   'name' => 'post_status',            
                                   'type' => 'string',
