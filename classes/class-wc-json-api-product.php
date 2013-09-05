@@ -5,21 +5,7 @@
 */
 require_once(dirname(__FILE__) . "/class-rede-base-record.php");
 require_once(dirname(__FILE__) . "/class-wc-json-api-category.php");
-class WC_JSON_API_Product extends JSONAPIBaseRecord {
-  // Products are split off into two
-  // datasources, posteta, and the posts
-  // themselves.
-  private $_meta_attributes;
-  // This is static because we really only need to
-  // do this mapping once, not for each object we create.
-  // We need to keep it small and fast
-  public static $_meta_attributes_table; // a mapping of wich product attribs
-                                   // go to the meta table
-  private $_post_attributes;
-  public static $_post_attributes_table;
-
-
-    
+class WC_JSON_API_Product extends JSONAPIBaseRecord {   
   /**
   * Here we normalize the attributes, giving them a consistent name scheme and obvious
   * meaning, as well as making them easier to type so that we have a nice, user
@@ -103,11 +89,14 @@ class WC_JSON_API_Product extends JSONAPIBaseRecord {
     self::$_meta_attributes_table = apply_filters( 'woocommerce_json_api_product_meta_attributes_table', self::$_meta_attributes_table );
   } // end setupMetaAttributes
   
-  public static function setupPostAttributes() {
-    if ( self::$_post_attributes_table ) {
+  public static function setupModelAttributes() {
+    self::$_model_settings = array(
+      'model_conditions' => "WHERE post_type IN ('product')",
+    );
+    if ( self::$_model_attributes_table ) {
       return;
     }
-    self::$_post_attributes_table = array(
+    self::$_model_attributes_table = array(
       'name'            => array('name' => 'post_title',             'type' => 'string'),
       'slug'            => array('name' => 'post_name',              'type' => 'string'),
       'type'            => array('name' => 'post_type',              'type' => 'string'),
@@ -119,14 +108,14 @@ class WC_JSON_API_Product extends JSONAPIBaseRecord {
                                     'publish',
                                     'inherit',
                                     'pending',
-                                    'private',
+                                    'public',
                                     'future',
                                     'draft',
                                     'trash',
                                   ),
                           ),
     );
-    self::$_post_attributes_table = apply_filters( 'woocommerce_json_api_product_post_attributes_table', self::$_post_attributes_table );
+    self::$_model_attributes_table = apply_filters( 'woocommerce_json_api_product_model_attributes_table', self::$_model_attributes_table );
   }
   
   public function asApiArray() {
@@ -148,7 +137,7 @@ class WC_JSON_API_Product extends JSONAPIBaseRecord {
       }
       
     }
-    $attributes = array_merge(self::$_post_attributes_table, self::$_meta_attributes_table);
+    $attributes = array_merge(self::$_model_attributes_table, self::$_meta_attributes_table);
     $attributes_to_send['id'] = $this->getModelId();
     foreach ( $attributes as $name => $desc ) {
       $attributes_to_send[$name] = $this->dynamic_get( $name, $desc, $this->getModelId());
@@ -159,90 +148,7 @@ class WC_JSON_API_Product extends JSONAPIBaseRecord {
     $attributes_to_send['featured_image'] = $feat_image;
     return $attributes_to_send;
   }
-  public function fromApiArray( $attrs ) {
-    $attributes = array_merge(self::$_post_attributes_table, self::$_meta_attributes_table);
-    foreach ( $attrs as $name => $value ) {
-      if ( isset($attributes[$name]) ) {
-        $desc = $attributes[$name];
-        $this->dynamic_set( $name, $desc, $value, $this->getModelId());
-      }
-    }
-    return $this;
-  }
-  /**
-  *  From here we have a dynamic getter. We return a special REDENOTSET variable.
-  */
-  public function __get( $name ) {
-    if ( isset( self::$_meta_attributes_table[$name] ) ) {
-      if ( isset(self::$_meta_attributes_table[$name]['getter'])) {
-        return $this->{self::$_meta_attributes_table[$name]['getter']}();
-      }
-      if ( isset ( $this->_meta_attributes[$name] ) ) {
-        return $this->_meta_attributes[$name];
-      } else {
-        return '';
-      }
-    } else if ( isset( self::$_post_attributes_table[$name] ) ) {
-      if ( isset( $this->_post_attributes[$name] ) ) {
-        return $this->_post_attributes[$name];
-      } else {
-        return '';
-      }
-    }
-  } // end __get
-  
-  // Dynamic setter
-  public function __set( $name, $value ) {
-    if ( isset( self::$_meta_attributes_table[$name] ) ) {
-      if ( isset(self::$_meta_attributes_table[$name]['setter'])) {
-        $this->{self::$_meta_attributes_table[$name]['setter']}( $value );
-      }
-      $this->_meta_attributes[$name] = $value;
-    } else if ( isset( self::$_post_attributes_table[$name] ) ) {
-      $this->_post_attributes[$name] = $value;
-    } else {
-      throw new Exception( __('That attribute does not exist to be set.','woocommerce_json_api') . " `$name`");
-    }
-  } 
-  public function setModelId( $id ) {
-    $this->_actual_model_id = $id;
-  }
-  
-  
-  public function getModelId() {
-    return $this->_actual_model_id;
-  }
-  // How do we find Products?
-  
-  public static function find( $id ) {
-    global $wpdb;
-    self::setupPostAttributes();
-    self::setupMetaAttributes();
-    $product = new WC_JSON_API_Product();
-    $product->setValid( false );
-    $post = get_post( $id, 'ARRAY_A' );
-    if ( $post ) {
-      $product->setModelId( $id );
-      foreach ( self::$_post_attributes_table as $name => $desc ) {
-        $product->dynamic_set( $name, $desc,$post[$desc['name']] );
-        //$product->{$name} = $post[$desc['name']];
-      }
-      foreach ( self::$_meta_attributes_table as $name => $desc ) {
-        $value = get_post_meta( $id, $desc['name'], true );
-        // We may want to do some "funny stuff" with setters and getters.
-        // I know, I know, "no funny stuff" is generally the rule.
-        // But WooCom or WP could change stuff that would break a lot
-        // of code if we try to be explicity about each attribute.
-        // Also, we may want other people to extend the objects via
-        // filters.
-        $product->dynamic_set( $name, $desc, $value, $product->getModelId() );
-      }
-      $product->setValid( true );
-      $product->setNewRecord( false );
-    }
-    return $product;
-  }
-  
+
   public static function find_by_sku( $sku ) {
     global $wpdb;
     $product = new WC_JSON_API_Product();
@@ -258,7 +164,7 @@ class WC_JSON_API_Product extends JSONAPIBaseRecord {
     global $wpdb, $user_ID;
     // We should setup attrib tables if it hasn't
     // already been done
-    self::setupPostAttributes();
+    self::setupModelAttributes();
     self::setupMetaAttributes();
     // Maybe we want to set attribs and create in one go.
     if ( $attrs ) {
@@ -267,7 +173,7 @@ class WC_JSON_API_Product extends JSONAPIBaseRecord {
       }
     }
     $post = array( 'post_author' => $user_ID, 'post_type' => 'product');
-    foreach (self::$_post_attributes_table as $attr => $desc) {
+    foreach (self::$_model_attributes_table as $attr => $desc) {
       $value = $this->dynamic_get( $attr, $desc, null);
       $post[ $desc['name'] ] = $value;
     }
@@ -292,17 +198,7 @@ class WC_JSON_API_Product extends JSONAPIBaseRecord {
     return $this;
   }
 
-  /**
-  *  Similar in function to Model.all in Rails, it's just here for convenience.
-  */
-  public static function all($fields = 'id') {
-    global $wpdb;
-    $sql = "SELECT $fields from {$wpdb->posts} WHERE post_type IN ('product')";
-    $product = new WC_JSON_API_Product();
-    $product->addQuery($sql);
-    return $product;
-  }
-  
+
   
   
 }

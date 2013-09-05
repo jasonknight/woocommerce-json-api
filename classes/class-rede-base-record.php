@@ -1,19 +1,28 @@
 <?php
-class JSONAPIBaseRecord {
+require_once dirname( __FILE__ ) . '/class-rede-helpers.php';
+class JSONAPIBaseRecord extends JSONAPIHelpers {
   // We want to be able to update the product in one go, as quickly
   // as possible because it is not unrealistic for us to want to
   // update hundres of products in one API call. We don't want to
   // impose an arbitrary limit, instead leaving that up to the
   // host user and as a configuration variable
-  protected $_queries_to_run;
-  protected $_actual_model_id;
+  public $_queries_to_run;
+  public $_actual_model_id;
   // We need to know if this record exists in the database?
   // if not, then update should fail.
-  protected $_new_record;
-  protected $_valid;
-  protected $_page;
-  protected $_per_page;
-  protected $_result; // so we can add errors
+  public $_new_record;
+  public $_valid;
+  public $_page;
+  public $_per_page;
+
+  public $_result; // so we can add errors
+  
+  public static $_meta_attributes_table; 
+  public static $_model_attributes_table;
+  
+  public $_meta_attributes;
+  public $_model_attributes;
+  public static $_model_settings;
   
   /**
   * We want to establish a "fluid" API for the objects.
@@ -31,7 +40,7 @@ class JSONAPIBaseRecord {
   public function isValid() {
     return $this->_valid;
   }
-  protected function setValid( $bool ) {
+  public function setValid( $bool ) {
     $this->_valid = $bool;
     return $this;
   }
@@ -108,11 +117,22 @@ class JSONAPIBaseRecord {
   }
   public function update() {
     global $wpdb;
+    if ( isset( static::$_model_settings ) ) {
+      $model_table             = $this->orEq( static::$_model_settings, 'model_table', $wpdb->posts );  
+      $meta_table              = $this->orEq( static::$_model_settings, 'meta_table', $wpdb->postmeta );
+      $model_table_id          = $this->orEq( static::$_model_settings, 'model_table_id', 'ID' );   
+      $meta_table_foreign_key  = $this->orEq( static::$_model_settings, 'meta_table_foreign_key', 'post_id' );
+    } else {
+      $model_table             = $wpdb->posts;  
+      $meta_table             = $wpdb->postmeta;
+      $model_table_id          = 'ID';   
+      $meta_table_foreign_key = 'post_id';
+    }
     $meta_sql = "
-      UPDATE {$wpdb->postmeta}
-        SET meta_value = CASE `meta_key`
+      UPDATE {$meta_table}
+        SET `meta_value` = CASE `meta_key`
           ";
-          foreach (self::$_meta_attributes_table as $attr => $desc) {
+          foreach (static::$_meta_attributes_table as $attr => $desc) {
             if ( isset( $this->_meta_attributes[$attr] ) ) {
               $value = $this->_meta_attributes[$attr];
               if ( ! empty($value) ) {
@@ -122,23 +142,59 @@ class JSONAPIBaseRecord {
                   $meta_sql .= $wpdb->prepare( "\tWHEN '{$desc['name']}' THEN %s\n ", $value);
                 }
               }
-            } 
+            }
           }
           $meta_sql .= "
         END 
-      WHERE post_id = '{$this->_actual_model_id}'
+      WHERE `{$meta_table_foreign_key}` = '{$this->_actual_model_id}'
     ";
     $key = md5($meta_sql);
     $this->_queries_to_run[$key] = $meta_sql;
     $values = array();
-    foreach (self::$_post_attributes_table as $attr => $desc) {
+    foreach (static::$_model_attributes_table as $attr => $desc) {
       $value = $this->dynamic_get( $attr, $desc, $this->getModelId());
       $values[] = $wpdb->prepare("`{$desc['name']}` = %s", $value );
     }
-    $post_sql = "UPDATE {$wpdb->posts} SET " . join(',',$values) . " WHERE ID = '{$this->_actual_model_id}'";
+    $post_sql = "UPDATE `{$model_table}` SET " . join(',',$values) . " WHERE `{$model_table_id}` = '{$this->_actual_model_id}'";
     $key = md5($post_sql);
     $this->_queries_to_run[$key] = $post_sql;
     return $this;
+  }
+
+
+  /**
+  *  From here we have a dynamic getter. We return a special REDENOTSET variable.
+  */
+  public function __get( $name ) {
+    if ( isset( static::$_meta_attributes_table[$name] ) ) {
+      if ( isset(static::$_meta_attributes_table[$name]['getter'])) {
+        return $this->{static::$_meta_attributes_table[$name]['getter']}();
+      }
+      if ( isset ( $this->_meta_attributes[$name] ) ) {
+        return $this->_meta_attributes[$name];
+      } else {
+        return '';
+      }
+    } else if ( isset( static::$_model_attributes_table[$name] ) ) {
+      if ( isset( $this->_model_attributes[$name] ) ) {
+        return $this->_model_attributes[$name];
+      } else {
+        return '';
+      }
+    }
+  } // end __get
+  // Dynamic setter
+  public function __set( $name, $value ) {
+    if ( isset( static::$_meta_attributes_table[$name] ) ) {
+      if ( isset(static::$_meta_attributes_table[$name]['setter'])) {
+        $this->{static::$_meta_attributes_table[$name]['setter']}( $value );
+      }
+      $this->_meta_attributes[$name] = $value;
+    } else if ( isset( static::$_model_attributes_table[$name] ) ) {
+      $this->_model_attributes[$name] = $value;
+    } else {
+      throw new Exception( __('That attribute does not exist to be set.','woocommerce_json_api') . " `$name`");
+    }
   }
 
   public function dynamic_set( $name, $desc, $value, $filter_value = null ) {
@@ -180,5 +236,89 @@ class JSONAPIBaseRecord {
     $this->_result = $result;
     return $this;
   }
+
+  public static function find( $id ) {
+    global $wpdb;
+    static::setupModelAttributes();
+    static::setupMetaAttributes();
+    $model = new static();
+    $model->setValid( false );
+    if ( isset( static::$_model_settings ) ) {
+      $model_table             = $model->orEq( static::$_model_settings, 'model_table', $wpdb->posts );  
+      $meta_table              = $model->orEq( static::$_model_settings, 'meta_table', $wpdb->postmeta );
+      $model_table_id          = $model->orEq( static::$_model_settings, 'model_table_id', 'ID' );   
+      $meta_table_foreign_key  = $model->orEq( static::$_model_settings, 'meta_table_foreign_key', 'post_id' );
+      $meta_function           = $model->orEq( static::$_model_settings, 'meta_function', 'get_post_meta' );
+    } else {
+      $model_table             = $wpdb->posts;  
+      $meta_table             = $wpdb->postmeta;
+      $model_table_id          = 'ID';   
+      $meta_table_foreign_key = 'post_id';
+      $meta_function          = 'get_post_meta';
+    }
+    $record = $wpdb->get_row( $wpdb->prepare("SELECT * FROM {$model_table} WHERE {$model_table_id} = %d", (int) $id), 'ARRAY_A' );
+    if ( $record ) {
+      $model->setModelId( $id );
+      foreach ( static::$_model_attributes_table as $name => $desc ) {
+        $model->dynamic_set( $name, $desc,$record[ $desc['name'] ] );
+        //$model->{$name} = $record[$desc['name']];
+      }
+      foreach ( static::$_meta_attributes_table as $name => $desc ) {
+        $value = $meta_function( $id, $desc['name'], true );
+        // We may want to do some "funny stuff" with setters and getters.
+        // I know, I know, "no funny stuff" is generally the rule.
+        // But WooCom or WP could change stuff that would break a lot
+        // of code if we try to be explicity about each attribute.
+        // Also, we may want other people to extend the objects via
+        // filters.
+        $model->dynamic_set( $name, $desc, $value, $model->getModelId() );
+      }
+      $model->setValid( true );
+      $model->setNewRecord( false );
+    }
+    return $model;
+  }
+  public function fromApiArray( $attrs ) {
+    $attributes = array_merge(static::$_model_attributes_table, static::$_meta_attributes_table);
+    foreach ( $attrs as $name => $value ) {
+      if ( isset($attributes[$name]) ) {
+        $desc = $attributes[$name];
+        $this->dynamic_set( $name, $desc, $value, $this->getModelId());
+      } 
+    }
+    return $this;
+  }
+  public function asApiArray() {
+    global $wpdb;
+    $attributes = array_merge(static::$_model_attributes_table, static::$_meta_attributes_table);
+    $attributes_to_send['id'] = $this->getModelId();
+
+    foreach ( $attributes as $name => $desc ) {
+      $attributes_to_send[$name] = $this->dynamic_get( $name, $desc, $this->getModelId());
+    }
+    return $attributes_to_send;
+  }
+    /**
+  *  Similar in function to Model.all in Rails, it's just here for convenience.
+  */
+  public static function all($fields = 'id') {
+    global $wpdb;
+    static::setupModelAttributes();
+    static::setupMetaAttributes();
+    $model = new static();
+    if ( isset( static::$_model_settings ) ) {
+      $model_table             = $model->orEq( static::$_model_settings, 'model_table', $wpdb->posts );  
+      $model_table_id          = $model->orEq( static::$_model_settings, 'model_table_id', 'ID' );   
+      $model_conditions        = $model->orEq( static::$_model_settings, 'model_conditions', '' );  
+    } else {
+      $model_table             = $wpdb->posts;  
+      $model_table_id          = 'ID'; 
+      $model_conditions        = '';  
+    }
+    $sql = "SELECT $fields FROM {$model_table} {$model_conditions}";
+    $model->addQuery($sql);
+    return $model;
+  }
+  
 }
 

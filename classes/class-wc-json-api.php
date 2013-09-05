@@ -31,7 +31,7 @@ if ( !defined('PHP_VERSION_ID')) {
     define('PHP_RELEASE_VERSION',$version[2]);
   }
 }
-class WooCommerce_JSON_API {
+class WooCommerce_JSON_API extends JSONAPIHelpers {
     // Call this function to setup a new response
   private $helpers;
   private $result;
@@ -73,7 +73,7 @@ class WooCommerce_JSON_API {
     return self::$implemented_methods;
   }
   public function __construct() {
-    $this->helpers = new JSONAPIHelpers();
+    //$this = new JSONAPIHelpers();
     $this->result = null;
     // We will use this to set perms
     self::getImplementedMethods();
@@ -116,7 +116,7 @@ class WooCommerce_JSON_API {
     if ( $this->isImplemented( $params ) ) {
       try {
         // The arguments are passed by reference here
-        $this->helpers->validateParameters( $params['arguments'], $this->result);
+        $this->validateParameters( $params['arguments'], $this->result);
         if ( $this->result->status() == false ) {
           JSONAPIHelpers::warn("Arguments did not pass validation");
           return $this->done();
@@ -135,7 +135,7 @@ class WooCommerce_JSON_API {
   
   private function isImplemented( $params ) {
     
-    if (isset($params['proc']) &&  $this->helpers->inArray( $params['proc'], self::$implemented_methods) ) {
+    if (isset($params['proc']) &&  $this->inArray( $params['proc'], self::$implemented_methods) ) {
       return true;
     } else {
       return false;
@@ -195,7 +195,7 @@ class WooCommerce_JSON_API {
       $this->result->addError( __( 'Missing `token` in `arguments`','woocommerce_json_api' ),WCAPI_EXPECTED_ARGUMENT );
       return false;
     }
-    $key = $this->helpers->getPluginPrefix() . '_settings';
+    $key = $this->getPluginPrefix() . '_settings';
     $args = array(
       'blog_id' => $GLOBALS['blog_id'],
       'meta_key' => $key
@@ -262,15 +262,15 @@ class WooCommerce_JSON_API {
     /**
     *  Read this section to get familiar with the arguments of this method.
     */
-    $posts_per_page = $this->helpers->orEq( $params['arguments'], 'per_page', 15 ); 
-    $paged          = $this->helpers->orEq( $params['arguments'], 'page', 0 );
-    $order_by       = $this->helpers->orEq( $params['arguments'], 'order_by', 'ID');
-    $order          = $this->helpers->orEq( $params['arguments'], 'order', 'ASC');
-    $ids            = $this->helpers->orEq( $params['arguments'], 'ids', false);
-    $skus           = $this->helpers->orEq( $params['arguments'], 'skus', false);
+    $posts_per_page = $this->orEq( $params['arguments'], 'per_page', 15 ); 
+    $paged          = $this->orEq( $params['arguments'], 'page', 0 );
+    $order_by       = $this->orEq( $params['arguments'], 'order_by', 'ID');
+    $order          = $this->orEq( $params['arguments'], 'order', 'ASC');
+    $ids            = $this->orEq( $params['arguments'], 'ids', false);
+    $skus           = $this->orEq( $params['arguments'], 'skus', false);
     
     $by_ids = true;
-    if ( ! $this->helpers->inArray($order_by,$allowed_order_bys) ) {
+    if ( ! $this->inArray($order_by,$allowed_order_bys) ) {
       $this->result->addError( __('order_by must be one of these:','woocommerce_json_api') . join( $allowed_order_bys, ','), WCAPI_BAD_ARGUMENT );
       return $this->done();
       return;
@@ -324,7 +324,7 @@ class WooCommerce_JSON_API {
   private function get_products_by_tags($params) {
     global $wpdb;
     $allowed_order_bys = array('id','name','post_title');
-    $terms = $this->helpers->orEq( $params['arguments'], 'tags', array());
+    $terms = $this->orEq( $params['arguments'], 'tags', array());
     foreach ($terms as &$term) {
       $term = $wpdb->prepare("%s",$term);
     }
@@ -332,15 +332,15 @@ class WooCommerce_JSON_API {
       $this->result->addError( __('you must specify at least one term','woocommerce_json_api'), WCAPI_BAD_ARGUMENT );
       return $this->done();
     }
-    $posts_per_page = $this->helpers->orEq( $params['arguments'], 'per_page', 15 ); 
-    $paged          = $this->helpers->orEq( $params['arguments'], 'page', 0 );
-    $order_by       = $this->helpers->orEq( $params['arguments'], 'order_by', 'id');
-    if ( ! $this->helpers->inArray($order_by,$allowed_order_bys) ) {
+    $posts_per_page = $this->orEq( $params['arguments'], 'per_page', 15 ); 
+    $paged          = $this->orEq( $params['arguments'], 'page', 0 );
+    $order_by       = $this->orEq( $params['arguments'], 'order_by', 'id');
+    if ( ! $this->inArray($order_by,$allowed_order_bys) ) {
       $this->result->addError( __('order_by must be one of these:','woocommerce_json_api') . join( $allowed_order_bys, ','), WCAPI_BAD_ARGUMENT );
       return $this->done();
       return;
     }
-    $order          = $this->helpers->orEq( $params['arguments'], 'order', 'ASC');
+    $order          = $this->orEq( $params['arguments'], 'order', 'ASC');
     
     // It would be nice to use WP_Query here, but it seems to be semi-broken when working
     // with custom taxonomies like product_tag...
@@ -363,7 +363,7 @@ class WooCommerce_JSON_API {
             ";
     $ids = $wpdb->get_col( $sql );
     $params['arguments']['ids'] = $ids;
-    $this->get_products( $params );
+    return $this->get_products( $params );
   }
   /*
     Similar to get products, in fact, we should be able to resuse te response
@@ -388,8 +388,8 @@ class WooCommerce_JSON_API {
     // too many. We need a way to lift the ban in the interface and so on.
   private function set_products( $params ) {
     
-    $products = $this->helpers->orEq( $params, 'payload', array() );
-    foreach ( $products as $attrs) {
+    $products = $this->orEq( $params, 'payload', array() );
+    foreach ( $products as &$attrs) {
       if (isset($attrs['id'])) {
         $product = WC_JSON_API_Product::find($attrs['id']);
       } else if ( isset($attrs['sku'])) {
@@ -398,6 +398,7 @@ class WooCommerce_JSON_API {
       if ($product->isValid()) {
         $product->fromApiArray( $attrs );
         $product->update()->done();
+        $attrs = $product->asApiArray();
       } else {
         $this->result->addWarning( 
           __(
@@ -416,8 +417,10 @@ class WooCommerce_JSON_API {
         if ( ! $product->isValid() ) {
           return $this->done();
         }
+        $attrs = $product->asApiArray();
       }
     }
+    $this->result->setPayload( $products );
     return $this->done();
   }
 
@@ -429,16 +432,16 @@ class WooCommerce_JSON_API {
   
     $allowed_order_bys = array('id','count','name','slug');
     
-    $order_by       = $this->helpers->orEq( $params['arguments'], 'order_by', 'name');
-    if ( ! $this->helpers->inArray($order_by,$allowed_order_bys) ) {
+    $order_by       = $this->orEq( $params['arguments'], 'order_by', 'name');
+    if ( ! $this->inArray($order_by,$allowed_order_bys) ) {
       $this->result->addError( __('order_by must be one of these:','woocommerce_json_api') . join( $allowed_order_bys, ','), WCAPI_BAD_ARGUMENT );
       return $this->done();
       return;
     }
-    $order          = $this->helpers->orEq( $params['arguments'], 'order', 'ASC');
-    $ids            = $this->helpers->orEq( $params['arguments'], 'ids', false);
+    $order          = $this->orEq( $params['arguments'], 'order', 'ASC');
+    $ids            = $this->orEq( $params['arguments'], 'ids', false);
     
-    $hide_empty     = $this->helpers->orEq( $params['arguments'], 'hide_empty', false);
+    $hide_empty     = $this->orEq( $params['arguments'], 'hide_empty', false);
     
     $args = array(
   	  'fields'         => 'ids',
@@ -459,7 +462,7 @@ class WooCommerce_JSON_API {
   }
   
   private function set_categories( $params ) {
-    $categories = $this->helpers->orEq( $params, 'payload', array());
+    $categories = $this->orEq( $params, 'payload', array());
     foreach ( $categories as $category ) {
       $actual = WC_JSON_API_Category::find_by_name( $category['name'] );
       //print_r($actual->asApiArray());
@@ -540,31 +543,31 @@ class WooCommerce_JSON_API {
   private function get_tags( $params ) {
     $allowed_order_bys = array('name','count','term_id');
     $allowed_orders = array('DESC','ASC');
-    $args['order']                = $this->helpers->orEq( $params['arguments'], 'order', 'DESC');
-    $args['order_by']             = $this->helpers->orEq( $params['arguments'], 'order_by', 'name');
+    $args['order']                = $this->orEq( $params['arguments'], 'order', 'DESC');
+    $args['order_by']             = $this->orEq( $params['arguments'], 'order_by', 'name');
 
-    if ( ! $this->helpers->inArray($args['order_by'],$allowed_order_bys) ) {
+    if ( ! $this->inArray($args['order_by'],$allowed_order_bys) ) {
       $this->result->addError( __('order_by must be one of these:','woocommerce_json_api') . join( $allowed_order_bys, ','), WCAPI_BAD_ARGUMENT, $args );
       return $this->done();
       return;
     }
 
-    if ( ! $this->helpers->inArray($args['order'],$allowed_orders) ) {
+    if ( ! $this->inArray($args['order'],$allowed_orders) ) {
       $this->result->addError( __('order must be one of these:','woocommerce_json_api') . join( $allowed_orders, ','), WCAPI_BAD_ARGUMENT );
       return $this->done();
       return;
     }
 
-    $args['hide_empty']           = $this->helpers->orEq( $params['arguments'], 'hide_empty', true);
-    $include                      = $this->helpers->orEq( $params['arguments'], 'include', false);
+    $args['hide_empty']           = $this->orEq( $params['arguments'], 'hide_empty', true);
+    $include                      = $this->orEq( $params['arguments'], 'include', false);
     if ( $include ) {
       $args['include'] = $include;
     }
-    $number                       = $this->helpers->orEq( $params['arguments'], 'per_page', false);
+    $number                       = $this->orEq( $params['arguments'], 'per_page', false);
     if ( $number ) {
       $args['number'] = $number;
     }
-    $like                         = $this->helpers->orEq( $params['arguments'], 'like', false);
+    $like                         = $this->orEq( $params['arguments'], 'like', false);
     if ( $like ) {
       $args['name__like'] = $like;
     }
@@ -585,9 +588,9 @@ class WooCommerce_JSON_API {
   }
 
   private function get_orders( $params ) {
-    $posts_per_page = $this->helpers->orEq( $params['arguments'], 'per_page', 15 ); 
-    $paged          = $this->helpers->orEq( $params['arguments'], 'page', 0 );
-    $ids            = $this->helpers->orEq( $params['arguments'], 'ids', false);
+    $posts_per_page = $this->orEq( $params['arguments'], 'per_page', 15 ); 
+    $paged          = $this->orEq( $params['arguments'], 'page', 0 );
+    $ids            = $this->orEq( $params['arguments'], 'ids', false);
 
     if ( ! $ids ) {
       
@@ -619,5 +622,9 @@ class WooCommerce_JSON_API {
     }
     $this->result->setPayload($orders);
     return $this->done();
+  }
+
+  private function set_orders( $params ) {
+    
   }
 }

@@ -1,7 +1,7 @@
 <?php
 require_once(dirname(__FILE__) . "/class-rede-base-record.php");
 class WC_JSON_API_Category extends JSONAPIBaseRecord {
-  private $_attributes;
+  public $_attributes;
   public static $_attributes_table;
   public function __construct() {
     $this->_attributes = array();

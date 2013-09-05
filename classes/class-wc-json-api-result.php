@@ -1,6 +1,6 @@
 <?php
 class WooCommerce_JSON_API_Result {
-  private $params;
+  public $params;
   public function status() {
     return $this->params['status'];
   }

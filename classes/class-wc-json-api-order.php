@@ -1,18 +1,14 @@
 <?php
 /**
- * A Product class to insulate the API from the details of the
+ * An Order class to insulate the API from the details of the
  * database representation
 */
 require_once(dirname(__FILE__) . "/class-rede-base-record.php");
 
 class WC_JSON_API_Order extends JSONAPIBaseRecord {
 
-  public static $_meta_attributes_table; 
-  public static $_post_attributes_table;
   
-  private $_meta_attributes;
-  private $_post_attributes;
-  private $_status;
+  public $_status;
   
 
   public static function setupMetaAttributes() {
@@ -71,16 +67,19 @@ class WC_JSON_API_Order extends JSONAPIBaseRecord {
     */
     self::$_meta_attributes_table = apply_filters( 'woocommerce_json_api_order_meta_attributes_table', self::$_meta_attributes_table );
   } // end setupMetaAttributes
-  public static function setupPostAttributes() {
-    if ( self::$_post_attributes_table ) {
+  public static function setupModelAttributes() {
+    self::$_model_settings = array(
+      'model_conditions' => "WHERE post_type IN ('shop_order')",
+    );
+    if ( self::$_model_attributes_table ) {
       return;
     }
-    self::$_post_attributes_table = array(
+    self::$_model_attributes_table = array(
       'name'            => array('name' => 'post_title',  'type' => 'string'),
       'guid'            => array('name' => 'guid',        'type' => 'string'),
 
     );
-    self::$_post_attributes_table = apply_filters( 'woocommerce_json_api_order_post_attributes_table', self::$_post_attributes_table );
+    self::$_model_attributes_table = apply_filters( 'woocommerce_json_api_order_model_attributes_table', self::$_model_attributes_table );
   }
   public function getStatus() {
     if ( $this->_status ) {
@@ -96,85 +95,76 @@ class WC_JSON_API_Order extends JSONAPIBaseRecord {
   }
   
 
-  public function asApiArray() {
-    global $wpdb;
-    $attributes = array_merge(self::$_post_attributes_table, self::$_meta_attributes_table);
-    $attributes_to_send['id'] = $this->getModelId();
-
-    foreach ( $attributes as $name => $desc ) {
-      $attributes_to_send[$name] = $this->dynamic_get( $name, $desc, $this->getModelId());
-    }
-    return $attributes_to_send;
-  }
-
-  public static function find( $id ) {
-    global $wpdb;
-    self::setupPostAttributes();
-    self::setupMetaAttributes();
-    $order = new WC_JSON_API_Order();
-    $order->setValid( false );
-    $post = get_post( $id, 'ARRAY_A' );
-    if ( $post ) {
-      $order->setModelId( $id );
-      foreach ( self::$_post_attributes_table as $name => $desc ) {
-        $order->dynamic_set( $name, $desc,$post[$desc['name']] );
-        //$order->{$name} = $post[$desc['name']];
-      }
-      foreach ( self::$_meta_attributes_table as $name => $desc ) {
-        $value = get_post_meta( $id, $desc['name'], true );
-        // We may want to do some "funny stuff" with setters and getters.
-        // I know, I know, "no funny stuff" is generally the rule.
-        // But WooCom or WP could change stuff that would break a lot
-        // of code if we try to be explicity about each attribute.
-        // Also, we may want other people to extend the objects via
-        // filters.
-        $order->dynamic_set( $name, $desc, $value, $order->getModelId() );
-      }
-      $order->setValid( true );
-      $order->setNewRecord( false );
-    }
-    return $order;
-  }
-  /**
-  *  From here we have a dynamic getter. We return a special REDENOTSET variable.
-  */
-  public function __get( $name ) {
-    if ( isset( self::$_meta_attributes_table[$name] ) ) {
-      if ( isset(self::$_meta_attributes_table[$name]['getter'])) {
-        return $this->{self::$_meta_attributes_table[$name]['getter']}();
-      }
-      if ( isset ( $this->_meta_attributes[$name] ) ) {
-        return $this->_meta_attributes[$name];
-      } else {
-        return '';
-      }
-    } else if ( isset( self::$_post_attributes_table[$name] ) ) {
-      if ( isset( $this->_post_attributes[$name] ) ) {
-        return $this->_post_attributes[$name];
-      } else {
-        return '';
-      }
-    }
-  } // end __get
   
-  // Dynamic setter
-  public function __set( $name, $value ) {
-    if ( isset( self::$_meta_attributes_table[$name] ) ) {
-      if ( isset(self::$_meta_attributes_table[$name]['setter'])) {
-        $this->{self::$_meta_attributes_table[$name]['setter']}( $value );
-      }
-      $this->_meta_attributes[$name] = $value;
-    } else if ( isset( self::$_post_attributes_table[$name] ) ) {
-      $this->_post_attributes[$name] = $value;
-    } else {
-      throw new Exception( __('That attribute does not exist to be set.','woocommerce_json_api') . " `$name`");
-    }
-  } 
-  public static function all($fields = 'id') {
-    global $wpdb;
-    $sql = "SELECT $fields from {$wpdb->posts} WHERE post_type IN ('shop_order')";
-    $order = new WC_JSON_API_Product();
-    $order->addQuery($sql);
-    return $order;
-  }
+
+  // public static function find( $id ) {
+  //   global $wpdb;
+  //   self::setupModelAttributes();
+  //   self::setupMetaAttributes();
+  //   $order = new WC_JSON_API_Order();
+  //   $order->setValid( false );
+  //   $post = get_post( $id, 'ARRAY_A' );
+  //   if ( $post ) {
+  //     $order->setModelId( $id );
+  //     foreach ( self::$_model_attributes_table as $name => $desc ) {
+  //       $order->dynamic_set( $name, $desc,$post[$desc['name']] );
+  //       //$order->{$name} = $post[$desc['name']];
+  //     }
+  //     foreach ( self::$_meta_attributes_table as $name => $desc ) {
+  //       $value = get_post_meta( $id, $desc['name'], true );
+  //       // We may want to do some "funny stuff" with setters and getters.
+  //       // I know, I know, "no funny stuff" is generally the rule.
+  //       // But WooCom or WP could change stuff that would break a lot
+  //       // of code if we try to be explicity about each attribute.
+  //       // Also, we may want other people to extend the objects via
+  //       // filters.
+  //       $order->dynamic_set( $name, $desc, $value, $order->getModelId() );
+  //     }
+  //     $order->setValid( true );
+  //     $order->setNewRecord( false );
+  //   }
+  //   return $order;
+  // }
+  // /**
+  // *  From here we have a dynamic getter. We return a special REDENOTSET variable.
+  // */
+  // public function __get( $name ) {
+  //   if ( isset( self::$_meta_attributes_table[$name] ) ) {
+  //     if ( isset(self::$_meta_attributes_table[$name]['getter'])) {
+  //       return $this->{self::$_meta_attributes_table[$name]['getter']}();
+  //     }
+  //     if ( isset ( $this->_meta_attributes[$name] ) ) {
+  //       return $this->_meta_attributes[$name];
+  //     } else {
+  //       return '';
+  //     }
+  //   } else if ( isset( self::$_model_attributes_table[$name] ) ) {
+  //     if ( isset( $this->_model_attributes[$name] ) ) {
+  //       return $this->_model_attributes[$name];
+  //     } else {
+  //       return '';
+  //     }
+  //   }
+  // } // end __get
+  
+  // // Dynamic setter
+  // public function __set( $name, $value ) {
+  //   if ( isset( self::$_meta_attributes_table[$name] ) ) {
+  //     if ( isset(self::$_meta_attributes_table[$name]['setter'])) {
+  //       $this->{self::$_meta_attributes_table[$name]['setter']}( $value );
+  //     }
+  //     $this->_meta_attributes[$name] = $value;
+  //   } else if ( isset( self::$_model_attributes_table[$name] ) ) {
+  //     $this->_model_attributes[$name] = $value;
+  //   } else {
+  //     throw new Exception( __('That attribute does not exist to be set.','woocommerce_json_api') . " `$name`");
+  //   }
+  // } 
+  // public static function all($fields = 'id') {
+  //   global $wpdb;
+  //   $sql = "SELECT $fields from {$wpdb->posts} WHERE post_type IN ('shop_order')";
+  //   $order = new WC_JSON_API_Product();
+  //   $order->addQuery($sql);
+  //   return $order;
+  // }
 }
