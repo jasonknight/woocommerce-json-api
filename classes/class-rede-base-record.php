@@ -48,7 +48,7 @@ class JSONAPIBaseRecord {
   public function setModelId( $id ) {
     $this->_actual_model_id = $id;
   }
-  
+
   /**
   *  You will need to define an all and where method on the child model.
   */
@@ -116,7 +116,11 @@ class JSONAPIBaseRecord {
             if ( isset( $this->_meta_attributes[$attr] ) ) {
               $value = $this->_meta_attributes[$attr];
               if ( ! empty($value) ) {
-                $meta_sql .= $wpdb->prepare( "\tWHEN '{$desc['name']}' THEN %s\n ", $value);
+                if ( isset( $desc['updater'] ) ) {
+                  $this->{ $desc['updater'] }( $value );
+                } else {
+                  $meta_sql .= $wpdb->prepare( "\tWHEN '{$desc['name']}' THEN %s\n ", $value);
+                }
               }
             } 
           }

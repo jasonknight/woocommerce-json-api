@@ -58,7 +58,8 @@ class WC_JSON_API_Order extends JSONAPIBaseRecord {
                                         'name' => 'status', 
                                         'type' => 'string', 
                                         'getter' => 'getStatus',
-                                        'setter' => 'setStatus'
+                                        'setter' => 'setStatus',
+                                        'updater' => 'updateStatus'
                                 ),
       //'quantity'          => array('name' => '_stock',            'type' => 'number', 'filters' => array('woocommerce_stock_amount') ),
       

@@ -67,6 +67,7 @@ class WooCommerce_JSON_API {
       
       'set_products',
       'set_categories',
+      'set_orders',
 
     );
     return self::$implemented_methods;
@@ -571,7 +572,7 @@ class WooCommerce_JSON_API {
     $this->result->setPayload($tags);
     return $this->done();
   }
-  public function get_customers( $params ) {
+  private function get_customers( $params ) {
     global $wpdb;
     $customer_ids = $wpdb->get_col("SELECT user_id FROM {$wpdb->usermeta} WHERE meta_key = 'wp_capabilities' AND meta_value LIKE '%customer%'");
     $customers = array();
@@ -583,7 +584,7 @@ class WooCommerce_JSON_API {
     return $this->done();
   }
 
-  public function get_orders( $params ) {
+  private function get_orders( $params ) {
     $posts_per_page = $this->helpers->orEq( $params['arguments'], 'per_page', 15 ); 
     $paged          = $this->helpers->orEq( $params['arguments'], 'page', 0 );
     $ids            = $this->helpers->orEq( $params['arguments'], 'ids', false);
