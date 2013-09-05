@@ -64,11 +64,6 @@
   }
 ?>
   <tr>
-    <td colspan="2" align="center">
-      <input type="text" name="unused" value="<?php echo $helpers->getPermalinkBySlug($json_api_slug); ?>" class="widefat"/>
-    </td>
-  </tr>
-  <tr>
     <td colspan="2" align="right">
       
       <input type="submit" name="submit" value="<?php _e('Save') ?>" />

@@ -108,73 +108,6 @@ function woocommerce_json_api_update_user_profile( $user_id ) {
   $params = serialize($_POST[$key]);
   update_user_meta($user_id,$key,$params);
 }
-/*
-  We want to prevent the json page for showing up in the list
-  as long as they are using wp_list_pages, then this will
-  work...
-*/
-function woocommerce_json_api_exclude_pages($exclude) {
-  global $wpdb;
-  $helpers = new JSONAPIHelpers();
-  $json_api_slug = get_option( $helpers->getPluginPrefix() . '_slug' );
-  $found = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM " . $wpdb->posts . " WHERE post_name = %s LIMIT 1;", $json_api_slug ) );
-  $exclude[] = $found;
-  return $exclude;
-}
-
-/**
- *  Shortcode to embed in a page to turn it into a JSON API entry point.
- *  
- *  We don't REALLY use this, it's just there to mark a page visually.
- *  
- *  What happens is: 
- *  
- *  1) You have a page with this shortcode in it, created when it you installed the plugin.
- *     the slug of this page is saved use: $json_api_slug = get_option( $helpers->getPluginPrefix() . '_slug' );
- *     You can manually update that slug from the admin settings page for the JSON API
- *     
- *     When someone accesses that particular URL, the API works
- *  
- *  Some themes are not using wp_list_pages, which prevents us from filtering the page out
- *  of the list of pages. If that is so, then this is a major security risk, and irritating
- *  as there is no simple way to hide a page.
- *  
- *  So method 2 comes into play:
- *  
- *  2) After initializing the plugin, you delete the API page. This will cause it to not be present.
- *     In that case, any page can be used as an API page, less secure, but at least we are cookin.
- *     
- *     This is accomplished by the template_redirect that looks to see if the page is present, if
- *     not, it inspects the REQUEST vars to see if this is a JSON API post, if so, it will try
- *     to satisfy it, if not, it will give up on the template redirect and everything will be
- *     hunky dory. The page will show as normal, and the API will pretend it doesn't exist.
-*/
-function woocommerce_json_api_shortcode() {
-  if (!isset($_REQUEST['action']) || $_REQUEST['action'] != 'woocommerce_json_api') {
-    JSONAPIHelpers::debug("REQUEST['action']  was not properly set.");
-    return;
-  }
-  if (is_user_logged_in()) {
-    JSONAPIHelpers::debug("A user is currently logged in.");
-    return;
-  }
-  $helpers = new JSONAPIHelpers();
-  $enabled = get_option( $helpers->getPluginPrefix() . '_enabled');
-  $require_https = get_option( $helpers->getPluginPrefix() . '_require_https' );
-  if ( $enabled != 'no') {
-    if ( $require_https == 'yes' && $helpers->isHTTPS() == false ) {
-      JSONAPIHelpers::debug("Cannot continue, HTTPS is required.");
-      return;
-    }
-    $api = new WooCommerce_JSON_API();
-    $api->setOut('HTTP');
-    $api->setUser(null);
-    $api->route($_REQUEST);
-
-  } else {
-    JSONAPIHelpers::debug("JSON API is not set to enabled.");
-  }
-}
 
 /*
   Prevent template code from loading :)
@@ -188,15 +121,6 @@ function woocommerce_json_api_template_redirect() {
     return;
   }
   $helpers = new JSONAPIHelpers();
-  $json_api_slug = get_option( $helpers->getPluginPrefix() . '_slug' );
-  $found = get_page_by_path( $json_api_slug );
-  if ( isset( $_REQUEST['page_id']) ) {
-    $post = get_page( $_REQUEST['page_id'] );
-  } else {
-    $path = strtok($_SERVER['REQUEST_URI'], '?');
-    $post = get_page_by_path( $path );
-  }
-  
 
   $headers = woocommerce_json_api_parse_headers();
 
@@ -219,18 +143,21 @@ function woocommerce_json_api_template_redirect() {
   }
 
   JSONAPIHelpers::debug( var_export( $headers, true) );
-  if ( $found ) {
-    if ( $post->ID == $found->ID ) {
-      woocommerce_json_api_shortcode();
-    } else { 
-      return;
-    }
-  } else {
-    // The page was not found, let's check the $_POST params to see if this is a request to
-    // us
+  if ( isset( $_REQUEST['action'] ) && 'woocommerce_json_api' == $_REQUEST['action']) {
+    $enabled = get_option( $helpers->getPluginPrefix() . '_enabled');
+    $require_https = get_option( $helpers->getPluginPrefix() . '_require_https' );
+    if ( $enabled != 'no') {
+      if ( $require_https == 'yes' && $helpers->isHTTPS() == false ) {
+        JSONAPIHelpers::debug("Cannot continue, HTTPS is required.");
+        return;
+      }
+      $api = new WooCommerce_JSON_API();
+      $api->setOut('HTTP');
+      $api->setUser(null);
+      $api->route($_REQUEST);
 
-    if ( isset( $_REQUEST['action']) && 'woocommerce_json_api' == $_REQUEST['action']) {
-      woocommerce_json_api_shortcode();
+    } else {
+      JSONAPIHelpers::debug("JSON API is not set to enabled.");
     }
   }
 }
@@ -268,15 +195,6 @@ function woocommerce_json_api_settings_page() {
 	  'json_api_sitewide_settings' => array(
 		  'title' => __( 'WooCommerce JSON API Settings', 'woocommerce_json_api' ),
 		  'fields' => array(
-		      array(
-		        'name'          => $helpers->getPluginPrefix() . '_sitewide_settings[slug]',
-		        'id'            => 'json_api_page_id',
-		        'value'         => $json_api_slug,
-		        'options'       => $options,
-		        'type'          => 'select',
-				    'label'         => __( 'API Page', 'woocommerce_json_api' ),
-				    'description'   => __('slug of the page to use as the api entry point. Currently: ', 'woocommerce_json_api' ) . $helpers->getTitleBySlug($json_api_slug),
-			    ),
           array(
             'name'          => $helpers->getPluginPrefix() . '_sitewide_settings[enabled]',
             'id'            => 'json_api_enabled_id',
