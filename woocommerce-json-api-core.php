@@ -190,8 +190,13 @@ function woocommerce_json_api_template_redirect() {
   $helpers = new JSONAPIHelpers();
   $json_api_slug = get_option( $helpers->getPluginPrefix() . '_slug' );
   $found = get_page_by_path( $json_api_slug );
-  $path = strtok($_SERVER['REQUEST_URI'], '?');
-  $post = get_page_by_path( $path );
+  if ( isset( $_REQUEST['page_id']) ) {
+    $post = get_page( $_REQUEST['page_id'] );
+  } else {
+    $path = strtok($_SERVER['REQUEST_URI'], '?');
+    $post = get_page_by_path( $path );
+  }
+  
 
   $headers = woocommerce_json_api_parse_headers();
 
