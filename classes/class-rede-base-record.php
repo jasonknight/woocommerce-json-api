@@ -30,7 +30,11 @@ class JSONAPIBaseRecord extends JSONAPIHelpers {
   * 
   * ( new Object() )->setup()->doCalculation()->update()->done();
   */
-  
+  public static function getModelSettings() {
+    static::setupModelAttributes();
+    static::setupMetaAttributes();
+    return static::$_model_settings;
+  }
   public function setNewRecord( $bool ) {
     $this->_new_record = $bool;
   }
@@ -161,7 +165,38 @@ class JSONAPIBaseRecord extends JSONAPIHelpers {
     return $this;
   }
 
-
+  public function loadHasManyAssociation( $name ) {
+    global $wpdb;
+    $hm =  static::$_model_settings['has_many'];
+    $models = array();
+    if ( isset( $hm[$name] ) ) {
+      $klass = $hm[$name]['class_name'];
+      $fkey = $this->orEq($hm[$name],'foreign_key', false);
+      $s = $klass::getModelSettings();
+      $sql = $wpdb->prepare("SELECT {$s['model_table_id']} FROM {$s['model_table']} WHERE {$fkey} = %d",$this->_actual_model_id);
+      $ids = $wpdb->get_col($sql);
+      foreach ( $ids as $id ) {
+        echo $klass;
+        $model = $klass::find($id);
+        $models[] = $model->asApiArray();
+      }
+    }
+    return $models;
+  }
+  public function loadBelongsToAssociation( $name ) {
+    global $wpdb;
+    $hm =  static::$_model_settings['belongs_to'];
+    $model = null;
+    if ( isset( $hm[$name] ) ) {
+      $klass = $hm[$name]['class_name'];
+      $fattr = $this->orEq($hm[$name],'meta_attribute', false);
+      $s = $klass::getModelSettings();
+      if ( $fattr ) {
+        $model = $klass::find( $this->{$fattr});
+      }
+    }
+    return $model;
+  }
   /**
   *  From here we have a dynamic getter. We return a special REDENOTSET variable.
   */
@@ -181,6 +216,10 @@ class JSONAPIBaseRecord extends JSONAPIHelpers {
       } else {
         return '';
       }
+    } else if ( isset( static::$_model_settings['has_many'] ) && $this->inArray( $name, array_keys(static::$_model_settings['has_many']) ) ) {
+      return $this->loadHasManyAssociation($name);
+    } else if ( isset( static::$_model_settings['belongs_to'] ) && $this->inArray( $name, array_keys(static::$_model_settings['belongs_to']) ) ) {
+      return $this->loadBelongsToAssociation($name);
     }
   } // end __get
   // Dynamic setter

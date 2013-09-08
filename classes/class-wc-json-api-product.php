@@ -91,6 +91,10 @@ class WC_JSON_API_Product extends JSONAPIBaseRecord {
   
   public static function setupModelAttributes() {
     self::$_model_settings = array(
+      'model_table'                => $wpdb->posts,
+      'meta_table'                => $wpdb->postmeta,
+      'model_table_id'             => 'id',
+      'meta_table_foreign_key'    => 'post_id',
       'model_conditions' => "WHERE post_type IN ('product','product_variation')",
     );
     if ( self::$_model_attributes_table ) {

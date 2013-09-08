@@ -4,7 +4,7 @@
  * database representation
 */
 require_once(dirname(__FILE__) . "/class-rede-base-record.php");
-
+require_once(dirname(__FILE__) . "/class-wc-json-api-order-item.php");
 class WC_JSON_API_Order extends JSONAPIBaseRecord {
 
   
@@ -12,9 +12,6 @@ class WC_JSON_API_Order extends JSONAPIBaseRecord {
   
 
   public static function setupMetaAttributes() {
-    if ( self::$_meta_attributes_table ) {
-      return;
-    }
     // We only accept these attributes.
     self::$_meta_attributes_table = array(
       'order_key'				      => array('name' => '_order_key',                  'type' => 'string'), 
@@ -70,10 +67,10 @@ class WC_JSON_API_Order extends JSONAPIBaseRecord {
   public static function setupModelAttributes() {
     self::$_model_settings = array(
       'model_conditions' => "WHERE post_type IN ('shop_order')",
+      'has_many' => array(
+        'order_items' => array('class_name' => 'WC_JSON_API_OrderItem', 'foreign_key' => 'order_id'),
+      ),
     );
-    if ( self::$_model_attributes_table ) {
-      return;
-    }
     self::$_model_attributes_table = array(
       'name'            => array('name' => 'post_title',  'type' => 'string'),
       'guid'            => array('name' => 'guid',        'type' => 'string'),
@@ -93,7 +90,11 @@ class WC_JSON_API_Order extends JSONAPIBaseRecord {
   public function setStatus( $s ) {
     $this->_status = $s;
   }
-  
+  public function asApiArray() {
+    $attrs = parent::asApiArray();
+    $attrs['order_items'] = $this->order_items;
+    return $attrs;
+  }
 
   
 
