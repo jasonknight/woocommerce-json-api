@@ -3,6 +3,8 @@
 **You cannot test this code while logged into Wordpress.** You will need to
 log out of wordpress, or open a new incognito window to test the code.
 
+### Requires PHP 5.3+
+
 A simple, Abstract JSON API for Wordpress' Awesome Plugin: WooCommerce
 
 Here is an example, using jQuery

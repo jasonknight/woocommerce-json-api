@@ -5,6 +5,7 @@
 */
 require_once(dirname(__FILE__) . "/class-rede-base-record.php");
 require_once(dirname(__FILE__) . "/class-wc-json-api-category.php");
+require_once(dirname(__FILE__) . "/class-wc-json-api-order-item.php");
 class WC_JSON_API_Product extends JSONAPIBaseRecord {   
   /**
   * Here we normalize the attributes, giving them a consistent name scheme and obvious
@@ -28,11 +29,11 @@ class WC_JSON_API_Product extends JSONAPIBaseRecord {
   * in question.
   */
   public static function setupMetaAttributes() {
-    if ( self::$_meta_attributes_table ) {
+    if ( static::$_meta_attributes_table ) {
       return;
     }
     // We only accept these attributes.
-    self::$_meta_attributes_table = array(
+    static::$_meta_attributes_table = array(
       'sku'               => array('name' => '_sku',              'type' => 'string'),
       'downloadable'      => array('name' => '_downloadable',     'type' => 'bool'),
       'virtual'           => array('name' => '_virtual',          'type' => 'bool'),
@@ -86,21 +87,24 @@ class WC_JSON_API_Product extends JSONAPIBaseRecord {
       this helps to facilitate interoperability with other plugins that may be making arcane
       magic with a product, or want to expose their product extensions via the api.
     */
-    self::$_meta_attributes_table = apply_filters( 'woocommerce_json_api_product_meta_attributes_table', self::$_meta_attributes_table );
+    static::$_meta_attributes_table = apply_filters( 'woocommerce_json_api_product_meta_attributes_table', static::$_meta_attributes_table );
   } // end setupMetaAttributes
   
   public static function setupModelAttributes() {
-    self::$_model_settings = array(
+    static::$_model_settings = array_merge( JSONAPIBaseRecord::getDefaultModelSettings(), array(
       'model_table'                => $wpdb->posts,
       'meta_table'                => $wpdb->postmeta,
       'model_table_id'             => 'id',
       'meta_table_foreign_key'    => 'post_id',
       'model_conditions' => "WHERE post_type IN ('product','product_variation')",
-    );
-    if ( self::$_model_attributes_table ) {
+      'has_many' => array(
+        'order_items' => array('class_name' => 'WC_JSON_API_OrderItem', 'foreign_key' => 'order_id'),
+      ),
+    ) );
+    if ( static::$_model_attributes_table ) {
       return;
     }
-    self::$_model_attributes_table = array(
+    static::$_model_attributes_table = array(
       'name'            => array('name' => 'post_title',             'type' => 'string'),
       'slug'            => array('name' => 'post_name',              'type' => 'string'),
       'type'            => array('name' => 'post_type',              'type' => 'string'),
@@ -120,7 +124,7 @@ class WC_JSON_API_Product extends JSONAPIBaseRecord {
                                   ),
                           ),
     );
-    self::$_model_attributes_table = apply_filters( 'woocommerce_json_api_product_model_attributes_table', self::$_model_attributes_table );
+    static::$_model_attributes_table = apply_filters( 'woocommerce_json_api_product_model_attributes_table', static::$_model_attributes_table );
   }
   
   public function asApiArray() {
@@ -142,7 +146,7 @@ class WC_JSON_API_Product extends JSONAPIBaseRecord {
       }
       
     }
-    $attributes = array_merge(self::$_model_attributes_table, self::$_meta_attributes_table);
+    $attributes = array_merge(static::$_model_attributes_table, static::$_meta_attributes_table);
     $attributes_to_send['id'] = $this->getModelId();
     foreach ( $attributes as $name => $desc ) {
       $attributes_to_send[$name] = $this->dynamic_get( $name, $desc, $this->getModelId());
@@ -169,8 +173,8 @@ class WC_JSON_API_Product extends JSONAPIBaseRecord {
     global $wpdb, $user_ID;
     // We should setup attrib tables if it hasn't
     // already been done
-    self::setupModelAttributes();
-    self::setupMetaAttributes();
+    static::setupModelAttributes();
+    static::setupMetaAttributes();
     // Maybe we want to set attribs and create in one go.
     if ( $attrs ) {
       foreach ( $attrs as $name=>$value ) {
@@ -178,7 +182,7 @@ class WC_JSON_API_Product extends JSONAPIBaseRecord {
       }
     }
     $post = array( 'post_author' => $user_ID, 'post_type' => 'product');
-    foreach (self::$_model_attributes_table as $attr => $desc) {
+    foreach (static::$_model_attributes_table as $attr => $desc) {
       $value = $this->dynamic_get( $attr, $desc, null);
       $post[ $desc['name'] ] = $value;
     }
@@ -190,7 +194,7 @@ class WC_JSON_API_Product extends JSONAPIBaseRecord {
       $this->_result->addError( __('Failed to create product'), WCAPI_CANNOT_INSERT_RECORD );
     } else {
       $this->setValid(true);
-      foreach (self::$_meta_attributes_table as $attr => $desc) {
+      foreach (static::$_meta_attributes_table as $attr => $desc) {
         if ( isset( $this->_meta_attributes[$attr] ) ) {
           $value = $this->_meta_attributes[$attr];
           if ( ! empty($value) ) {

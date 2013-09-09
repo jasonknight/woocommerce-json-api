@@ -7,10 +7,6 @@ require_once(dirname(__FILE__) . "/class-rede-base-record.php");
 require_once(dirname(__FILE__) . "/class-wc-json-api-category.php");
 class WC_JSON_API_Customer extends JSONAPIBaseRecord {
    public static function setupMetaAttributes() {
-
-    if ( self::$_meta_attributes_table ) {
-      return;
-    }
     // We only accept these attributes.
     self::$_meta_attributes_table = array(
       'order_count'               => array('name' => '_order_count',      'type' => 'number'),
@@ -24,13 +20,16 @@ class WC_JSON_API_Customer extends JSONAPIBaseRecord {
   } // end setupMetaAttributes
   public static function setupModelAttributes() {
     global $wpdb;
-    self::$_model_settings = array(
-      'model_table' => $wpdb->users,
-      'meta_function' => 'get_user_meta',
+    
+    self::$_model_settings = array_merge( JSONAPIBaseRecord::getDefaultModelSettings(), array(
+        'model_table' => $wpdb->users,
+        'model_table_id' => 'id',
+        'meta_table' => $wpdb->usermeta,
+        'meta_table_foreign_key' => 'user_id',
+        'meta_function' => 'get_user_meta',
+      )
     );
-    if ( self::$_model_attributes_table ) {
-      return;
-    }
+
     self::$_model_attributes_table = array(
       'name'            => array('name' => 'display_name',           'type' => 'string'),
       'username'        => array('name' => 'user_login',             'type' => 'string'),

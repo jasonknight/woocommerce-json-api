@@ -600,33 +600,33 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
     $ids            = $this->orEq( $params['arguments'], 'ids', false);
 
     if ( ! $ids ) {
-      
-      $posts = WC_JSON_API_Order::all()->per($posts_per_page)->page($paged)->fetch(function ( $result) {
-        return $result['id'];
-      });
-      JSONAPIHelpers::debug( "IDs from all() are: " . var_export($posts,true) );
+      $orders = array();
+      $models = WC_JSON_API_Order::all("*")->per($posts_per_page)->page($paged)->fetch();
+      foreach ( $models as $model ) {
+        $orders[] = $model->asApiArray();
+      }
     } else if ( $ids ) {
     
       $posts = $ids;
-      
-    }
-    $orders = array();
-    foreach ( $posts as $post_id) {
-      try {
-        $post = WC_JSON_API_Order::find($post_id);
-      } catch (Exception $e) {
-        JSONAPIHelpers::error("An exception occurred attempting to instantiate a Order object: " . $e->getMessage());
-        $this->result->addError( __("Error occurred instantiating Order object"),-99);
-        return $this->done();
+      $orders = array();
+      foreach ( $posts as $post_id) {
+        try {
+          $post = WC_JSON_API_Order::find($post_id);
+        } catch (Exception $e) {
+          JSONAPIHelpers::error("An exception occurred attempting to instantiate a Order object: " . $e->getMessage());
+          $this->result->addError( __("Error occurred instantiating Order object"),-99);
+          return $this->done();
+        }
+        
+        if ( !$post ) {
+          $this->result->addWarning( $post_id. ': ' . __('Order does not exist','woocommerce_json_api'), WCAPI_ORDER_NOT_EXISTS, array( 'id' => $post_id) );
+        } else {
+          $orders[] = $post->asApiArray();
+        }
+        
       }
-      
-      if ( !$post ) {
-        $this->result->addWarning( $post_id. ': ' . __('Order does not exist','woocommerce_json_api'), WCAPI_ORDER_NOT_EXISTS, array( 'id' => $post_id) );
-      } else {
-        $orders[] = $post->asApiArray();
-      }
-      
     }
+    
     $this->result->setPayload($orders);
     return $this->done();
   }

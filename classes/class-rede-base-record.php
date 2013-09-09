@@ -31,9 +31,26 @@ class JSONAPIBaseRecord extends JSONAPIHelpers {
   * ( new Object() )->setup()->doCalculation()->update()->done();
   */
   public static function getModelSettings() {
+    // This is kind of important, late static binding
+    // can be really wonky sometimes. especially
+    // with values that exist on the base model.
     static::setupModelAttributes();
     static::setupMetaAttributes();
     return static::$_model_settings;
+  }
+  public static function getDefaultModelSettings() {
+    global $wpdb;
+    // Here we have all the default settings
+    // for a model.
+    return array(
+      'model_table'               => $wpdb->posts,
+      'meta_table'                => $wpdb->postmeta,
+      'model_table_id'            => 'id',
+      'meta_table_foreign_key'    => 'post_id',
+      'meta_function'             => 'get_post_meta',
+      'trigger_actions'           => true, // i.e should we trigger woocommerce actions?
+      'trigger_filters'           => true, // i.e should we trigger woocommerce filters when loading/setting values.
+      );
   }
   public function setNewRecord( $bool ) {
     $this->_new_record = $bool;
@@ -94,19 +111,57 @@ class JSONAPIBaseRecord extends JSONAPIHelpers {
   }
 
   // We need an easier interface to fetching items
-  public function fetch( $callback ) {
+  public function fetch( $callback = null ) {
     global $wpdb;
     $sql = $this->_queries_to_run[count($this->_queries_to_run) - 1];
     if ( ! empty($sql) ) {
       if ( $this->_per_page && $this->_page) {
         $sql .= " LIMIT {$this->_page},{$this->_per_page}";
       }
+      echo $sql;
       $results = $wpdb->get_results($sql,'ARRAY_A');
       JSONAPIHelpers::debug("in function fetch: WPDB returned " . count($results) . " results");
-      foreach ( $results as &$result ) {
-        if ( $callback ) {
-          $result = call_user_func($callback,$result);
+      if ($callback) {
+        foreach ( $results as &$result ) {
+          if ( $callback ) {
+            $result = call_user_func($callback,$result);
+          }
         }
+      } else {
+        $klass = get_called_class();
+        $models = array();
+        $s = static::getModelSettings();
+        $meta_function = $s['meta_function'];
+        foreach ( $results as $record ) {
+          $model = new $klass();
+          print_r($record);
+          if ( isset( $record['id']) ) {
+            $id = $record['id'];
+          } else if ( isset( $record['ID']) ) {
+            $id = $record['ID'];
+          } else if ( isset( $record[ $s['model_table_id'] ] ) ) {
+            $id = $record[ $s['model_table_id'] ];
+          }
+          $model->setModelId( $id );
+          foreach ( static::$_model_attributes_table as $name => $desc ) {
+            $model->dynamic_set( $name, $desc,$record[ $desc['name'] ] );
+            //$model->{$name} = $record[$desc['name']];
+          }
+          foreach ( static::$_meta_attributes_table as $name => $desc ) {
+            $value = $meta_function( $id, $desc['name'], true );
+            // We may want to do some "funny stuff" with setters and getters.
+            // I know, I know, "no funny stuff" is generally the rule.
+            // But WooCom or WP could change stuff that would break a lot
+            // of code if we try to be explicity about each attribute.
+            // Also, we may want other people to extend the objects via
+            // filters.
+            $model->dynamic_set( $name, $desc, $value, $model->getModelId() );
+          }
+          $model->setValid( true );
+          $model->setNewRecord( false );
+          $models[] = $model;
+        }
+        return $models;
       }
       if (count($results) < 1) {
         JSONAPIHelpers::debug("in function fetch, empty result set using: $sql");
@@ -314,6 +369,8 @@ class JSONAPIBaseRecord extends JSONAPIHelpers {
       }
       $model->setValid( true );
       $model->setNewRecord( false );
+    } else {
+      $model = null;
     }
     return $model;
   }
