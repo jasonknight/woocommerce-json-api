@@ -13,6 +13,7 @@ define('WCAPI_BAD_ARGUMENT',                  -5);
 define('WCAPI_CANNOT_INSERT_RECORD',          -6);
 define('WCAPI_PERMSNOTSET',                   -7);
 define('WCAPI_PERMSINSUFF',                   -8);
+define('WCAPI_INTERNAL_ERROR',                -9);
 
 define('WCAPI_PRODUCT_NOT_EXISTS', 1);
 define('WCAPI_ORDER_NOT_EXISTS', 2);
@@ -191,9 +192,15 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
       $this->result->addError( __( 'Missing `arguments` key','woocommerce_json_api' ),WCAPI_EXPECTED_ARGUMENT );
       return false;
     }
+    $by_token = true;
     if ( ! isset( $params['arguments']['token'] ) ) {
-      $this->result->addError( __( 'Missing `token` in `arguments`','woocommerce_json_api' ),WCAPI_EXPECTED_ARGUMENT );
-      return false;
+      if ( isset( $params['arguments']['username'] ) && isset( $params['arguments']['password']) ) {
+        $by_token = false;
+      } else {
+         $this->result->addError( __( 'Missing `token` in `arguments`','woocommerce_json_api' ),WCAPI_EXPECTED_ARGUMENT );
+        return false;
+      }
+      
     }
     $key = $this->getPluginPrefix() . '_settings';
     $args = array(
@@ -202,7 +209,17 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
     );
     API\Base::setBlogId($GLOBALS['blog_id']);
     $users = get_users( $args );
-
+    if (! $by_token ) {
+        $user = wp_authenticate_username_password( null, $params['arguments']['username'],$params['arguments']['password']);
+        if ( is_a($user,'WP_Error') ) {
+          foreach( $user->get_error_messages() as $msg) {
+            $this->result->addError( $msg ,WCAPI_INTERNAL_ERROR );
+          }
+          return false;
+        }
+        $this->logUserIn($user);
+        return true;
+    }
     foreach ($users as $user) {
       
       $meta = maybe_unserialize( get_user_meta( $user->ID, $key, true ) );
