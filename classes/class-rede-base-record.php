@@ -245,6 +245,8 @@ class JSONAPIBaseRecord extends JSONAPIHelpers {
     if ( isset( $hm[$name] ) ) {
       $klass = $hm[$name]['class_name'];
       $fattr = $this->orEq($hm[$name],'meta_attribute', false);
+      if ( !$fattr )
+        $fattr = $this->orEq($hm[$name],'foreign_key', false);
       $s = $klass::getModelSettings();
       if ( $fattr ) {
         $model = $klass::find( $this->{$fattr});
