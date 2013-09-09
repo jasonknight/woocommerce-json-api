@@ -1,11 +1,13 @@
 <?php
+namespace WCAPI;
 /**
  * An OrderItem class to insulate the API from the details of the
  * database representation
 */
-require_once(dirname(__FILE__) . "/class-rede-base-record.php");
-require_once(dirname(__FILE__) . "/class-wc-json-api-order.php");
-class WC_JSON_API_OrderItem extends JSONAPIBaseRecord {
+require_once(dirname(__FILE__) . "/Base.php");
+require_once(dirname(__FILE__) . "/Order.php");
+require_once(dirname(__FILE__) . "/Product.php");
+class OrderItem extends Base {
 
   public static function setupMetaAttributes() {
     // We only accept these attributes.
@@ -30,15 +32,15 @@ class WC_JSON_API_OrderItem extends JSONAPIBaseRecord {
   } // end setupMetaAttributes
   public static function setupModelAttributes() {
     global $wpdb;
-    static::$_model_settings = array_merge(JSONAPIBaseRecord::getDefaultModelSettings(), array(
+    static::$_model_settings = array_merge(Base::getDefaultModelSettings(), array(
       'model_table'                => $wpdb->prefix . 'woocommerce_order_items',
       'meta_table'                => $wpdb->prefix . 'woocommerce_order_itemmeta',
       'model_table_id'             => 'order_item_id',
       'meta_table_foreign_key'    => 'order_item_id',
       'meta_function' => 'woocommerce_get_order_item_meta',
       'belongs_to' => array(
-        'order' => array('class_name' => 'WC_JSON_API_Order', 'foreign_key' => 'order_id'),
-        'product' => array('class_name' => 'WC_JSON_API_Product', 'meta_attribute' => 'product_id'),
+        'order' => array('class_name' => 'Order', 'foreign_key' => 'order_id'),
+        'product' => array('class_name' => 'Product', 'meta_attribute' => 'product_id'),
       ),
     ) );
     static::$_model_attributes_table = array(

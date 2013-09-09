@@ -19,9 +19,9 @@ define('WCAPI_ORDER_NOT_EXISTS', 2);
 
 require_once( plugin_dir_path(__FILE__) . '/class-rede-helpers.php' );
 require_once( plugin_dir_path(__FILE__) . '/class-wc-json-api-result.php' );
-require_once( plugin_dir_path(__FILE__) . '/class-wc-json-api-product.php' );
-require_once( plugin_dir_path(__FILE__) . '/class-wc-json-api-customer.php' );
-require_once( plugin_dir_path(__FILE__) . '/class-wc-json-api-order.php' );
+require_once( dirname(__FILE__) . '/WCAPI/includes.php' );
+
+use WCAPI as API;
 
 if ( !defined('PHP_VERSION_ID')) {
   $version = explode('.',PHP_VERSION);
@@ -200,8 +200,11 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
       'blog_id' => $GLOBALS['blog_id'],
       'meta_key' => $key
     );
+    API\Base::setBlogId($GLOBALS['blog_id']);
     $users = get_users( $args );
+
     foreach ($users as $user) {
+      
       $meta = maybe_unserialize( get_user_meta( $user->ID, $key, true ) );
       if (isset( $meta['token']) &&  $params['arguments']['token'] == $meta['token']) {
         if (!isset($meta[ 'can_' . $params['proc'] ]) || !isset($meta[ 'can_access_the_api' ])) {
@@ -278,11 +281,11 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
     }
     if ( ! $ids && ! $skus ) {
         if ($parent_ids) {
-          $posts = WC_JSON_API_Product::all('id', "`post_parent` IN (" . join(",",$parent_ids) . ")")->per($posts_per_page)->page($paged)->fetch(function ( $result) {
+          $posts = API\Product::all('id', "`post_parent` IN (" . join(",",$parent_ids) . ")")->per($posts_per_page)->page($paged)->fetch(function ( $result) {
             return $result['id'];
           });
         } else {
-          $posts = WC_JSON_API_Product::all()->per($posts_per_page)->page($paged)->fetch(function ( $result) {
+          $posts = API\Product::all()->per($posts_per_page)->page($paged)->fetch(function ( $result) {
             return $result['id'];
           });
         }
@@ -309,7 +312,7 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
 	  $products = array();
     foreach ( $posts as $post_id) {
       try {
-        $post = WC_JSON_API_Product::find($post_id);
+        $post = API\Product::find($post_id);
       } catch (Exception $e) {
         JSONAPIHelpers::error("An exception occurred attempting to instantiate a Product object: " . $e->getMessage());
         $this->result->addError( __("Error occurred instantiating product object"),-99);
@@ -398,9 +401,9 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
     $products = $this->orEq( $params, 'payload', array() );
     foreach ( $products as &$attrs) {
       if (isset($attrs['id'])) {
-        $product = WC_JSON_API_Product::find($attrs['id']);
+        $product = API\Product::find($attrs['id']);
       } else if ( isset($attrs['sku'])) {
-        $product = WC_JSON_API_Product::find_by_sku($attrs['sku']);
+        $product = API\Product::find_by_sku($attrs['sku']);
       }
       if ($product->isValid()) {
         $product->fromApiArray( $attrs );
@@ -419,7 +422,7 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
           )
         );
         // Let's create the product if it doesn't exist.
-        $product = new WC_JSON_API_Product();
+        $product = new API\Product();
         $product->create( $attrs );
         if ( ! $product->isValid() ) {
           return $this->done();
@@ -462,7 +465,7 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
     
     $categories = get_terms('product_cat', $args);
     foreach ( $categories as $id ) {
-      $category = WC_JSON_API_Category::find( $id );
+      $category = API\Category::find( $id );
       $this->result->addPayload( $category->asApiArray() );
     }
     return $this->done();
@@ -471,7 +474,7 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
   private function set_categories( $params ) {
     $categories = $this->orEq( $params, 'payload', array());
     foreach ( $categories as $category ) {
-      $actual = WC_JSON_API_Category::find_by_name( $category['name'] );
+      $actual = API\Category::find_by_name( $category['name'] );
       //print_r($actual->asApiArray());
     }
     return $this->done();
@@ -587,7 +590,7 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
     $customer_ids = $wpdb->get_col("SELECT user_id FROM {$wpdb->usermeta} WHERE meta_key = 'wp_capabilities' AND meta_value LIKE '%customer%'");
     $customers = array();
     foreach ( $customer_ids as $id ) {
-      $c = WC_JSON_API_Customer::find( $id );
+      $c = API\Customer::find( $id );
       $customers[] = $c->asApiArray();
     }
     $this->result->setPayload($customers);
@@ -601,7 +604,7 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
 
     if ( ! $ids ) {
       $orders = array();
-      $models = WC_JSON_API_Order::all("*")->per($posts_per_page)->page($paged)->fetch();
+      $models = API\Order::all("*")->per($posts_per_page)->page($paged)->fetch();
       foreach ( $models as $model ) {
         $orders[] = $model->asApiArray();
       }
@@ -611,7 +614,7 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
       $orders = array();
       foreach ( $posts as $post_id) {
         try {
-          $post = WC_JSON_API_Order::find($post_id);
+          $post = API\Order::find($post_id);
         } catch (Exception $e) {
           JSONAPIHelpers::error("An exception occurred attempting to instantiate a Order object: " . $e->getMessage());
           $this->result->addError( __("Error occurred instantiating Order object"),-99);

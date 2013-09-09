@@ -1,12 +1,13 @@
 <?php
-require_once(dirname(__FILE__) . "/class-rede-base-record.php");
-class WC_JSON_API_Category extends JSONAPIBaseRecord {
+namespace WCAPI;
+require_once(dirname(__FILE__) . "/Base.php");
+class Category extends Base {
   public $_attributes;
   public static $_attributes_table;
   public function __construct() {
     $this->_attributes = array();
     $this->setValid(false);
-    WC_JSON_API_Category::setupAttributesTable();
+    Category::setupAttributesTable();
   }
   public static function setupAttributesTable() {
     if ( self::$_attributes_table ) {
@@ -36,7 +37,7 @@ class WC_JSON_API_Category extends JSONAPIBaseRecord {
   }
   public static function find ( $id ) {
     $term = get_term ( $id, 'product_cat', 'ARRAY_A','get_term');
-    $category = new WC_JSON_API_Category();
+    $category = new Category();
     if ( $term ) {
       foreach ( self::$_attributes_table as $name => $desc ) {
         $category->dynamic_set( $name, $desc, $term[ $desc['name']], null );
@@ -46,7 +47,7 @@ class WC_JSON_API_Category extends JSONAPIBaseRecord {
   }
   public static function find_by_name( $name ) {
     global $wpdb;
-    WC_JSON_API_Category::setupAttributesTable();
+    Category::setupAttributesTable();
     $sql = "
       SELECT 
         categories.*, 
@@ -64,7 +65,7 @@ class WC_JSON_API_Category extends JSONAPIBaseRecord {
     ";
     $sql = $wpdb->prepare( $sql, $name );
     $results = $wpdb->get_results($sql,'ARRAY_A');
-    $category = new WC_JSON_API_Category();
+    $category = new Category();
     $first = $results[0];
     if ( $first ) {
       $category->setValid( true );
@@ -79,7 +80,7 @@ class WC_JSON_API_Category extends JSONAPIBaseRecord {
   */
   public static function all($fields = 'id') {
     global $wpdb;
-    WC_JSON_API_Category::setupAttributesTable();
+    Category::setupAttributesTable();
     $sql = "
       SELECT 
         categories.*, 
@@ -94,7 +95,7 @@ class WC_JSON_API_Category extends JSONAPIBaseRecord {
         (taxons.taxonomy = 'product_cat') and 
         (categories.term_id = taxons.term_id)
     ";
-    $category = new WC_JSON_API_Category();
+    $category = new Category();
     $category->addQuery($sql);
     return $category;
   }

@@ -1,14 +1,15 @@
 <?php
+namespace WCAPI;
 /**
  * A Customer class to insulate the API from the details of the
  * database representation
 */
-require_once(dirname(__FILE__) . "/class-rede-base-record.php");
-require_once(dirname(__FILE__) . "/class-wc-json-api-category.php");
-class WC_JSON_API_Customer extends JSONAPIBaseRecord {
+require_once(dirname(__FILE__) . "/Base.php");
+require_once(dirname(__FILE__) . "/Category.php");
+class Customer extends Base {
    public static function setupMetaAttributes() {
     // We only accept these attributes.
-    self::$_meta_attributes_table = array(
+    static::$_meta_attributes_table = array(
       'order_count'               => array('name' => '_order_count',      'type' => 'number'),
     );
     /*
@@ -16,12 +17,12 @@ class WC_JSON_API_Customer extends JSONAPIBaseRecord {
       this helps to facilitate interoperability with other plugins that may be making arcane
       magic with a customer, or want to expose their customer extensions via the api.
     */
-    self::$_meta_attributes_table = apply_filters( 'woocommerce_json_api_user_meta_attributes_table', self::$_meta_attributes_table );
+    static::$_meta_attributes_table = apply_filters( 'woocommerce_json_api_user_meta_attributes_table', static::$_meta_attributes_table );
   } // end setupMetaAttributes
   public static function setupModelAttributes() {
     global $wpdb;
     
-    self::$_model_settings = array_merge( JSONAPIBaseRecord::getDefaultModelSettings(), array(
+    static::$_model_settings = array_merge( static::getDefaultModelSettings(), array(
         'model_table' => $wpdb->users,
         'model_table_id' => 'id',
         'meta_table' => $wpdb->usermeta,
@@ -30,7 +31,7 @@ class WC_JSON_API_Customer extends JSONAPIBaseRecord {
       )
     );
 
-    self::$_model_attributes_table = array(
+    static::$_model_attributes_table = array(
       'name'            => array('name' => 'display_name',           'type' => 'string'),
       'username'        => array('name' => 'user_login',             'type' => 'string'),
       'slug'            => array('name' => 'user_nicename',          'type' => 'string'),
@@ -38,10 +39,10 @@ class WC_JSON_API_Customer extends JSONAPIBaseRecord {
       'status'          => array('name' => 'user_status',            'type' => 'number'),
       'date_registered' => array('name' => 'user_registered',        'type' => 'datetime'),
     );
-    self::$_model_attributes_table = apply_filters( 'woocommerce_json_api_model_attributes_table', self::$_model_attributes_table );
+    static::$_model_attributes_table = apply_filters( 'woocommerce_json_api_model_attributes_table', static::$_model_attributes_table );
   }
   public function asApiArray() {
-    $attributes = array_merge(self::$_model_attributes_table, self::$_meta_attributes_table);
+    $attributes = array_merge(static::$_model_attributes_table, static::$_meta_attributes_table);
     $attributes_to_send['id'] = $this->getModelId();
     $attributes_to_send = array();
     foreach ( $attributes as $name => $desc ) {

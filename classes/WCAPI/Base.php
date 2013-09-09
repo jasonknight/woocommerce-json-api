@@ -1,6 +1,7 @@
 <?php
-require_once dirname( __FILE__ ) . '/class-rede-helpers.php';
-class JSONAPIBaseRecord extends JSONAPIHelpers {
+namespace WCAPI;
+require_once dirname( __FILE__ ) . '/BaseHelpers.php';
+class Base extends Helpers {
   // We want to be able to update the product in one go, as quickly
   // as possible because it is not unrealistic for us to want to
   // update hundres of products in one API call. We don't want to
@@ -23,6 +24,8 @@ class JSONAPIBaseRecord extends JSONAPIHelpers {
   public $_meta_attributes;
   public $_model_attributes;
   public static $_model_settings;
+  public static $adapter;
+  public static $blog_id;
   
   /**
   * We want to establish a "fluid" API for the objects.
@@ -30,6 +33,12 @@ class JSONAPIBaseRecord extends JSONAPIHelpers {
   * 
   * ( new Object() )->setup()->doCalculation()->update()->done();
   */
+  public static function setAdapter( $a ) {
+    static::$adapter = $a;
+  }
+  public static function setBlogId( $id ) {
+    static::$blog_id = $id;;
+  }
   public static function getModelSettings() {
     // This is kind of important, late static binding
     // can be really wonky sometimes. especially
@@ -39,7 +48,7 @@ class JSONAPIBaseRecord extends JSONAPIHelpers {
     return static::$_model_settings;
   }
   public static function getDefaultModelSettings() {
-    global $wpdb;
+    $wpdb = static::$adapter;
     // Here we have all the default settings
     // for a model.
     return array(
@@ -83,7 +92,7 @@ class JSONAPIBaseRecord extends JSONAPIHelpers {
   *  You will need to define an all and where method on the child model.
   */
   public function done() {
-    global $wpdb;
+    $wpdb = static::$adapter;
     foreach ( $this->_queries_to_run as $key=>$query ) {
       $wpdb->query($query);
       unset($this->_queries_to_run[$key]);
@@ -112,15 +121,14 @@ class JSONAPIBaseRecord extends JSONAPIHelpers {
 
   // We need an easier interface to fetching items
   public function fetch( $callback = null ) {
-    global $wpdb;
+    $wpdb = static::$adapter;
     $sql = $this->_queries_to_run[count($this->_queries_to_run) - 1];
     if ( ! empty($sql) ) {
       if ( $this->_per_page && $this->_page) {
         $sql .= " LIMIT {$this->_page},{$this->_per_page}";
       }
-      echo $sql;
       $results = $wpdb->get_results($sql,'ARRAY_A');
-      JSONAPIHelpers::debug("in function fetch: WPDB returned " . count($results) . " results");
+      Helpers::debug("in function fetch: WPDB returned " . count($results) . " results");
       if ($callback) {
         foreach ( $results as &$result ) {
           if ( $callback ) {
@@ -164,18 +172,18 @@ class JSONAPIBaseRecord extends JSONAPIHelpers {
         return $models;
       }
       if (count($results) < 1) {
-        JSONAPIHelpers::debug("in function fetch, empty result set using: $sql");
+        Helpers::debug("in function fetch, empty result set using: $sql");
       } else {
-        JSONAPIHelpers::debug("in function fetch: " . count($results) . " were returned from: " . $sql);
+        Helpers::debug("in function fetch: " . count($results) . " were returned from: " . $sql);
       }
       return $results;
     } else {
-      JSONAPIHelpers::debug("in function fetch, sql was empty.");
+      Helpers::debug("in function fetch, sql was empty.");
       return null;
     }
   }
   public function update() {
-    global $wpdb;
+    $wpdb = static::$adapter;
     if ( isset( static::$_model_settings ) ) {
       $model_table             = $this->orEq( static::$_model_settings, 'model_table', $wpdb->posts );  
       $meta_table              = $this->orEq( static::$_model_settings, 'meta_table', $wpdb->postmeta );
@@ -221,11 +229,11 @@ class JSONAPIBaseRecord extends JSONAPIHelpers {
   }
 
   public function loadHasManyAssociation( $name ) {
-    global $wpdb;
+    $wpdb = static::$adapter;
     $hm =  static::$_model_settings['has_many'];
     $models = array();
     if ( isset( $hm[$name] ) ) {
-      $klass = $hm[$name]['class_name'];
+      $klass = 'WCAPI\\' . $hm[$name]['class_name'];
       $fkey = $this->orEq($hm[$name],'foreign_key', false);
       $s = $klass::getModelSettings();
       $sql = $wpdb->prepare("SELECT {$s['model_table_id']} FROM {$s['model_table']} WHERE {$fkey} = %d",$this->_actual_model_id);
@@ -239,11 +247,11 @@ class JSONAPIBaseRecord extends JSONAPIHelpers {
     return $models;
   }
   public function loadBelongsToAssociation( $name ) {
-    global $wpdb;
+    $wpdb = static::$adapter;
     $hm =  static::$_model_settings['belongs_to'];
     $model = null;
     if ( isset( $hm[$name] ) ) {
-      $klass = $hm[$name]['class_name'];
+      $klass = "WCAPI\\" . $hm[$name]['class_name'];
       $fattr = $this->orEq($hm[$name],'meta_attribute', false);
       if ( !$fattr )
         $fattr = $this->orEq($hm[$name],'foreign_key', false);
@@ -279,6 +287,7 @@ class JSONAPIBaseRecord extends JSONAPIHelpers {
       return $this->loadBelongsToAssociation($name);
     }
   } // end __get
+  
   // Dynamic setter
   public function __set( $name, $value ) {
     if ( isset( static::$_meta_attributes_table[$name] ) ) {
@@ -334,7 +343,7 @@ class JSONAPIBaseRecord extends JSONAPIHelpers {
   }
 
   public static function find( $id ) {
-    global $wpdb;
+    $wpdb = static::$adapter;
     static::setupModelAttributes();
     static::setupMetaAttributes();
     $model = new static();
@@ -387,7 +396,7 @@ class JSONAPIBaseRecord extends JSONAPIHelpers {
     return $this;
   }
   public function asApiArray() {
-    global $wpdb;
+    $wpdb = static::$adapter;
     $attributes = array_merge(static::$_model_attributes_table, static::$_meta_attributes_table);
     $attributes_to_send['id'] = $this->getModelId();
 
@@ -400,7 +409,7 @@ class JSONAPIBaseRecord extends JSONAPIHelpers {
   *  Similar in function to Model.all in Rails, it's just here for convenience.
   */
   public static function all($fields = 'id', $conditions = null) {
-    global $wpdb;
+    $wpdb = static::$adapter;
     static::setupModelAttributes();
     static::setupMetaAttributes();
     $model = new static();

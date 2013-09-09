@@ -1,11 +1,13 @@
 <?php
+namespace WCAPI;
 /**
  * An Order class to insulate the API from the details of the
  * database representation
 */
-require_once(dirname(__FILE__) . "/class-rede-base-record.php");
-require_once(dirname(__FILE__) . "/class-wc-json-api-order-item.php");
-class WC_JSON_API_Order extends JSONAPIBaseRecord {
+require_once(dirname(__FILE__) . "/Base.php");
+require_once(dirname(__FILE__) . "/OrderItem.php");
+
+class Order extends Base {
 
   
   public $_status;
@@ -64,10 +66,10 @@ class WC_JSON_API_Order extends JSONAPIBaseRecord {
     static::$_meta_attributes_table = apply_filters( 'woocommerce_json_api_order_meta_attributes_table', static::$_meta_attributes_table );
   } // end setupMetaAttributes
   public static function setupModelAttributes() {
-    static::$_model_settings = array_merge( JSONAPIBaseRecord::getDefaultModelSettings(), array(
+    static::$_model_settings = array_merge( Base::getDefaultModelSettings(), array(
         'model_conditions' => "WHERE post_type IN ('shop_order')",
         'has_many' => array(
-          'order_items' => array('class_name' => 'WC_JSON_API_OrderItem', 'foreign_key' => 'order_id'),
+          'order_items' => array('class_name' => 'OrderItem', 'foreign_key' => 'order_id'),
         ),
       ) 
     );

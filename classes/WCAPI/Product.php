@@ -1,12 +1,13 @@
 <?php
+namespace WCAPI;
 /**
  * A Product class to insulate the API from the details of the
  * database representation
 */
-require_once(dirname(__FILE__) . "/class-rede-base-record.php");
-require_once(dirname(__FILE__) . "/class-wc-json-api-category.php");
-require_once(dirname(__FILE__) . "/class-wc-json-api-order-item.php");
-class WC_JSON_API_Product extends JSONAPIBaseRecord {   
+require_once(dirname(__FILE__) . "/Base.php");
+require_once(dirname(__FILE__) . "/Category.php");
+require_once(dirname(__FILE__) . "/OrderItem.php");
+class Product extends Base{   
   /**
   * Here we normalize the attributes, giving them a consistent name scheme and obvious
   * meaning, as well as making them easier to type so that we have a nice, user
@@ -69,7 +70,7 @@ class WC_JSON_API_Product extends JSONAPIBaseRecord {
       'attributes'        => array(
                               'name' => '_attributes',   
                               'type' => 'object', 
-                              'class' => 'WC_JSON_API_ProductAttributes',
+                              'class' => 'ProductAttributes',
                              ), 
       'tax_class'         => array('name' => '_tax_class',        'type' => 'string'),
       'tax_status'        => array(
@@ -91,14 +92,14 @@ class WC_JSON_API_Product extends JSONAPIBaseRecord {
   } // end setupMetaAttributes
   
   public static function setupModelAttributes() {
-    static::$_model_settings = array_merge( JSONAPIBaseRecord::getDefaultModelSettings(), array(
+    static::$_model_settings = array_merge( Base::getDefaultModelSettings(), array(
       'model_table'                => $wpdb->posts,
       'meta_table'                => $wpdb->postmeta,
       'model_table_id'             => 'id',
       'meta_table_foreign_key'    => 'post_id',
       'model_conditions' => "WHERE post_type IN ('product','product_variation')",
       'has_many' => array(
-        'order_items' => array('class_name' => 'WC_JSON_API_OrderItem', 'foreign_key' => 'order_id'),
+        'order_items' => array('class_name' => 'OrderItem', 'foreign_key' => 'order_id'),
       ),
     ) );
     if ( static::$_model_attributes_table ) {
@@ -128,7 +129,7 @@ class WC_JSON_API_Product extends JSONAPIBaseRecord {
   }
   
   public function asApiArray() {
-    global $wpdb;
+    $wpdb = static::$adapter;
     $category_objs = woocommerce_get_product_terms($this->_actual_model_id, 'product_cat', 'all');
     $categories = array();
 
@@ -138,7 +139,7 @@ class WC_JSON_API_Product extends JSONAPIBaseRecord {
       // works. Because we define the class with a Fluid API, most functions
       // that modify state of the object, return the object.
       try {
-        $_cat = new WC_JSON_API_Category();
+        $_cat = new Category();
         $categories[] = $_cat->setCategory( $cobj )->asApiArray();
       } catch (Exception $e) {
         // we should put some logging here soon!
@@ -159,18 +160,19 @@ class WC_JSON_API_Product extends JSONAPIBaseRecord {
   }
 
   public static function find_by_sku( $sku ) {
-    global $wpdb;
-    $product = new WC_JSON_API_Product();
+    $wpdb = static::$adapter;
+    $product = new Product();
     $product->setValid( false );
     $pid = $wpdb->get_var( $wpdb->prepare( "SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key='_sku' AND meta_value='%s' LIMIT 1",$sku) );
     if ( $pid ) {
-      $product = WC_JSON_API_Product::find( $pid );
+      $product = Product::find( $pid );
     }
     return $product;
   }
   
   public function create( $attrs = null ) {
-    global $wpdb, $user_ID;
+    $wpdb = static::$adapter;
+    $user_ID = $GLOBALS['user_ID'];
     // We should setup attrib tables if it hasn't
     // already been done
     static::setupModelAttributes();
