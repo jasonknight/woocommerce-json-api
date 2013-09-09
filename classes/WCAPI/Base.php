@@ -33,6 +33,10 @@ class Base extends Helpers {
   * 
   * ( new Object() )->setup()->doCalculation()->update()->done();
   */
+  public function __construct() {
+    static::setupMetaAttributes();
+    static::setupModelAttributes();
+  }
   public static function setAdapter( $a ) {
     static::$adapter = $a;
   }
@@ -57,6 +61,9 @@ class Base extends Helpers {
       'model_table_id'            => 'id',
       'meta_table_foreign_key'    => 'post_id',
       'meta_function'             => 'get_post_meta',
+      'update_meta_function'      => 'update_post_meta',
+      'load_meta_function'        => null,
+      'save_meta_function'        => null,
       'trigger_actions'           => true, // i.e should we trigger woocommerce actions?
       'trigger_filters'           => true, // i.e should we trigger woocommerce filters when loading/setting values.
       );
@@ -118,7 +125,73 @@ class Base extends Helpers {
     $this->_per_page = $num;
     return $this;
   }
-
+  public function getAdapter() { return static::$adapter;}
+  public function remapAttributes() {
+    $attrs = array();
+    foreach ( static::$_meta_attributes_table as $name => $desc ) {
+      $attrs[ $desc['name'] ] = $this->dynamic_get($name, $desc);
+    }
+    return $attrs;
+  }
+  public function loadMetaAttributes() {
+    static::setupMetaAttributes();
+    static::setupModelAttributes();
+    $s = static::getModelSettings();
+    $meta_function = $s['meta_function'];
+    $load_meta_function = $s['load_meta_function'];
+    $id = $this->_actual_model_id;
+    if ( $load_meta_function !== null ) {
+      $attrs = call_user_func($load_meta_function, $this);
+      foreach ( static::$_meta_attributes_table as $name => $desc ) {
+        $value = $attrs[ $desc['name'] ];
+        $this->dynamic_set( $name, $desc, $value, $this->getModelId() );
+      }
+    } else {
+      foreach ( static::$_meta_attributes_table as $name => $desc ) {
+        $value = call_user_func($meta_function, $id, $desc['name'], true );
+        $this->dynamic_set( $name, $desc, $value, $this->getModelId() );
+      }
+    }
+    return $this;
+  }
+  public function saveMetaAttributes() {
+    $meta_table              = $this->orEq( static::$_model_settings, 'meta_table', $wpdb->postmeta ); 
+    $meta_table_foreign_key  = $this->orEq( static::$_model_settings, 'meta_table_foreign_key', 'post_id' );
+    $save_meta_function = static::$_model_settings['save_meta_function'];
+    if ( $save_meta_function) {
+      call_user_func($save_meta_function, $this);
+    } else {
+      $meta_sql = "
+        UPDATE {$meta_table}
+          SET `meta_value` = CASE `meta_key`
+            ";
+            foreach (static::$_meta_attributes_table as $attr => $desc) {
+              if ( isset( $this->_meta_attributes[$attr] ) ) {
+                $value = $this->_meta_attributes[$attr];
+                if ( ! empty($value) ) {
+                  if ( isset( $desc['updater'] ) ) {
+                    $this->{ $desc['updater'] }( $value );
+                  } else {
+                    $meta_sql .= $wpdb->prepare( "\tWHEN '{$desc['name']}' THEN %s\n ", $value);
+                  }
+                }
+              }
+            }
+            $meta_sql .= "
+          END 
+        WHERE `{$meta_table_foreign_key}` = '{$this->_actual_model_id}'
+      ";
+    }
+    if ( gettype($meta_sql) ) {
+      $key = md5($meta_sql);
+      $this->_queries_to_run[$key] = $meta_sql;
+    } else if ( gettype( $meta_sql) == 'array') {
+      foreach ( $meta_sql as $sql ) {
+        $key = md5($sql);
+        $this->_queries_to_run[$key] = $sql;
+      }
+    }
+  }
   // We need an easier interface to fetching items
   public function fetch( $callback = null ) {
     $wpdb = static::$adapter;
@@ -142,7 +215,6 @@ class Base extends Helpers {
         $meta_function = $s['meta_function'];
         foreach ( $results as $record ) {
           $model = new $klass();
-          print_r($record);
           if ( isset( $record['id']) ) {
             $id = $record['id'];
           } else if ( isset( $record['ID']) ) {
@@ -155,16 +227,7 @@ class Base extends Helpers {
             $model->dynamic_set( $name, $desc,$record[ $desc['name'] ] );
             //$model->{$name} = $record[$desc['name']];
           }
-          foreach ( static::$_meta_attributes_table as $name => $desc ) {
-            $value = $meta_function( $id, $desc['name'], true );
-            // We may want to do some "funny stuff" with setters and getters.
-            // I know, I know, "no funny stuff" is generally the rule.
-            // But WooCom or WP could change stuff that would break a lot
-            // of code if we try to be explicity about each attribute.
-            // Also, we may want other people to extend the objects via
-            // filters.
-            $model->dynamic_set( $name, $desc, $value, $model->getModelId() );
-          }
+          $model->loadMetaAttributes();
           $model->setValid( true );
           $model->setNewRecord( false );
           $models[] = $model;
@@ -184,39 +247,9 @@ class Base extends Helpers {
   }
   public function update() {
     $wpdb = static::$adapter;
-    if ( isset( static::$_model_settings ) ) {
-      $model_table             = $this->orEq( static::$_model_settings, 'model_table', $wpdb->posts );  
-      $meta_table              = $this->orEq( static::$_model_settings, 'meta_table', $wpdb->postmeta );
-      $model_table_id          = $this->orEq( static::$_model_settings, 'model_table_id', 'ID' );   
-      $meta_table_foreign_key  = $this->orEq( static::$_model_settings, 'meta_table_foreign_key', 'post_id' );
-    } else {
-      $model_table             = $wpdb->posts;  
-      $meta_table             = $wpdb->postmeta;
-      $model_table_id          = 'ID';   
-      $meta_table_foreign_key = 'post_id';
-    }
-    $meta_sql = "
-      UPDATE {$meta_table}
-        SET `meta_value` = CASE `meta_key`
-          ";
-          foreach (static::$_meta_attributes_table as $attr => $desc) {
-            if ( isset( $this->_meta_attributes[$attr] ) ) {
-              $value = $this->_meta_attributes[$attr];
-              if ( ! empty($value) ) {
-                if ( isset( $desc['updater'] ) ) {
-                  $this->{ $desc['updater'] }( $value );
-                } else {
-                  $meta_sql .= $wpdb->prepare( "\tWHEN '{$desc['name']}' THEN %s\n ", $value);
-                }
-              }
-            }
-          }
-          $meta_sql .= "
-        END 
-      WHERE `{$meta_table_foreign_key}` = '{$this->_actual_model_id}'
-    ";
-    $key = md5($meta_sql);
-    $this->_queries_to_run[$key] = $meta_sql;
+    $model_table             = $this->orEq( static::$_model_settings, 'model_table', $wpdb->posts );  
+    $model_table_id          = $this->orEq( static::$_model_settings, 'model_table_id', 'ID' );  
+        
     $values = array();
     foreach (static::$_model_attributes_table as $attr => $desc) {
       $value = $this->dynamic_get( $attr, $desc, $this->getModelId());
@@ -239,7 +272,6 @@ class Base extends Helpers {
       $sql = $wpdb->prepare("SELECT {$s['model_table_id']} FROM {$s['model_table']} WHERE {$fkey} = %d",$this->_actual_model_id);
       $ids = $wpdb->get_col($sql);
       foreach ( $ids as $id ) {
-        echo $klass;
         $model = $klass::find($id);
         $models[] = $model->asApiArray();
       }
@@ -343,49 +375,55 @@ class Base extends Helpers {
   }
 
   public static function find( $id ) {
+
     $wpdb = static::$adapter;
+
     static::setupModelAttributes();
     static::setupMetaAttributes();
+
     $model = new static();
     $model->setValid( false );
+
     if ( isset( static::$_model_settings ) ) {
+
       $model_table             = $model->orEq( static::$_model_settings, 'model_table', $wpdb->posts );  
       $meta_table              = $model->orEq( static::$_model_settings, 'meta_table', $wpdb->postmeta );
       $model_table_id          = $model->orEq( static::$_model_settings, 'model_table_id', 'ID' );   
       $meta_table_foreign_key  = $model->orEq( static::$_model_settings, 'meta_table_foreign_key', 'post_id' );
       $meta_function           = $model->orEq( static::$_model_settings, 'meta_function', 'get_post_meta' );
+
     } else {
+
       $model_table             = $wpdb->posts;  
       $meta_table             = $wpdb->postmeta;
       $model_table_id          = 'ID';   
       $meta_table_foreign_key = 'post_id';
       $meta_function          = 'get_post_meta';
+
     }
+
     $record = $wpdb->get_row( $wpdb->prepare("SELECT * FROM {$model_table} WHERE {$model_table_id} = %d", (int) $id), 'ARRAY_A' );
+    
     if ( $record ) {
       $model->setModelId( $id );
+      
       foreach ( static::$_model_attributes_table as $name => $desc ) {
         $model->dynamic_set( $name, $desc,$record[ $desc['name'] ] );
         //$model->{$name} = $record[$desc['name']];
       }
-      foreach ( static::$_meta_attributes_table as $name => $desc ) {
-        $value = $meta_function( $id, $desc['name'], true );
-        // We may want to do some "funny stuff" with setters and getters.
-        // I know, I know, "no funny stuff" is generally the rule.
-        // But WooCom or WP could change stuff that would break a lot
-        // of code if we try to be explicity about each attribute.
-        // Also, we may want other people to extend the objects via
-        // filters.
-        $model->dynamic_set( $name, $desc, $value, $model->getModelId() );
-      }
+      $model->loadMetaAttributes();
+      
       $model->setValid( true );
       $model->setNewRecord( false );
+    
     } else {
       $model = null;
     }
     return $model;
   }
   public function fromApiArray( $attrs ) {
+    static::setupModelAttributes();
+    static::setupMetaAttributes();
     $attributes = array_merge(static::$_model_attributes_table, static::$_meta_attributes_table);
     foreach ( $attrs as $name => $value ) {
       if ( isset($attributes[$name]) ) {
@@ -397,6 +435,8 @@ class Base extends Helpers {
   }
   public function asApiArray() {
     $wpdb = static::$adapter;
+    static::setupModelAttributes();
+    static::setupMetaAttributes();
     $attributes = array_merge(static::$_model_attributes_table, static::$_meta_attributes_table);
     $attributes_to_send['id'] = $this->getModelId();
 
@@ -405,6 +445,7 @@ class Base extends Helpers {
     }
     return $attributes_to_send;
   }
+
     /**
   *  Similar in function to Model.all in Rails, it's just here for convenience.
   */
@@ -430,6 +471,79 @@ class Base extends Helpers {
     $sql = "SELECT $fields FROM {$model_table} {$model_conditions}";
     $model->addQuery($sql);
     return $model;
+  }
+
+  public function create( $attrs = null ) {
+
+    $wpdb = static::$adapter;
+    $user_ID = $GLOBALS['user_ID'];
+
+    // We should setup attrib tables if it hasn't
+    // already been done
+    static::setupModelAttributes();
+    static::setupMetaAttributes();
+    // Maybe we want to set attribs and create in one go.
+    if ( $attrs ) {
+      foreach ( $attrs as $name=>$value ) {
+        $this->{ $name } = $value;
+      }
+    }
+    $post = array();
+    $s = static::getModelSettings();
+
+    $update_meta_function = $s['update_meta_function'];
+    
+    if ( $s['model_table'] == $wpdb->posts)
+      $post['post_author'] = $user_ID;
+
+    foreach (static::$_model_attributes_table as $attr => $desc) {
+
+      $value = $this->dynamic_get( $attr, $desc, null);
+      $post[ $desc['name'] ] = $value;
+
+    }
+    if ( $s['model_table'] == $wpdb->posts) {
+      $id = wp_insert_post( $post, true);
+    } else {
+      if ( $wpdb->insert($s['model_table'],$post) ) {
+        $id = $wpdb->insert_id;
+      } else {
+        $this->_result->addError( 
+          __('Failed to create ' . get_called_class() ), 
+          WCAPI_CANNOT_INSERT_RECORD 
+        );
+        return $this;
+      }
+    }
+
+    if ( is_wp_error( $id )) {
+      // we  should handle errors
+      $this->setValid(false);
+      $this->_result->addError( 
+        __('Failed to create ' . get_called_class() ), 
+        WCAPI_CANNOT_INSERT_RECORD 
+      );
+    } else {
+      $this->setValid(true);
+
+      foreach ( static::$_meta_attributes_table as $attr => $desc ) {
+        
+        if ( isset( $this->_meta_attributes[$attr] ) ) {
+          $value = $this->_meta_attributes[$attr];
+
+          if ( ! empty($value) ) {
+            if ( $update_meta_function ) {
+              call_user_func($update_meta_function, $id, $desc['name'], $value );
+            }
+          }
+
+        } 
+
+      }  
+
+      $this->_actual_model_id = $id;
+    }
+    return $this;
   }
   
 }

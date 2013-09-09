@@ -28,7 +28,7 @@ class OrderItem extends Base {
       'shipping_tax'      => array('name' => 'shipping_tax','type' => 'number'), 
 
     );
-    static::$_meta_attributes_table = apply_filters( 'woocommerce_json_api_order_item_meta_attributes_table', static::$_meta_attributes_table );
+    static::$_meta_attributes_table = apply_filters( 'WCAPI_order_item_meta_attributes_table', static::$_meta_attributes_table );
   } // end setupMetaAttributes
   public static function setupModelAttributes() {
     global $wpdb;
@@ -49,6 +49,6 @@ class OrderItem extends Base {
       'order_id'            => array('name' => 'order_id',     'type' => 'number'),
 
     );
-    static::$_model_attributes_table = apply_filters( 'woocommerce_json_api_order_item_model_attributes_table', static::$_model_attributes_table );
+    static::$_model_attributes_table = apply_filters( 'WCAPI_order_item_model_attributes_table', static::$_model_attributes_table );
   }
 }

@@ -17,7 +17,7 @@ class Customer extends Base {
       this helps to facilitate interoperability with other plugins that may be making arcane
       magic with a customer, or want to expose their customer extensions via the api.
     */
-    static::$_meta_attributes_table = apply_filters( 'woocommerce_json_api_user_meta_attributes_table', static::$_meta_attributes_table );
+    static::$_meta_attributes_table = apply_filters( 'WCAPI_user_meta_attributes_table', static::$_meta_attributes_table );
   } // end setupMetaAttributes
   public static function setupModelAttributes() {
     global $wpdb;
@@ -39,7 +39,7 @@ class Customer extends Base {
       'status'          => array('name' => 'user_status',            'type' => 'number'),
       'date_registered' => array('name' => 'user_registered',        'type' => 'datetime'),
     );
-    static::$_model_attributes_table = apply_filters( 'woocommerce_json_api_model_attributes_table', static::$_model_attributes_table );
+    static::$_model_attributes_table = apply_filters( 'WCAPI_model_attributes_table', static::$_model_attributes_table );
   }
   public function asApiArray() {
     $attributes = array_merge(static::$_model_attributes_table, static::$_meta_attributes_table);

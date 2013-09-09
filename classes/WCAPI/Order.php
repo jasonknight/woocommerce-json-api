@@ -63,7 +63,7 @@ class Order extends Base {
       this helps to facilitate interoperability with other plugins that may be making arcane
       magic with a product, or want to expose their product extensions via the api.
     */
-    static::$_meta_attributes_table = apply_filters( 'woocommerce_json_api_order_meta_attributes_table', static::$_meta_attributes_table );
+    static::$_meta_attributes_table = apply_filters( 'WCAPI_order_meta_attributes_table', static::$_meta_attributes_table );
   } // end setupMetaAttributes
   public static function setupModelAttributes() {
     static::$_model_settings = array_merge( Base::getDefaultModelSettings(), array(
@@ -79,7 +79,7 @@ class Order extends Base {
       'guid'            => array('name' => 'guid',        'type' => 'string'),
 
     );
-    static::$_model_attributes_table = apply_filters( 'woocommerce_json_api_order_model_attributes_table', static::$_model_attributes_table );
+    static::$_model_attributes_table = apply_filters( 'WCAPI_order_model_attributes_table', static::$_model_attributes_table );
   }
   public function getStatus() {
     if ( $this->_status ) {

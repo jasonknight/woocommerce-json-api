@@ -34,10 +34,10 @@ if ( !defined('PHP_VERSION_ID')) {
 }
 class WooCommerce_JSON_API extends JSONAPIHelpers {
     // Call this function to setup a new response
-  private $helpers;
-  private $result;
-  private $return_type;
-  private $the_user;
+  public $helpers;
+  public $result;
+  public $return_type;
+  public $the_user;
   public static $implemented_methods;
 
   public function setOut($t) {
@@ -145,7 +145,7 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
     }
   }
   
-  private function isImplemented( $params ) {
+  public function isImplemented( $params ) {
     
     if ( isset($params['proc']) &&  
          $this->inArray( $params['proc'], self::$implemented_methods) 
@@ -159,7 +159,7 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
     }
   }
   
-  private function notImplemented( $params ) {
+  public function notImplemented( $params ) {
     $this->createNewResult( $params );
 
     if ( !isset($params['proc']) ) {
@@ -179,7 +179,7 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
   }
   
   
-  private function unexpectedError( $params, $error ) {
+  public function unexpectedError( $params, $error ) {
     $this->createNewResult( $params );
 
     $this->result->addError( 
@@ -191,7 +191,7 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
   }
   
   
-  private function createNewResult($params) {
+  public function createNewResult($params) {
     if ( ! $this->result ) {
 
       $this->result = new WooCommerce_JSON_API_Result();
@@ -200,7 +200,7 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
     }
   }
   
-  private function done() {
+  public function done() {
     wp_logout();
     if ( $this->return_type == 'HTTP') {
       header("Content-type: application/json");
@@ -221,7 +221,7 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
     } 
   }
   
-  private function isValidAPIUser( $params ) {
+  public function isValidAPIUser( $params ) {
     if ( $this->the_user ) {
       return true;
     }
@@ -307,14 +307,14 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
 
     return false;
   }
-  private function logUserIn( $user ) {
+  public function logUserIn( $user ) {
 
     wp_set_current_user($user->ID);
     wp_set_auth_cookie( $user->ID, false, is_ssl() );
     $this->setUser($user);
 
   }
-   private function translateTaxRateAttributes( $rate ) {
+   public function translateTaxRateAttributes( $rate ) {
 
     $attrs = array();
     foreach ( $rate as $k=>$v ) {
@@ -329,7 +329,7 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
   * JSON Object for `proc`.
   ********************************************************************/
   
-  private function get_system_time( $params ) {
+  public function get_system_time( $params ) {
     
     $data = array(
       'timezone'  => date_default_timezone_get(),
@@ -344,7 +344,7 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
   * This is the single entry point for fetching products, ordering, paging, as well
   * as "finding" by ID or SKU.
   */
-  private function get_products( $params ) {
+  public function get_products( $params ) {
     global $wpdb;
     $allowed_order_bys = array('ID','post_title','post_date','post_author','post_modified');
     /**
@@ -407,6 +407,7 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
       if ( !$post ) {
         $this->result->addWarning( $post_id. ': ' . __('Product does not exist','woocommerce_json_api'), WCAPI_PRODUCT_NOT_EXISTS, array( 'id' => $post_id) );
       } else {
+
         $products[] = $post->asApiArray();
       }
       
@@ -416,7 +417,7 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
 
 	  return $this->done();
   }
-  private function get_products_by_tags($params) {
+  public function get_products_by_tags($params) {
     global $wpdb;
     $allowed_order_bys = array('id','name','post_title');
     $terms = $this->orEq( $params['arguments'], 'tags', array());
@@ -481,7 +482,7 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
     // FIXME: We need some way to ensure that adding of products is not
     // exploited. we need to track errors, and temporarily ban users with
     // too many. We need a way to lift the ban in the interface and so on.
-  private function set_products( $params ) {
+  public function set_products( $params ) {
     
     $products = $this->orEq( $params, 'payload', array() );
     foreach ( $products as &$attrs) {
@@ -523,7 +524,7 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
   /**
    *  Get product categories
   */
-  private function get_categories( $params ) {
+  public function get_categories( $params ) {
   
     $allowed_order_bys = array('id','count','name','slug');
     
@@ -553,10 +554,11 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
       $category = API\Category::find( $id );
       $this->result->addPayload( $category->asApiArray() );
     }
+
     return $this->done();
   }
   
-  private function set_categories( $params ) {
+  public function set_categories( $params ) {
     $categories = $this->orEq( $params, 'payload', array());
     foreach ( $categories as $category ) {
       $actual = API\Category::find_by_name( $category['name'] );
@@ -567,7 +569,7 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
   /**
    * Get tax rates defined for store
   */
-  private function get_taxes( $params ) {
+  public function get_taxes( $params ) {
     global $wpdb;
     
     $tax_classes = explode("\n",get_option('woocommerce_tax_classes'));
@@ -599,7 +601,7 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
   * WooCommerce handles shipping methods on a per class/instance basis. So in order to have a
   * shipping method, we must have a class file that registers itself with 'woocommerce_shipping_methods'.
   */
-  private function get_shipping_methods( $params ) {
+  public function get_shipping_methods( $params ) {
     $klass = new WC_Shipping();
     $klass->load_shipping_methods();
     $methods = array();
@@ -620,7 +622,7 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
   /**
   *  Get info on Payment Gateways
   */
-  private function get_payment_gateways( $params ) {
+  public function get_payment_gateways( $params ) {
     $klass = new WC_Payment_Gateways();
     foreach ( $klass->payment_gateways as $sm ) {
       $methods[] = array(
@@ -635,7 +637,7 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
     $this->result->setPayload( $methods );
     return $this->done();
   }
-  private function get_tags( $params ) {
+  public function get_tags( $params ) {
     $allowed_order_bys = array('name','count','term_id');
     $allowed_orders = array('DESC','ASC');
     $args['order']                = $this->orEq( $params['arguments'], 'order', 'DESC');
@@ -670,7 +672,7 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
     $this->result->setPayload($tags);
     return $this->done();
   }
-  private function get_customers( $params ) {
+  public function get_customers( $params ) {
     global $wpdb;
     $customer_ids = $wpdb->get_col("SELECT user_id FROM {$wpdb->usermeta} WHERE meta_key = 'wp_capabilities' AND meta_value LIKE '%customer%'");
     $customers = array();
@@ -682,7 +684,7 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
     return $this->done();
   }
 
-  private function get_orders( $params ) {
+  public function get_orders( $params ) {
     $posts_per_page = $this->orEq( $params['arguments'], 'per_page', 15 ); 
     $paged          = $this->orEq( $params['arguments'], 'page', 0 );
     $ids            = $this->orEq( $params['arguments'], 'ids', false);
@@ -719,7 +721,7 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
     return $this->done();
   }
 
-  private function set_orders( $params ) {
+  public function set_orders( $params ) {
     
   }
 }
