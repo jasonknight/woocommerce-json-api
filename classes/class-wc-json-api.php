@@ -39,6 +39,7 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
   private $return_type;
   private $the_user;
   public static $implemented_methods;
+
   public function setOut($t) {
     $this->return_type = $t;
   }
@@ -108,14 +109,23 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
   */
   public function route( $params ) {
     $this->createNewResult( $params );
+
     JSONAPIHelpers::debug( "Beggining request" );
     JSONAPIHelpers::debug( var_export($params,true));
+
     if ( ! $this->isValidAPIUser( $params ) ) {
-      $this->result->addError( __('Not a valid API User', 'woocommerce_json_api' ), WCAPI_INVALID_CREDENTIALS );
+
+      $this->result->addError( 
+        __('Not a valid API User', 'woocommerce_json_api' ), 
+        WCAPI_INVALID_CREDENTIALS 
+      );
       return $this->done();
+
     }
     if ( $this->isImplemented( $params ) ) {
+
       try {
+
         // The arguments are passed by reference here
         $this->validateParameters( $params['arguments'], $this->result);
         if ( $this->result->status() == false ) {
@@ -124,6 +134,7 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
           return;
         }
         $this->{ $params['proc'] }($params);
+
       } catch ( Exception $e ) {
         JSONAPIHelpers::error($e->getMessage());
         $this->unexpectedError( $params, $e);
@@ -136,36 +147,56 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
   
   private function isImplemented( $params ) {
     
-    if (isset($params['proc']) &&  $this->inArray( $params['proc'], self::$implemented_methods) ) {
+    if ( isset($params['proc']) &&  
+         $this->inArray( $params['proc'], self::$implemented_methods) 
+    ) {
+
       return true;
+
     } else {
+
       return false;
     }
   }
   
   private function notImplemented( $params ) {
     $this->createNewResult( $params );
+
     if ( !isset($params['proc']) ) {
+
       $this->result->addError( 
           __('Expected argument was not present', 'woocommerce_json_api') . ' `proc`',
-           WCAPI_EXPECTED_ARGUMENT );
+           WCAPI_EXPECTED_ARGUMENT 
+      );
     }
-    $this->result->addError( __('That API method has not been implemented', 'woocommerce_json_api' ), WCAPI_NOT_IMPLEMENTED );
+
+    $this->result->addError( 
+      __('That API method has not been implemented', 'woocommerce_json_api' ), 
+      WCAPI_NOT_IMPLEMENTED 
+    );
+
     return $this->done();
   }
   
   
   private function unexpectedError( $params, $error ) {
     $this->createNewResult( $params );
-    $this->result->addError( __('An unexpected error has occured', 'woocommerce_json_api' ) . $error->getMessage(), WCAPI_UNEXPECTED_ERROR );
+
+    $this->result->addError( 
+      __('An unexpected error has occured', 'woocommerce_json_api' ) . $error->getMessage(), 
+      WCAPI_UNEXPECTED_ERROR 
+    );
+
     return $this->done();
   }
   
   
   private function createNewResult($params) {
     if ( ! $this->result ) {
+
       $this->result = new WooCommerce_JSON_API_Result();
       $this->result->setParams( $params );
+
     }
   }
   
@@ -176,11 +207,17 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
       echo( $this->result->asJSON() );
       die;
     } else if ( $this->return_type == "ARRAY") {
+
       return $this->result->getParams();
+
     } else if ( $this->return_type == "JSON") {
+
       return $this->result->asJSON();
+
     } else if ( $this->return_type == "OBJECT") {
+
       return $this->result;
+
     } 
   }
   
@@ -194,23 +231,35 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
     }
     $by_token = true;
     if ( ! isset( $params['arguments']['token'] ) ) {
-      if ( isset( $params['arguments']['username'] ) && isset( $params['arguments']['password']) ) {
+      
+      if ( 
+        isset( $params['arguments']['username'] ) && 
+        isset( $params['arguments']['password']) 
+      ) {
+
         $by_token = false;
+
       } else {
-         $this->result->addError( __( 'Missing `token` in `arguments`','woocommerce_json_api' ),WCAPI_EXPECTED_ARGUMENT );
+        $this->result->addError( __( 'Missing `token` in `arguments`','woocommerce_json_api' ),WCAPI_EXPECTED_ARGUMENT );
         return false;
       }
       
     }
     $key = $this->getPluginPrefix() . '_settings';
+    
     $args = array(
       'blog_id' => $GLOBALS['blog_id'],
       'meta_key' => $key
     );
+
     API\Base::setBlogId($GLOBALS['blog_id']);
+
     $users = get_users( $args );
+
     if (! $by_token ) {
+
         $user = wp_authenticate_username_password( null, $params['arguments']['username'],$params['arguments']['password']);
+        
         if ( is_a($user,'WP_Error') ) {
           foreach( $user->get_error_messages() as $msg) {
             $this->result->addError( $msg ,WCAPI_INTERNAL_ERROR );
@@ -219,35 +268,54 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
         }
         $this->logUserIn($user);
         return true;
+
     }
     foreach ($users as $user) {
       
       $meta = maybe_unserialize( get_user_meta( $user->ID, $key, true ) );
+
       if (isset( $meta['token']) &&  $params['arguments']['token'] == $meta['token']) {
-        if (!isset($meta[ 'can_' . $params['proc'] ]) || !isset($meta[ 'can_access_the_api' ])) {
+        if (
+          !isset($meta[ 'can_' . $params['proc'] ]) || 
+          !isset($meta[ 'can_access_the_api' ])
+        ) {
+
           $this->result->addError( __( 'Permissions for this user have not been set','woocommerce_json_api' ),WCAPI_PERMSNOTSET );
           return false;
+
         }
         if ( $meta[ 'can_access_the_api' ] == 'no' ) {
+
           $this->result->addError( __( 'You have been banned.','woocommerce_json_api' ), WCAPI_PERMSINSUFF );
+          
           return false;
         }
         if ( $meta[ 'can_' . $params['proc'] ] == 'no' ) {
+
           $this->result->addError( __( 'You do not have sufficient permissions.','woocommerce_json_api' ), WCAPI_PERMSINSUFF );
+          
           return false;
+
         }
+        
         $this->logUserIn($user);
         return true;
+
       }
+
     }
+
     return false;
   }
   private function logUserIn( $user ) {
+
     wp_set_current_user($user->ID);
     wp_set_auth_cookie( $user->ID, false, is_ssl() );
     $this->setUser($user);
+
   }
    private function translateTaxRateAttributes( $rate ) {
+
     $attrs = array();
     foreach ( $rate as $k=>$v ) {
       $attrs[ str_replace('tax_rate_','',$k) ] = $v;
