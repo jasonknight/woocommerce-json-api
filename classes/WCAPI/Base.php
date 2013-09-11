@@ -126,7 +126,8 @@ class Base extends Helpers {
     return $this;
   }
   public function getAdapter() { return static::$adapter;}
-  public function remapAttributes() {
+  // converts the meta attribs the other way around, from friendly name to unfriendly name.l
+  public function remapMetaAttributes() {
     $attrs = array();
     foreach ( static::$_meta_attributes_table as $name => $desc ) {
       $attrs[ $desc['name'] ] = $this->dynamic_get($name, $desc);
@@ -172,14 +173,16 @@ class Base extends Helpers {
                   if ( isset( $desc['updater'] ) ) {
                     $this->{ $desc['updater'] }( $value );
                   } else {
+                    //$meta_keys[] = $wpdb->prepare("%s",$desc['name']);
                     $meta_sql .= $wpdb->prepare( "\tWHEN '{$desc['name']}' THEN %s\n ", $value);
                   }
                 }
               }
             }
             $meta_sql .= "
+            ELSE `option_value`
           END 
-        WHERE `{$meta_table_foreign_key}` = '{$this->_actual_model_id}'
+        WHERE `{$meta_table_foreign_key}` = '{$this->_actual_model_id}' 
       ";
     }
     if ( gettype($meta_sql) ) {

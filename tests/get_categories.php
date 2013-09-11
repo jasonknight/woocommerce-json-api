@@ -1,5 +1,5 @@
 <?php
-include "functions.php";
+require_once "functions.php";
 include "config.php";
 
 $data = array(
@@ -21,7 +21,7 @@ $data = array(
   )
 );
 $result = curl_post($url,$data);
-verifyHasErrors("Sort by bad column", $result, -5);
+verifyHasErrors("Categories Sort by bad column", $result, -5);
 
 $data = array(
   'action'      => 'woocommerce_json_api',
@@ -32,5 +32,4 @@ $data = array(
   )
 );
 $result = curl_post($url,$data);
-echo $result;
 verifySuccess("Get Categories by ids", $result);

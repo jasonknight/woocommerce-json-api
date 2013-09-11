@@ -24,7 +24,7 @@ class Category extends Base {
         $adapter = $model->getAdapter();
         $table = $s['meta_table'];
         $key = $s['meta_table_foreign_key'];
-        $adapter->update($table,$model->remapAttributes(),array($key => $model->id));
+        $adapter->update($table,$model->remapMetaAttributes(),array($key => $model->id));
       }
       ) 
     );

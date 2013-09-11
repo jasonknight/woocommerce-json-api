@@ -64,12 +64,14 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
       'get_products_by_tags',
       'get_customers',
       'get_orders', // New Method
+      'get_store_settings',
       
       // Write capable methods
       
       'set_products',
       'set_categories',
       'set_orders',
+      'set_store_settings',
 
     );
     return self::$implemented_methods;
@@ -723,5 +725,53 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
 
   public function set_orders( $params ) {
     
+  }
+
+  public function get_store_settings( $params ) {
+    global $wpdb;
+    $filter = $this->orEq( $params['arguments'],'filter', '');
+    $filter = $wpdb->prepare("%s",$filter);
+    $filter = substr($filter, 1,strlen($filter) - 2);
+    $sql = "SELECT option_name,option_value FROM {$wpdb->options} WHERE option_name LIKE 'woocommerce_{$filter}%' AND LENGTH(option_value) < 1024";
+    $results = $wpdb->get_results( $sql, 'ARRAY_A');
+    $payload = array();
+    foreach ( $results as $result ) {
+      $key = str_replace('woocommerce_','',$result['option_name']);
+      $payload[$key] = maybe_unserialize( $result['option_value']);
+    }
+    $this->result->setPayload( $payload );
+    return $this->done();
+  }
+  public function set_store_settings( $params ) {
+    global $wpdb;
+    $filter = $this->orEq( $params['arguments'],'filter', '');
+    $payload = $this->orEq( $params,'payload', false);
+    if ( ! $payload || ! is_array($payload)) {
+      $this->result->addError( __('order_by must be one of these:','woocommerce_json_api') . join( $allowed_order_bys, ','), WCAPI_BAD_ARGUMENT );
+      return $this->done();
+    }
+    $filter = $wpdb->prepare("%s",$filter);
+    $filter = substr($filter, 1,strlen($filter) - 2);
+    $sql = "SELECT option_name FROM {$wpdb->options} WHERE option_name LIKE 'woocommerce_{$filter}%' AND LENGTH(option_value) < 1024";
+    $results = $wpdb->get_results( $sql, 'ARRAY_A');
+    $new_settings = array();
+    $meta_sql = "
+        UPDATE {$wpdb->options}
+          SET `option_value` = CASE `option_name`
+            ";
+    $option_keys = array();
+    foreach ( $results as $result ) {
+      $key = str_replace('woocommerce_','',$result['option_name']);
+      if ( isset( $payload[$key])) {
+       //$option_keys[] = $wpdb->prepare("%s",$result['option_name']);
+        $meta_sql .= $wpdb->prepare( "\t\tWHEN '{$result['option_name']}' THEN %s\n ", $payload[$key]);
+      }
+    }
+    $meta_sql .= "
+        ELSE `option_value`
+        END
+    ";
+    $wpdb->query($meta_sql);
+    return $this->get_store_settings( $params );
   }
 }
