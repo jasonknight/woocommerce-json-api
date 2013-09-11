@@ -33,5 +33,17 @@ $result = json_decode($result, true);
 equal($result['payload']['force_ssl_checkout'],$old_value);
 
 
+// Test filtering
 
-
+$data = array(
+  'action'      => 'woocommerce_json_api',
+  'proc'        => 'get_store_settings',
+  'arguments'   => array(
+    'token' => $token,
+    'filter' => 'force'
+  )
+);
+$result = curl_post($url,$data);
+verifySuccess("Get Store Filtered Settings",$result);
+$result = json_decode($result, true);
+keyExists('force_ssl_checkout',$result['payload']);

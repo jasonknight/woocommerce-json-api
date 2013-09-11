@@ -157,7 +157,6 @@ function notEqual($a,$b) {
   $Notice("$a != $b ...");
   if ( $a == $b ) {
     call_user_func($Fail,"FAILED");
-    echo "$a == $b \n\n";
   } else {
     call_user_func($Pass,"PASSED");
   }
@@ -167,7 +166,15 @@ function equal($a,$b) {
   $Notice("$a == $b ...");
   if ( $a != $b ) {
     call_user_func($Fail,"FAILED");
-    echo "$a != $b \n\n";
+  } else {
+    call_user_func($Pass,"PASSED");
+  }
+}
+function keyExists($a,$b) {
+  global $Fail,$Pass,$Notice;
+  $Notice("Array Key Exists $a ...");
+  if ( !array_key_exists($a, $b) ) {
+    call_user_func($Fail,"FAILED");
   } else {
     call_user_func($Pass,"PASSED");
   }
