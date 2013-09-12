@@ -55,6 +55,7 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
     }
     self::$implemented_methods = array(
       'get_system_time',
+      'get_supported_attributes',
       'get_products',
       'get_categories',
       'get_taxes',
@@ -66,6 +67,7 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
       'get_orders', // New Method
       'get_store_settings',
       'get_site_settings',
+      'get_api_methods',
       
       // Write capable methods
       
@@ -326,6 +328,13 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
     }
     return $attrs;
   }
+
+  public function missingArgument( $name ) {
+    $this->result->addError( sprintf(__( 'Missing `%s` in `arguments`','woocommerce_json_api' ), $name),WCAPI_EXPECTED_ARGUMENT );
+  }
+  public function badArgument( $name, $values='' ) {
+    $this->result->addError( sprintf(__( 'Value of `%s` is not valid, only %s accepted.','woocommerce_json_api' ), $values),WCAPI_BAD_ARGUMENT );
+  }
   /*******************************************************************
   *                         Core API Functions                       *
   ********************************************************************
@@ -421,6 +430,37 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
 
 	  return $this->done();
   }
+  public function get_supported_attributes( $params ) {
+    $models = $this->orEq( $params['arguments'], 'resources', false );
+    
+    if ( ! $models ) {
+      $this->missingArgument('resources');
+      return $this->done();
+    }
+    if ( ! is_array($models) ) {
+      $this->badArgument('resources','an Array of Strings');
+    }
+    $results = array();
+    foreach ( $models as $m ) {
+      if ( $m == 'Product' ) {
+        $model = new API\Product();
+      } else if ( $m == 'Category' ) {
+        $model = new API\Category();
+      } else if ( $m == 'Order' ) {
+        $model = new API\Order();
+      } else if ( $m == 'OrderItem' ) {
+        $model = new API\OrderItem();
+      } else if ( $m == 'Customer' ) {
+        $model = new API\Customer();
+      } else {
+        $this->badArgument($m, "Product,Category,Order,OrderItem,Customer");
+        return $this->done();
+      }
+      $results[$m] = $model->getSupportedAttributes() ;
+    }
+    $this->result->setPayload( $results );
+    return $this->done();
+  }
   public function get_products_by_tags($params) {
     global $wpdb;
     $allowed_order_bys = array('id','name','post_title');
@@ -487,15 +527,15 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
     // exploited. we need to track errors, and temporarily ban users with
     // too many. We need a way to lift the ban in the interface and so on.
   public function set_products( $params ) {
-    
     $products = $this->orEq( $params, 'payload', array() );
     foreach ( $products as &$attrs) {
+      $product = null;
       if (isset($attrs['id'])) {
         $product = API\Product::find($attrs['id']);
       } else if ( isset($attrs['sku'])) {
         $product = API\Product::find_by_sku($attrs['sku']);
       }
-      if ($product->isValid()) {
+      if ($product && is_object($product) && $product->isValid()) {
         $product->fromApiArray( $attrs );
         $product->update()->done();
         $attrs = $product->asApiArray();
@@ -832,5 +872,10 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
     ";
     $wpdb->query($meta_sql);
     return $this->get_store_settings( $params );
+  }
+  public function get_api_methods( $params ) {
+    $m = self::getImplementedMethods();
+    $this->result->setPayload($m);
+    return $this->done();
   }
 }

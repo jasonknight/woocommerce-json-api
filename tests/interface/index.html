@@ -9,6 +9,7 @@
 
   
   <link rel="stylesheet" href="/wp-content/plugins/woocommerce-json-api/tests/interface/css/foundation.css">
+  <link rel="stylesheet" href="/wp-content/plugins/woocommerce-json-api/tests/interface/css/style.css">
   <script src="/wp-content/plugins/woocommerce-json-api/tests/interface/js/vendor/custom.modernizr.js"></script>
 
 </head>
@@ -69,15 +70,18 @@
 			</div>
 
 			<div class="row">
-				<div class="large-3 columns">
+				<div class="large-4 columns">
 					<div class="panel">
 						<h4>Methods</h4>
             <div id="methods"></div>
 					</div>
 				</div>
 
-				<div class="large-9 columns">
+				<div class="large-8 columns">
 					<div class="panel">
+            <div class="row">
+              <div id="arguments" class="large-12 columns"></div>
+            </div>
 						<h4>Response</h4>
             <div id="results"></div>
 					</div>
@@ -169,9 +173,57 @@
   
   <script src="/wp-content/plugins/woocommerce-json-api/tests/interface/js/foundation/foundation.abide.js"></script>
   <script src="/wp-content/plugins/woocommerce-json-api/tests/interface/js/app.js"></script>
+  <script src="/wp-content/plugins/woocommerce-json-api/tests/interface/js/vendor/underscore.js"></script>
   
   <script>
     $(document).foundation();
+  </script>
+  <script type="text/template" id="argument_template">
+    <div class="large-<%= columns %> columns">
+      <label><%= label %></label>
+      <input type="text" id="<%= id %>" placeholder="<%= placeholder %>" />
+    </div>
+  </script>
+  <script type="text/template" id="argument_template_select">
+    <div class="large-<%= columns %> columns">
+      <label><%= label %></label>
+      <select id="<%= id %>">
+      <% _.each(options, function(opt) { %> <option><%= opt %></option> <% }); %>
+      </select>
+    </div>
+  </script>
+  <script type="text/template" id="product_row_template">
+    <div class="panel">
+      <div class="row object-row">
+        <div class="large-4 columns product-name">
+          <%= name %>
+        </div>
+        <div class="large-4 columns product-sku">
+          <%= sku %>
+        </div>
+        <div class="large-2 columns product-price">
+          <%= price %>
+        </div>
+        <div class="large-2 columns product-publishing">
+          <%= publishing %>
+        </div>
+      </div>
+    </div>
+  </script>
+  <script type="text/template" id="category_row_template">
+    <div class="panel">
+      <div class="row object-row">
+        <div class="large-4 columns">
+          <%= name %>
+        </div>
+        <div class="large-4 columns">
+          <%= description %>
+        </div>
+        <div class="large-2 columns">
+          <%= slug %>
+        </div>
+      </div>
+    </div>
   </script>
 </body>
 </html>

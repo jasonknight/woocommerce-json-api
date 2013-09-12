@@ -114,12 +114,6 @@ function woocommerce_json_api_update_user_profile( $user_id ) {
 */
 function woocommerce_json_api_template_redirect() {
   global $wpdb;
-  if (!isset($_REQUEST['action']) || $_REQUEST['action'] != 'woocommerce_json_api') {
-    return;
-  }
-  if (is_user_logged_in()) {
-    return;
-  }
   $helpers = new JSONAPIHelpers();
 
   $headers = woocommerce_json_api_parse_headers();
@@ -141,6 +135,15 @@ function woocommerce_json_api_template_redirect() {
       $_REQUEST[$key] = $value;
     }
   }
+  if (!isset($_REQUEST['action']) || $_REQUEST['action'] != 'woocommerce_json_api') {
+    //die("action not set");
+    return;
+  }
+  if (is_user_logged_in()) {
+    //die("user is logged in");
+    return;
+  }
+  
 
   JSONAPIHelpers::debug( var_export( $headers, true) );
   if ( isset( $_REQUEST['action'] ) && 'woocommerce_json_api' == $_REQUEST['action']) {

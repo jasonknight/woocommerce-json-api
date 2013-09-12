@@ -103,7 +103,13 @@ class Product extends Base{
     self::$_model_attributes_table = array(
       'name'            => array('name' => 'post_title',             'type' => 'string'),
       'slug'            => array('name' => 'post_name',              'type' => 'string'),
-      'type'            => array('name' => 'post_type',              'type' => 'string'),
+      'type'            => array('name' => 'post_type',
+                                 'type' => 'string',
+                                 'values' => array(
+                                                    'product',
+                                                    'product_variation'
+                                              ) 
+                          ),
       'description'     => array('name' => 'post_content',           'type' => 'string'),
       'parent_id'       => array('name' => 'post_parent',           'type' => 'string'),
       'publishing'          => array(
@@ -113,7 +119,6 @@ class Product extends Base{
                                     'publish',
                                     'inherit',
                                     'pending',
-                                    'public',
                                     'future',
                                     'draft',
                                     'trash',

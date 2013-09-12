@@ -1,0 +1,7 @@
+div.object-row div {
+  padding: 3px;
+  margin-bottom:  5px;
+}
+div.object-row div.product-sku {
+  font-weight: bolder;
+}

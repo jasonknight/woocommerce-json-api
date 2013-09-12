@@ -333,7 +333,7 @@ class Base extends Helpers {
     } else if ( isset( static::$_model_attributes_table[$name] ) ) {
       $this->_model_attributes[$name] = $value;
     } else {
-      throw new Exception( __('That attribute does not exist to be set.','woocommerce_json_api') . " `$name`");
+      throw new \Exception( __('That attribute does not exist to be set.','woocommerce_json_api') . " `$name`");
     }
   }
 
@@ -447,6 +447,12 @@ class Base extends Helpers {
       $attributes_to_send[$name] = $this->dynamic_get( $name, $desc, $this->getModelId());
     }
     return $attributes_to_send;
+  }
+  public function getSupportedAttributes() {
+    static::setupModelAttributes();
+    static::setupMetaAttributes();
+    $attributes = array_merge(static::$_model_attributes_table, static::$_meta_attributes_table);
+    return $attributes;
   }
 
     /**
