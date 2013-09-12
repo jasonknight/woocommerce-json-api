@@ -86,7 +86,7 @@ class Order extends Base {
       return $this->_status;
     }
     $terms = wp_get_object_terms( $this->id, 'shop_order_status', array('fields' => 'slugs') );
-    $this->_status = (isset($terms[0])) ? $terms[0] : 'pending';
+    $this->_status = $terms;
     return $this->_status;
   }
 
