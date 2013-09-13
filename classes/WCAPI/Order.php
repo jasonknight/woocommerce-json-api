@@ -81,7 +81,7 @@ class Order extends Base {
           'notes' => array(
               'class_name' => 'Comment', 
               'foreign_key' => 'comment_post_ID', 
-              'conditions' => "post_type IN ('order_note')",
+              'conditions' => array("comment_type IN ('order_note')"),
           ),
         ),
       ) 
