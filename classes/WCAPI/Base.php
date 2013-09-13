@@ -108,6 +108,8 @@ class Base extends Helpers {
   */
   public function done() {
     $wpdb = static::$adapter;
+    if ( ! is_array($this->_queries_to_run) )
+      return $this;
     foreach ( $this->_queries_to_run as $key=>$query ) {
       $wpdb->query($query);
       unset($this->_queries_to_run[$key]);
@@ -166,11 +168,12 @@ class Base extends Helpers {
     return $this;
   }
   public function saveMetaAttributes() {
+    $wpdb = static::$adapter;
     $meta_table              = $this->orEq( static::$_model_settings, 'meta_table', $wpdb->postmeta ); 
     $meta_table_foreign_key  = $this->orEq( static::$_model_settings, 'meta_table_foreign_key', 'post_id' );
     $save_meta_function = static::$_model_settings['save_meta_function'];
     if ( $save_meta_function) {
-      call_user_func($save_meta_function, $this);
+      $meta_sql = call_user_func($save_meta_function, $this);
     } else {
       $meta_sql = "
         UPDATE {$meta_table}
@@ -190,19 +193,16 @@ class Base extends Helpers {
               }
             }
             $meta_sql .= "
-            ELSE `option_value`
+            ELSE `meta_value`
           END 
         WHERE `{$meta_table_foreign_key}` = '{$this->_actual_model_id}' 
       ";
     }
-    if ( gettype($meta_sql) ) {
-      $key = md5($meta_sql);
-      $this->_queries_to_run[$key] = $meta_sql;
-    } else if ( gettype( $meta_sql) == 'array') {
-      foreach ( $meta_sql as $sql ) {
-        $key = md5($sql);
-        $this->_queries_to_run[$key] = $sql;
-      }
+    if ( is_string($meta_sql)) {
+      echo $meta_sql;
+      $wpdb->query($meta_sql);
+    } else {
+      echo "THERE WAS NO META SQL\n";
     }
   }
   // We need an easier interface to fetching items
@@ -270,8 +270,8 @@ class Base extends Helpers {
       $values[] = $wpdb->prepare("`{$desc['name']}` = %s", $value );
     }
     $post_sql = "UPDATE `{$model_table}` SET " . join(',',$values) . " WHERE `{$model_table_id}` = '{$this->_actual_model_id}'";
-    $key = md5($post_sql);
-    $this->_queries_to_run[$key] = $post_sql;
+    $wpdb->query($post_sql);
+    $this->saveMetaAttributes();
     return $this;
   }
 

@@ -154,7 +154,7 @@ function verifyNonZeroPayload($test,$result) {
 }
 function notEqual($a,$b) {
   global $Fail,$Pass,$Notice;
-  $Notice("$a != $b ...");
+  $Notice("$a should not equal $b ...");
   if ( $a == $b ) {
     call_user_func($Fail,"FAILED");
   } else {
@@ -163,7 +163,7 @@ function notEqual($a,$b) {
 }
 function equal($a,$b) {
   global $Fail,$Pass,$Notice;
-  $Notice("$a == $b ...");
+  $Notice("$a should equal $b ...");
   if ( $a != $b ) {
     call_user_func($Fail,"FAILED");
   } else {
