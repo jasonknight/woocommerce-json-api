@@ -287,7 +287,14 @@ class Base extends Helpers {
       $fkey = $this->orEq($hm[$name],'foreign_key', false);
       $s = $klass::getModelSettings();
       $sql = $wpdb->prepare("SELECT {$s['model_table_id']} FROM {$s['model_table']} WHERE {$fkey} = %d",$this->_actual_model_id);
-      echo $sql;
+      if ( isset($hm['name']['conditions']) ) {
+        $conditions = $hm['name']['conditions'];
+        if ( is_array( $conditions ) ) {
+          $sql .= " AND " . join(' AND ', $conditions);
+        } else {
+          $sql .= " AND " . $conditions;
+        }
+      }
       $ids = $wpdb->get_col($sql);
       foreach ( $ids as $id ) {
         $model = $klass::find($id);
