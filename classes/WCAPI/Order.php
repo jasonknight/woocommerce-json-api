@@ -15,7 +15,7 @@ class Order extends Base {
 
   public static function setupMetaAttributes() {
     // We only accept these attributes.
-    static::$_meta_attributes_table = array(
+    self::$_meta_attributes_table = array(
       'order_key'				      => array('name' => '_order_key',                  'type' => 'string'), 
       'billing_first_name'	  => array('name' => '_billing_first_name',         'type' => 'string'), 
       'billing_last_name' 	  => array('name' => '_billing_last_name',          'type' => 'string'), 
@@ -52,9 +52,17 @@ class Order extends Base {
       'status'                => array(
                                         'name' => 'status', 
                                         'type' => 'string', 
-                                        'getter' => 'getStatus',
-                                        'setter' => 'setStatus',
-                                        'updater' => 'updateStatus'
+                                        // This is more or less just to have an example of how
+                                        // the getter/setter/updaters work
+                                        'getter' => function ($model, $name, $desc, $filter ) { 
+                                          return $model->getStatus(); 
+                                        },
+                                        'setter' => function ($model,$name, $desc, $value, $filter_value) {
+                                          $model->setStatus( $value );
+                                        },
+                                        'updater' => function ( $model, $name, $value, $desc ) { 
+                                          $model->updateStatus($value); 
+                                        },
                                 ),
       
     );
@@ -63,39 +71,65 @@ class Order extends Base {
       this helps to facilitate interoperability with other plugins that may be making arcane
       magic with a product, or want to expose their product extensions via the api.
     */
-    static::$_meta_attributes_table = apply_filters( 'WCAPI_order_meta_attributes_table', static::$_meta_attributes_table );
+    self::$_meta_attributes_table = apply_filters( 'WCAPI_order_meta_attributes_table', self::$_meta_attributes_table );
   } // end setupMetaAttributes
   public static function setupModelAttributes() {
-    static::$_model_settings = array_merge( Base::getDefaultModelSettings(), array(
+    self::$_model_settings = array_merge( Base::getDefaultModelSettings(), array(
         'model_conditions' => "WHERE post_type IN ('shop_order')",
         'has_many' => array(
           'order_items' => array('class_name' => 'OrderItem', 'foreign_key' => 'order_id'),
+          'notes' => array(
+              'class_name' => 'Comment', 
+              'foreign_key' => 'comment_post_ID', 
+              'conditions' => "post_type IN ('order_note')",
+          ),
         ),
       ) 
     );
 
-    static::$_model_attributes_table = array(
+    self::$_model_attributes_table = array(
       'name'            => array('name' => 'post_title',  'type' => 'string'),
       'guid'            => array('name' => 'guid',        'type' => 'string'),
 
     );
-    static::$_model_attributes_table = apply_filters( 'WCAPI_order_model_attributes_table', static::$_model_attributes_table );
+    self::$_model_attributes_table = apply_filters( 'WCAPI_order_model_attributes_table', self::$_model_attributes_table );
   }
   public function getStatus() {
+    $wpdb = self::$adapter;
     if ( $this->_status ) {
       return $this->_status;
     }
-    $terms = wp_get_object_terms( $this->id, 'shop_order_status', array('fields' => 'slugs') );
-    $this->_status = $terms;
+    $sql = "
+      SELECT 
+        t.slug
+      FROM
+        wp_terms as t,
+        wp_term_relationships as tr,
+        wp_term_taxonomy as tt
+      WHERE
+        tt.taxonomy = 'shop_order_status' AND
+        t.term_id = tt.term_id AND
+        tr.term_taxonomy_id = tt.term_taxonomy_id AND
+        tr.object_id = {$this->_actual_model_id}
+      ORDER BY tr.term_order
+    ";
+
+    $terms = $wpdb->get_results( $sql , 'ARRAY_A');
+    $this->_status = (isset($terms[0])) ? $terms[0]['slug'] : 'pending';
     return $this->_status;
   }
 
   public function setStatus( $s ) {
     $this->_status = $s;
   }
+  public function updateStatus( $to ) {
+    $order = new WC_Order( $this->_actual_model_id );
+    $order->update_status( $to );
+  }
   public function asApiArray() {
     $attrs = parent::asApiArray();
     $attrs['order_items'] = $this->order_items;
+    $attrs['notes'] = $this->notes;
     return $attrs;
   }
 }

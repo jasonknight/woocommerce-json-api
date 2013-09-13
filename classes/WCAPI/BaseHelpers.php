@@ -52,6 +52,7 @@ class Helpers {
     
   }
   public static function debug($text) {
+    //echo $text;
     if ( ! defined('WC_JSON_API_DEBUG') ) {
       return;
     }

@@ -5,6 +5,7 @@ require_once( dirname( __FILE__ ) . '/Category.php' );
 require_once( dirname( __FILE__ ) . '/Order.php' );
 require_once( dirname( __FILE__ ) . '/OrderItem.php' );
 require_once( dirname( __FILE__ ) . '/Customer.php' );
+require_once( dirname( __FILE__ ) . '/Comment.php' );
 function __fixPHPNSGlobalStupidity() {
   global $wpdb;
   \WCAPI\Base::setAdapter( $wpdb );

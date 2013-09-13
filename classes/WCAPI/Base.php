@@ -23,6 +23,11 @@ class Base extends Helpers {
   
   public $_meta_attributes;
   public $_model_attributes;
+
+  public $actual_meta_attributes_table;
+  public $actual_model_attributes_table;
+  public $actual_model_settings;
+
   public static $_model_settings;
   public static $adapter;
   public static $blog_id;
@@ -36,6 +41,9 @@ class Base extends Helpers {
   public function __construct() {
     static::setupMetaAttributes();
     static::setupModelAttributes();
+    $this->actual_model_attributes_table = static::$_model_attributes_table;
+    $this->actual_meta_attributes_table = static::$_meta_attributes_table;
+    $this->actual_model_settings = static::$_model_settings;
   }
   public static function setAdapter( $a ) {
     static::$adapter = $a;
@@ -111,17 +119,19 @@ class Base extends Helpers {
   }
 
   public function page( $num = 0 ) {
+    $num = intval($num);
     $tnum = $num - 1;
     if ( $tnum <= 0 ) {
       $this->_page = $num;
     } else {
-      $num = ($num * $this->_per_page) - 1;
+      $num = ($num * $this->_per_page);
       $this->_page = $num;
     }
     return $this;
   }
 
   public function per( $num = 25 ) {
+    $num = intval($num);
     $this->_per_page = $num;
     return $this;
   }
@@ -200,11 +210,12 @@ class Base extends Helpers {
     $wpdb = static::$adapter;
     $sql = $this->_queries_to_run[count($this->_queries_to_run) - 1];
     if ( ! empty($sql) ) {
-      if ( $this->_per_page && $this->_page) {
-        $sql .= " LIMIT {$this->_page},{$this->_per_page}";
+      if ( $this->_per_page && $this->_page ) {
+        $page = $this->_page - 1;
+        $sql .= " LIMIT {$page},{$this->_per_page}";
       }
       $results = $wpdb->get_results($sql,'ARRAY_A');
-      Helpers::debug("in function fetch: WPDB returned " . count($results) . " results");
+      Helpers::debug("in function fetch: WPDB returned " . count($results) . " results using $sql");
       if ($callback) {
         foreach ( $results as &$result ) {
           if ( $callback ) {
@@ -266,13 +277,17 @@ class Base extends Helpers {
 
   public function loadHasManyAssociation( $name ) {
     $wpdb = static::$adapter;
-    $hm =  static::$_model_settings['has_many'];
+    $meta_table = $this->actual_meta_attributes_table;
+    $model_table = $this->actual_model_attributes_table;
+    $hm = $this->actual_model_settings['has_many'];
     $models = array();
+    echo "Trying to load $name\n";
     if ( isset( $hm[$name] ) ) {
       $klass = 'WCAPI\\' . $hm[$name]['class_name'];
       $fkey = $this->orEq($hm[$name],'foreign_key', false);
       $s = $klass::getModelSettings();
       $sql = $wpdb->prepare("SELECT {$s['model_table_id']} FROM {$s['model_table']} WHERE {$fkey} = %d",$this->_actual_model_id);
+      echo $sql;
       $ids = $wpdb->get_col($sql);
       foreach ( $ids as $id ) {
         $model = $klass::find($id);
@@ -301,24 +316,28 @@ class Base extends Helpers {
   *  From here we have a dynamic getter. We return a special REDENOTSET variable.
   */
   public function __get( $name ) {
-    if ( isset( static::$_meta_attributes_table[$name] ) ) {
-      if ( isset(static::$_meta_attributes_table[$name]['getter'])) {
-        return $this->{static::$_meta_attributes_table[$name]['getter']}();
+    $meta_table = $this->actual_meta_attributes_table;
+    $model_table = $this->actual_model_attributes_table;
+    $s = $this->actual_model_settings;
+
+    if ( isset( $meta_table[$name] ) ) {
+      if ( isset($meta_table[$name]['getter'])) {
+        return $this->{$meta_table[$name]['getter']}();
       }
       if ( isset ( $this->_meta_attributes[$name] ) ) {
         return $this->_meta_attributes[$name];
       } else {
         return '';
       }
-    } else if ( isset( static::$_model_attributes_table[$name] ) ) {
+    } else if ( isset( $model_table[$name] ) ) {
       if ( isset( $this->_model_attributes[$name] ) ) {
         return $this->_model_attributes[$name];
       } else {
         return '';
       }
-    } else if ( isset( static::$_model_settings['has_many'] ) && $this->inArray( $name, array_keys(static::$_model_settings['has_many']) ) ) {
+    } else if ( isset( $s['has_many'] ) && $this->inArray( $name, array_keys($s['has_many']) ) ) {
       return $this->loadHasManyAssociation($name);
-    } else if ( isset( static::$_model_settings['belongs_to'] ) && $this->inArray( $name, array_keys(static::$_model_settings['belongs_to']) ) ) {
+    } else if ( isset( $s['belongs_to'] ) && $this->inArray( $name, array_keys($s['belongs_to']) ) ) {
       return $this->loadBelongsToAssociation($name);
     }
   } // end __get
@@ -342,13 +361,19 @@ class Base extends Helpers {
     if ( $desc['type'] == 'array') {
       $value = serialize( $value );
     }
-    if ( isset($desc['filters']) ) {
+
+    if ( isset($desc['filters'] ) && $filter_value == true ) {
       foreach ( $desc['filters'] as $filter ) {
         $value = apply_filters( $filter, $value, $filter_value );
       }
     }
     if ( isset($desc['setter']) ) {
-      $this->{ $desc['setter'] }( $value );
+      if ( is_string($desc['setter']) )
+        $this->{ $desc['setter'] }( $value );
+      else if (is_callable($desc['setter']))
+        call_user_func($desc['setter'],$this,$name, $desc, $value, $filter_value );
+      else
+        throw new \Exception( $desc['setter'] .' setter is not a function in this scope');
     } else {
       $this->{ $name } = $value;
     }
@@ -356,7 +381,14 @@ class Base extends Helpers {
 
   public function dynamic_get( $name, $desc, $filter_value = null ) {
     if ( isset($desc['getter']) ) {
-      $value = $this->{ $desc['getter'] }();
+
+      if ( is_string($desc['getter']))
+        $value = $this->{ $desc['getter'] }();
+      else if ( is_callable($desc['getter']))
+        $value = call_user_func($desc['getter'], $this, $name, $desc, $filter_value);
+      else
+        throw new \Exception( $desc['getter'] .' getter is not a function in this scope');
+
     } else {
       $value = $this->{ $name };
     }
@@ -541,7 +573,9 @@ class Base extends Helpers {
           $value = $this->_meta_attributes[$attr];
 
           if ( ! empty($value) ) {
-            if ( $update_meta_function ) {
+            if ( $desc['updater'] ) {
+              call_user_func($desc['updater'], $this, $attr, $value, $desc );
+            } else if ( $update_meta_function ) {
               call_user_func($update_meta_function, $id, $desc['name'], $value );
             }
           }
