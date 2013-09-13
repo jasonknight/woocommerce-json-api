@@ -60,9 +60,15 @@ class CmdColors {
     return array_keys($this->background_colors);
   }
 
-  public function _( $str, $color) {
+  public function _( $str, $color, $bg = null) {
     static $last = 'black';
-    echo($this->getColoredString($str, $color, $last));
+    if ( $bg ) {
+      echo($this->getColoredString($str, $color, $bg));
+      return;
+    } else {
+      echo($this->getColoredString($str, $color, $last));
+    }
+    
     if ( $last == 'none' && ($str == "FAILED" || $str == "PASSED") ) {
       $last = 'black';
     } else if ($last == 'black' && ($str == "FAILED" || $str == "PASSED") ) {
@@ -72,20 +78,29 @@ class CmdColors {
   }
 }
 
-$Fail = function($str) {
+$Fail = function() {
   $cmd = new CmdColors();
-  $cmd->_($str,"red");
+  $cmd->_("FAILED","red");
   echo "\n";
   exit;
 };
-$Pass = function($str) {
+$Pass = function() {
   $cmd = new CmdColors();
-  $cmd->_($str,"green");
+  $cmd->_("PASSED","green");
   echo "\n";
 };
 $Notice = function($str) {
   $cmd = new CmdColors();
-  $cmd->_(str_pad($str,50),"yellow");
+  $cmd->_(str_pad(substr($str,0,55),60),"yellow");
+};
+$Header = function ($str) {
+  $cmd = new CmdColors();
+  $cmd->_(str_pad(substr("*----------------------------------------------------*",0,60),60, ' ',STR_PAD_BOTH),"blue", "none");
+  echo "\n";
+  $cmd->_(str_pad(substr($str,0,60),60,' ', STR_PAD_BOTH),"blue", "none");
+  echo "\n";
+  $cmd->_(str_pad(substr("*----------------------------------------------------*",0,60),60,' ', STR_PAD_BOTH),"blue","none");
+  echo "\n";
 };
 function curl_post($url, array $post = NULL, array $options = array()) { 
     $defaults = array( 
@@ -112,7 +127,7 @@ function curl_post($url, array $post = NULL, array $options = array()) {
 } 
 function verifyHasErrors($test,$result, $code) {
   global $Fail,$Pass,$Notice;
-  $Notice("$test ...");
+  $Notice("$test");
   $r = json_decode($result,true);
   if ( $r['status'] == false && $r['errors'][0]['code'] == $code) {
     call_user_func($Pass,"PASSED");
@@ -122,7 +137,7 @@ function verifyHasErrors($test,$result, $code) {
 }
 function verifyHasWarnings($test,$result, $code) {
   global $Fail,$Pass,$Notice;
-  $Notice("$test ... ");
+  $Notice("$test ");
   $r = json_decode($result,true);
   if ( $r['status'] == true && $r['warnings'][0]['code'] == $code) {
     call_user_func($Pass,"PASSED");
@@ -132,7 +147,7 @@ function verifyHasWarnings($test,$result, $code) {
 }
 function verifySuccess($test,$result) {
   global $Fail,$Pass,$Notice;
-  $Notice("$test ... ");
+  $Notice("$test ");
   $r = json_decode($result,true);
   if ( $r['status'] == true) {
     call_user_func($Pass,"PASSED");
@@ -143,7 +158,7 @@ function verifySuccess($test,$result) {
 }
 function verifyNonZeroPayload($test,$result) {
   global $Fail,$Pass,$Notice;
-  $Notice("$test ... ");
+  $Notice("$test ");
   $r = json_decode($result,true);
   if ( count($r['payload']) > 0) {
     call_user_func($Pass,"PASSED");
@@ -152,18 +167,18 @@ function verifyNonZeroPayload($test,$result) {
     echo $result . "\n\n";
   }
 }
-function notEqual($a,$b) {
+function notEqual($a,$b, $label = '') {
   global $Fail,$Pass,$Notice;
-  $Notice("$a should not equal $b ...");
+  $Notice("$label $a should not equal $b");
   if ( $a == $b ) {
     call_user_func($Fail,"FAILED");
   } else {
     call_user_func($Pass,"PASSED");
   }
 }
-function equal($a,$b) {
+function equal($a,$b, $label = '') {
   global $Fail,$Pass,$Notice;
-  $Notice("$a should equal $b ...");
+  $Notice("$label $a should equal $b");
   if ( $a != $b ) {
     call_user_func($Fail,"FAILED");
   } else {
@@ -172,7 +187,7 @@ function equal($a,$b) {
 }
 function keyExists($a,$b) {
   global $Fail,$Pass,$Notice;
-  $Notice("Array Key Exists $a ...");
+  $Notice("Array Key Exists $a");
   if ( !array_key_exists($a, $b) ) {
     call_user_func($Fail,"FAILED");
   } else {

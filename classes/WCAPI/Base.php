@@ -199,10 +199,7 @@ class Base extends Helpers {
       ";
     }
     if ( is_string($meta_sql)) {
-      echo $meta_sql;
       $wpdb->query($meta_sql);
-    } else {
-      echo "THERE WAS NO META SQL\n";
     }
   }
   // We need an easier interface to fetching items
@@ -272,7 +269,47 @@ class Base extends Helpers {
     $post_sql = "UPDATE `{$model_table}` SET " . join(',',$values) . " WHERE `{$model_table_id}` = '{$this->_actual_model_id}'";
     $wpdb->query($post_sql);
     $this->saveMetaAttributes();
+    $this->saveAssociations();
     return $this;
+  }
+
+  public function saveAssociations() {
+    $wpdb = static::$adapter;
+    $meta_table = $this->actual_meta_attributes_table;
+    $model_table = $this->actual_model_attributes_table;
+    $hm = $this->actual_model_settings['has_many'];
+    foreach ($hm as $name => $desc ) {
+      if ( isset( $this->{ $name } ) ) {
+        $values = $this->{ $name };
+        if ( is_array($values) ) {
+          foreach ( $values as &$value ) {
+
+            if ( is_array( $value ) ) {
+              $klass = 'WCAPI\\' . $desc['class_name'];
+              
+              if ( isset( $value['id'] ) ) {
+                $model =  $klass::find( $value['id'] );
+                if ( $model->isValid() ) {
+                  $model->fromApiArray( $value );
+                  $model->update();
+                }
+              } else {
+                $model = new $klass();
+                $model->create( $value );
+                $value = $model->asApiArray();
+              }
+
+            } else {
+              //not handling model saving just yet
+            }
+
+          } // end foreach
+          $this->{ $name } = $values;
+        } // end is_array($values)
+      } else {
+        echo "$name is not set!!\n";
+      }
+    }
   }
 
   public function loadHasManyAssociation( $name ) {
@@ -301,6 +338,33 @@ class Base extends Helpers {
       }
     }
     return $models;
+  }
+  public function saveHasManyAssociation( $name ) {
+    throw new \Exception("WTF? I shouldn't be called");
+    $wpdb = static::$adapter;
+    $meta_table = $this->actual_meta_attributes_table;
+    $model_table = $this->actual_model_attributes_table;
+    $s = $this->actual_model_settings;
+    $hm = $s['has_many'][$name];
+    $models = $this->{$name};
+    if ( is_array( $models ) ) {
+      foreach ( $models as $model ) {
+        if ( is_array( $model ) ) {
+          $klass = 'WCAPI\\' . $hm['class_name'];
+          if ( isset( $model['id'] ) ) {
+            $obj = $klass::find( $model['id'] );
+            $obj->fromApiArray( $model );
+            $obj->update();
+          } else {
+            // The record doesn't exist, so we create a new one.
+            $obj = new $klass();
+            $obj->create( $model );
+          }
+        } else {
+          $model->update();
+        }
+      }
+    }
   }
   public function loadBelongsToAssociation( $name ) {
     $wpdb = static::$adapter;
@@ -350,17 +414,23 @@ class Base extends Helpers {
   
   // Dynamic setter
   public function __set( $name, $value ) {
-    if ( isset( static::$_meta_attributes_table[$name] ) ) {
-      if ( isset(static::$_meta_attributes_table[$name]['setter'])) {
-        $this->{static::$_meta_attributes_table[$name]['setter']}( $value );
+    $meta_table = $this->actual_meta_attributes_table;
+    $model_table = $this->actual_model_attributes_table;
+    $s = $this->actual_model_settings;
+    if ( isset( $meta_table[$name] ) ) {
+      if ( isset($meta_table[$name]['setter'])) {
+        $this->{$meta_table[$name]['setter']}( $value );
       }
       $this->_meta_attributes[$name] = $value;
-    } else if ( isset( static::$_model_attributes_table[$name] ) ) {
+    } else if ( isset( $model_table[$name] ) ) {
       $this->_model_attributes[$name] = $value;
+    }  else if ( isset( $s['has_many'] ) && $this->inArray( $name, array_keys($s['has_many']) ) ) {
+      $this->{$name} = $value;
     } else {
       throw new \Exception( __('That attribute does not exist to be set.','woocommerce_json_api') . " `$name`");
     }
   }
+
 
   public function dynamic_set( $name, $desc, $value, $filter_value = null ) {
 
@@ -463,22 +533,33 @@ class Base extends Helpers {
     return $model;
   }
   public function fromApiArray( $attrs ) {
-    static::setupModelAttributes();
-    static::setupMetaAttributes();
-    $attributes = array_merge(static::$_model_attributes_table, static::$_meta_attributes_table);
+    $meta_table = $this->actual_meta_attributes_table;
+    $model_table = $this->actual_model_attributes_table;
+    $s = $this->actual_model_settings;
+    $attributes = array_merge($model_table, $meta_table);
     foreach ( $attrs as $name => $value ) {
       if ( isset($attributes[$name]) ) {
         $desc = $attributes[$name];
         $this->dynamic_set( $name, $desc, $value, $this->getModelId());
       } 
     }
+    if ( isset( $s['has_many'] ) ) {
+      $hm = $s['has_many'];
+      foreach ( $hm as $key=>$value ) {
+        if (isset($attrs[$key])) {
+          $this->{$key} = $attrs[$key];
+        }
+      }
+    }
+    
     return $this;
   }
   public function asApiArray() {
     $wpdb = static::$adapter;
-    static::setupModelAttributes();
-    static::setupMetaAttributes();
-    $attributes = array_merge(static::$_model_attributes_table, static::$_meta_attributes_table);
+    $meta_table = $this->actual_meta_attributes_table;
+    $model_table = $this->actual_model_attributes_table;
+    $s = $this->actual_model_settings;
+    $attributes = array_merge($model_table, $meta_table);
     $attributes_to_send['id'] = $this->getModelId();
 
     foreach ( $attributes as $name => $desc ) {
@@ -487,9 +568,10 @@ class Base extends Helpers {
     return $attributes_to_send;
   }
   public function getSupportedAttributes() {
-    static::setupModelAttributes();
-    static::setupMetaAttributes();
-    $attributes = array_merge(static::$_model_attributes_table, static::$_meta_attributes_table);
+    $meta_table = $this->actual_meta_attributes_table;
+    $model_table = $this->actual_model_attributes_table;
+    $s = $this->actual_model_settings;
+    $attributes = array_merge($model_table, $meta_table);
     return $attributes;
   }
 
@@ -498,8 +580,8 @@ class Base extends Helpers {
   */
   public static function all($fields = 'id', $conditions = null) {
     $wpdb = static::$adapter;
-    static::setupModelAttributes();
-    static::setupMetaAttributes();
+    // static::setupModelAttributes();
+    // static::setupMetaAttributes();
     $model = new static();
     if ( isset( static::$_model_settings ) ) {
       $model_table             = $model->orEq( static::$_model_settings, 'model_table', $wpdb->posts );  
@@ -521,14 +603,12 @@ class Base extends Helpers {
   }
 
   public function create( $attrs = null ) {
-
+    $meta_table = $this->actual_meta_attributes_table;
+    $model_table = $this->actual_model_attributes_table;
+    $s = $this->actual_model_settings;
     $wpdb = static::$adapter;
     $user_ID = $GLOBALS['user_ID'];
 
-    // We should setup attrib tables if it hasn't
-    // already been done
-    static::setupModelAttributes();
-    static::setupMetaAttributes();
     // Maybe we want to set attribs and create in one go.
     if ( $attrs ) {
       foreach ( $attrs as $name=>$value ) {
@@ -536,14 +616,13 @@ class Base extends Helpers {
       }
     }
     $post = array();
-    $s = static::getModelSettings();
 
     $update_meta_function = $s['update_meta_function'];
     
     if ( $s['model_table'] == $wpdb->posts)
       $post['post_author'] = $user_ID;
 
-    foreach (static::$_model_attributes_table as $attr => $desc) {
+    foreach ($model_table as $attr => $desc) {
 
       $value = $this->dynamic_get( $attr, $desc, null);
       $post[ $desc['name'] ] = $value;
@@ -573,7 +652,7 @@ class Base extends Helpers {
     } else {
       $this->setValid(true);
 
-      foreach ( static::$_meta_attributes_table as $attr => $desc ) {
+      foreach ( $meta_table as $attr => $desc ) {
         
         if ( isset( $this->_meta_attributes[$attr] ) ) {
           $value = $this->_meta_attributes[$attr];
@@ -591,6 +670,7 @@ class Base extends Helpers {
       }  
 
       $this->_actual_model_id = $id;
+
     }
     return $this;
   }

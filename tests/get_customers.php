@@ -1,7 +1,7 @@
 <?php
 require_once "functions.php";
 include "config.php";
-
+$Header("Reading Customers");
 $data = array(
   'action'      => 'woocommerce_json_api',
   'proc'        => 'get_customers',

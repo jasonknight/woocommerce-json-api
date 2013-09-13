@@ -1,6 +1,7 @@
 <?php
-include "functions.php";
+require_once "functions.php";
 include "config.php";
+$Header("Writing Products");
 $data = array(
   'action'      => 'woocommerce_json_api',
   'proc'        => 'get_products',
@@ -10,7 +11,7 @@ $data = array(
     'page'     => 1
   )
 );
-echo json_encode($data,JSON_PRETTY_PRINT);
+
 
 $result = curl_post($url,$data);
 
@@ -22,7 +23,7 @@ $old_price = $product['price'];
 $nprice = $old_price * 2;
 
 $oname = $product['name'];
-$nname = $oname . " I edited it...";
+$nname = $oname . " I edited it";
 
 $product['name'] = $nname;
 $product['price'] = $nprice;

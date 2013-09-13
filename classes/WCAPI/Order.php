@@ -75,13 +75,16 @@ class Order extends Base {
   } // end setupMetaAttributes
   public static function setupModelAttributes() {
     self::$_model_settings = array_merge( Base::getDefaultModelSettings(), array(
-        'model_conditions' => "WHERE post_type IN ('shop_order')",
+        'model_conditions' => "WHERE post_type IN ('shop_order') AND post_status != 'trash'",
         'has_many' => array(
           'order_items' => array('class_name' => 'OrderItem', 'foreign_key' => 'order_id'),
           'notes' => array(
               'class_name' => 'Comment', 
               'foreign_key' => 'comment_post_ID', 
-              'conditions' => array("comment_type IN ('order_note')"),
+              'conditions' => array(
+                "comment_type IN ('order_note')",
+                "comment_approved != 'trash'"
+              ),
           ),
         ),
       ) 

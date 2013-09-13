@@ -766,7 +766,22 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
   }
 
   public function set_orders( $params ) {
-    
+    $payload = $this->orEq( $params,'payload', false);
+    if ( ! $payload || ! is_array($payload)) {
+      $this->result->addError( __('Missing payload','woocommerce_json_api'), WCAPI_BAD_ARGUMENT );
+      return $this->done();
+    }
+    $orders = array();
+    foreach ( $payload as $order ) {
+      if ( isset( $order['id'] ) ) {
+        $model = API\Order::find( $order['id'] );
+        $model->fromApiArray($order);
+        $model->update();
+        $orders[] = $model->asApiArray();
+      }
+    }
+    $this->result->setPayload($orders);
+    return $this->done();
   }
 
   public function get_store_settings( $params ) {
