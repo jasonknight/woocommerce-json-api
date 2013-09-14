@@ -284,7 +284,7 @@ class WC_JSON_API_Provider extends JSONAPIHelpers {
       }
       if ($product && is_object($product) && $product->isValid()) {
         $product->fromApiArray( $attrs );
-        $product->update()->done();
+        $product->update();
         $attrs = $product->asApiArray();
       } else {
         $this->result->addWarning( 
