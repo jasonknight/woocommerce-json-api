@@ -7,7 +7,7 @@ $data = array(
   'proc'        => 'get_orders',
   'arguments'   => array(
     'token' => $token,
-    'per_page' => 2,
+    'per_page' => 10,
     'page'     => 1
   )
 );
@@ -32,23 +32,7 @@ foreach ( $orders['payload'] as $order) {
 equal($has_notes,true,'Has Notes?');
 equal($has_ois,true,'Has OrderItems');
 
-$order = $orders['payload'][0];
+foreach ( $orders['payload'] as $order ) {
+  notEqual($order['status'],'pending',"Order status `{$order['status']}` should not  == pending");
+}
 
-$order['notes'][] = array (
-    ['name'] => 'WooCommerceAPI',
-    ['date'] => '2013-09-13 10:14:18',
-    ['email'] => 'woocommerce@woo.localhost',
-    ['body'] => 'This note was added from the test suite!',
-    ['approved'] => 1,
-    ['object_id'] => 32,
-    ['parent_id'] => 0,
-    ['user_id'] => 0,
-    ['type'] => 'order_note',
-);
-
-$orders['payload'] = array( $order );
-$orders['proc'] = 'set_products';
-$result = curl_post($url,$orders);
-
-$orders = json_decode($result,true);
-print_r($orders);

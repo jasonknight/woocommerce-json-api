@@ -1,7 +1,7 @@
 <?php
 require_once "functions.php";
 include "config.php";
-$Header("Reading Orders");
+$Header("Writing Orders");
 $data = array(
   'action'      => 'woocommerce_json_api',
   'proc'        => 'get_orders',
@@ -33,7 +33,7 @@ foreach ( $orders['payload'] as $order) {
 equal($has_notes,true,'Has Notes?');
 equal($has_ois,true,'Has OrderItems');
 
-$Header("Writing Orders");
+
 
 $order = $orders['payload'][0];
 
@@ -67,5 +67,7 @@ foreach ( $orders['payload'] as $order) {
     $has_ois = true;
   }
 }
+
+notEqual($note_count2, $note_count);
 
 notEqual($note_count2, $note_count);

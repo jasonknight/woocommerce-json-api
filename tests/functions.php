@@ -169,7 +169,11 @@ function verifyNonZeroPayload($test,$result) {
 }
 function notEqual($a,$b, $label = '') {
   global $Fail,$Pass,$Notice;
-  $Notice("$label $a should not equal $b");
+  if ( $label != '' ) {
+    $Notice($label);
+  } else {
+    $Notice("$a should not equal $b");
+  }
   if ( $a == $b ) {
     call_user_func($Fail,"FAILED");
   } else {
