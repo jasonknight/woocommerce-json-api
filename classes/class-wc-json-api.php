@@ -48,7 +48,34 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
   public function getUser() {
     return $this->the_user;
   }
- 
+  public static function getImplementedMethods() {
+    self::$implemented_methods = array(
+      'get_system_time',
+      'get_supported_attributes',
+      'get_products',
+      'get_categories',
+      'get_taxes',
+      'get_shipping_methods',
+      'get_payment_gateways',
+      'get_tags',
+      'get_products_by_tags',
+      'get_customers',
+      'get_orders', // New Method
+      'get_store_settings',
+      'get_site_settings',
+      'get_api_methods',
+      
+      // Write capable methods
+      
+      'set_products',
+      'set_categories',
+      'set_orders',
+      'set_store_settings',
+      'set_site_settings',
+
+    );
+    return self::$implemented_methods;
+  }
   public function __construct() {
     //$this = new JSONAPIHelpers();
     $this->result = null;
