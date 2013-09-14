@@ -18,6 +18,9 @@ class Base extends Helpers {
 
   public $_result; // so we can add errors
   
+  // This is actually unecessary and is being 
+  // moved to $actuals, eventually this will
+  // be a static function that returns an array.
   public static $_meta_attributes_table; 
   public static $_model_attributes_table;
   

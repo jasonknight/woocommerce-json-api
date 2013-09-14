@@ -8,6 +8,22 @@ require_once(dirname(__FILE__) . "/Base.php");
 require_once(dirname(__FILE__) . "/Category.php");
 require_once(dirname(__FILE__) . "/OrderItem.php");
 class Product extends Base{   
+
+  public static function getModelSettings() {
+    $wpdb = self::$adapter;
+    $table = array_merge( Base::getDefaultModelSettings(), array(
+        'model_table'                => $wpdb->posts,
+        'meta_table'                => $wpdb->postmeta,
+        'model_table_id'             => 'id',
+        'meta_table_foreign_key'    => 'post_id',
+        'model_conditions' => "WHERE post_type IN ('product','product_variation') AND post_status != 'trash'",
+        'has_many' => array(
+          'order_items' => array('class_name' => 'OrderItem', 'foreign_key' => 'order_id'),
+        ),
+      ) 
+    );
+    return $table;
+  }
   /**
   * Here we normalize the attributes, giving them a consistent name scheme and obvious
   * meaning, as well as making them easier to type so that we have a nice, user
@@ -29,9 +45,8 @@ class Product extends Base{
   * We want to abstract away the naughty bits of the database representation of the product
   * in question.
   */
-  public static function setupMetaAttributes() {
-    // We only accept these attributes.
-    self::$_meta_attributes_table = array(
+  public static function getMetaAttributes() {
+    $table = array(
       'sku'               => array('name' => '_sku',              'type' => 'string'),
       'downloadable'      => array('name' => '_downloadable',     'type' => 'bool'),
       'virtual'           => array('name' => '_virtual',          'type' => 'bool'),
@@ -84,22 +99,11 @@ class Product extends Base{
       this helps to facilitate interoperability with other plugins that may be making arcane
       magic with a product, or want to expose their product extensions via the api.
     */
-    self::$_meta_attributes_table = apply_filters( 'WCAPI_product_meta_attributes_table', self::$_meta_attributes_table );
-  } // end setupMetaAttributes
-  
-  public static function setupModelAttributes() {
-    $wpdb = self::$adapter;
-    self::$_model_settings = array_merge( Base::getDefaultModelSettings(), array(
-      'model_table'                => $wpdb->posts,
-      'meta_table'                => $wpdb->postmeta,
-      'model_table_id'             => 'id',
-      'meta_table_foreign_key'    => 'post_id',
-      'model_conditions' => "WHERE post_type IN ('product','product_variation') AND post_status != 'trash'",
-      'has_many' => array(
-        'order_items' => array('class_name' => 'OrderItem', 'foreign_key' => 'order_id'),
-      ),
-    ) );
-    self::$_model_attributes_table = array(
+    $table = apply_filters( 'WCAPI_product_meta_attributes_table', $table );
+    return $table;
+  }
+  public static function getModelAttributes() {
+    $table = array(
       'name'            => array('name' => 'post_title',             'type' => 'string'),
       'slug'            => array('name' => 'post_name',              'type' => 'string'),
       'type'            => array('name' => 'post_type',
@@ -124,7 +128,18 @@ class Product extends Base{
                                   ),
                           ),
     );
-    self::$_model_attributes_table = apply_filters( 'WCAPI_product_model_attributes_table', self::$_model_attributes_table );
+    $table = apply_filters( 'WCAPI_product_model_attributes_table', $table );
+    return $table;
+  }
+  public static function setupMetaAttributes() {
+    // We only accept these attributes.
+    self::$_meta_attributes_table = self::getMetaAttributes();
+  } // end setupMetaAttributes
+  
+  public static function setupModelAttributes() {
+    $wpdb = self::$adapter;
+    self::$_model_settings = self::getModelSettings();
+    self::$_model_attributes_table = self::getModelAttributes();
   }
   
   public function asApiArray() {
