@@ -92,13 +92,13 @@ class Product extends Base{
   */
   public static function getMetaAttributes() {
     $table = array(
-      'sku'               => array('name' => '_sku',              'type' => 'string', 'sizehint' => 6),
-      'downloadable'      => array('name' => '_downloadable',     'type' => 'bool', 'sizehint' => 3),
+      'sku'               => array('name' => '_sku',              'type' => 'string', 'sizehint' => 9),
+      'downloadable'      => array('name' => '_downloadable',     'type' => 'bool', 'values' => array('yes','no'), 'sizehint' => 2),
       'visibility'        => array('name' => '_visibility',       'type' => 'string','default' => 'visible','sizehint' => 5),
-      'virtual'           => array('name' => '_virtual',          'type' => 'bool', 'sizehint' => 3),
-      'manage_stock'      => array('name' => '_manage_stock',     'type' => 'bool', 'default' => 'no', 'sizehint' => 3),
-      'sold_individually' => array('name' => '_sold_individually','type' => 'bool', 'sizehint' => 3),
-      'featured'          => array('name' => '_featured',         'type' => 'bool', 'sizehint' => 3),
+      'virtual'           => array('name' => '_virtual',          'type' => 'bool', 'sizehint' => 2),
+      'manage_stock'      => array('name' => '_manage_stock',     'type' => 'bool', 'default' => 'no', 'sizehint' => 2),
+      'sold_individually' => array('name' => '_sold_individually','type' => 'bool', 'sizehint' => 2),
+      'featured'          => array('name' => '_featured',         'type' => 'bool', 'sizehint' => 2),
       'allow_backorders'  => array(
                               'name' => '_backorders',       
                               'type' => 'string', 
@@ -111,13 +111,13 @@ class Product extends Base{
                                     'filters' => array('woocommerce_stock_amount') ,
                                     'sizehint' => 5
                               ),
-      'height'            => array('name' => '_height',           'type' => 'number'),
-      'weight'            => array('name' => '_weight',           'type' => 'number'),
-      'length'            => array('name' => '_length',           'type' => 'number', 'sizehint' => 3),
+      'height'            => array('name' => '_height',           'type' => 'number', 'sizehint' => 2),
+      'weight'            => array('name' => '_weight',           'type' => 'number', 'sizehint' => 2),
+      'length'            => array('name' => '_length',           'type' => 'number', 'sizehint' => 2),
       'price'             => array('name' => '_regular_price',            'type' => 'number', 'sizehint' => 3),
       'sale_price'        => array('name' => '_sale_price',       'type' => 'number', 'sizehint' => 3),
-      'sale_from'         => array('name' => '_sale_price_dates_from', 'type' => 'timestamp', 'sizehint' => 4),
-      'sale_to'           => array('name' => '_sale_price_dates_to',   'type' => 'timestamp', 'sizehint' => 4),
+      'sale_from'         => array('name' => '_sale_price_dates_from', 'type' => 'timestamp', 'sizehint' => 6),
+      'sale_to'           => array('name' => '_sale_price_dates_to',   'type' => 'timestamp', 'sizehint' => 6),
       // 'download_paths'    => array('name' => '_file_paths',            
       //                              'type' => 'array', 
       //                              'filters' => array('woocommerce_file_download_paths') 
