@@ -104,7 +104,7 @@ class Product extends Base{
                               'type' => 'string', 
                               'values' => array('yes','no','notify'),
                               'default' => 'no', 
-                              'sizehint' => 3
+                              'sizehint' => 2
                              ),
       'quantity'          => array( 'name' => '_stock',            
                                     'type' => 'number', 
