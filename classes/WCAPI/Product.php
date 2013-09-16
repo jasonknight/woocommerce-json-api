@@ -92,27 +92,32 @@ class Product extends Base{
   */
   public static function getMetaAttributes() {
     $table = array(
-      'sku'               => array('name' => '_sku',              'type' => 'string'),
-      'downloadable'      => array('name' => '_downloadable',     'type' => 'bool'),
-      'visibility'        => array('name' => '_visibility',       'type' => 'string','default' => 'visible'),
-      'virtual'           => array('name' => '_virtual',          'type' => 'bool'),
-      'manage_stock'      => array('name' => '_manage_stock',     'type' => 'bool', 'default' => 'no'),
-      'sold_individually' => array('name' => '_sold_individually','type' => 'bool'),
-      'featured'          => array('name' => '_featured',         'type' => 'bool'),
+      'sku'               => array('name' => '_sku',              'type' => 'string', 'sizehint' => 6),
+      'downloadable'      => array('name' => '_downloadable',     'type' => 'bool', 'sizehint' => 3),
+      'visibility'        => array('name' => '_visibility',       'type' => 'string','default' => 'visible','sizehint' => 5),
+      'virtual'           => array('name' => '_virtual',          'type' => 'bool', 'sizehint' => 3),
+      'manage_stock'      => array('name' => '_manage_stock',     'type' => 'bool', 'default' => 'no', 'sizehint' => 3),
+      'sold_individually' => array('name' => '_sold_individually','type' => 'bool', 'sizehint' => 3),
+      'featured'          => array('name' => '_featured',         'type' => 'bool', 'sizehint' => 3),
       'allow_backorders'  => array(
                               'name' => '_backorders',       
                               'type' => 'string', 
                               'values' => array('yes','no','notify'),
-                              'default' => 'no'
+                              'default' => 'no', 
+                              'sizehint' => 3
                              ),
-      'quantity'          => array('name' => '_stock',            'type' => 'number', 'filters' => array('woocommerce_stock_amount') ),
+      'quantity'          => array( 'name' => '_stock',            
+                                    'type' => 'number', 
+                                    'filters' => array('woocommerce_stock_amount') ,
+                                    'sizehint' => 5
+                              ),
       'height'            => array('name' => '_height',           'type' => 'number'),
       'weight'            => array('name' => '_weight',           'type' => 'number'),
-      'length'            => array('name' => '_length',           'type' => 'number'),
-      'price'             => array('name' => '_regular_price',            'type' => 'number'),
-      'sale_price'        => array('name' => '_sale_price',       'type' => 'number'),
-      'sale_from'         => array('name' => '_sale_price_dates_from', 'type' => 'timestamp'),
-      'sale_to'           => array('name' => '_sale_price_dates_to',   'type' => 'timestamp'),
+      'length'            => array('name' => '_length',           'type' => 'number', 'sizehint' => 3),
+      'price'             => array('name' => '_regular_price',            'type' => 'number', 'sizehint' => 3),
+      'sale_price'        => array('name' => '_sale_price',       'type' => 'number', 'sizehint' => 3),
+      'sale_from'         => array('name' => '_sale_price_dates_from', 'type' => 'timestamp', 'sizehint' => 4),
+      'sale_to'           => array('name' => '_sale_price_dates_to',   'type' => 'timestamp', 'sizehint' => 4),
       // 'download_paths'    => array('name' => '_file_paths',            
       //                              'type' => 'array', 
       //                              'filters' => array('woocommerce_file_download_paths') 
@@ -124,7 +129,8 @@ class Product extends Base{
                                 'instock',
                                 'outofstock',
                                ),
-                               'default' => 'instock'
+                               'default' => 'instock', 
+                               'sizehint' => 4
                              ),
       'attributes'        => array(
                               'name' => '_attributes',   
@@ -153,32 +159,34 @@ class Product extends Base{
   }
   public static function getModelAttributes() {
     $table = array(
-      'name'            => array('name' => 'post_title',             'type' => 'string'),
-      'slug'            => array('name' => 'post_name',              'type' => 'string'),
-      'type'            => array('name' => 'post_type',
-                                 'type' => 'string',
-                                 'values' => array(
-                                                    'product',
-                                                    'product_variation'
-                                              ),
-                                 'default' => 'product'
-                          ),
-      'description'     => array('name' => 'post_content',           'type' => 'string'),
-      'short_description'     => array('name' => 'post_excerpt',     'type' => 'string'),
-      'parent_id'       => array('name' => 'post_parent',           'type' => 'string'),
-      'publishing'          => array(
-                                  'name' => 'post_status',            
-                                  'type' => 'string',
-                                  'values' => array(
-                                    'publish',
-                                    'inherit',
-                                    'pending',
-                                    'future',
-                                    'draft',
-                                    'trash',
+      'name'                  => array('name' => 'post_title', 'type' => 'string', 'sizehint' => 10),
+      'slug'                  => array('name' => 'post_name',  'type' => 'string', 'sizehint' => 10),
+      'type'                  => array('name' => 'post_type',
+                                       'type' => 'string',
+                                       'values' => array(
+                                                          'product',
+                                                          'product_variation'
+                                                    ),
+                                       'default' => 'product',
+                                       'sizehint' => 5
                                   ),
-                                  'default' => 'publish'
-                          ),
+      'description'           => array('name' => 'post_content',          'type' => 'text', 'sizehint' => 10),
+      'short_description'     => array('name' => 'post_excerpt',          'type' => 'text', 'sizehint' => 10),
+      'parent_id'             => array('name' => 'post_parent',           'type' => 'string', 'sizehint' => 3),
+      'publishing'            => array(
+                                    'name' => 'post_status',            
+                                    'type' => 'string',
+                                    'values' => array(
+                                      'publish',
+                                      'inherit',
+                                      'pending',
+                                      'future',
+                                      'draft',
+                                      'trash',
+                                    ),
+                                    'default' => 'publish', 
+                                    'sizehint' => 5
+                                  ),
     );
     $table = apply_filters( 'WCAPI_product_model_attributes_table', $table );
     return $table;
