@@ -34,7 +34,7 @@
 
                   <div class="large-9 columns">
                     <label>API URL</label>
-                    <input type="text" id="url" placeholder="http://woo.localhost" />
+                    <input type="text" id="url" placeholder="http://localhost" />
                   </div>
 
                   <div class="large-3 columns">
@@ -184,11 +184,17 @@
       <input type="text" id="<%= id %>" placeholder="<%= placeholder %>" />
     </div>
   </script>
+  <script type="text/template" id="argument_template_text">
+    <div class="large-<%= columns %> columns">
+      <label><%= label %></label>
+      <textarea id="<%= id %>" placeholder="<%= placeholder %>" rows="5"></textarea>
+    </div>
+  </script>
   <script type="text/template" id="argument_template_select">
     <div class="large-<%= columns %> columns">
       <label><%= label %></label>
       <select id="<%= id %>">
-      <% _.each(options, function(opt) { %> <option><%= opt %></option> <% }); %>
+      <% _.each(options, function(opt) { if (opt == placeholder) { %> <option selected><%= opt %></option> <% } else { %> <option><%= opt %></option> <% } }); %>
       </select>
     </div>
   </script>
