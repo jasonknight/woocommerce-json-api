@@ -86,7 +86,7 @@ function displayCategories( data ) {
   var tmpl = _.template( $('#category_row_template').html() );
   for ( var i = 0; i < cats.length; i++ ) {
     var cat = cats[i];
-    $('#results').append( tmpl( product ) );
+    $('#results').append( tmpl( cat ) );
   }
 }
 function onGetRequestComplete( data, status, xhr ) {
@@ -183,6 +183,69 @@ function onGetProductsButtonClick() {
   var button = $('<div class="small button">Load Products</div>');
   button.on('click', function () {
     var request = prepareRequest('get_products');
+    for ( var i = 0; i < args.length; i++ ) {
+      var arg = args[i];
+      var val;
+
+      if (typeof arg.placehold == 'string' && arg.placeholder.indexOf('Comma separated') != -1) {
+        val = $('#' + arg.id).val();
+        if ( val == "" )
+          continue;
+        val = val.split(',');
+      } else {
+        val = $('#' + arg.id).val();
+        if ( val == ""  )
+          continue;
+      }
+      request.arguments[arg.id] = val;
+    }
+    getRequest( request );
+  });
+  div.append("<hr />")
+  div.append(button);
+}
+function onGetCategoriesButtonClick() {
+  var div = $('#arguments');
+  div.html('');
+  var tmpl = _.template($('#argument_template').html());
+  var args = [
+    { 
+      columns: 12,
+      id: "order_by",
+      label:"Order By", 
+      placeholder: ['ID','count','name'].join("|")
+    },
+    { 
+      columns: 3,
+      id: "page",
+      label:"Page", 
+      placeholder: 1,
+    },
+    { 
+      columns: 3,
+      id: "per_page",
+      label:"Per Page", 
+      placeholder: 5,
+    },
+    { 
+      columns: 12,
+      id: "ids",
+      label:"Ids Filter", 
+      placeholder: 'Comma separated list of ids',
+    },
+    { 
+      columns: 12,
+      id: "parent_ids",
+      label:"Parent Ids Filter", 
+      placeholder: 'Comma separated list of parent ids',
+    },
+  ];
+  for ( var i = 0; i < args.length; i++ ) {
+    div.append( tmpl( args[i] ) );
+  }
+  var button = $('<div class="small button">Load Categories</div>');
+  button.on('click', function () {
+    var request = prepareRequest('get_categories');
     for ( var i = 0; i < args.length; i++ ) {
       var arg = args[i];
       var val;
