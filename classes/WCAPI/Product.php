@@ -92,13 +92,13 @@ class Product extends Base{
   */
   public static function getMetaAttributes() {
     $table = array(
-      'sku'               => array('name' => '_sku',              'type' => 'string', 'sizehint' => 9),
+      'sku'               => array('name' => '_sku',              'type' => 'string', 'sizehint' => 10),
       'downloadable'      => array('name' => '_downloadable',     'type' => 'bool', 'values' => array('yes','no'), 'sizehint' => 2),
       'visibility'        => array('name' => '_visibility',       'type' => 'string','default' => 'visible','sizehint' => 5),
-      'virtual'           => array('name' => '_virtual',          'type' => 'bool', 'sizehint' => 2),
-      'manage_stock'      => array('name' => '_manage_stock',     'type' => 'bool', 'default' => 'no', 'sizehint' => 2),
-      'sold_individually' => array('name' => '_sold_individually','type' => 'bool', 'sizehint' => 2),
-      'featured'          => array('name' => '_featured',         'type' => 'bool', 'sizehint' => 2),
+      'virtual'           => array('name' => '_virtual',          'type' => 'bool','values' => array('yes','no'), 'sizehint' => 2),
+      'manage_stock'      => array('name' => '_manage_stock',     'type' => 'bool','values' => array('yes','no'), 'default' => 'no', 'sizehint' => 2),
+      'sold_individually' => array('name' => '_sold_individually','type' => 'bool','values' => array('yes','no'), 'sizehint' => 2),
+      'featured'          => array('name' => '_featured',         'type' => 'bool','values' => array('yes','no'), 'sizehint' => 2),
       'allow_backorders'  => array(
                               'name' => '_backorders',       
                               'type' => 'string', 
