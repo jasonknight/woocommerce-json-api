@@ -1,0 +1,2 @@
+<?php
+$wpdb = static::$adapter;

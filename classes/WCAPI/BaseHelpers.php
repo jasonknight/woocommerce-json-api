@@ -42,6 +42,14 @@ class Helpers {
     }
     
   }
+  public static function databaseAttribute( $str ) {
+    preg_match("/[\w\d]+/",$str,$matches);
+    if ( is_array($matches) && isset($matches[0]) && strlen($matches[0]) == strlen($str) ) {
+      return $matches[0];
+    } else {
+      return null;
+    }
+  }
   public static function error($text) {
     $fp = @fopen(REDE_PLUGIN_BASE_PATH . "errors.log",'a');
     if ($fp) {

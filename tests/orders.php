@@ -12,7 +12,6 @@ $data = array(
   )
 );
 $result = curl_post($url,$data);
-
 $orders = json_decode($result,true);
 
 

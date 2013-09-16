@@ -19,6 +19,50 @@ class Product extends Base{
         'model_conditions' => "WHERE post_type IN ('product','product_variation') AND post_status != 'trash'",
         'has_many' => array(
           'order_items' => array('class_name' => 'OrderItem', 'foreign_key' => 'order_id'),
+          'categories' => array(
+              'class_name' => 'Category', 
+              'foreign_key' => '', 
+              'sql' => "SELECT t.term_id FROM 
+                {$wpdb->terms} AS t, 
+                {$wpdb->term_taxonomy} AS tt, 
+                {$wpdb->term_relationships} AS tr 
+              WHERE
+                tr.object_id = %s AND
+                tt.term_taxonomy_id = tr.term_taxonomy_id AND
+                tt.taxonomy = 'product_cat' AND
+                t.term_id = tt.term_id
+              ",
+              'connect' => function ($product,$category) {
+                include WCAPIDIR."/_globals.php";
+                $product->insert($wpdb->term_relationships, array(
+                    'object_id' => $product->_actual_model_id,
+                    'term_taxonomy_id' => $category->taxonomy_id,
+                  ) 
+                );
+              }
+          ),
+          'tags' => array(
+              'class_name' => 'Category', 
+              'foreign_key' => '', 
+              'sql' => "SELECT t.term_id FROM 
+                {$wpdb->terms} AS t, 
+                {$wpdb->term_taxonomy} AS tt, 
+                {$wpdb->term_relationships} AS tr 
+              WHERE
+                tr.object_id = %s AND
+                tt.term_taxonomy_id = tr.term_taxonomy_id AND
+                tt.taxonomy = 'product_tag' AND
+                t.term_id = tt.term_id
+              ",
+              'connect' => function ($product,$tag) {
+                include WCAPIDIR."/_globals.php";
+                $product->insert($wpdb->term_relationships, array(
+                    'object_id' => $product->_actual_model_id,
+                    'term_taxonomy_id' => $tag->taxonomy_id,
+                  ) 
+                );
+              }
+          ),
         ),
       ) 
     );
@@ -144,26 +188,26 @@ class Product extends Base{
   
   public function asApiArray() {
     include WCAPIDIR."/_globals.php";
-    $category_objs = woocommerce_get_product_terms($this->_actual_model_id, 'product_cat', 'all');
-    $categories = array();
+    // $category_objs = woocommerce_get_product_terms($this->_actual_model_id, 'product_cat', 'all');
+    // $categories = array();
 
-    foreach ( $category_objs as $cobj ) {
-      // This looks scary if you've never used Javascript () evaluates the
-      // the contents and returns the value, in the same way that (3+4) * 8 
-      // works. Because we define the class with a Fluid API, most functions
-      // that modify state of the object, return the object.
-      try {
-        $_cat = new Category();
-        $categories[] = $_cat->setCategory( $cobj )->asApiArray();
-      } catch (Exception $e) {
-        // we should put some logging here soon!
-        JSONAPIHelpers::error( $e->getMessage() );
-      }
+    // foreach ( $category_objs as $cobj ) {
+    //   // This looks scary if you've never used Javascript () evaluates the
+    //   // the contents and returns the value, in the same way that (3+4) * 8 
+    //   // works. Because we define the class with a Fluid API, most functions
+    //   // that modify state of the object, return the object.
+    //   try {
+    //     $_cat = new Category();
+    //     $categories[] = $_cat->setCategory( $cobj )->asApiArray();
+    //   } catch (Exception $e) {
+    //     // we should put some logging here soon!
+    //     JSONAPIHelpers::error( $e->getMessage() );
+    //   }
       
-    }
+    // }
     $attributes_to_send = parent::asApiArray();
-    $attributes_to_send['categories'] = $categories;
-    $attributes_to_send['tags'] = wp_get_post_terms($this->_actual_model_id,'product_tag');
+    $attributes_to_send['categories'] = $this->categories;
+    $attributes_to_send['tags'] = $this->tags;//wp_get_post_terms($this->_actual_model_id,'product_tag');
     $feat_image = wp_get_attachment_url( get_post_thumbnail_id( $this->_actual_model_id) );
     $attributes_to_send['featured_image'] = $feat_image;
     return $attributes_to_send;

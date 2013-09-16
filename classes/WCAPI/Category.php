@@ -15,7 +15,7 @@ class Category extends Base {
         $adapter = $model->getAdapter();
         $table = $s['meta_table'];
         $key = $s['meta_table_foreign_key'];
-        $sql = $adapter->prepare("SELECT * FROM `$table` WHERE `$key` = %s",$model->id);
+        $sql = $adapter->prepare("SELECT * FROM `$table` WHERE `$key` = %s",$model->_actual_model_id);
         $record = $adapter->get_row($sql,'ARRAY_A');
         return $record;
       },
@@ -24,7 +24,21 @@ class Category extends Base {
         $adapter = $model->getAdapter();
         $table = $s['meta_table'];
         $key = $s['meta_table_foreign_key'];
-        $adapter->update($table,$model->remapMetaAttributes(),array($key => $model->id));
+        $adapter->update($table,$model->remapMetaAttributes(),array($key => $model->_actual_model_id));
+      },
+      'create_meta_function' => function ($model) {
+        //die("Leaving to create meta function\n");
+        $s = $model->getModelSettings();
+        $adapter = $model->getAdapter();
+        $table = $s['meta_table'];
+        $key = $s['meta_table_foreign_key'];
+        $model->insert(
+          $table,
+          array_merge(
+            array('term_id' => $model->_actual_model_id),
+            $model->remapMetaAttributes()
+          ) 
+        );
       }
       ) 
     );
@@ -48,7 +62,7 @@ class Category extends Base {
       'description'   => array( 'name' => 'description',        'type' => 'string'),
       'parent_id'     => array( 'name' => 'parent',             'type' => 'number'),
       'count'         => array( 'name' => 'count',              'type' => 'number'),
-      
+      'taxonomy'      => array( 'name' => 'taxonomy',           'type' => 'string'),
       'taxonomy_id'   => array( 'name' => 'term_taxonomy_id',   'type' => 'number'),
     );
     $table = apply_filters( 'WCAPI_category_meta_attributes_table', $table );

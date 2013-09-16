@@ -262,37 +262,21 @@ class Base extends Helpers {
       return null;
     }
   }
-  public function update() {
-    $wpdb = static::$adapter;
-    $model_table             = $this->orEq( static::$_model_settings, 'model_table', $wpdb->posts );  
-    $model_table_id          = $this->orEq( static::$_model_settings, 'model_table_id', 'ID' );  
-        
-    $values = array();
-    foreach (static::$_model_attributes_table as $attr => $desc) {
-      $value = $this->dynamic_get( $attr, $desc, $this->getModelId());
-      $values[] = $wpdb->prepare("`{$desc['name']}` = %s", $value );
-    }
-    $post_sql = "UPDATE `{$model_table}` SET " . join(',',$values) . " WHERE `{$model_table_id}` = '{$this->_actual_model_id}'";
-    $wpdb->query($post_sql);
-    $this->saveMetaAttributes();
-    $this->saveAssociations();
-    return $this;
-  }
+  
 
   public function saveAssociations() {
-    $wpdb = static::$adapter;
+     $wpdb = static::$adapter;
     $meta_table = $this->actual_meta_attributes_table;
     $model_table = $this->actual_model_attributes_table;
-    $hm = $this->actual_model_settings['has_many'];
+    $hm = $this->orEq($this->actual_model_settings,'has_many',array());
+
     foreach ($hm as $name => $desc ) {
       if ( isset( $this->{ $name } ) ) {
         $values = $this->{ $name };
         if ( is_array($values) ) {
           foreach ( $values as &$value ) {
-
             if ( is_array( $value ) ) {
-              $klass = 'WCAPI\\' . $desc['class_name'];
-              
+              $klass = 'WCAPI\\' . $desc['class_name'];             
               if ( isset( $value['id'] ) ) {
                 $model =  $klass::find( $value['id'] );
                 if ( $model->isValid() ) {
@@ -302,6 +286,11 @@ class Base extends Helpers {
               } else {
                 $model = new $klass();
                 $model->create( $value );
+                $model =  $klass::find( $model->_actual_model_id );
+                // now we need to connect them
+                if ( isset( $desc['connect'] ) ) {
+                  call_user_func($desc['connect'], $this, $model);
+                }
                 $value = $model->asApiArray();
               }
 
@@ -312,8 +301,6 @@ class Base extends Helpers {
           } // end foreach
           $this->{ $name } = $values;
         } // end is_array($values)
-      } else {
-        echo "$name is not set!!\n";
       }
     }
   }
@@ -325,10 +312,15 @@ class Base extends Helpers {
     $hm = $this->actual_model_settings['has_many'];
     $models = array();
     if ( isset( $hm[$name] ) ) {
+
       $klass = 'WCAPI\\' . $hm[$name]['class_name'];
       $fkey = $this->orEq($hm[$name],'foreign_key', false);
       $s = $klass::getModelSettings();
-      $sql = $wpdb->prepare("SELECT {$s['model_table_id']} FROM {$s['model_table']} WHERE {$fkey} = %d",$this->_actual_model_id);
+      if ( isset( $hm[$name]['sql'] ) ) {
+        $sql = $wpdb->prepare($hm[$name]['sql'], $this->_actual_model_id);
+      } else {
+        $sql = $wpdb->prepare("SELECT {$s['model_table_id']} FROM {$s['model_table']} WHERE {$fkey} = %d",$this->_actual_model_id);
+      }
       if ( isset($hm[$name]['conditions']) ) {
         $conditions = $hm[$name]['conditions'];
         if ( is_array( $conditions ) ) {
@@ -609,6 +601,7 @@ class Base extends Helpers {
   }
 
   public function create( $attrs = null ) {
+    include WCAPIDIR."/_model_static_attributes.php";
     $meta_table = $this->actual_meta_attributes_table;
     $model_table = $this->actual_model_attributes_table;
     $s = $this->actual_model_settings;
@@ -637,6 +630,7 @@ class Base extends Helpers {
     if ( $s['model_table'] == $wpdb->posts) {
       $id = wp_insert_post( $post, true);
     } else {
+
       if ( $wpdb->insert($s['model_table'],$post) ) {
         $id = $wpdb->insert_id;
       } else {
@@ -657,28 +651,79 @@ class Base extends Helpers {
       );
     } else {
       $this->setValid(true);
-
-      foreach ( $meta_table as $attr => $desc ) {
-        
-        if ( isset( $this->_meta_attributes[$attr] ) ) {
-          $value = $this->_meta_attributes[$attr];
-
-          if ( ! empty($value) ) {
-            if ( $desc['updater'] ) {
-              call_user_func($desc['updater'], $this, $attr, $value, $desc );
-            } else if ( $update_meta_function ) {
-              call_user_func($update_meta_function, $id, $desc['name'], $value );
-            }
-          }
-
-        } 
-
-      }  
-
       $this->_actual_model_id = $id;
+      if ( isset( $self->settings['create_meta_function']) ) {
+        call_user_func($self->settings['create_meta_function'],$this);
+      } else {
+        foreach ( $meta_table as $attr => $desc ) {
+          if ( isset( $this->_meta_attributes[$attr] ) ) {
+            $value = $this->_meta_attributes[$attr];
+
+            if ( ! empty($value) ) {
+              if ( isset($desc['updater']) ) {
+                call_user_func($desc['updater'], $this, $attr, $value, $desc );
+              } else if ( $update_meta_function ) {
+                call_user_func($update_meta_function, $id, $desc['name'], $value );
+              }
+            }
+
+          } 
+
+        }  
+      }
+      
+      $this->saveAssociations();
 
     }
     return $this;
+  }
+
+  public function update() {
+    $wpdb = static::$adapter;
+    $model_table             = $this->orEq( static::$_model_settings, 'model_table', $wpdb->posts );  
+    $model_table_id          = $this->orEq( static::$_model_settings, 'model_table_id', 'ID' );  
+        
+    $values = array();
+    foreach (static::$_model_attributes_table as $attr => $desc) {
+      $value = $this->dynamic_get( $attr, $desc, $this->getModelId());
+      $values[] = $wpdb->prepare("`{$desc['name']}` = %s", $value );
+    }
+    $post_sql = "UPDATE `{$model_table}` SET " . join(',',$values) . " WHERE `{$model_table_id}` = '{$this->_actual_model_id}'";
+    $wpdb->query($post_sql);
+    $this->saveMetaAttributes();
+    $this->saveAssociations();
+    return $this;
+  }
+
+  public function insert($table, $key_values, $where=null) {
+    include WCAPIDIR."/_globals.php";
+    include WCAPIDIR."/_model_static_attributes.php";
+    $keys = array();
+    $values = array();
+    $table = "`$table`";
+    foreach ( $key_values as $key=>$value ) {
+      if ( $key = $this->databaseAttribute($key) ) {
+        $keys[] = "`$key`";
+        $values[] = $wpdb->prepare('%s',$value);
+      }
+    }
+    if ( count($values) > 0 ) {
+      $sql = "INSERT INTO $table (" . join(',',$keys). ") VALUES (" . join(',', $values) . ")";
+      if ( is_array( $where ) ) {
+        $conditions = array();
+        foreach ( $where as $key=>$value ) {
+          if ( $key = $this->databaseAttribute($key) ) {
+            $conditions[] = $wpdb->prepare("`$key` = %s",$value);
+          }
+        }
+        if ( count($conditions) > 0 ) {
+          $sql .= " WHERE " . join(' AND ', $conditions);
+        }
+      } else if ( is_string($where) ) {
+        $sql .= " WHERE " . $where;
+      } 
+      $wpdb->query($sql);
+    }
   }
   
 }

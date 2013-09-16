@@ -14,7 +14,6 @@ $data = array(
 
 
 $result = curl_post($url,$data);
-
 $products = json_decode($result,true);
 
 $product = $products['payload'][0];
@@ -32,7 +31,6 @@ $products['payload'][0] = $product;
 
 
 $result = curl_post($url,$products);
-
 // Now do the load a second time:
 
 $result = curl_post($url,$data);
@@ -47,9 +45,42 @@ equal($nname, $product['name']);
 notEqual($old_price, $product['price']);
 equal($nprice, $product['price']);
 
+$tcount = count($product['tags']);
+$ccount = count($product['categories']);
+
 $product['name'] = $oname;
 $product['price'] = $old_price;
+
+$r = rand(0,99999);
+$product['tags'][] = array(
+  "name" =>  "This-is-an-api-tag " . $r,
+  "slug" =>  "this-is-a-tag-".$r,
+  "group_id" =>  "0",
+  "description" =>  "I was created by the API",
+  "parent_id" =>  "0",
+  "count" =>  "1",
+  "taxonomy" =>  "product_tag", 
+);
+$product['categories'][] = array(
+  "name" =>  "This-is-an-api-category " . $r,
+  "slug" =>  "this-is-a-category-".$r,
+  "group_id" =>  "0",
+  "description" =>  "I was created by the API",
+  "parent_id" =>  "0",
+  "count" =>  "1",
+  "taxonomy" =>  "product_cat", 
+);
+  
+
+
 $products['proc'] = 'set_products';
 $products['payload'][0] = $product;
 
+
 $result = curl_post($url,$products);
+
+$products = json_decode($result,true);
+$product = $products['payload'][0];
+notEqual($tcount,count($product['tags']),"New product tags?");
+notEqual($ccount, count($product['categories']),"New categories?");
+$result = curl_post($url,$data);
