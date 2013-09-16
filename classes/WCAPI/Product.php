@@ -109,7 +109,7 @@ class Product extends Base{
       'quantity'          => array( 'name' => '_stock',            
                                     'type' => 'number', 
                                     'filters' => array('woocommerce_stock_amount') ,
-                                    'sizehint' => 5
+                                    'sizehint' => 3
                               ),
       'height'            => array('name' => '_height',           'type' => 'number', 'sizehint' => 2),
       'weight'            => array('name' => '_weight',           'type' => 'number', 'sizehint' => 2),
