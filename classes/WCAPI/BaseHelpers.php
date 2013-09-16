@@ -128,12 +128,12 @@ class Helpers {
     }
   }
   /** 
-    $vars_in_scope is an array like so: {'myvar' => 'some text'} which can
-    be accessed in the template withe $myvar
-    
-    @param string template path, relative to the plugin
-    @param array of key value pairs to put into scope
-    @return the rendered, filtered, executed content of the php template file
+  * $vars_in_scope is an array like so: {'myvar' => 'some text'} which can
+  * be accessed in the template withe $myvar
+  * 
+  * @param string template path, relative to the plugin
+  * @param array of key value pairs to put into scope
+  * @return the rendered, filtered, executed content of the php template file
   */
   public function renderTemplate($template_name, $vars_in_scope = array()) {
     global $woocommerce,$wpdb, $user_ID, $available_methods;
@@ -160,7 +160,7 @@ class Helpers {
     return $content;
   }
   /**
-    Return the plugin name.
+  *  Return the plugin name.
   */
   public function getPluginName() {
     return $this->plugin_name;
@@ -178,6 +178,17 @@ class Helpers {
   public function getPluginTextDomain() {
     return $this->getPluginName();
   }
+  public static function a2std($array) {
+    $obj = new stdClass();
+    foreach ($array as $key=>$value) {
+      if ( is_array($value) ) {
+        $obj->{$key} = self::a2std($value);
+      } else {
+        $obj->{$key} = $value; 
+      }
+    }
+    return $obj;
+  }
   /***************************************************************************/
   /*                    Checkers, validators                                 */
   /***************************************************************************/
@@ -192,14 +203,14 @@ class Helpers {
     }
   }
   /**
-    We want to avoid directly accessing Array keys, because
-    a) people have weird debug settings and 
-    b) Some idiot thought it was a good idea to add in warnings when you access a null array key.
-       Whoever that person is, they should be shot. Out of a cannon. Into the Sun.
-       
-    @param array to look in
-    @param string key
-    @param default value if not found (Default is i18n xlated to UnNamed
+  * We want to avoid directly accessing Array keys, because
+  * a) people have weird debug settings and 
+  * b) Some idiot thought it was a good idea to add in warnings when you access a null array key.
+  *    Whoever that person is, they should be shot. Out of a cannon. Into the Sun.
+  *    
+  * @param array to look in
+  * @param string key
+  * @param default value if not found (Default is i18n xlated to UnNamed
   */
   function orEq($array,$key,$default = null, $valid_values_list = null) {
     if ( $default === null ) {
@@ -223,8 +234,8 @@ class Helpers {
     
   }
   /**
-    PHP's array_search is clumsy and not helpful with simple searching where all we want
-    is a true or false value. It's just easier to do it our own way.
+  * PHP's array_search is clumsy and not helpful with simple searching where all we want
+  * is a true or false value. It's just easier to do it our own way.
   */
   public function inArray($needle, $haystack) {
     foreach ($haystack as $value) {
@@ -235,8 +246,8 @@ class Helpers {
     return false;
   }
   /**
-    We pass in the params, usually $params['arguments'] by reference, as well as
-    a reference to the result object so that we can invalidate and add errors to it.
+  * We pass in the params, usually $params['arguments'] by reference, as well as
+  * a reference to the result object so that we can invalidate and add errors to it.
   */
   public function validateParameters( &$params, &$target ) {
     $params = apply_filters('rede_pre_validate_parameters',$params, $target);
@@ -316,19 +327,19 @@ class Helpers {
   /***************************************************************************/
   
   /**
-    Convert a title into a slug
+  *  Convert a title into a slug
   */
   public function createSlug($text) {
     $text = sanitize_title($text);
     return $text;
   }
   /**
-     We want to ease the creation of pages
-     
-     @param $title - The title you want to use, will be converted to the slug
-     @param $content - the contents of the page
-     @param $publish - boolean
-     @return Array of populated values to send to insert_post
+  *  We want to ease the creation of pages
+  *  
+  *  @param $title - The title you want to use, will be converted to the slug
+  *  @param $content - the contents of the page
+  *  @param $publish - boolean
+  *  @return Array of populated values to send to insert_post
   */
   public function newPage($title,$content,$publish = true) {
     $page = array(

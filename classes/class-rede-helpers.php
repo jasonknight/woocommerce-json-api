@@ -126,12 +126,12 @@ class JSONAPIHelpers {
     }
   }
   /** 
-    $vars_in_scope is an array like so: {'myvar' => 'some text'} which can
-    be accessed in the template withe $myvar
-    
-    @param string template path, relative to the plugin
-    @param array of key value pairs to put into scope
-    @return the rendered, filtered, executed content of the php template file
+  * $vars_in_scope is an array like so: {'myvar' => 'some text'} which can
+  * be accessed in the template withe $myvar
+  * 
+  * @param string template path, relative to the plugin
+  * @param array of key value pairs to put into scope
+  * @return the rendered, filtered, executed content of the php template file
   */
   public function renderTemplate($template_name, $vars_in_scope = array()) {
     global $woocommerce,$wpdb, $user_ID, $available_methods;
@@ -240,7 +240,7 @@ class JSONAPIHelpers {
     $params = apply_filters('rede_pre_validate_parameters',$params, $target);
     foreach ( $params as $key=>&$value ) {
       $tmp_key = str_replace('_','-',$key);
-      $fname = "class-{$tmp_key}-validator.php";
+      $fname = "validators/class-{$tmp_key}-validator.php";
       $tmp_key =  str_replace('-',' ', $tmp_key);
       $tmp_key = ucwords($tmp_key);
       $tmp_key = str_replace(" ",'', $tmp_key);
@@ -251,12 +251,11 @@ class JSONAPIHelpers {
         require_once $path;
         if ( class_exists($class_name) ) {
           $validator = new $class_name();
-          $validator->validate( $this, $params, $target );
+          $validator->validate( $this, $value, $target );
         }
       }
     }
     $params = apply_filters('rede_post_validate_parameters',$params, $target);
-    //return array($params, $target);
   }
   /***************************************************************************/
   /*                         HTML API Helpers                                */

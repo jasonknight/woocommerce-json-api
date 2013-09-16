@@ -7,7 +7,7 @@ require_once( dirname( __FILE__ ) . '/OrderItem.php' );
 require_once( dirname( __FILE__ ) . '/Customer.php' );
 require_once( dirname( __FILE__ ) . '/Comment.php' );
 function __fixPHPNSGlobalStupidity() {
-  global $wpdb;
+  global $wpdb,$post,$user_ID,$post_ID;
   \WCAPI\Base::setAdapter( $wpdb );
 }
 __fixPHPNSGlobalStupidity();

@@ -10,7 +10,7 @@ require_once(dirname(__FILE__) . "/OrderItem.php");
 class Product extends Base{   
 
   public static function getModelSettings() {
-    $wpdb = self::$adapter;
+    include WCAPIDIR."/_globals.php";
     $table = array_merge( Base::getDefaultModelSettings(), array(
         'model_table'                => $wpdb->posts,
         'meta_table'                => $wpdb->postmeta,
@@ -22,6 +22,7 @@ class Product extends Base{
         ),
       ) 
     );
+    $table = apply_filters('WCAPI_product_model_settings',$table);
     return $table;
   }
   /**
@@ -137,13 +138,12 @@ class Product extends Base{
   } // end setupMetaAttributes
   
   public static function setupModelAttributes() {
-    $wpdb = self::$adapter;
     self::$_model_settings = self::getModelSettings();
     self::$_model_attributes_table = self::getModelAttributes();
   }
   
   public function asApiArray() {
-    $wpdb = self::$adapter;
+    include WCAPIDIR."/_globals.php";
     $category_objs = woocommerce_get_product_terms($this->_actual_model_id, 'product_cat', 'all');
     $categories = array();
 
@@ -170,7 +170,7 @@ class Product extends Base{
   }
 
   public static function find_by_sku( $sku ) {
-    $wpdb = self::$adapter;
+    include WCAPIDIR."/_globals.php";
     $product = new Product();
     $product->setValid( false );
     $pid = $wpdb->get_var( $wpdb->prepare( "SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key='_sku' AND meta_value='%s' LIMIT 1",$sku) );
@@ -179,57 +179,5 @@ class Product extends Base{
     }
     return $product;
   }
-  
-  // public function create( $attrs = null ) {
-
-  //   $wpdb = self::$adapter;
-  //   $user_ID = $GLOBALS['user_ID'];
-
-  //   // We should setup attrib tables if it hasn't
-  //   // already been done
-  //   self::setupModelAttributes();
-  //   self::setupMetaAttributes();
-  //   // Maybe we want to set attribs and create in one go.
-  //   if ( $attrs ) {
-  //     foreach ( $attrs as $name=>$value ) {
-  //       $this->{ $name } = $value;
-  //     }
-  //   }
-  //   $post = array( 'post_author' => $user_ID, 'post_type' => 'product');
-
-  //   foreach (self::$_model_attributes_table as $attr => $desc) {
-
-  //     $value = $this->dynamic_get( $attr, $desc, null);
-  //     $post[ $desc['name'] ] = $value;
-
-  //   }
-  //   $post['post_type'] = 'product';
-  //   $id = wp_insert_post( $post, true);
-  //   if ( is_wp_error( $id )) {
-  //     // we  should handle errors
-  //     $this->setValid(false);
-  //     $this->_result->addError( 
-  //       __('Failed to create product'), 
-  //       WCAPI_CANNOT_INSERT_RECORD 
-  //     );
-  //   } else {
-  //     $this->setValid(true);
-
-  //     foreach ( self::$_meta_attributes_table as $attr => $desc ) {
-  //       if ( isset( $this->_meta_attributes[$attr] ) ) {
-  //         $value = $this->_meta_attributes[$attr];
-  //         if ( ! empty($value) ) {
-  //           update_post_meta($id,$desc['name'],$value);
-  //         }
-  //       } 
-  //     }  
-
-  //     $this->_actual_model_id = $id;
-  //   }
-  //   return $this;
-  // }
-
-
-  
-  
+   
 }
