@@ -148,7 +148,12 @@ class Base extends Helpers {
   public function remapMetaAttributes() {
     $attrs = array();
     foreach ( static::$_meta_attributes_table as $name => $desc ) {
-      $attrs[ $desc['name'] ] = $this->dynamic_get($name, $desc);
+       $value = $this->dynamic_get($name, $desc);
+      if ( empty( $value ) && isset( $desc['default'] ) ) {
+        $value = $desc['default'];
+      }
+
+      $attrs[ $desc['name'] ] = $value;
     }
     return $attrs;
   }
@@ -188,6 +193,9 @@ class Base extends Helpers {
             foreach (static::$_meta_attributes_table as $attr => $desc) {
               if ( isset( $this->_meta_attributes[$attr] ) ) {
                 $value = $this->_meta_attributes[$attr];
+                if ( empty( $value ) && isset( $desc['default'] ) ) {
+                  $value = $desc['default'];
+                }
                 if ( ! empty($value) ) {
                   if ( isset( $desc['updater'] ) ) {
                     $this->{ $desc['updater'] }( $value );
@@ -658,6 +666,9 @@ class Base extends Helpers {
         foreach ( $meta_table as $attr => $desc ) {
           if ( isset( $this->_meta_attributes[$attr] ) ) {
             $value = $this->_meta_attributes[$attr];
+            if ( empty($value) && isset($desc['default']) ) {
+              $value = $desc['default'];
+            }
 
             if ( ! empty($value) ) {
               if ( isset($desc['updater']) ) {

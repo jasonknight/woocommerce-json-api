@@ -94,14 +94,16 @@ class Product extends Base{
     $table = array(
       'sku'               => array('name' => '_sku',              'type' => 'string'),
       'downloadable'      => array('name' => '_downloadable',     'type' => 'bool'),
+      'visibility'        => array('name' => '_visibility',       'type' => 'string','default' => 'visible'),
       'virtual'           => array('name' => '_virtual',          'type' => 'bool'),
-      'manage_stock'      => array('name' => '_manage_stock',     'type' => 'bool'),
+      'manage_stock'      => array('name' => '_manage_stock',     'type' => 'bool', 'default' => 'no'),
       'sold_individually' => array('name' => '_sold_individually','type' => 'bool'),
       'featured'          => array('name' => '_featured',         'type' => 'bool'),
       'allow_backorders'  => array(
                               'name' => '_backorders',       
                               'type' => 'string', 
-                              'values' => array('yes','no','notify')
+                              'values' => array('yes','no','notify'),
+                              'default' => 'no'
                              ),
       'quantity'          => array('name' => '_stock',            'type' => 'number', 'filters' => array('woocommerce_stock_amount') ),
       'height'            => array('name' => '_height',           'type' => 'number'),
@@ -122,6 +124,7 @@ class Product extends Base{
                                 'instock',
                                 'outofstock',
                                ),
+                               'default' => 'instock'
                              ),
       'attributes'        => array(
                               'name' => '_attributes',   
@@ -137,6 +140,7 @@ class Product extends Base{
                                 'shipping',
                                 'none',
                                ),
+                               'default' => 'none'
                              ),
     );
     /*
@@ -156,9 +160,11 @@ class Product extends Base{
                                  'values' => array(
                                                     'product',
                                                     'product_variation'
-                                              ) 
+                                              ),
+                                 'default' => 'product'
                           ),
       'description'     => array('name' => 'post_content',           'type' => 'string'),
+      'short_description'     => array('name' => 'post_excerpt',     'type' => 'string'),
       'parent_id'       => array('name' => 'post_parent',           'type' => 'string'),
       'publishing'          => array(
                                   'name' => 'post_status',            
@@ -171,6 +177,7 @@ class Product extends Base{
                                     'draft',
                                     'trash',
                                   ),
+                                  'default' => 'publish'
                           ),
     );
     $table = apply_filters( 'WCAPI_product_model_attributes_table', $table );
