@@ -1,6 +1,9 @@
 <?php
 namespace WCAPI;
 require_once dirname( __FILE__ ) . '/BaseHelpers.php';
+if (!defined('WCAPIDIR')) {
+  define('WCAPIDIR', dirname(__FILE__) );
+}
 class Base extends Helpers {
   // We want to be able to update the product in one go, as quickly
   // as possible because it is not unrealistic for us to want to

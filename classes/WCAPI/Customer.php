@@ -7,22 +7,9 @@ namespace WCAPI;
 require_once(dirname(__FILE__) . "/Base.php");
 require_once(dirname(__FILE__) . "/Category.php");
 class Customer extends Base {
-   public static function setupMetaAttributes() {
-    // We only accept these attributes.
-    static::$_meta_attributes_table = array(
-      'order_count'               => array('name' => '_order_count',      'type' => 'number'),
-    );
-    /*
-      With this filter, plugins can extend this ones handling of meta attributes for a customer,
-      this helps to facilitate interoperability with other plugins that may be making arcane
-      magic with a customer, or want to expose their customer extensions via the api.
-    */
-    static::$_meta_attributes_table = apply_filters( 'WCAPI_user_meta_attributes_table', static::$_meta_attributes_table );
-  } // end setupMetaAttributes
-  public static function setupModelAttributes() {
-    global $wpdb;
-    
-    static::$_model_settings = array_merge( static::getDefaultModelSettings(), array(
+  public static function getModelSettings() {
+    include WCAPIDIR."/_globals.php";
+    $table = array_merge( static::getDefaultModelSettings(), array(
         'model_table' => $wpdb->users,
         'model_table_id' => 'id',
         'meta_table' => $wpdb->usermeta,
@@ -30,8 +17,12 @@ class Customer extends Base {
         'meta_function' => 'get_user_meta',
       )
     );
+    $table = apply_filters('WCAPI_customer_model_settings',$table);
+    return $table;
+  }
 
-    static::$_model_attributes_table = array(
+  public static function getModelAttributes() {
+    $table = array(
       'name'            => array('name' => 'display_name',           'type' => 'string'),
       'username'        => array('name' => 'user_login',             'type' => 'string'),
       'slug'            => array('name' => 'user_nicename',          'type' => 'string'),
@@ -39,7 +30,30 @@ class Customer extends Base {
       'status'          => array('name' => 'user_status',            'type' => 'number'),
       'date_registered' => array('name' => 'user_registered',        'type' => 'datetime'),
     );
-    static::$_model_attributes_table = apply_filters( 'WCAPI_model_attributes_table', static::$_model_attributes_table );
+    $table = apply_filters( 'WCAPI_model_attributes_table', $table );
+    return $table;
+  }
+  public static function getMetaAttributes() {
+    $table = array(
+      'order_count'               => array('name' => '_order_count',      'type' => 'number'),
+    );
+    /*
+      With this filter, plugins can extend this ones handling of meta attributes for a customer,
+      this helps to facilitate interoperability with other plugins that may be making arcane
+      magic with a customer, or want to expose their customer extensions via the api.
+    */
+    $table = apply_filters( 'WCAPI_user_meta_attributes_table', $table );
+    return $table;
+  }
+  public static function setupMetaAttributes() {
+    // We only accept these attributes.
+    static::$_meta_attributes_table = self::getMetaAttributes();
+  } // end setupMetaAttributes
+  public static function setupModelAttributes() {
+        
+    static::$_model_settings = self::getModelSettings();
+
+    static::$_model_attributes_table = self::getModelAttributes();
   }
   public function asApiArray() {
     $attributes = array_merge(static::$_model_attributes_table, static::$_meta_attributes_table);

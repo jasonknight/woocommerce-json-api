@@ -20,7 +20,6 @@ $has_notes = false;
 $has_ois = false;
 
 $note_count = 0;
-
 foreach ( $orders['payload'] as $order) {
   if ( isset( $order['notes'] ) && is_array( $order['notes'] ) && count( $order['notes'] ) > 0) {
     $note_count += count( $order['notes'] );
@@ -67,7 +66,5 @@ foreach ( $orders['payload'] as $order) {
     $has_ois = true;
   }
 }
-
-notEqual($note_count2, $note_count);
 
 notEqual($note_count2, $note_count);
