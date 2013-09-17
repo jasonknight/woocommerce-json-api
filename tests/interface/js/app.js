@@ -145,46 +145,37 @@ function onGetProductsButtonClick() {
   var div = $('#arguments');
   div.html('');
   var tmpl = _.template($('#argument_template').html());
-  var args = [
-    { 
-      columns: 12,
-      id: "order_by",
-      label:"Order By", 
-      placeholder: ['ID','post_title','post_date','post_author','post_modified'].join("|")
-    },
-    { 
-      columns: 3,
-      id: "page",
-      label:"Page", 
-      placeholder: 1,
-    },
-    { 
-      columns: 3,
-      id: "per_page",
-      label:"Per Page", 
-      placeholder: 5,
-    },
-    { 
-      columns: 12,
-      id: "ids",
-      label:"Ids Filter", 
-      placeholder: 'Comma separated list of ids',
-    },
-    { 
-      columns: 12,
-      id: "parent_ids",
-      label:"Parent Ids Filter", 
-      placeholder: 'Comma separated list of parent ids',
-    },
-    { 
-      columns: 12,
-      id: "skus",
-      label:"SKUs Filter", 
-      placeholder: 'Comma separated list of product SKUS',
-    },
-  ];
+  var tmpl_select = _.template($('#argument_template_select').html());
+  var args = [];
+  $.each($methods.get_products, function(field, desc) {
+    if (desc.values) {
+      // is an array
+      args.push({
+        columns: 10,
+        id: field,
+        label: field.titleize(),
+        placeholder: desc.default,
+        options: desc.values,
+        type: desc.type,
+      });
+    } else {
+      args.push({
+        columns: 10,
+        id: field,
+        label: field.titleize(),
+        placeholder: desc.default,
+        type: desc.type,
+      });
+    };
+      
+  });
+  
   for ( var i = 0; i < args.length; i++ ) {
-    div.append( tmpl( args[i] ) );
+    if (args[i].options) {
+      div.append( tmpl_select( args[i] ) );
+    } else {
+      div.append( tmpl( args[i] ) );
+    }
   }
   var button = $('<div class="small button">Load Products</div>');
   button.on('click', function () {
@@ -193,7 +184,7 @@ function onGetProductsButtonClick() {
       var arg = args[i];
       var val;
 
-      if (typeof arg.placehold == 'string' && arg.placeholder.indexOf('Comma separated') != -1) {
+      if ( arg.type == "array" && ! arg.options ) {
         val = $('#' + arg.id).val();
         if ( val == "" )
           continue;
@@ -214,41 +205,38 @@ function onGetCategoriesButtonClick() {
   var div = $('#arguments');
   div.html('');
   var tmpl = _.template($('#argument_template').html());
-  var args = [
-    { 
-      columns: 12,
-      id: "order_by",
-      label:"Order By", 
-      placeholder: ['ID','count','name'].join("|")
-    },
-    { 
-      columns: 3,
-      id: "page",
-      label:"Page", 
-      placeholder: 1,
-    },
-    { 
-      columns: 3,
-      id: "per_page",
-      label:"Per Page", 
-      placeholder: 5,
-    },
-    { 
-      columns: 12,
-      id: "ids",
-      label:"Ids Filter", 
-      placeholder: 'Comma separated list of ids',
-    },
-    { 
-      columns: 12,
-      id: "parent_ids",
-      label:"Parent Ids Filter", 
-      placeholder: 'Comma separated list of parent ids',
-    },
-  ];
+  var tmpl_select = _.template($('#argument_template_select').html());
+  var args = [];
+  $.each($methods.get_categories, function(field, desc) {
+    if (desc.values) {
+      // is an array
+      args.push({
+        columns: 10,
+        id: field,
+        label: field.titleize(),
+        placeholder: desc.default,
+        options: desc.values,
+        type: desc.type,
+      });
+    } else {
+      args.push({
+        columns: 10,
+        id: field,
+        label: field.titleize(),
+        placeholder: desc.default,
+        type: desc.type,
+      });
+    };
+  });
+  
   for ( var i = 0; i < args.length; i++ ) {
-    div.append( tmpl( args[i] ) );
+    if (args[i].options) {
+      div.append( tmpl_select( args[i] ) );
+    } else {
+      div.append( tmpl( args[i] ) );
+    }
   }
+  
   var button = $('<div class="small button">Load Categories</div>');
   button.on('click', function () {
     var request = prepareRequest('get_categories');
@@ -256,7 +244,7 @@ function onGetCategoriesButtonClick() {
       var arg = args[i];
       var val;
 
-      if (typeof arg.placehold == 'string' && arg.placeholder.indexOf('Comma separated') != -1) {
+      if (arg.type == "array" && ! arg.options) {
         val = $('#' + arg.id).val();
         if ( val == "" )
           continue;
