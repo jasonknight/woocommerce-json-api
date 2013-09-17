@@ -91,6 +91,7 @@ function displayCategories( data ) {
     $('#results').append( tmpl( cat ) );
   }
 }
+var $supported_attributes;
 function onGetRequestComplete( data, status, xhr ) {
   switch( data.proc ) {
     case 'get_api_methods':
@@ -107,6 +108,9 @@ function onGetRequestComplete( data, status, xhr ) {
       break;
     case 'get_categories':
       displayCategories( data );
+      break;
+    case 'get_supported_attributes':
+      $supported_attributes = data.payload;
       break;
   }
   displayDebug(data);
@@ -273,49 +277,56 @@ function onSetProductsButtonClick() {
   var div = $('#arguments');
   div.html('');
   var tmpl = _.template($('#argument_template').html());
+  var tmpl_txt = _.template($('#argument_template_text').html());
   var select_tmpl = _.template($('#argument_template_select').html());
-  var args = [
-    { 
-      columns: 12,
-      id: "name",
-      label:"Name", 
-      placeholder: ''
-    },
-    { 
-      columns: 5,
-      id: "price",
-      label:"Price", 
-      placeholder: ''
-    },
-    { 
-      columns: 7,
-      id: "sku",
-      label:"SKU", 
-      placeholder: ''
-    },
-    { 
-      columns: 3,
-      id: "type",
-      label:"Type",
-      options: ['product','product_variation'], 
-      placeholder: ''
-    },
-    { 
-      columns: 3,
-      id: "publishing",
-      label:"Publishing",
-      options: ['publish','draft','private','future'], 
-      placeholder: ''
-    },
-    
-  ];
+  //console.log($supported_attributes);
+  var args = [];
+  var field;
+  $.each($supported_attributes.Product, function(attr, desc) {
+    if ( ! desc.sizehint ) {
+      desc.sizehint = 3;
+    } else {
+      desc.sizehint += 2;
+    }
+    if (desc.values) {
+      field = {
+        columns: desc.sizehint,
+        id: attr,
+        label: attr.titleize(),
+        options: desc.values,
+        placeholder: desc.default,
+        
+      };
+    } else {
+      field = {
+        columns: desc.sizehint,
+        id: attr,
+        label: attr.titleize(),
+        placeholder: desc.default,
+        input_type: desc.type
+      }
+    }
+    args.push(field);
+  });
+
   for ( var i = 0; i < args.length; i++ ) {
     if ( args[i].options ) {
       div.append( select_tmpl( args[i] ) );
     } else {
-      div.append( tmpl( args[i] ) );
+      if ( args[i].input_type == 'text') {
+        var rendered_template = tmpl_txt( args[i] );
+        div.append( rendered_template );
+      } else {
+        var rendered_template = $(tmpl( args[i] ));
+        if ( args[i].id == 'name' ) {
+          rendered_template.find('input').on('keyup', function() {
+            var str = $(this).val().replace(/\s+/g, '-').toLowerCase();
+            $('#slug').val(str);
+          });
+        }
+        div.append( rendered_template );
+      }
     }
-    
   }
   var button = $('<div class="small button">Create Product</div>');
   button.on('click', function () {
@@ -325,11 +336,11 @@ function onSetProductsButtonClick() {
       var arg = args[i];
       var val;
 
-      if (typeof arg.placehold == 'string' && arg.placeholder.indexOf('Comma separated') != -1) {
+      if (typeof arg.placehold == 'string' && arg.placeholder.indexOf(',') != -1) {
         val = $('#' + arg.id).val();
         val = val.split(',');
       } else {
-        val = $('#' + arg.id).val();
+        val = valOrPlaceholder('#' + arg.id);
       }
       obj[arg.id] = val;
     }
