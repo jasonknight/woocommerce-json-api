@@ -62,6 +62,10 @@ class JSONAPIHelpers {
     
   }
   public function __construct() {
+    $this->init();
+    
+  }
+  public function init() {
     // README
     // I wrote this file so that I could explore
     // the WP API a bit more and get an idea
@@ -89,7 +93,12 @@ class JSONAPIHelpers {
     } else {
       $this->wp_theme_root .= '/';
     }
-    
+  }
+  public function missingArgument( $name ) {
+    $this->result->addError( sprintf(__( 'Missing `%s` in `arguments`','woocommerce_json_api' ), $name),WCAPI_EXPECTED_ARGUMENT );
+  }
+  public function badArgument( $name, $values='' ) {
+    $this->result->addError( sprintf(__( 'The value of `%s` is not valid, only %s accepted.','woocommerce_json_api' ), $name, $values),WCAPI_BAD_ARGUMENT );
   }
   // README
   // This function finds where a template is located in the system
@@ -113,10 +122,12 @@ class JSONAPIHelpers {
     if ( file_exists( $test_path ) ) {
       return $test_path;
     } else {
+      JSONAPIHelpers::debug( "$test_path didn't exist" );
       $test_path = $this->path . 'classes/' . $filename;
       if ( file_exists($test_path) ) {
         return $test_path;
       } else {
+        JSONAPIHelpers::debug( "$test_path didn't exist" );
         if ( $throw_error ) {
           throw new Exception( __('Core Class File was not found: ') . ' ' . $filename );
         } else {
@@ -240,19 +251,24 @@ class JSONAPIHelpers {
     $params = apply_filters('rede_pre_validate_parameters',$params, $target);
     foreach ( $params as $key=>&$value ) {
       $tmp_key = str_replace('_','-',$key);
-      $fname = "validators/class-{$tmp_key}-validator.php";
+      $fname = "validators/class-{$tmp_key}-argument-validator.php";
       $tmp_key =  str_replace('-',' ', $tmp_key);
       $tmp_key = ucwords($tmp_key);
       $tmp_key = str_replace(" ",'', $tmp_key);
-      $class_name = "{$tmp_key}Validator";
-      JSONAPIHelpers::debug("class name to load is {$class_name}");
+      $class_name = "JSONAPI_{$tmp_key}_Argument_Validator";
+      JSONAPIHelpers::debug("validator class name to load is {$class_name}");
+      JSONAPIHelpers::debug("path to validator should be {$fname}");
       $path = $this->findClassFile($fname, false);
       if ( $path ) {
         require_once $path;
         if ( class_exists($class_name) ) {
           $validator = new $class_name();
           $validator->validate( $this, $value, $target );
+        } else {
+          JSONAPIHelpers::debug("validator class {$class_name} does not exist?");
         }
+      } else {
+        JSONAPIHelpers::debug("validator {$fname} does not exist");
       }
     }
     $params = apply_filters('rede_post_validate_parameters',$params, $target);

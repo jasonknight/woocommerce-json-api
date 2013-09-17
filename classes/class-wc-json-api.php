@@ -80,6 +80,7 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
     //$this = new JSONAPIHelpers();
     $this->result = null;
     $this->provider = null;
+    parent::init();
   }
   /**
   *  This function is the single entry point into the API.

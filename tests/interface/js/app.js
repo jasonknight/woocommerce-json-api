@@ -1,3 +1,4 @@
+var $methods = null;
 String.prototype.titleize = function () {
     return this.replace(/_/g," ").replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 };
@@ -48,12 +49,13 @@ function displayDebug( data ) {
 }
 function displayAPIMethods( data ) {
   $('#methods').html('');
-  for (var i = 0; i < data.payload.length; i++ ) {
-    var button = $('<div class="small button">' + data.payload[i].titleize() + '<div>');
-    if ( data.payload[i].indexOf('set_') == 0) {
+  $methods = data.payload;
+  for (var key in data.payload ) {
+    var button = $('<div class="small button">' + key.titleize() + '<div>');
+    if ( key.indexOf('set_') == 0) {
       button.addClass('alert');
     }
-    var method = data.payload[i].titleize();
+    var method = key.titleize();
     method = 'on' + method.replace(/\s/g,'') + "ButtonClick";
     console.log("Method would be: " + method);
     button.on('click',window[method]);
