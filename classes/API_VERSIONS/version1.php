@@ -20,6 +20,7 @@ class WC_JSON_API_Provider extends JSONAPIHelpers {
             'values' => array('Product','Category','Comment','Order','OrderItem','Customer'),
             'default' => array('Product','Category','Comment','Order','OrderItem','Customer'),
             'required' => false,
+            'sizehint' => 10,
             'description' => __('List what resources you would like additional information on.','woocommerce_json_api'),
           ),
         ),
@@ -29,6 +30,7 @@ class WC_JSON_API_Provider extends JSONAPIHelpers {
           'values' => array('ID','post_title','post_date','post_author','post_modified','woocommerce_json_api'),
           'default' => "ID",
           'required' => false,
+          'sizehint' => 1,
           'description' => __('What column to order results by','woocommerce_json_api'),
         ),
         'order' => array(
@@ -36,6 +38,7 @@ class WC_JSON_API_Provider extends JSONAPIHelpers {
           'values' => array('ASC','DESC'),
           'default' => 'ASC',
           'required' => false,
+          'sizehint' => 1,
           'description' => __('What order to show the results in','woocommerce_json_api'),
         ),
         'page' => array(
@@ -43,12 +46,14 @@ class WC_JSON_API_Provider extends JSONAPIHelpers {
           'values' => null,
           'default' => 1,
           'required' => false,
+          'sizehint' => 1,
           'description' => __('What page to show.','woocommerce_json_api'),
         ),
         'per_page' => array(
           'type' => 'number',
           'values' => null,
           'default' => 15,
+          'sizehint' => 1,
           'required' => false,
           'description' => __('How many results to show','woocommerce_json_api'),
         ),
@@ -57,6 +62,7 @@ class WC_JSON_API_Provider extends JSONAPIHelpers {
           'values' => null,
           'default' => null,
           'required' => false,
+          'sizehint' => 10,
           'description' => __('An array of IDs to use as a filter','woocommerce_json_api'),
         ),
         'skus' => array(
@@ -64,6 +70,7 @@ class WC_JSON_API_Provider extends JSONAPIHelpers {
           'values' => null,
           'default' => null,
           'required' => false,
+          'sizehint' => 10,
           'description' => __('An array of SKUs to use as a filter','woocommerce_json_api'),
         ),
         'parent_ids' => array(
@@ -71,6 +78,7 @@ class WC_JSON_API_Provider extends JSONAPIHelpers {
           'values' => null,
           'default' => null,
           'required' => false,
+          'sizehint' => 10,
           'description' => __('An array of parent IDs to use as a filter','woocommerce_json_api'),
         ),
 
@@ -81,6 +89,7 @@ class WC_JSON_API_Provider extends JSONAPIHelpers {
           'values' => array('id','count','name','slug'),
           'default' => "name",
           'required' => false,
+          'sizehint' => 1,
           'description' => __('What column to order results by','woocommerce_json_api'),
         ),
         'order' => array(
@@ -88,6 +97,7 @@ class WC_JSON_API_Provider extends JSONAPIHelpers {
           'values' => array('ASC','DESC'),
           'default' => 'ASC',
           'required' => false,
+          'sizehint' => 1,
           'description' => __('What order to show the results in','woocommerce_json_api'),
         ),
         'ids' => array(
@@ -95,6 +105,7 @@ class WC_JSON_API_Provider extends JSONAPIHelpers {
           'values' => null,
           'default' => null,
           'required' => false,
+          'sizehint' => 10,
           'description' => __('An array of IDs to use as a filter','woocommerce_json_api'),
         ),
       ),
@@ -107,6 +118,7 @@ class WC_JSON_API_Provider extends JSONAPIHelpers {
             'values' => array('name','count','term_id'),
             'default' => "name",
             'required' => false,
+            'sizehint' => 1,
             'description' => __('What column to order results by','woocommerce_json_api'),
           ),
           'order' => array(
@@ -114,6 +126,7 @@ class WC_JSON_API_Provider extends JSONAPIHelpers {
             'values' => array('ASC','DESC'),
             'default' => 'ASC',
             'required' => false,
+            'sizehint' => 1,
             'description' => __('What order to show the results in','woocommerce_json_api'),
           ),
         ),
@@ -123,6 +136,7 @@ class WC_JSON_API_Provider extends JSONAPIHelpers {
           'values' => array('ID','post_title','post_date','post_author','post_modified'),
           'default' => "ID",
           'required' => false,
+          'sizehint' => 1,
           'description' => __('What column to order results by','woocommerce_json_api'),
         ),
         'order' => array(
@@ -130,6 +144,7 @@ class WC_JSON_API_Provider extends JSONAPIHelpers {
           'values' => array('ASC','DESC'),
           'default' => 'ASC',
           'required' => false,
+          'sizehint' => 1,
           'description' => __('What order to show the results in','woocommerce_json_api'),
         ),
         'page' => array(
@@ -137,6 +152,7 @@ class WC_JSON_API_Provider extends JSONAPIHelpers {
           'values' => null,
           'default' => 1,
           'required' => false,
+          'sizehint' => 1,
           'description' => __('What page to show.','woocommerce_json_api'),
         ),
         'per_page' => array(
@@ -144,6 +160,7 @@ class WC_JSON_API_Provider extends JSONAPIHelpers {
           'values' => null,
           'default' => 15,
           'required' => false,
+          'sizehint' => 1,
           'description' => __('How many results to show','woocommerce_json_api'),
         ),
         'tags' => array(
@@ -151,6 +168,7 @@ class WC_JSON_API_Provider extends JSONAPIHelpers {
           'values' => null,
           'default' => null,
           'required' => true,
+          'sizehint' => 10,
           'description' => __('An array of tag slugs','woocommerce_json_api'),
         ),
       ),
@@ -160,6 +178,7 @@ class WC_JSON_API_Provider extends JSONAPIHelpers {
             'values' => null,
             'default' => 1,
             'required' => false,
+            'sizehint' => 1,
             'description' => __('What page to show.','woocommerce_json_api'),
           ),
           'per_page' => array(
@@ -167,6 +186,7 @@ class WC_JSON_API_Provider extends JSONAPIHelpers {
             'values' => null,
             'default' => 15,
             'required' => false,
+            'sizehint' => 1,
             'description' => __('How many results to show','woocommerce_json_api'),
           ),
           'ids' => array(
@@ -174,6 +194,7 @@ class WC_JSON_API_Provider extends JSONAPIHelpers {
             'values' => null,
             'default' => null,
             'required' => false,
+            'sizehint' => 1,
             'description' => __('An array of IDs to use as a filter','woocommerce_json_api'),
           ),
         ),
@@ -190,6 +211,7 @@ class WC_JSON_API_Provider extends JSONAPIHelpers {
             'values' => null,
             'default' => null,
             'required' => true,
+            'sizehint' => 1,
             'description' => __('A collection of Product arrays for update/create, to create omit `id`','woocommerce_json_api'),
           ),
         ),
