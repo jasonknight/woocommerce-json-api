@@ -123,13 +123,37 @@ class Coupon extends Base{
       ),
       'product_ids' => array(
         'name' => 'product_ids',
-        'type' => 'string', 
+        'type' => 'array', 
         'sizehint' => 10,
+        'getter' => function ($model, $name, $desc, $filter_value) {
+          $str = get_post_meta($model->_actual_model_id, $desc['name'],true);
+          return explode(",",$str);
+        },
+        'setter' => function ($model, $name, $desc, $value, $filter_value ) {
+          if ( is_array($value) ) {
+            $str = join(',',$value);
+            update_post_meta($model->_actual_model_id,$desc['name'],$str);
+          } else {
+            update_post_meta($model->_actual_model_id,$desc['name'],$value);
+          }
+        },
       ),
       'exclude_product_ids' => array(
         'name' => 'product_ids',
         'type' => 'string', 
         'sizehint' => 10,
+        'getter' => function ($model, $name, $desc, $filter_value) {
+          $str = get_post_meta($model->_actual_model_id, $desc['name'],true);
+          return explode(",",$str);
+        },
+        'setter' => function ($model, $name, $desc, $value, $filter_value ) {
+          if ( is_array($value) ) {
+            $str = join(',',$value);
+            update_post_meta($model->_actual_model_id,$desc['name'],$str);
+          } else {
+            update_post_meta($model->_actual_model_id,$desc['name'],$value);
+          }
+        },
       ),
       'expiry_date' => array(
         'name' => 'expiry_date',

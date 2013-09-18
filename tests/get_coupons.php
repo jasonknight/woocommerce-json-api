@@ -11,7 +11,9 @@ $data = array(
     'page'     => 1
   )
 );
-$result = curl_post($url,$data);
+$result = json_decode(curl_post($url,$data));
+print_r($result);
+die;
 verifySuccess("Get Coupons",$result);
 verifyNonZeroPayload("Get Coupons", $result);
 

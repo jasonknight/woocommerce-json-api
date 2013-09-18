@@ -12624,3 +12624,1634 @@ validator class name to load is JSONAPI_Page_Argument_Validator
 path to validator should be validators/class-page-argument-validator.php
 /var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
 in function fetch: WPDB returned 2 results using SELECT * FROM wp_posts WHERE post_type IN ('shop_order') AND post_status != 'trash' LIMIT 0,2
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '118',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '35561',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379514945.999',
+  'Request-Time' => '1379514945',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_coupons',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '2',
+    'page' => '1',
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+in function fetch: WPDB returned 1 results using SELECT * FROM wp_posts WHERE post_type IN ('shop_coupon') AND post_status NOT IN ('trash','auto-draft') LIMIT 0,2
+[Error] That attribute does not exist to be set. `ID`
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '118',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '35563',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379514963.893',
+  'Request-Time' => '1379514963',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_coupons',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '2',
+    'page' => '1',
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+in function fetch: WPDB returned 1 results using SELECT * FROM wp_posts WHERE post_type IN ('shop_coupon') AND post_status NOT IN ('trash','auto-draft') LIMIT 0,2
+[Error] That attribute does not exist to be set. `ID`
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '118',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '35566',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379515083.473',
+  'Request-Time' => '1379515083',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_coupons',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '2',
+    'page' => '1',
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+in function fetch: WPDB returned 1 results using SELECT * FROM wp_posts WHERE post_type IN ('shop_coupon') AND post_status NOT IN ('trash','auto-draft') LIMIT 0,2
+[Error] That attribute does not exist to be set. `ID`
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '118',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '35567',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379515148.629',
+  'Request-Time' => '1379515148',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_coupons',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '2',
+    'page' => '1',
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+in function fetch: WPDB returned 1 results using SELECT * FROM wp_posts WHERE post_type IN ('shop_coupon') AND post_status NOT IN ('trash','auto-draft') LIMIT 0,2
+[Error] That attribute does not exist to be set. `filter`
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '118',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '35568',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379515207.992',
+  'Request-Time' => '1379515207',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_coupons',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '2',
+    'page' => '1',
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+in function fetch: WPDB returned 1 results using SELECT * FROM wp_posts WHERE post_type IN ('shop_coupon') AND post_status NOT IN ('trash','auto-draft') LIMIT 0,2
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '118',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '35569',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379515269.552',
+  'Request-Time' => '1379515269',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_coupons',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '2',
+    'page' => '1',
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+in function fetch: WPDB returned 1 results using SELECT * FROM wp_posts WHERE post_type IN ('shop_coupon') AND post_status NOT IN ('trash','auto-draft') LIMIT 0,2
+[Error] That attribute does not exist to be set. `filter`
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '118',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '35572',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379515365.989',
+  'Request-Time' => '1379515365',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_coupons',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '2',
+    'page' => '1',
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+in function fetch: WPDB returned 1 results using SELECT * FROM wp_posts WHERE post_type IN ('shop_coupon') AND post_status NOT IN ('trash','auto-draft') LIMIT 0,2
+[Error] That attribute `filter` does not exist to be set to 'raw'.
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '118',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '35573',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379515401.444',
+  'Request-Time' => '1379515401',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_coupons',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '2',
+    'page' => '1',
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+in function fetch: WPDB returned 1 results using SELECT * FROM wp_posts WHERE post_type IN ('shop_coupon') AND post_status NOT IN ('trash','auto-draft') LIMIT 0,2
+[Error] That attribute `filter` does not exist to be set to 'raw'. for WCAPI\Coupon
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '118',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '35579',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379515697.191',
+  'Request-Time' => '1379515697',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_coupons',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '2',
+    'page' => '1',
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+in function fetch: WPDB returned 1 results using SELECT * FROM wp_posts WHERE post_type IN ('shop_coupon') AND post_status NOT IN ('trash','auto-draft') LIMIT 0,2
+[Error] That attribute `filter` does not exist to be set to 'raw'. for WCAPI\Coupon
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '118',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '35580',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379515720.144',
+  'Request-Time' => '1379515720',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_coupons',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '2',
+    'page' => '1',
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+in function fetch: WPDB returned 1 results using SELECT * FROM wp_posts WHERE post_type IN ('shop_coupon') AND post_status NOT IN ('trash','auto-draft') LIMIT 0,2
+[Error] That attribute `filter` does not exist to be set to 'raw'. for WCAPI\Coupon
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '118',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '35581',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379515748.524',
+  'Request-Time' => '1379515748',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_coupons',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '2',
+    'page' => '1',
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+in function fetch: WPDB returned 1 results using SELECT * FROM wp_posts WHERE post_type IN ('shop_coupon') AND post_status NOT IN ('trash','auto-draft') LIMIT 0,2
+[Error] That attribute `filter` does not exist to be set to 'raw'. for WCAPI\Coupon
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '118',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '35582',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379515773.683',
+  'Request-Time' => '1379515773',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_coupons',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '2',
+    'page' => '1',
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+in function fetch: WPDB returned 1 results using SELECT * FROM wp_posts WHERE post_type IN ('shop_coupon') AND post_status NOT IN ('trash','auto-draft') LIMIT 0,2
+[Error] That attribute `filter` does not exist to be set to 'raw'. for WCAPI\Coupon
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '118',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '35583',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379515781.487',
+  'Request-Time' => '1379515781',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_coupons',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '2',
+    'page' => '1',
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+in function fetch: WPDB returned 1 results using SELECT * FROM wp_posts WHERE post_type IN ('shop_coupon') AND post_status NOT IN ('trash','auto-draft') LIMIT 0,2
+[Error] That attribute `filter` does not exist to be set to 'raw'. for WCAPI\Coupon
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '118',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '35587',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379515849.958',
+  'Request-Time' => '1379515849',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_coupons',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '2',
+    'page' => '1',
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+in function fetch: WPDB returned 1 results using SELECT * FROM wp_posts WHERE post_type IN ('shop_coupon') AND post_status NOT IN ('trash','auto-draft') LIMIT 0,2
+[Error] That attribute `filter` does not exist to be set to 'raw'. for WCAPI\Coupon
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '118',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '35588',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379515892.4',
+  'Request-Time' => '1379515892',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_coupons',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '2',
+    'page' => '1',
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+in function fetch: WPDB returned 1 results using SELECT * FROM wp_posts WHERE post_type IN ('shop_coupon') AND post_status NOT IN ('trash','auto-draft') LIMIT 0,2
+[Error] That attribute `filter` does not exist to be set to 'raw'. for WCAPI\Coupon
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '118',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '35591',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379516052.784',
+  'Request-Time' => '1379516052',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_coupons',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '2',
+    'page' => '1',
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+in function fetch: WPDB returned 1 results using SELECT * FROM wp_posts WHERE post_type IN ('shop_coupon') AND post_status NOT IN ('trash','auto-draft') LIMIT 0,2
+[Error] That attribute `filter` does not exist to be set to 'raw'. for WCAPI\Coupon
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '118',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '35592',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379516079.548',
+  'Request-Time' => '1379516079',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_coupons',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '2',
+    'page' => '1',
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+in function fetch: WPDB returned 1 results using SELECT * FROM wp_posts WHERE post_type IN ('shop_coupon') AND post_status NOT IN ('trash','auto-draft') LIMIT 0,2
+[Error] That attribute `filter` does not exist to be set to 'raw'. for WCAPI\Coupon
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '118',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '35593',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379516100.326',
+  'Request-Time' => '1379516100',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_coupons',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '2',
+    'page' => '1',
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+in function fetch: WPDB returned 1 results using SELECT * FROM wp_posts WHERE post_type IN ('shop_coupon') AND post_status NOT IN ('trash','auto-draft') LIMIT 0,2
+[Error] That attribute `filter` does not exist to be set to 'raw'. for WCAPI\Coupon
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '118',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '35596',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379516389.878',
+  'Request-Time' => '1379516389',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_coupons',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '2',
+    'page' => '1',
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+in function fetch: WPDB returned 1 results using SELECT * FROM wp_posts WHERE post_type IN ('shop_coupon') AND post_status NOT IN ('trash','auto-draft') LIMIT 0,2
+[Error] That attribute `filter` does not exist to be set to 'raw'. for WCAPI\Coupon
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '118',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '35597',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379516424.085',
+  'Request-Time' => '1379516424',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_coupons',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '2',
+    'page' => '1',
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+in function fetch: WPDB returned 1 results using SELECT * FROM wp_posts WHERE post_type IN ('shop_coupon') AND post_status NOT IN ('trash','auto-draft') LIMIT 0,2
+[Error] That attribute `filter` does not exist to be set to 'raw'. for WCAPI\Coupon
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '118',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '35598',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379516475.825',
+  'Request-Time' => '1379516475',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_coupons',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '2',
+    'page' => '1',
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+in function fetch: WPDB returned 1 results using SELECT * FROM wp_posts WHERE post_type IN ('shop_coupon') AND post_status NOT IN ('trash','auto-draft') LIMIT 0,2
+[Error] That attribute `filter` does not exist to be set to 'raw'. for WCAPI\Coupon
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '118',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '35599',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379516493.148',
+  'Request-Time' => '1379516493',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_coupons',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '2',
+    'page' => '1',
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+in function fetch: WPDB returned 1 results using SELECT * FROM wp_posts WHERE post_type IN ('shop_coupon') AND post_status NOT IN ('trash','auto-draft') LIMIT 0,2
+[Error] That attribute `filter` does not exist to be set to 'raw'. for WCAPI\Coupon
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '118',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '35600',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379516510.644',
+  'Request-Time' => '1379516510',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_coupons',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '2',
+    'page' => '1',
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+in function fetch: WPDB returned 1 results using SELECT * FROM wp_posts WHERE post_type IN ('shop_coupon') AND post_status NOT IN ('trash','auto-draft') LIMIT 0,2
+[Error] That attribute `filter` does not exist to be set to 'raw'. for WCAPI\Coupon
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '118',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '35603',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379516536.917',
+  'Request-Time' => '1379516536',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_coupons',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '2',
+    'page' => '1',
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+in function fetch: WPDB returned 1 results using SELECT * FROM wp_posts WHERE post_type IN ('shop_coupon') AND post_status NOT IN ('trash','auto-draft') LIMIT 0,2
+[Error] That attribute `filter` does not exist to be set to 'raw'. for WCAPI\Coupon
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '118',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '35604',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379516564.336',
+  'Request-Time' => '1379516564',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_coupons',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '2',
+    'page' => '1',
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+in function fetch: WPDB returned 1 results using SELECT * FROM wp_posts WHERE post_type IN ('shop_coupon') AND post_status NOT IN ('trash','auto-draft') LIMIT 0,2
+[Error] That attribute `filter` does not exist to be set to 'raw'. for WCAPI\Coupon
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '118',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '35607',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379516638.98',
+  'Request-Time' => '1379516638',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_coupons',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '2',
+    'page' => '1',
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+in function fetch: WPDB returned 1 results using SELECT * FROM wp_posts WHERE post_type IN ('shop_coupon') AND post_status NOT IN ('trash','auto-draft') LIMIT 0,2
+[Error] That attribute `filter` does not exist to be set to 'raw'. for WCAPI\Coupon
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '118',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '35608',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379516664.514',
+  'Request-Time' => '1379516664',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_coupons',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '2',
+    'page' => '1',
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+in function fetch: WPDB returned 1 results using SELECT * FROM wp_posts WHERE post_type IN ('shop_coupon') AND post_status NOT IN ('trash','auto-draft') LIMIT 0,2
+[Error] That attribute `filter` does not exist to be set to 'raw'. for WCAPI\Coupon
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '118',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '35609',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379516694.089',
+  'Request-Time' => '1379516694',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_coupons',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '2',
+    'page' => '1',
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+in function fetch: WPDB returned 1 results using SELECT * FROM wp_posts WHERE post_type IN ('shop_coupon') AND post_status NOT IN ('trash','auto-draft') LIMIT 0,2
+[Error] That attribute `filter` does not exist to be set to 'raw'. for WCAPI\Coupon
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '118',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '35610',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379516706.772',
+  'Request-Time' => '1379516706',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_coupons',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '2',
+    'page' => '1',
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+in function fetch: WPDB returned 1 results using SELECT * FROM wp_posts WHERE post_type IN ('shop_coupon') AND post_status NOT IN ('trash','auto-draft') LIMIT 0,2
+[Error] That attribute `filter` does not exist to be set to 'raw'. for WCAPI\Coupon
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '118',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '35611',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379516760.13',
+  'Request-Time' => '1379516760',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_coupons',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '2',
+    'page' => '1',
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+in function fetch: WPDB returned 1 results using SELECT * FROM wp_posts WHERE post_type IN ('shop_coupon') AND post_status NOT IN ('trash','auto-draft') LIMIT 0,2
+[Error] That attribute `filter` does not exist to be set to 'raw'. for WCAPI\Coupon
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '118',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '35612',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379516811.229',
+  'Request-Time' => '1379516811',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_coupons',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '2',
+    'page' => '1',
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+in function fetch: WPDB returned 1 results using SELECT * FROM wp_posts WHERE post_type IN ('shop_coupon') AND post_status NOT IN ('trash','auto-draft') LIMIT 0,2
+[Error] That attribute `filter` does not exist to be set to 'raw'. for WCAPI\Coupon
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '118',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '35616',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379517053.206',
+  'Request-Time' => '1379517053',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_coupons',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '2',
+    'page' => '1',
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+in function fetch: WPDB returned 1 results using SELECT * FROM wp_posts WHERE post_type IN ('shop_coupon') AND post_status NOT IN ('trash','auto-draft') LIMIT 0,2
+in function fetch: 1 were returned from: SELECT * FROM wp_posts WHERE post_type IN ('shop_coupon') AND post_status NOT IN ('trash','auto-draft') LIMIT 0,2

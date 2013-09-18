@@ -280,9 +280,21 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
   }
   public function unexpectedError( $params, $error ) {
     $this->createNewResult( $params );
+    $trace = $error->getTrace();
+    foreach ( $trace as &$t) {
+      if ( isset($t['file']) )
+        $t['file'] = basename($t['file']);
+      if ( !isset($t['class']) )
+        $t['class'] = 'GlobalScope';
+      if ( !isset($t['file']) )
+        $t['file'] = 'Unknown';
+      if ( !isset($t['line']) )
+        $t['line'] = 'GlobalScope';
 
+      $t = "{$t['file']}:{$t['line']}:{$t['class']}";
+    }
     $this->result->addError( 
-      __('An unexpected error has occured', 'woocommerce_json_api' ) . $error->getMessage(), 
+      sprintf(__('An unexpected error has occured %s, Trace:', 'woocommerce_json_api' ),$error->getMessage()) . join("\n",$trace) , 
       WCAPI_UNEXPECTED_ERROR 
     );
 

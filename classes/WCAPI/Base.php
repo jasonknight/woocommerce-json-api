@@ -401,7 +401,7 @@ class Base extends Helpers {
 
     if ( isset( $meta_table[$name] ) ) {
       if ( isset($meta_table[$name]['getter'])) {
-        return $this->{$meta_table[$name]['getter']}();
+        return $this->{$meta_table[$name]['getter']}($this->_actual_model_id);
       }
       if ( isset ( $this->_meta_attributes[$name] ) ) {
         return $this->_meta_attributes[$name];
@@ -428,15 +428,17 @@ class Base extends Helpers {
     $s = $this->actual_model_settings;
     if ( isset( $meta_table[$name] ) ) {
       if ( isset($meta_table[$name]['setter'])) {
-        $this->{$meta_table[$name]['setter']}( $value );
+        call_user_func($desc['setter'],$this,$name, $desc, $value, $filter_value );
       }
       $this->_meta_attributes[$name] = $value;
+    } else if (strtolower($name) == 'id') {
+      $this->id = $value;
     } else if ( isset( $model_table[$name] ) ) {
       $this->_model_attributes[$name] = $value;
     }  else if ( isset( $s['has_many'] ) && $this->inArray( $name, array_keys($s['has_many']) ) ) {
       $this->{$name} = $value;
     } else {
-      throw new \Exception( __('That attribute does not exist to be set.','woocommerce_json_api') . " `$name`");
+      throw new \Exception( sprintf(__('That attribute %s does not exist to be set to %s. for %s','woocommerce_json_api'),"`$name`", (string)var_export($value,true), get_called_class()) );
     }
   }
 

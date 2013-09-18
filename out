@@ -1,0 +1,62 @@
+[0;34m   *----------------------------------------------------*   [0m
+[0;34m                     Reading Customers                      [0m
+[0;34m   *----------------------------------------------------*   [0m
+stdClass Object
+(
+    [action] => woocommerce_json_api
+    [proc] => get_coupons
+    [arguments] => stdClass Object
+        (
+            [token] => 1234
+            [per_page] => 2
+            [page] => 1
+        )
+
+    [status] => 
+    [errors] => Array
+        (
+            [0] => stdClass Object
+                (
+                    [text] => An unexpected error has occured That attribute `filter` does not exist to be set to 'raw'. for WCAPI\Coupon, Trace:post.php:1950:WCAPI\Base
+post.php:394:GlobalScope
+post.php:5106:GlobalScope
+post.php:5031:GlobalScope
+post.php:1819:GlobalScope
+Coupon.php:137:GlobalScope
+Unknown:GlobalScope:WCAPI\Coupon
+Base.php:461:GlobalScope
+Base.php:177:WCAPI\Base
+Base.php:553:WCAPI\Base
+version1.php:934:WCAPI\Base
+Unknown:GlobalScope:WC_JSON_API_Provider_v1
+Base.php:234:GlobalScope
+version1.php:936:WCAPI\Base
+class-wc-json-api.php:177:WC_JSON_API_Provider_v1
+woocommerce-json-api-core.php:160:WooCommerce_JSON_API
+woocommerce-json-api.php:32:GlobalScope
+Unknown:GlobalScope:GlobalScope
+plugin.php:406:GlobalScope
+wp-settings.php:306:GlobalScope
+wp-config.php:91:GlobalScope
+wp-load.php:29:GlobalScope
+wp-blog-header.php:12:GlobalScope
+index.php:17:GlobalScope
+                    [code] => -3
+                )
+
+        )
+
+    [warnings] => Array
+        (
+        )
+
+    [notifications] => Array
+        (
+        )
+
+    [payload] => Array
+        (
+        )
+
+    [payload_length] => 0
+)
