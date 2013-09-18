@@ -278,10 +278,10 @@ class WC_JSON_API_Provider extends JSONAPIHelpers {
     parent::init();
   }
    
-  public function isImplemented( $params ) {
+  public function isImplemented( $proc ) {
     
-    if ( isset($params['proc']) &&  
-         $this->inArray( $params['proc'], array_keys(self::$implemented_methods)) 
+    if ( isset($proc) &&  
+         $this->inArray( $proc, array_keys(self::$implemented_methods)) 
     ) {
 
       return true;
