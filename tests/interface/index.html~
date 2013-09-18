@@ -386,89 +386,89 @@
         <div class="large-3 columns">
           <%= plugin_id %>
         </div>
-      </div>
         
-      <div class="row header-row">
-        <div class="large-1 columns">
-          additional_costs
+        <div class="row header-row">
+          <div class="large-1 columns">
+            additional_costs
+          </div>
+          <div class="large-1 columns">
+            additional_costs_table
+          </div>
+          <div class="large-1 columns">
+            availability
+          </div>
+          <div class="large-1 columns">
+            cost
+          </div>
+          <div class="large-1 columns">
+            cost_per_order
+          </div>
+          <div class="large-1 columns">
+            countries
+          </div>
+          <div class="large-1 columns">
+            enabled
+          </div>
+          <div class="large-1 columns">
+            fee
+          </div>
+          <div class="large-1 columns">
+            minimum_fee
+          </div>
+          <div class="large-1 columns">
+            options
+          </div>
+          <div class="large-1 columns">
+            tax_status
+          </div>
+          <div class="large-1 columns">
+            title
+          </div>
+          <div class="large-1 columns">
+            type
+          </div>
         </div>
-        <div class="large-1 columns">
-          additional_costs_table
-        </div>
-        <div class="large-1 columns">
-          availability
-        </div>
-        <div class="large-1 columns">
-          cost
-        </div>
-        <div class="large-1 columns">
-          cost_per_order
-        </div>
-        <div class="large-1 columns">
-          countries
-        </div>
-        <div class="large-1 columns">
-          enabled
-        </div>
-        <div class="large-1 columns">
-          fee
-        </div>
-        <div class="large-1 columns">
-          minimum_fee
-        </div>
-        <div class="large-1 columns">
-          options
-        </div>
-        <div class="large-1 columns">
-          tax_status
-        </div>
-        <div class="large-1 columns">
-          title
-        </div>
-        <div class="large-1 columns">
-          type
-        </div>
-      </div>
 
-      <div class="row object-row">
-        <div class="large-1 columns">
-          <%= settings.additional_costs %>
-        </div>
-        <div class="large-1 columns">
-          <%= settings.additional_costs_table %>
-        </div>
-        <div class="large-1 columns">
-          <%= settings.availability %>
-        </div>
-        <div class="large-1 columns">
-          <%= settings.cost %>
-        </div>
-        <div class="large-1 columns">
-          <%= settings.cost_per_order %>
-        </div>
-        <div class="large-1 columns">
-          <%= settings.countries %>
-        </div>
-        <div class="large-1 columns">
-          <%= settings.enabled %>
-        </div>
-        <div class="large-1 columns">
-          <%= settings.fee %>
-        </div>
-        <div class="large-1 columns">
-          <%= settings.minimum_fee %>
-        </div>
-        <div class="large-1 columns">
-          <%= settings.options %>
-        </div>
-        <div class="large-1 columns">
-          <%= settings.tax_status %>
-        </div>
-        <div class="large-1 columns">
-          <%= settings.title %>
-        </div>
-        <div class="large-1 columns">
-          <%= settings.type %>
+        <div class="row object-row">
+          <div class="large-1 columns">
+            <%= settings.additional_costs %>
+          </div>
+          <div class="large-1 columns">
+            <%= settings.additional_costs_table %>
+          </div>
+          <div class="large-1 columns">
+            <%= settings.availability %>
+          </div>
+          <div class="large-1 columns">
+            <%= settings.cost %>
+          </div>
+          <div class="large-1 columns">
+            <%= settings.cost_per_order %>
+          </div>
+          <div class="large-1 columns">
+            <%= settings.countries %>
+          </div>
+          <div class="large-1 columns">
+            <%= settings.enabled %>
+          </div>
+          <div class="large-1 columns">
+            <%= settings.fee %>
+          </div>
+          <div class="large-1 columns">
+            <%= settings.minimum_fee %>
+          </div>
+          <div class="large-1 columns">
+            <%= settings.options %>
+          </div>
+          <div class="large-1 columns">
+            <%= settings.tax_status %>
+          </div>
+          <div class="large-1 columns">
+            <%= settings.title %>
+          </div>
+          <div class="large-1 columns">
+            <%= settings.type %>
+          </div>
         </div>
       </div>
     </div>

@@ -240,7 +240,6 @@ function onGetProductsButtonClick() {
   div.append(button);
 }
 function onGetCategoriesButtonClick() {
-  $('#results').html('');
   var div = $('#arguments');
   div.html('');
   var tmpl = _.template($('#argument_template').html());
@@ -301,7 +300,6 @@ function onGetCategoriesButtonClick() {
   div.append(button);
 }
 function onGetTaxesButtonClick() {
-  $('#results').html('');
   var div = $('#arguments');
   div.html('');
   var tmpl = _.template($('#argument_template').html());
@@ -314,7 +312,6 @@ function onGetTaxesButtonClick() {
   div.append(button);
 }
 function onGetShippingMethodsButtonClick() {
-  $('#results').html('');
   var div = $('#arguments');
   div.html('');
   var tmpl = _.template($('#argument_template').html());
@@ -327,7 +324,6 @@ function onGetShippingMethodsButtonClick() {
   div.append(button);
 }
 function onSetProductsButtonClick() {
-  $('#results').html('');
   var div = $('#arguments');
   div.html('');
   var tmpl = _.template($('#argument_template').html());
