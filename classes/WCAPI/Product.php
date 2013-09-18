@@ -16,7 +16,7 @@ class Product extends Base{
         'meta_table'                => $wpdb->postmeta,
         'model_table_id'             => 'id',
         'meta_table_foreign_key'    => 'post_id',
-        'model_conditions' => "WHERE post_type IN ('product','product_variation') AND post_status != 'trash'",
+        'model_conditions' => "WHERE post_type IN ('product','product_variation') AND post_status NOT IN ('trash','auto-draft')",
         'has_many' => array(
           'order_items' => array('class_name' => 'OrderItem', 'foreign_key' => 'order_id'),
           'categories' => array(

@@ -4,7 +4,7 @@ include "config.php";
 $Header("Reading Customers");
 $data = array(
   'action'      => 'woocommerce_json_api',
-  'proc'        => 'get_customers',
+  'proc'        => 'get_coupons',
   'arguments'   => array(
     'token' => $token,
     'per_page' => 2,
@@ -12,6 +12,6 @@ $data = array(
   )
 );
 $result = curl_post($url,$data);
-verifySuccess("Get Customers",$result);
-verifyNonZeroPayload("Get Customers", $result);
+verifySuccess("Get Coupons",$result);
+verifyNonZeroPayload("Get Coupons", $result);
 

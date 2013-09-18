@@ -17,8 +17,8 @@ class WC_JSON_API_Provider extends JSONAPIHelpers {
       'get_supported_attributes' => array(
           'resources' => array(
             'type' => 'array',
-            'values' => array('Product','Category','Comment','Order','OrderItem','Customer'),
-            'default' => array('Product','Category','Comment','Order','OrderItem','Customer'),
+            'values' => array('Product','Category','Comment','Order','OrderItem','Customer','Coupon'),
+            'default' => array('Product','Category','Comment','Order','OrderItem','Customer','Coupon'),
             'required' => false,
             'sizehint' => 10,
             'description' => __('List what resources you would like additional information on.','woocommerce_json_api'),
@@ -109,6 +109,7 @@ class WC_JSON_API_Provider extends JSONAPIHelpers {
           'description' => __('An array of IDs to use as a filter','woocommerce_json_api'),
         ),
       ),
+      'get_coupons' => null,
       'get_taxes' => null,
       'get_shipping_methods' => null,
       'get_payment_gateways' => null,
@@ -198,9 +199,52 @@ class WC_JSON_API_Provider extends JSONAPIHelpers {
             'description' => __('An array of IDs to use as a filter','woocommerce_json_api'),
           ),
         ),
-      'get_orders' => null,
-      'get_store_settings' => null,
-      'get_site_settings' => null,
+      'get_orders' => array(
+          'page' => array(
+            'type' => 'number',
+            'values' => null,
+            'default' => 1,
+            'required' => false,
+            'sizehint' => 1,
+            'description' => __('What page to show.','woocommerce_json_api'),
+          ),
+          'per_page' => array(
+            'type' => 'number',
+            'values' => null,
+            'default' => 15,
+            'required' => false,
+            'sizehint' => 1,
+            'description' => __('How many results to show','woocommerce_json_api'),
+          ),
+          'ids' => array(
+            'type' => 'array',
+            'values' => null,
+            'default' => null,
+            'required' => false,
+            'sizehint' => 1,
+            'description' => __('An array of IDs to use as a filter','woocommerce_json_api'),
+          ),
+        ),
+      'get_store_settings' => array(
+          'filter' => array(
+            'type' => 'string',
+            'values' => null,
+            'default' => 1,
+            'required' => false,
+            'sizehint' => 4,
+            'description' => __('A name filter to use','woocommerce_json_api'),
+          ),
+        ),
+      'get_site_settings' => array(
+          'filter' => array(
+            'type' => 'string',
+            'values' => null,
+            'default' => 1,
+            'required' => false,
+            'sizehint' => 4,
+            'description' => __('A name filter to use','woocommerce_json_api'),
+          ),
+        ),
       'get_api_methods' => null,
       
       // Write capable methods
@@ -358,7 +402,8 @@ class WC_JSON_API_Provider extends JSONAPIHelpers {
     return $this->done();
   }
   public function get_supported_attributes( $params ) {
-    $models = $this->orEq( $params['arguments'], 'resources', array('Product','Category','Comment','Order','OrderItem','Customer'));
+    $accepted_resources = array('Product','Category','Comment','Order','OrderItem','Customer','Coupon');
+    $models = $this->orEq( $params['arguments'], 'resources', $accepted_resources);
     
     if ( ! is_array($models) ) {
       $this->badArgument('resources','an Array of Strings');
@@ -375,8 +420,10 @@ class WC_JSON_API_Provider extends JSONAPIHelpers {
         $model = new API\OrderItem();
       } else if ( $m == 'Customer' ) {
         $model = new API\Customer();
+      } else if ( $m == 'Coupon' ) {
+        $model = new API\Coupon();
       } else {
-        $this->badArgument($m, "Product,Category,Order,OrderItem,Customer");
+        $this->badArgument($m, join(',', $accepted_resources ) );
         return $this->done();
       }
       $results[$m] = $model->getSupportedAttributes() ;
@@ -667,12 +714,12 @@ class WC_JSON_API_Provider extends JSONAPIHelpers {
       $this->badArgument('per_page',__('must be a number','woocommerce_json_api') );
       return $this->done();
     }
-    if ( $paged > 0 ) {
+    if ( $paged > 1 ) {
       $page = $posts_per_page * $paged - 1;
     } else {
       $page = 0;
     }
-    $sql = "SELECT user_id FROM {$wpdb->usermeta} WHERE meta_key = 'wp_capabilities' AND meta_value LIKE '%customer%'";
+    $sql = "SELECT user_id FROM {$wpdb->usermeta} WHERE meta_key = 'paying_customer' AND meta_value = '1'";
 
     if ( $ids ) {
       if ( ! is_array($ids) ) {
@@ -686,7 +733,6 @@ class WC_JSON_API_Provider extends JSONAPIHelpers {
       }
     }
     $sql .= " LIMIT $page,$posts_per_page";
-
     $customer_ids = $wpdb->get_col($sql);
     $customers = array();
     foreach ( $customer_ids as $id ) {
@@ -702,19 +748,6 @@ class WC_JSON_API_Provider extends JSONAPIHelpers {
     $paged          = $this->orEq( $params['arguments'], 'page', 0 );
     $ids            = $this->orEq( $params['arguments'], 'ids', false);
 
-    if ( ! is_numeric($paged) ) {
-      $this->badArgument('page',__('must be a number','woocommerce_json_api') );
-      return $this->done();
-    }
-    if ( ! is_numeric($posts_per_page) ) {
-      $this->badArgument('per_page',__('must be a number','woocommerce_json_api') );
-      return $this->done();
-    }
-
-    if ( $ids && !is_array($ids) ) {
-       $this->badArgument('ids',__('must be an array of numbers','woocommerce_json_api') );
-        return $this->done();
-    }
     if ( ! $ids ) {
       $orders = array();
       $models = API\Order::all("*")->per($posts_per_page)->page($paged)->fetch();
@@ -873,6 +906,80 @@ class WC_JSON_API_Provider extends JSONAPIHelpers {
   public function get_api_methods( $params ) {
     $m = self::getImplementedMethods();
     $this->result->setPayload($m);
+    return $this->done();
+  }
+  public function get_coupons( $params ) {
+    global $wpdb;
+    $allowed_order_bys = array('ID','post_title','post_date','post_author','post_modified');
+    /**
+    *  Read this section to get familiar with the arguments of this method.
+    */
+    $posts_per_page = $this->orEq( $params['arguments'], 'per_page', 15 ); 
+    $paged          = $this->orEq( $params['arguments'], 'page', 0 );
+    $order_by       = $this->orEq( $params['arguments'], 'order_by', 'ID');
+    $order          = $this->orEq( $params['arguments'], 'order', 'ASC');
+    $ids            = $this->orEq( $params['arguments'], 'ids', false);
+    $parent_ids     = $this->orEq( $params['arguments'], 'parent_ids', false);
+    $skus           = $this->orEq( $params['arguments'], 'skus', false);
+    
+    $by_ids = true;
+    if ( ! $this->inArray($order_by,$allowed_order_bys) ) {
+      $this->result->addError( __('order_by must be one of these:','woocommerce_json_api') . join( $allowed_order_bys, ','), WCAPI_BAD_ARGUMENT );
+      return $this->done();
+      return;
+    }
+    if ( ! $ids && ! $skus ) {
+      $products = API\Coupon::all('*')->per($posts_per_page)->page($paged)->fetch(function ( $result) {
+        $model = new API\Coupon();
+        $model->fromDatabaseResult($result);
+        return $model->asApiArray();
+      });
+      $this->result->setPayload($products);
+
+      return $this->done();
+
+    } else if ( $ids ) {
+    
+      $posts = $ids;
+      
+    } else if ( $skus ) {
+    
+      $coupons = array();
+      foreach ($skus as $sku) {
+        $coupon = API\Coupon::find_by_sku($sku);
+        if ( ! $coupon ) {
+          $this->result->addWarning( $sku . ': ' . __('Coupon does not exist','woocommerce_json_api'), WCAPI_PRODUCT_NOT_EXISTS, array( 'sku' => $sku) );
+        } else {
+          $coupons[] = $coupon;
+        }
+      }
+      $this->result->setPayload($products);
+
+      return $this->done();
+
+    }
+
+    $coupons = array();
+    foreach ( $posts as $post_id) {
+      try {
+        $post = API\Coupon::find($post_id);
+      } catch (Exception $e) {
+        JSONAPIHelpers::error("An exception occurred attempting to instantiate a Coupon object: " . $e->getMessage());
+        $this->result->addError( __("Error occurred instantiating product object",'woocommerce_json_api'),-99);
+        return $this->done();
+      }
+      
+      if ( !$post ) {
+        $this->result->addWarning( $post_id. ': ' . __('Coupon does not exist','woocommerce_json_api'), WCAPI_PRODUCT_NOT_EXISTS, array( 'id' => $post_id) );
+      } else {
+
+        $coupons[] = $post->asApiArray();
+      }
+      
+    }
+    // We manage the array ourselves, so call setPayload, instead of addPayload
+    $this->result->setPayload($coupons);
+
     return $this->done();
   }
 }

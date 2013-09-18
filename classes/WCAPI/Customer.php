@@ -36,6 +36,7 @@ class Customer extends Base {
   public static function getMetaAttributes() {
     $table = array(
       'order_count'               => array('name' => '_order_count',      'type' => 'number'),
+      'paying_customer'           => array('name' => 'paying_customer',   'type' => 'number'),
     );
     /*
       With this filter, plugins can extend this ones handling of meta attributes for a customer,

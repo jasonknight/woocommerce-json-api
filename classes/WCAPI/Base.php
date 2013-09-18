@@ -492,51 +492,63 @@ class Base extends Helpers {
   }
 
   public static function find( $id ) {
-
-    $wpdb = static::$adapter;
-
-    static::setupModelAttributes();
-    static::setupMetaAttributes();
+    include WCAPIDIR."/_globals.php";
+    include WCAPIDIR."/_model_static_attributes.php";
 
     $model = new static();
     $model->setValid( false );
 
-    if ( isset( static::$_model_settings ) ) {
-
-      $model_table             = $model->orEq( static::$_model_settings, 'model_table', $wpdb->posts );  
-      $meta_table              = $model->orEq( static::$_model_settings, 'meta_table', $wpdb->postmeta );
-      $model_table_id          = $model->orEq( static::$_model_settings, 'model_table_id', 'ID' );   
-      $meta_table_foreign_key  = $model->orEq( static::$_model_settings, 'meta_table_foreign_key', 'post_id' );
-      $meta_function           = $model->orEq( static::$_model_settings, 'meta_function', 'get_post_meta' );
-
-    } else {
-
-      $model_table             = $wpdb->posts;  
-      $meta_table             = $wpdb->postmeta;
-      $model_table_id          = 'ID';   
-      $meta_table_foreign_key = 'post_id';
-      $meta_function          = 'get_post_meta';
-
-    }
+    $model_table             = $model->orEq( $self->settings, 'model_table', $wpdb->posts );  
+    $meta_table              = $model->orEq( $self->settings, 'meta_table', $wpdb->postmeta );
+    $model_table_id          = $model->orEq( $self->settings, 'model_table_id', 'ID' );   
+    $meta_table_foreign_key  = $model->orEq( $self->settings, 'meta_table_foreign_key', 'post_id' );
+    $meta_function           = $model->orEq( $self->settings, 'meta_function', 'get_post_meta' );
 
     $record = $wpdb->get_row( $wpdb->prepare("SELECT * FROM {$model_table} WHERE {$model_table_id} = %d", (int) $id), 'ARRAY_A' );
     
     if ( $record ) {
-      $model->setModelId( $id );
+      //$model->setModelId( $id );
+      // foreach ( static::$_model_attributes_table as $name => $desc ) {
+      //   $model->dynamic_set( $name, $desc,$record[ $desc['name'] ] );
+      //   //$model->{$name} = $record[$desc['name']];
+      // }
+      // $model->loadMetaAttributes();
       
-      foreach ( static::$_model_attributes_table as $name => $desc ) {
-        $model->dynamic_set( $name, $desc,$record[ $desc['name'] ] );
-        //$model->{$name} = $record[$desc['name']];
-      }
-      $model->loadMetaAttributes();
-      
-      $model->setValid( true );
-      $model->setNewRecord( false );
+      // $model->setValid( true );
+      // $model->setNewRecord( false );
+      $model->fromDatabaseResult( $record );
     
     } else {
       $model = null;
     }
     return $model;
+  }
+  public function fromDatabaseResult( $record ) {
+    include WCAPIDIR."/_globals.php";
+    include WCAPIDIR."/_model_static_attributes.php";
+    $model = $this;
+    $model_table_id          = $model->orEq( $self->settings, 'model_table_id', 'ID' ); 
+
+    // There is some inconsistencies in the ID,id, user_id, comment_post_ID etc.
+    // and when we select, we get back sometimes different things. I neither know
+    // nor really care why. 
+    if ( isset( $record[ $model_table_id ] ) )
+      $model->setModelId( $record[ $model_table_id ] );
+    else if ( isset( $record[ strtolower($model_table_id) ] ) )
+      $model->setModelId( $record[ strtolower($model_table_id) ] );
+    else if ( isset( $record[ strtoupper($model_table_id) ] ) )
+      $model->setModelId( $record[ strtoupper($model_table_id) ] );
+    else
+      throw new \Exception( __( sprintf('fromDatabaseResult requires that %s be in %s',$model_table_id, var_export($record,true)),'WCAPI' ) ) ;
+      
+    foreach ( static::$_model_attributes_table as $name => $desc ) {
+      $model->dynamic_set( strtolower($name), $desc,$record[ $desc['name'] ] );
+      //$model->{$name} = $record[$desc['name']];
+    }
+    $model->loadMetaAttributes();
+    
+    $model->setValid( true );
+    $model->setNewRecord( false );
   }
   public function fromApiArray( $attrs ) {
     $meta_table = $this->actual_meta_attributes_table;
