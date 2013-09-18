@@ -146,7 +146,9 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
     }
     if ( file_exists( dirname(__FILE__ ) .'/API_VERSIONS/version'.$version.'.php' ) ) {
       require_once( dirname(__FILE__ ) .'/API_VERSIONS/version'.$version.'.php' );
-      $this->provider = new WC_JSON_API_Provider( $this );
+      $klass = "WC_JSON_API_Provider_v{$version}";
+      $klass = str_replace('.','_',$klass);
+      $this->provider = new $klass( $this );
     }
     $this->createNewResult( $params );
 

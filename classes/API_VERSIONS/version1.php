@@ -3,7 +3,7 @@ require_once( plugin_dir_path(__FILE__) . '/../class-rede-helpers.php' );
 require_once( dirname(__FILE__) . '/../WCAPI/includes.php' );
 
 use WCAPI as API;
-class WC_JSON_API_Provider extends JSONAPIHelpers {
+class WC_JSON_API_Provider_v1 extends JSONAPIHelpers {
   public $helpers;
   public $result;
   public $the_user;
@@ -17,8 +17,8 @@ class WC_JSON_API_Provider extends JSONAPIHelpers {
       'get_supported_attributes' => array(
           'resources' => array(
             'type' => 'array',
-            'values' => array('Product','Category','Comment','Order','OrderItem','Customer','Coupon'),
-            'default' => array('Product','Category','Comment','Order','OrderItem','Customer','Coupon'),
+            'values' => array('Product','Category','Comment','Order','OrderItem','Customer','Coupon','Review'),
+            'default' => array('Product','Category','Comment','Order','OrderItem','Customer','Coupon','Review'),
             'required' => false,
             'sizehint' => 10,
             'description' => __('List what resources you would like additional information on.','woocommerce_json_api'),
@@ -402,7 +402,7 @@ class WC_JSON_API_Provider extends JSONAPIHelpers {
     return $this->done();
   }
   public function get_supported_attributes( $params ) {
-    $accepted_resources = array('Product','Category','Comment','Order','OrderItem','Customer','Coupon');
+    $accepted_resources = array('Product','Category','Comment','Order','OrderItem','Customer','Coupon','Review');
     $models = $this->orEq( $params['arguments'], 'resources', $accepted_resources);
     
     if ( ! is_array($models) ) {

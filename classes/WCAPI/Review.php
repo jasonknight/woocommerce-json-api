@@ -33,19 +33,13 @@ class Review extends Base {
   public static function getModelAttributes() {
     $table = array(
       'name'            => array('name' => 'comment_author',        'type' => 'string'),
-      'date'            => array('name' => 'comment_date_gmt',      'type' => 'string'),
+      'date'            => array('name' => 'comment_date_gmt',      'type' => 'datetime'),
       'email'           => array('name' => 'comment_author_email',  'type' => 'string'),
       'body'            => array('name' => 'comment_content',       'type' => 'text'),
       'approved'        => array('name' => 'comment_approved',      'type' => 'number'),
       'object_id'       => array('name' => 'comment_post_ID',       'type' => 'number'),
       'parent_id'       => array('name' => 'comment_parent',        'type' => 'number'),
       'user_id'         => array('name' => 'user_id',               'type' => 'number'),
-      'type'            => array('name' => 'comment_type',
-                                 'type' => 'string',
-                                 'values' => array(
-                                                    'order_note',
-                                              ) 
-                          ),
     );
     $table = apply_filters( 'WCAPI_comment_model_attributes_table', $table );
     return $table;
@@ -53,7 +47,7 @@ class Review extends Base {
 
   public static function getMetaAttributes() {
     $table = array(
-      'review' => array(
+      'rating' => array(
         'name' => 'rating',
         'type' => 'number',
         'default' => 0,
