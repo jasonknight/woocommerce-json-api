@@ -10,7 +10,6 @@ $data = array(
   )
 );
 $result = curl_post($url,$data);
-echo $result;
 verifySuccess("Get Categories", $result);
 
 $data = array(
