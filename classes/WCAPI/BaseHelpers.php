@@ -72,6 +72,9 @@ class Helpers {
     
   }
   public function __construct() {
+    $this->init(); 
+  }
+  public function init() {
     // README
     // I wrote this file so that I could explore
     // the WP API a bit more and get an idea
@@ -99,7 +102,6 @@ class Helpers {
     } else {
       $this->wp_theme_root .= '/';
     }
-    
   }
   // README
   // This function finds where a template is located in the system
@@ -196,6 +198,15 @@ class Helpers {
       }
     }
     return $obj;
+  }
+  public static function getOrderStatuses() {
+    $results = array();
+    $statuses = (array) get_terms( 'shop_order_status', array( 'hide_empty' => 0, 'orderby' => 'id' ) );
+    foreach ( $statuses as $status ) {
+      //echo '<option value="' . esc_attr( $status->slug ) . '" ' . selected( $status->slug, $order_status, false ) . '>' . esc_html__( $status->name, 'woocommerce' ) . '</option>';
+      $results[] = $status->slug;
+    }
+    return $results;
   }
   /***************************************************************************/
   /*                    Checkers, validators                                 */

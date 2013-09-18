@@ -9425,3 +9425,1218 @@ validator class name to load is JSONAPI_Ids_Argument_Validator
 path to validator should be validators/class-ids-argument-validator.php
 /var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-ids-argument-validator.php didn't exist
 [Warn] Arguments did not pass validation
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '100',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '35305',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379493417.792',
+  'Request-Time' => '1379493417',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_products',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'ids' => 
+    array (
+      0 => '29',
+    ),
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_Ids_Argument_Validator
+path to validator should be validators/class-ids-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-ids-argument-validator.php didn't exist
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '100',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '35309',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379493419.122',
+  'Request-Time' => '1379493419',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_products',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'ids' => '1,2,3',
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_Ids_Argument_Validator
+path to validator should be validators/class-ids-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-ids-argument-validator.php didn't exist
+[Warn] Arguments did not pass validation
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '158',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '35310',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379493419.332',
+  'Request-Time' => '1379493419',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_products',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'ids' => 
+    array (
+      0 => '1',
+      1 => '2',
+      2 => 'Bill',
+    ),
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_Ids_Argument_Validator
+path to validator should be validators/class-ids-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-ids-argument-validator.php didn't exist
+[Warn] Arguments did not pass validation
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '118',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '35313',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379493449.105',
+  'Request-Time' => '1379493449',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_orders',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '10',
+    'page' => '1',
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '118',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '35314',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379493472.88',
+  'Request-Time' => '1379493472',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_orders',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '10',
+    'page' => '1',
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '118',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '35315',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379493523.7',
+  'Request-Time' => '1379493523',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_orders',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '10',
+    'page' => '1',
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+in function fetch: WPDB returned 3 results using SELECT * FROM wp_posts WHERE post_type IN ('shop_order') AND post_status != 'trash' LIMIT 0,10
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '118',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '35316',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379493598.518',
+  'Request-Time' => '1379493598',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_orders',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '10',
+    'page' => '1',
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+in function fetch: WPDB returned 3 results using SELECT * FROM wp_posts WHERE post_type IN ('shop_order') AND post_status != 'trash' LIMIT 0,10
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '118',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '35359',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379495237.93',
+  'Request-Time' => '1379495237',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_orders',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '10',
+    'page' => '1',
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+in function fetch: WPDB returned 3 results using SELECT * FROM wp_posts WHERE post_type IN ('shop_order') AND post_status != 'trash' LIMIT 0,10
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '118',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '35361',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379495286.647',
+  'Request-Time' => '1379495286',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_orders',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '10',
+    'page' => '1',
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+in function fetch: WPDB returned 3 results using SELECT * FROM wp_posts WHERE post_type IN ('shop_order') AND post_status != 'trash' LIMIT 0,10
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '118',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '35362',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379495314.429',
+  'Request-Time' => '1379495314',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_orders',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '10',
+    'page' => '1',
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+in function fetch: WPDB returned 3 results using SELECT * FROM wp_posts WHERE post_type IN ('shop_order') AND post_status != 'trash' LIMIT 0,10
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '118',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '35365',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379495370.414',
+  'Request-Time' => '1379495370',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_orders',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '10',
+    'page' => '1',
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+in function fetch: WPDB returned 3 results using SELECT * FROM wp_posts WHERE post_type IN ('shop_order') AND post_status != 'trash' LIMIT 0,10
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '146',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '35371',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379495467.244',
+  'Request-Time' => '1379495467',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_orders',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '2',
+    'page' => '1',
+    'ids' => 
+    array (
+      0 => '35',
+    ),
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Ids_Argument_Validator
+path to validator should be validators/class-ids-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-ids-argument-validator.php didn't exist
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '146',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '35372',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379495501.059',
+  'Request-Time' => '1379495501',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_orders',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '2',
+    'page' => '1',
+    'ids' => 
+    array (
+      0 => '35',
+    ),
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Ids_Argument_Validator
+path to validator should be validators/class-ids-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-ids-argument-validator.php didn't exist
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '146',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '35375',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379495608.55',
+  'Request-Time' => '1379495608',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_orders',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '2',
+    'page' => '1',
+    'ids' => 
+    array (
+      0 => '35',
+    ),
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Ids_Argument_Validator
+path to validator should be validators/class-ids-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-ids-argument-validator.php didn't exist
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '146',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '35376',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379495672.986',
+  'Request-Time' => '1379495672',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_orders',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '2',
+    'page' => '1',
+    'ids' => 
+    array (
+      0 => '35',
+    ),
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Ids_Argument_Validator
+path to validator should be validators/class-ids-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-ids-argument-validator.php didn't exist
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '146',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '35377',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379495709.475',
+  'Request-Time' => '1379495709',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_orders',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '2',
+    'page' => '1',
+    'ids' => 
+    array (
+      0 => '35',
+    ),
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Ids_Argument_Validator
+path to validator should be validators/class-ids-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-ids-argument-validator.php didn't exist
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '146',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '35378',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379495731.7',
+  'Request-Time' => '1379495731',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_orders',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '2',
+    'page' => '1',
+    'ids' => 
+    array (
+      0 => '35',
+    ),
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Ids_Argument_Validator
+path to validator should be validators/class-ids-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-ids-argument-validator.php didn't exist
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '146',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '35379',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379495758.036',
+  'Request-Time' => '1379495758',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_orders',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '2',
+    'page' => '1',
+    'ids' => 
+    array (
+      0 => '35',
+    ),
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Ids_Argument_Validator
+path to validator should be validators/class-ids-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-ids-argument-validator.php didn't exist
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '146',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '35380',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379495787.229',
+  'Request-Time' => '1379495787',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_orders',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '2',
+    'page' => '1',
+    'ids' => 
+    array (
+      0 => '35',
+    ),
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Ids_Argument_Validator
+path to validator should be validators/class-ids-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-ids-argument-validator.php didn't exist
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '146',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '35383',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379495890.033',
+  'Request-Time' => '1379495890',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_orders',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '2',
+    'page' => '1',
+    'ids' => 
+    array (
+      0 => '35',
+    ),
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Ids_Argument_Validator
+path to validator should be validators/class-ids-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-ids-argument-validator.php didn't exist
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '146',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '35384',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379495941.57',
+  'Request-Time' => '1379495941',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_orders',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '2',
+    'page' => '1',
+    'ids' => 
+    array (
+      0 => '35',
+    ),
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Ids_Argument_Validator
+path to validator should be validators/class-ids-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-ids-argument-validator.php didn't exist
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '146',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '35385',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379495995.477',
+  'Request-Time' => '1379495995',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_orders',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '2',
+    'page' => '1',
+    'ids' => 
+    array (
+      0 => '35',
+    ),
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Ids_Argument_Validator
+path to validator should be validators/class-ids-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-ids-argument-validator.php didn't exist
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '146',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '35388',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379496013.214',
+  'Request-Time' => '1379496013',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_orders',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '2',
+    'page' => '1',
+    'ids' => 
+    array (
+      0 => '35',
+    ),
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Ids_Argument_Validator
+path to validator should be validators/class-ids-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-ids-argument-validator.php didn't exist

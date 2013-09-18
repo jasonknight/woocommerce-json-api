@@ -45,6 +45,7 @@ class Base extends Helpers {
   * ( new Object() )->setup()->doCalculation()->update()->done();
   */
   public function __construct() {
+    parent::init();
     static::setupMetaAttributes();
     static::setupModelAttributes();
     $this->actual_model_attributes_table = static::$_model_attributes_table;
@@ -319,12 +320,14 @@ class Base extends Helpers {
     $model_table = $this->actual_model_attributes_table;
     $hm = $this->actual_model_settings['has_many'];
     $models = array();
+    //echo "Loading $name\n";
     if ( isset( $hm[$name] ) ) {
 
       $klass = 'WCAPI\\' . $hm[$name]['class_name'];
       $fkey = $this->orEq($hm[$name],'foreign_key', false);
       $s = $klass::getModelSettings();
       if ( isset( $hm[$name]['sql'] ) ) {
+        //echo $sql . "\n";
         $sql = $wpdb->prepare($hm[$name]['sql'], $this->_actual_model_id);
       } else {
         $sql = $wpdb->prepare("SELECT {$s['model_table_id']} FROM {$s['model_table']} WHERE {$fkey} = %d",$this->_actual_model_id);

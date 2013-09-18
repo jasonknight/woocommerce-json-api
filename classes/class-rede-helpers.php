@@ -62,8 +62,7 @@ class JSONAPIHelpers {
     
   }
   public function __construct() {
-    $this->init();
-    
+    $this->init(); 
   }
   public function init() {
     // README
@@ -186,6 +185,15 @@ class JSONAPIHelpers {
   */
   public function getPluginTextDomain() {
     return $this->getPluginName();
+  }
+  public static function getOrderStatuses() {
+    $results = array();
+    $statuses = (array) get_terms( 'shop_order_status', array( 'hide_empty' => 0, 'orderby' => 'id' ) );
+    foreach ( $statuses as $status ) {
+      //echo '<option value="' . esc_attr( $status->slug ) . '" ' . selected( $status->slug, $order_status, false ) . '>' . esc_html__( $status->name, 'woocommerce' ) . '</option>';
+      $results[] = $status->slug;
+    }
+    return $results;
   }
   /***************************************************************************/
   /*                    Checkers, validators                                 */
