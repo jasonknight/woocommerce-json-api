@@ -76,9 +76,11 @@ function displayProducts( data ) {
   var products = data.payload;
   $('#results').html('');
   var tmpl = _.template( $('#product_row_template').html() );
+  var tmpl_header = _.template($('#product_row_header_template').html());
+  $('#results').append(tmpl_header());
   for ( var i = 0; i < products.length; i++ ) {
     var product = products[i];
-    $('#results').append( tmpl( product ) );
+//     $('#results').append( tmpl( product ) );
   }
 }
 function displayCategories( data ) {
@@ -86,9 +88,23 @@ function displayCategories( data ) {
   var cats = data.payload;
   $('#results').html('');
   var tmpl = _.template( $('#category_row_template').html() );
+  var tmpl_header = _.template($('#category_row_header_template').html());
+  $('#results').append(tmpl_header());
   for ( var i = 0; i < cats.length; i++ ) {
     var cat = cats[i];
     $('#results').append( tmpl( cat ) );
+  }
+}
+function displayTaxes( data ) {
+  console.log("Called");
+  var taxes = data.payload;
+  $('#results').html('');
+  var tmpl = _.template( $('#tax_row_template').html() );
+  var tmpl_header = _.template($('#tax_row_header_template').html());
+  $('#results').append(tmpl_header());
+  for ( var i = 0; i < taxes.length; i++ ) {
+    var tax = taxes[i];
+    $('#results').append( tmpl( tax ) );
   }
 }
 var $supported_attributes;
@@ -111,6 +127,10 @@ function onGetRequestComplete( data, status, xhr ) {
       break;
     case 'get_supported_attributes':
       $supported_attributes = data.payload;
+      break;
+    case 'get_taxes':
+      $taxes = data.payload;
+      displayTaxes( data );
       break;
   }
   displayDebug(data);
@@ -151,7 +171,7 @@ function onGetProductsButtonClick() {
     if (desc.values) {
       // is an array
       args.push({
-        columns: 10,
+        columns: desc.sizehint + 2,
         id: field,
         label: field.titleize(),
         placeholder: desc.default,
@@ -160,7 +180,7 @@ function onGetProductsButtonClick() {
       });
     } else {
       args.push({
-        columns: 10,
+        columns: desc.sizehint + 2,
         id: field,
         label: field.titleize(),
         placeholder: desc.default,
@@ -211,7 +231,7 @@ function onGetCategoriesButtonClick() {
     if (desc.values) {
       // is an array
       args.push({
-        columns: 10,
+        columns: desc.sizehint + 2,
         id: field,
         label: field.titleize(),
         placeholder: desc.default,
@@ -220,7 +240,7 @@ function onGetCategoriesButtonClick() {
       });
     } else {
       args.push({
-        columns: 10,
+        columns: desc.sizehint + 2,
         id: field,
         label: field.titleize(),
         placeholder: desc.default,
@@ -256,6 +276,18 @@ function onGetCategoriesButtonClick() {
       }
       request.arguments[arg.id] = val;
     }
+    getRequest( request );
+  });
+  div.append("<hr />")
+  div.append(button);
+}
+function onGetTaxesButtonClick() {
+  var div = $('#arguments');
+  div.html('');
+  var tmpl = _.template($('#argument_template').html());
+  var button = $('<div class="small button">Load Taxes</div>');
+  button.on('click', function () {
+    var request = prepareRequest('get_taxes');
     getRequest( request );
   });
   div.append("<hr />")

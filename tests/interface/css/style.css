@@ -5,3 +5,12 @@ div.object-row div {
 div.object-row div.product-sku {
   font-weight: bolder;
 }
+
+div.header-row {
+  text-transform: uppercase;
+  font-weight: bolder;
+}
+
+div.columns {
+  border: 1px solid black;
+}

@@ -198,6 +198,27 @@
       </select>
     </div>
   </script>
+  <script type="text/template" id="product_row_header_template">
+    <div class="panel">
+      <div class="row header-row">
+        <div class="large-1 columns product-id">
+          id
+        </div>
+        <div class="large-3 columns product-name">
+          name
+        </div>
+        <div class="large-4 columns product-sku">
+          sku
+        </div>
+        <div class="large-2 columns product-price">
+          price
+        </div>
+        <div class="large-2 columns product-publishing">
+          publishing
+        </div>
+      </div>
+    </div>
+  </script>
   <script type="text/template" id="product_row_template">
     <div class="panel">
       <div class="row object-row">
@@ -219,10 +240,31 @@
       </div>
     </div>
   </script>
+  <script type="text/template" id="category_row_header_template">
+    <div class="panel">
+      <div class="row header-row">
+        <div class="large-1 columns">
+          id
+        </div>
+        <div class="large-3 columns">
+          name
+        </div>
+        <div class="large-4 columns">
+          description
+        </div>
+        <div class="large-2 columns">
+          slug
+        </div>
+      </div>
+    </div>
+  </script>
   <script type="text/template" id="category_row_template">
     <div class="panel">
       <div class="row object-row">
-        <div class="large-4 columns">
+        <div class="large-1 columns">
+          <%= id %>
+        </div>
+        <div class="large-3 columns">
           <%= name %>
         </div>
         <div class="large-4 columns">
@@ -231,6 +273,67 @@
         <div class="large-2 columns">
           <%= slug %>
         </div>
+      </div>
+    </div>
+  </script>
+  <script type="text/template" id="tax_row_header_template">
+    <div class="panel">
+      <div class="row header-row">
+        <div class="large-3 columns">
+          name
+        </div>
+        <div class="large-4 columns">
+          rates
+        </div>
+      </div>
+    </div>
+  </script>
+  <script type="text/template" id="tax_row_template">
+    <div class="panel">
+      <div class="row object-row">
+        <div class="large-12 columns">
+          <%= name %>
+        </div>
+          <% _.each(rates, function(rate) { 
+            if ( ! rate )
+              return false;
+            
+          %>
+
+              <div class="row object-row">
+                <div class="large-2 columns">
+                  <%= rate.id %>
+                </div>
+                <div class="large-1 columns">
+                  <%= rate.name %>
+                </div>
+                <div class="large-1 columns">
+                  <%= rate.class %>
+                </div>
+                <div class="large-1 columns">
+                  <%= rate.compound %>
+                </div>
+                <div class="large-1 columns">
+                  <%= rate.country %>
+                </div>
+                <div class="large-1 columns">
+                  <%= rate.order %>
+                </div>
+                <div class="large-1 columns">
+                  <%= rate.priority %>
+                </div>
+                <div class="large-1 columns">
+                  <%= rate.shipping %>
+                </div>
+                <div class="large-1 columns">
+                  <%= rate.state %>
+                </div>
+                <div class="large-1 columns">
+                  <%= rate.tax_rate %>
+                </div>
+              </div>
+              
+          <% } ) %> 
       </div>
     </div>
   </script>
