@@ -63,6 +63,13 @@ class Product extends Base{
                 );
               }
           ),
+          'reviews' => array(
+              'class_name' => 'Review', 
+              'foreign_key' => 'comment_post_ID', 
+              'conditions' => array(
+                "comment_approved != 'trash'"
+              ),
+          ),
         ),
       ) 
     );
@@ -235,6 +242,7 @@ class Product extends Base{
     $attributes_to_send = parent::asApiArray();
     $attributes_to_send['categories'] = $this->categories;
     $attributes_to_send['tags'] = $this->tags;//wp_get_post_terms($this->_actual_model_id,'product_tag');
+    $attributes_to_send['reviews'] = $this->reviews;
     $feat_image = wp_get_attachment_url( get_post_thumbnail_id( $this->_actual_model_id) );
     $attributes_to_send['featured_image'] = $feat_image;
     return $attributes_to_send;
