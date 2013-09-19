@@ -20,5 +20,5 @@ div.header-row {
 }
 
 div.row {
-  max-width: none !important;
+  max-width: none;
 }

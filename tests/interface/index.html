@@ -1,13 +1,10 @@
 <!DOCTYPE html>
-<!--[if IE 8]> 				 <html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 
 <head>
-	<meta charset="utf-8">
+  <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
   <title>WooCommercer JSON API</title>
 
-  
   <link rel="stylesheet" href="/wp-content/plugins/woocommerce-json-api/tests/interface/css/foundation.css">
   <link rel="stylesheet" href="/wp-content/plugins/woocommerce-json-api/tests/interface/css/style.css">
   <script src="/wp-content/plugins/woocommerce-json-api/tests/interface/js/vendor/custom.modernizr.js"></script>
@@ -15,103 +12,87 @@
 </head>
 <body>
 
-	<div class="row">
-		<div class="large-12 columns">
-			<h2>Welcome to the WooCommerce JSON API</h2>
-			<hr />
-		</div>
-	</div>
+<div class="row">
+  <div class="small-22 columns">
+    <div class="row">
+      <div class="small-22 columns">
+        <h2>Welcome to the WooCommerce JSON API</h2>
+        <hr />
+      </div>
+    </div>
 
-	<div class="row">
-		<div class="large-12 columns">
-
-			<div class="row">
-				<div class="large-12 columns">
-					<div class="panel">
-            <h3>Settings</h3>
-						<div id="settings">
-                <div class="row">
-
-                  <div class="large-9 columns">
-                    <label>API URL</label>
-                    <input type="text" id="url" placeholder="http://localhost" />
-                  </div>
-
-                  <div class="large-3 columns">
-                    <label>API Token</label>
-                    <input type="text" id="token" placeholder="1234" />
-                  </div>
-
-                  <div class="large-12 columns">
-                    <h5>Or, Authenticate with user and password</h5>
-                    <hr />
-                  </div>
-
-                  <div class="large-3 columns">
-                    <label>Username</label>
-                    <input type="text" id="username" placeholder="admin" />
-                  </div>
-
-                  <div class="large-3 columns">
-                    <label>Password</label>
-                    <input type="text" id="password" placeholder="nimda" />
-                  </div>
-
-                  <div class="large-6 columns">
-                  &nbsp;
-                  </div>
-
-                </div>      
-            </div>
-            <hr />
-            <div id="load_methods_button" class="small button">Load Methods</div>
-					</div>
-				</div>
-			</div>
-
-			<div class="row">
-				<div class="large-4 columns">
-					<div class="panel">
-						<h4>Methods</h4>
-            <div id="methods"></div>
-					</div>
-				</div>
-
-				<div class="large-8 columns">
-					<div class="panel">
+    <div class="row">
+      <div class="small-22 columns">
+        <div class="panel">
+          <div id="settings">
             <div class="row">
-              <div id="arguments" class="large-12 columns"></div>
+              <div class="small-10 columns">
+                <h5>Settings</h5>
+                <label>API URL</label>
+                <input type="text" id="url" placeholder="http://localhost" />
+                <br />
+                <label>API Token</label>
+                <input type="text" id="token" placeholder="1234" />
+              </div>
+              <div class="small-10 columns">
+                <h5>Or, Authenticate with user and password</h5>
+                <label>Username</label>
+                <input type="text" id="username" placeholder="admin" />
+                <br />
+                <label>Password</label>
+                <input type="text" id="password" placeholder="nimda" />
+              </div>
             </div>
-						<h4>Response</h4>
-            <div id="results"></div>
-					</div>
-				</div>
-			</div>
-
-			<div class="row">
-				<div class="large-4 columns">
-          <div class="panel">
-            <h4>Debug Request</h4>
-            <div id="request_debug"></div>
           </div>
+          <hr />
+          <div id="load_methods_button" class="small button">Load Methods</div>
         </div>
-				<div class="large-8 columns">
-					<div class="panel">
-						<h4>Debug Payload</h4>
-            <div id="payload_debug"></div>
-					</div>
-				</div>
-			</div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="small-5 columns">
+        <div class="panel">
+          <h4>Methods</h4>
+          <div id="methods"></div>
+        </div>
+      </div>
+
+      <div class="small-17 columns">
+        <div class="panel">
+          <div id="arguments"></div>
+          <h4>Response</h4>
+          <div id="results"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="small-10 columns">
+        <div class="panel">
+          <h4>Debug Request</h4>
+          <div id="request_debug"></div>
+        </div>
+      </div>
+      <div class="small-12 columns">
+        <div class="panel">
+          <h4>Debug Payload</h4>
+          <div id="payload_debug"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 			<!-- <h3>Buttons</h3>
 
       <div class="row">
-        <div class="large-6 columns">
+        <div class="small-6 columns">
           <p><a href="#" class="small button">Small Button</a></p>
           <p><a href="#" class="button">Medium Button</a></p>
           <p><a href="#" class="large button">Large Button</a></p>
         </div>
-        <div class="large-6 columns">
+        <div class="small-6 columns">
           <p><a href="#" class="small alert button">Small Alert Button</a></p>
           <p><a href="#" class="success button">Medium Success Button</a></p>
           <p><a href="#" class="large secondary button">Large Secondary Button</a></p>
@@ -119,7 +100,7 @@
       </div>
 		</div> -->
 
-		<!-- <div class="large-4 columns">
+		<!-- <div class="small-4 columns">
 			<h4>Getting Started</h4>
 			<p>We're stoked you want to try Foundation! To get going, this file (index.html) includes some basic styles you can modify, play around with, or totally destroy to get going.</p>
 
@@ -133,12 +114,9 @@
 		</div>
 	</div> -->
 
-  <script>
-  document.write('<script src=' +
-  ('__proto__' in {} ? '/wp-content/plugins/woocommerce-json-api/tests/interface/js/vendor/zepto' : 'js/vendor/jquery') +
-  '.js><\/script>')
-  </script>
-  
+
+  <script src="/wp-content/plugins/woocommerce-json-api/tests/interface/js/vendor/jquery.js"></script>
+  <script src="/wp-content/plugins/woocommerce-json-api/tests/interface/js/vendor/jquery-ui.min.js"></script>
   <script src="/wp-content/plugins/woocommerce-json-api/tests/interface/js/foundation.min.js"></script>
   
   <script src="/wp-content/plugins/woocommerce-json-api/tests/interface/js/foundation/foundation.js"></script>
@@ -178,42 +156,49 @@
   <script>
     $(document).foundation();
   </script>
+  
   <script type="text/template" id="argument_template">
-    <div class="large-<%= columns %> columns">
+    <div class="small-<%= columns %> columns">
       <label><%= label %></label>
       <input type="text" id="<%= id %>" placeholder="<%= placeholder %>" />
     </div>
   </script>
   <script type="text/template" id="argument_template_text">
-    <div class="large-<%= columns %> columns">
+    <div class="small-<%= columns %> columns">
       <label><%= label %></label>
       <textarea id="<%= id %>" placeholder="<%= placeholder %>" rows="5"></textarea>
     </div>
   </script>
   <script type="text/template" id="argument_template_select">
-    <div class="large-<%= columns %> columns">
+    <div class="small-<%= columns %> columns">
       <label><%= label %></label>
       <select id="<%= id %>">
       <% _.each(options, function(opt) { if (opt == placeholder) { %> <option selected><%= opt %></option> <% } else { %> <option><%= opt %></option> <% } }); %>
       </select>
     </div>
   </script>
+  
+  <script type="text/template" id="argument_template_select">
+  
+  </script>
+  
+  
   <script type="text/template" id="product_row_header_template">
     <div class="panel">
       <div class="row header-row">
-        <div class="large-1 columns product-id">
+        <div class="small-1 columns product-id">
           id
         </div>
-        <div class="large-3 columns product-name">
+        <div class="small-3 columns product-name">
           name
         </div>
-        <div class="large-4 columns product-sku">
+        <div class="small-4 columns product-sku">
           sku
         </div>
-        <div class="large-2 columns product-price">
+        <div class="small-2 columns product-price">
           price
         </div>
-        <div class="large-2 columns product-publishing">
+        <div class="small-2 columns product-publishing">
           publishing
         </div>
       </div>
@@ -222,19 +207,19 @@
   <script type="text/template" id="product_row_template">
     <div class="panel">
       <div class="row object-row">
-        <div class="large-1 columns product-id">
+        <div class="small-1 columns product-id">
           <%= id %>
         </div>
-        <div class="large-3 columns product-name">
+        <div class="small-3 columns product-name">
           <%= name %>
         </div>
-        <div class="large-4 columns product-sku">
+        <div class="small-4 columns product-sku">
           <%= sku %>
         </div>
-        <div class="large-2 columns product-price">
+        <div class="small-2 columns product-price">
           <%= price %>
         </div>
-        <div class="large-2 columns product-publishing">
+        <div class="small-2 columns product-publishing">
           <%= publishing %>
         </div>
       </div>
@@ -243,16 +228,16 @@
   <script type="text/template" id="category_row_header_template">
     <div class="panel">
       <div class="row header-row">
-        <div class="large-1 columns">
+        <div class="small-1 columns">
           id
         </div>
-        <div class="large-3 columns">
+        <div class="small-3 columns">
           name
         </div>
-        <div class="large-4 columns">
+        <div class="small-4 columns">
           description
         </div>
-        <div class="large-2 columns">
+        <div class="small-2 columns">
           slug
         </div>
       </div>
@@ -261,16 +246,16 @@
   <script type="text/template" id="category_row_template">
     <div class="panel">
       <div class="row object-row">
-        <div class="large-1 columns">
+        <div class="small-1 columns">
           <%= id %>
         </div>
-        <div class="large-3 columns">
+        <div class="small-3 columns">
           <%= name %>
         </div>
-        <div class="large-4 columns">
+        <div class="small-4 columns">
           <%= description %>
         </div>
-        <div class="large-2 columns">
+        <div class="small-2 columns">
           <%= slug %>
         </div>
       </div>
@@ -279,11 +264,8 @@
   <script type="text/template" id="tax_row_header_template">
     <div class="panel">
       <div class="row header-row">
-        <div class="large-3 columns">
+        <div class="small-3 columns">
           name
-        </div>
-        <div class="large-4 columns">
-          rates
         </div>
       </div>
     </div>
@@ -291,50 +273,295 @@
   <script type="text/template" id="tax_row_template">
     <div class="panel">
       <div class="row object-row">
-        <div class="large-12 columns">
+        <div class="small-22 columns">
           <%= name %>
         </div>
-          <% _.each(rates, function(rate) { 
-            if ( ! rate )
-              return false;
-            
-          %>
-
-              <div class="row object-row">
-                <div class="large-2 columns">
-                  <%= rate.id %>
-                </div>
-                <div class="large-1 columns">
-                  <%= rate.name %>
-                </div>
-                <div class="large-1 columns">
-                  <%= rate.class %>
-                </div>
-                <div class="large-1 columns">
-                  <%= rate.compound %>
-                </div>
-                <div class="large-1 columns">
-                  <%= rate.country %>
-                </div>
-                <div class="large-1 columns">
-                  <%= rate.order %>
-                </div>
-                <div class="large-1 columns">
-                  <%= rate.priority %>
-                </div>
-                <div class="large-1 columns">
-                  <%= rate.shipping %>
-                </div>
-                <div class="large-1 columns">
-                  <%= rate.state %>
-                </div>
-                <div class="large-1 columns">
-                  <%= rate.tax_rate %>
-                </div>
-              </div>
-              
-          <% } ) %> 
+        <div class="row header-row">
+          <div class="small-1 columns">
+            id
+          </div>
+          <div class="small-2 columns">
+            name
+          </div>
+          <div class="small-1 columns">
+            class
+          </div>
+          <div class="small-1 columns">
+            compound
+          </div>
+          <div class="small-1 columns">
+            country
+          </div>
+          <div class="small-1 columns">
+            order
+          </div>
+          <div class="small-1 columns">
+            priority
+          </div>
+          <div class="small-1 columns">
+            shipping
+          </div>
+          <div class="small-1 columns">
+            state
+          </div>
+          <div class="small-2 columns">
+            tax_rate
+          </div>
+        </div>
+        <% _.each(rates, function(rate) { 
+          if ( ! rate )
+            return false;
+        %>
+          <div class="row object-row">
+            <div class="small-1 columns">
+              <%= rate.id %>
+            </div>
+            <div class="small-2 columns">
+              <%= rate.name %>
+            </div>
+            <div class="small-1 columns">
+              <%= rate.class %>
+            </div>
+            <div class="small-1 columns">
+              <%= rate.compound %>
+            </div>
+            <div class="small-1 columns">
+              <%= rate.country %>
+            </div>
+            <div class="small-1 columns">
+              <%= rate.order %>
+            </div>
+            <div class="small-1 columns">
+              <%= rate.priority %>
+            </div>
+            <div class="small-1 columns">
+              <%= rate.shipping %>
+            </div>
+            <div class="small-1 columns">
+              <%= rate.state %>
+            </div>
+            <div class="small-2 columns">
+              <%= rate.tax_rate %>
+            </div>
+          </div>
+        <% } ) %> 
       </div>
+    </div>
+  </script>
+  <script type="text/template" id="shipping_method_row_header_template">
+    <div class="panel">
+      <div class="row header-row">
+        <div class="small-3 columns">
+          display_name
+        </div>
+        <div class="small-2 columns">
+          enabled
+        </div>
+        <div class="small-2 columns">
+          id
+        </div>
+        <div class="small-2 columns">
+          name
+        </div>
+        <div class="small-3 columns">
+          plugin_id
+        </div>
+      </div>
+    </div>
+  </script>
+  <script type="text/template" id="shipping_method_row_template">
+    <div class="panel">
+      <div class="row object-row">
+        <div class="small-3 columns">
+          <%= display_name %>
+        </div>
+        <div class="small-2 columns">
+          <%= enabled %>
+        </div>
+        <div class="small-2 columns">
+          <%= id %>
+        </div>
+        <div class="small-2 columns">
+          <%= name %>
+        </div>
+        <div class="small-3 columns">
+          <%= plugin_id %>
+        </div>
+      </div>
+        
+      <div class="row header-row">
+        <div class="small-1 columns">
+          additional_costs
+        </div>
+        <div class="small-1 columns">
+          additional_costs_table
+        </div>
+        <div class="small-1 columns">
+          availability
+        </div>
+        <div class="small-1 columns">
+          cost
+        </div>
+        <div class="small-1 columns">
+          cost_per_order
+        </div>
+        <div class="small-1 columns">
+          countries
+        </div>
+        <div class="small-1 columns">
+          enabled
+        </div>
+        <div class="small-1 columns">
+          fee
+        </div>
+        <div class="small-1 columns">
+          minimum_fee
+        </div>
+        <div class="small-1 columns">
+          options
+        </div>
+        <div class="small-1 columns">
+          tax_status
+        </div>
+        <div class="small-1 columns">
+          title
+        </div>
+        <div class="small-1 columns">
+          type
+        </div>
+      </div>
+
+      <div class="row object-row">
+        <div class="small-1 columns">
+          <%= settings.additional_costs %>
+        </div>
+        <div class="small-1 columns">
+          <%= settings.additional_costs_table %>
+        </div>
+        <div class="small-1 columns">
+          <%= settings.availability %>
+        </div>
+        <div class="small-1 columns">
+          <%= settings.cost %>
+        </div>
+        <div class="small-1 columns">
+          <%= settings.cost_per_order %>
+        </div>
+        <div class="small-1 columns">
+          <%= settings.countries %>
+        </div>
+        <div class="small-1 columns">
+          <%= settings.enabled %>
+        </div>
+        <div class="small-1 columns">
+          <%= settings.fee %>
+        </div>
+        <div class="small-1 columns">
+          <%= settings.minimum_fee %>
+        </div>
+        <div class="small-1 columns">
+          <%= settings.options %>
+        </div>
+        <div class="small-1 columns">
+          <%= settings.tax_status %>
+        </div>
+        <div class="small-1 columns">
+          <%= settings.title %>
+        </div>
+        <div class="small-1 columns">
+          <%= settings.type %>
+        </div>
+      </div>
+    </div>
+  </script>
+  
+  <script type="text/template" id="coupon_row_header_template">
+    <div class="panel">
+      <div class="row header-row">
+        <div class="small-3 columns">
+          categories
+        </div>
+        <div class="small-3 columns">
+          code
+        </div>
+        <div class="small-3 columns">
+          customer_email
+        </div>
+        <div class="small-3 columns">
+          discount_type
+        </div>
+        <div class="small-3 columns">
+          exclude_product_category_ids
+        </div>
+        <div class="small-3 columns">
+          exclude_product_ids
+        </div>
+        <div class="small-3 columns">
+          expiry_date
+        </div>
+      </div>
+      <div class="row header-row">
+        <div class="small-3 columns">
+          featured_image
+        </div>
+        <div class="small-3 columns">
+          id
+        </div>
+        <div class="small-3 columns">
+          is_before_tax
+        </div>
+        <div class="small-3 columns">
+          is_exclusive
+        </div>
+        <div class="small-3 columns">
+          is_shipping_free
+        </div>
+        <div class="small-3 columns">
+          limit
+        </div>
+        <div class="small-3 columns">
+          minimum_total
+        </div>
+      </div>
+      <div class="row header-row">
+        <div class="small-3 columns">
+          product_category_ids
+        </div>
+        <div class="small-3 columns">
+          product_ids
+        </div>
+        <div class="small-3 columns">
+          publishing
+        </div>
+        <div class="small-3 columns">
+          slug
+        </div>
+        <div class="small-3 columns">
+          tags
+        </div>
+        <div class="small-3 columns">
+          type
+        </div>
+        <div class="small-3 columns">
+          value
+        </div>
+        <div class="small-3 columns">
+          will_exclude_sale_products
+        </div>
+        
+      </div>
+    </div>
+  </script>
+  
+  <script type="text/template" id="attribute_template">
+    <div class="small-<%= columns %> columns">
+      <%= value %>
+    </div>
+  </script>
+  
+  <script type="text/template" id="attribute_row_template">
+    <div class="row">
+      <%= value %>
     </div>
   </script>
 </body>
