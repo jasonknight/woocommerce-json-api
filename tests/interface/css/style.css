@@ -19,3 +19,6 @@ div.header-row {
   background-color: white;
 }
 
+div.row {
+  max-width: none !important;
+}

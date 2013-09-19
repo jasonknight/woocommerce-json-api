@@ -15,5 +15,10 @@ div.header-row {
   font-weight: bolder;
   font-size: 70%;
   word-wrap:break-word;
+  padding: 10px;
+  background-color: white;
 }
 
+div.row {
+  max-width: none;
+}

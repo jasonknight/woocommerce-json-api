@@ -1,7 +1,16 @@
+/* GLOBALS */
 var $methods = null;
+var $supported_attributes;
+var $query_results = {};
+
 String.prototype.titleize = function () {
-    return this.replace(/_/g," ").replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+  return this.replace(/_/g," ").replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 };
+
+String.prototype.classify = function () {
+  return this.replace("get", "").titleize().replace(/ /g, "").slice(0, -1);
+};
+
 function valOrPlaceholder(id) {
   var v = $(id).val();
   if ( v == "" ) {
@@ -9,6 +18,8 @@ function valOrPlaceholder(id) {
   }
   return v;
 }
+
+
 function getSettings() {
   var s = {
     url:      valOrPlaceholder('#url'),
@@ -18,6 +29,7 @@ function getSettings() {
   };
   return s;
 }
+
 function prepareRequest(name,existing_req) {
   var req = {};
   if ( existing_req )
@@ -34,125 +46,8 @@ function prepareRequest(name,existing_req) {
   }
   return req;
 }
-function displayDebug( data ) {
-  console.log(data);
-  var req_vars = ['action','arguments','errors','warnings','notifications','status'];
-  var div = $('#request_debug');
-  div.html('');
-  for ( var i = 0; i < req_vars.length; i++ ) {
-    div.append('<h5>' + req_vars[i].titleize() + '</h5>');
-    div.append('<pre>' + JSON.stringify(data[req_vars[i]],undefined,2) + '</pre>');
-  }
-  div = $('#payload_debug');
-  div.html('');
-  div.append('<pre>' + JSON.stringify(data[ 'payload' ],undefined,2) + '</pre>');
-}
-function displayAPIMethods( data ) {
-  $('#methods').html('');
-  $methods = data.payload;
-  for (var key in data.payload ) {
-    var button = $('<div class="small button">' + key.titleize() + '<div>');
-    if ( key.indexOf('set_') == 0) {
-      button.addClass('alert');
-    }
-    var method = key.titleize();
-    method = 'on' + method.replace(/\s/g,'') + "ButtonClick";
-    console.log("Method would be: " + method);
-    button.on('click',window[method]);
-    $('#methods').append(button);
-    $('#methods').append('<br />');
-  }
-}
-function displaySystemTime( data ) {
-  var div = $('#results');
-  div.html('');
-  var d = data.payload[0].date.split('-');
-  var t = data.payload[0].time.split(':');
-  var date = new Date(d[0],d[1]-1,d[2],t[0],t[1],t[2]);
-  div.html("The current date is: " + data.payload[0].date + " and the time is: " + data.payload[0].time);
-  div.append('<br /><br /><strong>The parsed time is: ' + date + '</strong>');
-}
-function displayProducts( data ) {
-  console.log("Called");
-  var products = data.payload;
-  $('#results').html('');
-  var tmpl = _.template( $('#product_row_template').html() );
-  var tmpl_header = _.template($('#product_row_header_template').html());
-  $('#results').append(tmpl_header());
-  for ( var i = 0; i < products.length; i++ ) {
-    var product = products[i];
-    $('#results').append( tmpl( product ) );
-  }
-}
-function displayCategories( data ) {
-  console.log("Called");
-  var cats = data.payload;
-  $('#results').html('');
-  var tmpl = _.template( $('#category_row_template').html() );
-  var tmpl_header = _.template($('#category_row_header_template').html());
-  $('#results').append(tmpl_header());
-  for ( var i = 0; i < cats.length; i++ ) {
-    var cat = cats[i];
-    $('#results').append( tmpl( cat ) );
-  }
-}
-function displayTaxes( data ) {
-  console.log("Called");
-  var taxes = data.payload;
-  $('#results').html('');
-  var tmpl = _.template( $('#tax_row_template').html() );
-  var tmpl_header = _.template($('#tax_row_header_template').html());
-  $('#results').append(tmpl_header());
-  for ( var i = 0; i < taxes.length; i++ ) {
-    var tax = taxes[i];
-    $('#results').append( tmpl( tax ) );
-  }
-}
-function displayShippingMethods( data ) {
-  console.log("Called");
-  var shipping_methods = data.payload;
-  $('#results').html('');
-  var tmpl = _.template( $('#shipping_method_row_template').html() );
-  var tmpl_header = _.template($('#shipping_method_row_header_template').html());
-  $('#results').append(tmpl_header());
-  for ( var i = 0; i < shipping_methods.length; i++ ) {
-    var shipping_method = shipping_methods[i];
-    $('#results').append( tmpl( shipping_method ) );
-  }
-}
-var $supported_attributes;
-function onGetRequestComplete( data, status, xhr ) {
-  switch( data.proc ) {
-    case 'get_api_methods':
-      displayAPIMethods(data);
-      break;
-    case 'get_system_time':
-      displaySystemTime(data);
-      break;
-    case 'get_products':
-      displayProducts( data );
-      break;
-    case 'set_products':
-      displayProducts( data );
-      break;
-    case 'get_categories':
-      displayCategories( data );
-      break;
-    case 'get_supported_attributes':
-      $supported_attributes = data.payload;
-      break;
-    case 'get_taxes':
-      $taxes = data.payload;
-      displayTaxes( data );
-      break;
-    case 'get_shipping_methods':
-      $shipping_methods = data.payload;
-      displayShippingMethods( data );
-      break;
-  }
-  displayDebug(data);
-}
-function getRequest( req ) {
+
+function getRequest(req, callback) {
   var s = getSettings();
   //$.getJSON(s.url, req, onGetRequestComplete );
   $.ajax({
@@ -160,24 +55,40 @@ function getRequest( req ) {
     url: s.url,
     data: JSON.stringify(req),
     contentType: 'application/json',
-    success: onGetRequestComplete,
+    success: callback,
     dataType: 'json',
     error: function (xhr,type) { console.log( "ERROR", xhr, type)},
   });
   console.log("Sent", req);
 }
+
+
+/* ============================ */
+/* GET BUTTON FUNCTIONS BEGIN */
+/* ============================ */
+
+$(function () {
+  $('#load_methods_button').on('click',onLoadMethodsButtonClick);
+});
+
 function onLoadMethodsButtonClick() {
   var request = prepareRequest('get_api_methods');
-  getRequest( request );
+  getRequest(request, displayAPIMethods);
 }
+
 function onGetSystemTimeButtonClick() {
   var request = prepareRequest('get_system_time');
-  getRequest( request );
+  getRequest(request, displaySystemTime );
 }
-function onGetCategoriesButtonClick() {
-  var request = prepareRequest('get_categories');
-  getRequest( request );
+
+function onGetSupportedAttributesButtonClick() {
+  var request = prepareRequest('get_supported_attributes');
+  request.arguments.resources = ['Product','Order','Category','Customer','OrderItem'];
+  getRequest(request, displaySupportedAttributes);
 }
+
+
+
 function onGetProductsButtonClick() {
   $('#results').html('');
   var div = $('#arguments');
@@ -234,11 +145,17 @@ function onGetProductsButtonClick() {
       }
       request.arguments[arg.id] = val;
     }
-    getRequest( request );
+    getRequest(request, displayModel);
   });
   div.append("<hr />")
   div.append(button);
 }
+
+function onGetCategoriesButtonClick() {
+  var request = prepareRequest('get_categories');
+  getRequest( request, onGetRequestComplete );
+}
+
 function onGetCategoriesButtonClick() {
   $('#results').html('');
   var div = $('#arguments');
@@ -300,6 +217,20 @@ function onGetCategoriesButtonClick() {
   div.append("<hr />")
   div.append(button);
 }
+function onGetCouponsButtonClick() {
+  console.log('called');
+  $('#results').html('');
+  var div = $('#arguments');
+  div.html('');
+  var tmpl = _.template($('#argument_template').html());
+  var button = $('<div class="small button">Load Coupons</div>');
+  button.on('click', function () {
+    var request = prepareRequest('get_coupons');
+    getRequest( request );
+  });
+  div.append("<hr />")
+  div.append(button);
+}
 function onGetTaxesButtonClick() {
   $('#results').html('');
   var div = $('#arguments');
@@ -321,6 +252,19 @@ function onGetShippingMethodsButtonClick() {
   var button = $('<div class="small button">Load Shipping Methods</div>');
   button.on('click', function () {
     var request = prepareRequest('get_shipping_methods');
+    getRequest( request );
+  });
+  div.append("<hr />")
+  div.append(button);
+}
+function onGetPaymentGatewaysButtonClick() {
+  $('#results').html('');
+  var div = $('#arguments');
+  div.html('');
+  var tmpl = _.template($('#argument_template').html());
+  var button = $('<div class="small button">Load Payment Gateways</div>');
+  button.on('click', function () {
+    var request = prepareRequest('get_payment_gateways');
     getRequest( request );
   });
   div.append("<hr />")
@@ -404,11 +348,179 @@ function onSetProductsButtonClick() {
   div.append("<hr />")
   div.append(button);
 }
-function onGetSupportedAttributesButtonClick() {
-  var request = prepareRequest('get_supported_attributes');
-  request.arguments.resources = ['Product','Order','Category','Customer','OrderItem'];
-  getRequest(request);
+
+
+
+/* ============================ */
+/* DISPLAY CALLBACKS AFTER REQUEST */
+/* ============================ */
+
+function displayDebug( data ) {
+  console.log(data);
+  var req_vars = ['action','arguments','errors','warnings','notifications','status'];
+  var div = $('#request_debug');
+  div.html('');
+  for ( var i = 0; i < req_vars.length; i++ ) {
+    div.append('<h5>' + req_vars[i].titleize() + '</h5>');
+    div.append('<pre>' + JSON.stringify(data[req_vars[i]],undefined,2) + '</pre>');
+  }
+  div = $('#payload_debug');
+  div.html('');
+  div.append('<pre>' + JSON.stringify(data[ 'payload' ],undefined,2) + '</pre>');
 }
-$(function () {
-  $('#load_methods_button').on('click',onLoadMethodsButtonClick);
-});
+
+function displayAPIMethods( data ) {
+  $('#methods').html('');
+  $methods = data.payload;
+  for (var key in data.payload ) {
+    var button = $('<div class="small button">' + key.titleize() + '<div>');
+    if ( key.indexOf('set_') == 0) {
+      button.addClass('alert');
+    }
+    var method = key.titleize();
+    method = 'on' + method.replace(/\s/g,'') + "ButtonClick";
+    button.on('click',window[method]);
+    $('#methods').append(button);
+    $('#methods').append('<br />');
+  }
+}
+
+function displaySystemTime( data ) {
+  var div = $('#results');
+  div.html('');
+  var d = data.payload[0].date.split('-');
+  var t = data.payload[0].time.split(':');
+  var date = new Date(d[0],d[1]-1,d[2],t[0],t[1],t[2]);
+  div.html("The current date is: " + data.payload[0].date + " and the time is: " + data.payload[0].time);
+  div.append('<br /><br /><strong>The parsed time is: ' + date + '</strong>');
+}
+
+function displaySupportedAttributes(data) {
+  $supported_attributes = data.payload;
+  $('#results').html("Supported attributes have been saved to global JS variable '$supported_attributes'. You can inpsect it in your console.");
+}
+
+
+function displayModel(data) {
+  $('#results').html('');
+  json_path = [data.proc.replace("get_", "")];
+  renderEditTable($('#results'), json_path, null, data.payload);
+}
+
+
+
+
+
+/* ============================ */
+/* HELPER FUNCTIONS */
+/* ============================ */
+
+
+function renderEditTable(parent_element, json_path, model_id, collection) {
+  
+  var table = $(document.createElement('table'));
+  var header = $(document.createElement('tr'));
+
+  if (Object.prototype.toString.call(collection[0]) == "[object Object]") {
+    // render a header only for objects, i.e. no arrays or simple types
+    $.each(collection[0], function(k,v) {
+      var th = $(document.createElement('th'));
+      th.html(k);
+      header.append(th);
+    });
+    table.append(header);
+  }
+  
+  $.each(collection, function(key,val) {
+    var row = $(document.createElement('tr'));
+    
+    if (model_id == null) {
+      // only execute during the first call of this function
+      console.log("setting model_id " + val.id);
+      model_id = val.id;
+    }
+    
+    row.attr('model_id', model_id);
+    
+    if (typeof val == "object") {
+      // iterator for arrays of objects and objects
+      $.each(val, function(k,v) {
+        var col = $(document.createElement('td'));
+        row.append(col);
+        if (typeof v == "object" && v.length > 0) {
+          json_path.push(key);
+          json_path.push(k);
+          renderEditTable(col, json_path, model_id, v); // recursion
+        } else {
+          var input = $(document.createElement('input'));
+          input.val(v);
+          var json_path_string = json_path.join(".") + "." + key + "." + k;
+          input.attr('json_path', json_path_string);
+          input.attr('model_id', model_id);
+          input.on('change', onInputChanged);
+          var width = v.length * 6 + 10;
+          if (width < 50)
+            width = 50;
+          input.css('width', width);
+          col.append(input);
+          table.append(row);
+        }
+      });
+    } else {
+      // for simple types, i.e. arrays that only contain strings
+      var input = $(document.createElement('input'));
+      input.val(val);
+      var json_path_string = json_path.join(".") + "." + key;
+      input.attr('json_path', json_path_string);
+      input.attr('model_id', model_id);
+      var width = val.length * 6 + 10;
+      if (width < 50)
+        width = 50;
+      input.css('width', width);
+      var col = $(document.createElement('td'));
+      col.append(input);
+      row.append(col);
+      table.append(row);
+    }
+  });
+  parent_element.append(table);
+  
+}
+
+function onInputChanged() {
+  var input = $(this);
+  var json_path = input.attr("json_path").split(".");
+  
+  console.log("onInputChanged", input.val());
+  var request = prepareRequest();
+  request.proc = "set_" + json_path.shift();
+  //json_path.shift();
+  request.payload = [{
+    id: input.attr("model_id"),
+  }];
+  setDeepHashValue(request.payload, json_path.join("."), input.val());
+  console.log("SET", request);
+  getRequest(request, inputChangedComplete(input));
+  
+}
+
+function inputChangedComplete(data) {
+  data.effect('highlight');
+  console.log('completed', data);
+}
+
+function setDeepHashValue(obj, path, value) {
+  var parts = path.split('.');
+  var i, tmp;
+  for(i = 0; i < parts.length; i++) {
+      tmp = obj[parts[i]];
+      if(value !== undefined && i == parts.length - 1) {
+          tmp = obj[parts[i]] = value;
+      }
+      else if(tmp === undefined) {
+          tmp = obj[parts[i]] = {};
+      }
+      obj = tmp;
+  }
+  return obj;
+}

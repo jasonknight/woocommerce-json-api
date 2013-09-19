@@ -90,6 +90,7 @@ select {
   margin-right: auto;
   margin-top: 0;
   margin-bottom: 0;
+  max-width: 62.5em;
   *zoom: 1; }
   .row:before, .row:after {
     content: " ";
@@ -104,8 +105,8 @@ select {
     float: left; }
   .row .row {
     width: auto;
-    margin-left: -0.9375em;
-    margin-right: -0.9375em;
+    margin-left: -0.5em;
+    margin-right: -0.5em;
     margin-top: 0;
     margin-bottom: 0;
     max-width: none;
@@ -129,8 +130,8 @@ select {
 .column,
 .columns {
   position: relative;
-  padding-left: 0.9375em;
-  padding-right: 0.9375em;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
   width: 100%;
   float: left; }
 
@@ -138,55 +139,95 @@ select {
   .column,
   .columns {
     position: relative;
-    padding-left: 0.9375em;
-    padding-right: 0.9375em;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
     float: left; }
 
   .small-1 {
     position: relative;
-    width: 8.33333%; }
+    width: 4.54545%; }
 
   .small-2 {
     position: relative;
-    width: 16.66667%; }
+    width: 9.09091%; }
 
   .small-3 {
     position: relative;
-    width: 25%; }
+    width: 13.63636%; }
 
   .small-4 {
     position: relative;
-    width: 33.33333%; }
+    width: 18.18182%; }
 
   .small-5 {
     position: relative;
-    width: 41.66667%; }
+    width: 22.72727%; }
 
   .small-6 {
     position: relative;
-    width: 50%; }
+    width: 27.27273%; }
 
   .small-7 {
     position: relative;
-    width: 58.33333%; }
+    width: 31.81818%; }
 
   .small-8 {
     position: relative;
-    width: 66.66667%; }
+    width: 36.36364%; }
 
   .small-9 {
     position: relative;
-    width: 75%; }
+    width: 40.90909%; }
 
   .small-10 {
     position: relative;
-    width: 83.33333%; }
+    width: 45.45455%; }
 
   .small-11 {
     position: relative;
-    width: 91.66667%; }
+    width: 50%; }
 
   .small-12 {
+    position: relative;
+    width: 54.54545%; }
+
+  .small-13 {
+    position: relative;
+    width: 59.09091%; }
+
+  .small-14 {
+    position: relative;
+    width: 63.63636%; }
+
+  .small-15 {
+    position: relative;
+    width: 68.18182%; }
+
+  .small-16 {
+    position: relative;
+    width: 72.72727%; }
+
+  .small-17 {
+    position: relative;
+    width: 77.27273%; }
+
+  .small-18 {
+    position: relative;
+    width: 81.81818%; }
+
+  .small-19 {
+    position: relative;
+    width: 86.36364%; }
+
+  .small-20 {
+    position: relative;
+    width: 90.90909%; }
+
+  .small-21 {
+    position: relative;
+    width: 95.45455%; }
+
+  .small-22 {
     position: relative;
     width: 100%; }
 
@@ -196,43 +237,83 @@ select {
 
   .small-offset-1 {
     position: relative;
-    margin-left: 8.33333%; }
+    margin-left: 4.54545%; }
 
   .small-offset-2 {
     position: relative;
-    margin-left: 16.66667%; }
+    margin-left: 9.09091%; }
 
   .small-offset-3 {
     position: relative;
-    margin-left: 25%; }
+    margin-left: 13.63636%; }
 
   .small-offset-4 {
     position: relative;
-    margin-left: 33.33333%; }
+    margin-left: 18.18182%; }
 
   .small-offset-5 {
     position: relative;
-    margin-left: 41.66667%; }
+    margin-left: 22.72727%; }
 
   .small-offset-6 {
     position: relative;
-    margin-left: 50%; }
+    margin-left: 27.27273%; }
 
   .small-offset-7 {
     position: relative;
-    margin-left: 58.33333%; }
+    margin-left: 31.81818%; }
 
   .small-offset-8 {
     position: relative;
-    margin-left: 66.66667%; }
+    margin-left: 36.36364%; }
 
   .small-offset-9 {
     position: relative;
-    margin-left: 75%; }
+    margin-left: 40.90909%; }
 
   .small-offset-10 {
     position: relative;
-    margin-left: 83.33333%; }
+    margin-left: 45.45455%; }
+
+  .small-offset-11 {
+    position: relative;
+    margin-left: 50%; }
+
+  .small-offset-12 {
+    position: relative;
+    margin-left: 54.54545%; }
+
+  .small-offset-13 {
+    position: relative;
+    margin-left: 59.09091%; }
+
+  .small-offset-14 {
+    position: relative;
+    margin-left: 63.63636%; }
+
+  .small-offset-15 {
+    position: relative;
+    margin-left: 68.18182%; }
+
+  .small-offset-16 {
+    position: relative;
+    margin-left: 72.72727%; }
+
+  .small-offset-17 {
+    position: relative;
+    margin-left: 77.27273%; }
+
+  .small-offset-18 {
+    position: relative;
+    margin-left: 81.81818%; }
+
+  .small-offset-19 {
+    position: relative;
+    margin-left: 86.36364%; }
+
+  .small-offset-20 {
+    position: relative;
+    margin-left: 90.90909%; }
 
   [class*="column"] + [class*="column"]:last-child {
     float: right; }
@@ -250,49 +331,89 @@ select {
 @media only screen and (min-width: 768px) {
   .large-1 {
     position: relative;
-    width: 8.33333%; }
+    width: 4.54545%; }
 
   .large-2 {
     position: relative;
-    width: 16.66667%; }
+    width: 9.09091%; }
 
   .large-3 {
     position: relative;
-    width: 25%; }
+    width: 13.63636%; }
 
   .large-4 {
     position: relative;
-    width: 33.33333%; }
+    width: 18.18182%; }
 
   .large-5 {
     position: relative;
-    width: 41.66667%; }
+    width: 22.72727%; }
 
   .large-6 {
     position: relative;
-    width: 50%; }
+    width: 27.27273%; }
 
   .large-7 {
     position: relative;
-    width: 58.33333%; }
+    width: 31.81818%; }
 
   .large-8 {
     position: relative;
-    width: 66.66667%; }
+    width: 36.36364%; }
 
   .large-9 {
     position: relative;
-    width: 75%; }
+    width: 40.90909%; }
 
   .large-10 {
     position: relative;
-    width: 83.33333%; }
+    width: 45.45455%; }
 
   .large-11 {
     position: relative;
-    width: 91.66667%; }
+    width: 50%; }
 
   .large-12 {
+    position: relative;
+    width: 54.54545%; }
+
+  .large-13 {
+    position: relative;
+    width: 59.09091%; }
+
+  .large-14 {
+    position: relative;
+    width: 63.63636%; }
+
+  .large-15 {
+    position: relative;
+    width: 68.18182%; }
+
+  .large-16 {
+    position: relative;
+    width: 72.72727%; }
+
+  .large-17 {
+    position: relative;
+    width: 77.27273%; }
+
+  .large-18 {
+    position: relative;
+    width: 81.81818%; }
+
+  .large-19 {
+    position: relative;
+    width: 86.36364%; }
+
+  .large-20 {
+    position: relative;
+    width: 90.90909%; }
+
+  .large-21 {
+    position: relative;
+    width: 95.45455%; }
+
+  .large-22 {
     position: relative;
     width: 100%; }
 
@@ -302,156 +423,296 @@ select {
 
   .row .large-offset-1 {
     position: relative;
-    margin-left: 8.33333%; }
+    margin-left: 4.54545%; }
 
   .row .large-offset-2 {
     position: relative;
-    margin-left: 16.66667%; }
+    margin-left: 9.09091%; }
 
   .row .large-offset-3 {
     position: relative;
-    margin-left: 25%; }
+    margin-left: 13.63636%; }
 
   .row .large-offset-4 {
     position: relative;
-    margin-left: 33.33333%; }
+    margin-left: 18.18182%; }
 
   .row .large-offset-5 {
     position: relative;
-    margin-left: 41.66667%; }
+    margin-left: 22.72727%; }
 
   .row .large-offset-6 {
     position: relative;
-    margin-left: 50%; }
+    margin-left: 27.27273%; }
 
   .row .large-offset-7 {
     position: relative;
-    margin-left: 58.33333%; }
+    margin-left: 31.81818%; }
 
   .row .large-offset-8 {
     position: relative;
-    margin-left: 66.66667%; }
+    margin-left: 36.36364%; }
 
   .row .large-offset-9 {
     position: relative;
-    margin-left: 75%; }
+    margin-left: 40.90909%; }
 
   .row .large-offset-10 {
     position: relative;
-    margin-left: 83.33333%; }
+    margin-left: 45.45455%; }
 
   .row .large-offset-11 {
     position: relative;
-    margin-left: 91.66667%; }
+    margin-left: 50%; }
+
+  .row .large-offset-12 {
+    position: relative;
+    margin-left: 54.54545%; }
+
+  .row .large-offset-13 {
+    position: relative;
+    margin-left: 59.09091%; }
+
+  .row .large-offset-14 {
+    position: relative;
+    margin-left: 63.63636%; }
+
+  .row .large-offset-15 {
+    position: relative;
+    margin-left: 68.18182%; }
+
+  .row .large-offset-16 {
+    position: relative;
+    margin-left: 72.72727%; }
+
+  .row .large-offset-17 {
+    position: relative;
+    margin-left: 77.27273%; }
+
+  .row .large-offset-18 {
+    position: relative;
+    margin-left: 81.81818%; }
+
+  .row .large-offset-19 {
+    position: relative;
+    margin-left: 86.36364%; }
+
+  .row .large-offset-20 {
+    position: relative;
+    margin-left: 90.90909%; }
+
+  .row .large-offset-21 {
+    position: relative;
+    margin-left: 95.45455%; }
 
   .push-1 {
     position: relative;
-    left: 8.33333%;
+    left: 4.54545%;
     right: auto; }
 
   .pull-1 {
     position: relative;
-    right: 8.33333%;
+    right: 4.54545%;
     left: auto; }
 
   .push-2 {
     position: relative;
-    left: 16.66667%;
+    left: 9.09091%;
     right: auto; }
 
   .pull-2 {
     position: relative;
-    right: 16.66667%;
+    right: 9.09091%;
     left: auto; }
 
   .push-3 {
     position: relative;
-    left: 25%;
+    left: 13.63636%;
     right: auto; }
 
   .pull-3 {
     position: relative;
-    right: 25%;
+    right: 13.63636%;
     left: auto; }
 
   .push-4 {
     position: relative;
-    left: 33.33333%;
+    left: 18.18182%;
     right: auto; }
 
   .pull-4 {
     position: relative;
-    right: 33.33333%;
+    right: 18.18182%;
     left: auto; }
 
   .push-5 {
     position: relative;
-    left: 41.66667%;
+    left: 22.72727%;
     right: auto; }
 
   .pull-5 {
     position: relative;
-    right: 41.66667%;
+    right: 22.72727%;
     left: auto; }
 
   .push-6 {
     position: relative;
-    left: 50%;
+    left: 27.27273%;
     right: auto; }
 
   .pull-6 {
     position: relative;
-    right: 50%;
+    right: 27.27273%;
     left: auto; }
 
   .push-7 {
     position: relative;
-    left: 58.33333%;
+    left: 31.81818%;
     right: auto; }
 
   .pull-7 {
     position: relative;
-    right: 58.33333%;
+    right: 31.81818%;
     left: auto; }
 
   .push-8 {
     position: relative;
-    left: 66.66667%;
+    left: 36.36364%;
     right: auto; }
 
   .pull-8 {
     position: relative;
-    right: 66.66667%;
+    right: 36.36364%;
     left: auto; }
 
   .push-9 {
     position: relative;
-    left: 75%;
+    left: 40.90909%;
     right: auto; }
 
   .pull-9 {
     position: relative;
-    right: 75%;
+    right: 40.90909%;
     left: auto; }
 
   .push-10 {
     position: relative;
-    left: 83.33333%;
+    left: 45.45455%;
     right: auto; }
 
   .pull-10 {
     position: relative;
-    right: 83.33333%;
+    right: 45.45455%;
     left: auto; }
 
   .push-11 {
     position: relative;
-    left: 91.66667%;
+    left: 50%;
     right: auto; }
 
   .pull-11 {
     position: relative;
-    right: 91.66667%;
+    right: 50%;
+    left: auto; }
+
+  .push-12 {
+    position: relative;
+    left: 54.54545%;
+    right: auto; }
+
+  .pull-12 {
+    position: relative;
+    right: 54.54545%;
+    left: auto; }
+
+  .push-13 {
+    position: relative;
+    left: 59.09091%;
+    right: auto; }
+
+  .pull-13 {
+    position: relative;
+    right: 59.09091%;
+    left: auto; }
+
+  .push-14 {
+    position: relative;
+    left: 63.63636%;
+    right: auto; }
+
+  .pull-14 {
+    position: relative;
+    right: 63.63636%;
+    left: auto; }
+
+  .push-15 {
+    position: relative;
+    left: 68.18182%;
+    right: auto; }
+
+  .pull-15 {
+    position: relative;
+    right: 68.18182%;
+    left: auto; }
+
+  .push-16 {
+    position: relative;
+    left: 72.72727%;
+    right: auto; }
+
+  .pull-16 {
+    position: relative;
+    right: 72.72727%;
+    left: auto; }
+
+  .push-17 {
+    position: relative;
+    left: 77.27273%;
+    right: auto; }
+
+  .pull-17 {
+    position: relative;
+    right: 77.27273%;
+    left: auto; }
+
+  .push-18 {
+    position: relative;
+    left: 81.81818%;
+    right: auto; }
+
+  .pull-18 {
+    position: relative;
+    right: 81.81818%;
+    left: auto; }
+
+  .push-19 {
+    position: relative;
+    left: 86.36364%;
+    right: auto; }
+
+  .pull-19 {
+    position: relative;
+    right: 86.36364%;
+    left: auto; }
+
+  .push-20 {
+    position: relative;
+    left: 90.90909%;
+    right: auto; }
+
+  .pull-20 {
+    position: relative;
+    right: 90.90909%;
+    left: auto; }
+
+  .push-21 {
+    position: relative;
+    left: 95.45455%;
+    right: auto; }
+
+  .pull-21 {
+    position: relative;
+    right: 95.45455%;
     left: auto; }
 
   .column.large-centered,
