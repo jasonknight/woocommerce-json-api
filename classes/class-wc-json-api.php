@@ -111,6 +111,27 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
   *  to a certain inflexibility in what you can do with it.
   */
   public function route( $params ) {
+    $method = $this->orEq( $params, 'method',false);
+    $proc = $this->orEq($params, 'proc',false);
+    if ( 
+          $method &&
+          $proc  &&
+          ! strpos('get_') == 0 && 
+          ! strpos('set_') == 0 &&
+          ! strpos('delete_') == 0 
+       ) {
+      switch( strtolower($method) ) {
+        case 'get':
+          $proc = 'get_'.$proc;
+          break;
+        case 'put':
+          $proc = 'set_'.$proc;
+          break;
+        case 'delete':
+          $proc = 'delete_'.$proc;
+          break;
+      }
+    }
     
     /*
      * The idea behind the provider is that there will be
@@ -125,7 +146,9 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
     }
     if ( file_exists( dirname(__FILE__ ) .'/API_VERSIONS/version'.$version.'.php' ) ) {
       require_once( dirname(__FILE__ ) .'/API_VERSIONS/version'.$version.'.php' );
-      $this->provider = new WC_JSON_API_Provider( $this );
+      $klass = "WC_JSON_API_Provider_v{$version}";
+      $klass = str_replace('.','_',$klass);
+      $this->provider = new $klass( $this );
     }
     $this->createNewResult( $params );
 
@@ -141,7 +164,7 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
       return $this->done();
 
     }
-    if ( $this->provider->isImplemented( $params ) ) {
+    if ( $this->provider->isImplemented( $proc ) ) {
 
       try {
 
@@ -151,14 +174,14 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
           JSONAPIHelpers::warn("Arguments did not pass validation");
           return $this->done();
         }
-        return $this->provider->{ $params['proc'] }($params);
+        return $this->provider->{ $proc }($params);
 
       } catch ( Exception $e ) {
         JSONAPIHelpers::error($e->getMessage());
         $this->unexpectedError( $params, $e);
       }
     } else {
-      JSONAPIHelpers::warn("{$params['proc']} is not implemented...");
+      JSONAPIHelpers::warn("{$proc} is not implemented...");
       $this->notImplemented( $params );
     }
   }
@@ -257,9 +280,21 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
   }
   public function unexpectedError( $params, $error ) {
     $this->createNewResult( $params );
+    $trace = $error->getTrace();
+    foreach ( $trace as &$t) {
+      if ( isset($t['file']) )
+        $t['file'] = basename($t['file']);
+      if ( !isset($t['class']) )
+        $t['class'] = 'GlobalScope';
+      if ( !isset($t['file']) )
+        $t['file'] = 'Unknown';
+      if ( !isset($t['line']) )
+        $t['line'] = 'GlobalScope';
 
+      $t = "{$t['file']}:{$t['line']}:{$t['class']}";
+    }
     $this->result->addError( 
-      __('An unexpected error has occured', 'woocommerce_json_api' ) . $error->getMessage(), 
+      sprintf(__('An unexpected error has occured %s, Trace:', 'woocommerce_json_api' ),$error->getMessage()) . join("\n",$trace) , 
       WCAPI_UNEXPECTED_ERROR 
     );
 

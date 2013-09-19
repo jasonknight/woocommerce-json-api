@@ -45,6 +45,7 @@ class Base extends Helpers {
   * ( new Object() )->setup()->doCalculation()->update()->done();
   */
   public function __construct() {
+    parent::init();
     static::setupMetaAttributes();
     static::setupModelAttributes();
     $this->actual_model_attributes_table = static::$_model_attributes_table;
@@ -319,12 +320,14 @@ class Base extends Helpers {
     $model_table = $this->actual_model_attributes_table;
     $hm = $this->actual_model_settings['has_many'];
     $models = array();
+    //echo "Loading $name\n";
     if ( isset( $hm[$name] ) ) {
 
       $klass = 'WCAPI\\' . $hm[$name]['class_name'];
       $fkey = $this->orEq($hm[$name],'foreign_key', false);
       $s = $klass::getModelSettings();
       if ( isset( $hm[$name]['sql'] ) ) {
+        //echo $sql . "\n";
         $sql = $wpdb->prepare($hm[$name]['sql'], $this->_actual_model_id);
       } else {
         $sql = $wpdb->prepare("SELECT {$s['model_table_id']} FROM {$s['model_table']} WHERE {$fkey} = %d",$this->_actual_model_id);
@@ -398,7 +401,7 @@ class Base extends Helpers {
 
     if ( isset( $meta_table[$name] ) ) {
       if ( isset($meta_table[$name]['getter'])) {
-        return $this->{$meta_table[$name]['getter']}();
+        return $this->{$meta_table[$name]['getter']}($this->_actual_model_id);
       }
       if ( isset ( $this->_meta_attributes[$name] ) ) {
         return $this->_meta_attributes[$name];
@@ -425,15 +428,17 @@ class Base extends Helpers {
     $s = $this->actual_model_settings;
     if ( isset( $meta_table[$name] ) ) {
       if ( isset($meta_table[$name]['setter'])) {
-        $this->{$meta_table[$name]['setter']}( $value );
+        call_user_func($desc['setter'],$this,$name, $desc, $value, $filter_value );
       }
       $this->_meta_attributes[$name] = $value;
+    } else if (strtolower($name) == 'id') {
+      $this->id = $value;
     } else if ( isset( $model_table[$name] ) ) {
       $this->_model_attributes[$name] = $value;
     }  else if ( isset( $s['has_many'] ) && $this->inArray( $name, array_keys($s['has_many']) ) ) {
       $this->{$name} = $value;
     } else {
-      throw new \Exception( __('That attribute does not exist to be set.','woocommerce_json_api') . " `$name`");
+      throw new \Exception( sprintf(__('That attribute %s does not exist to be set to %s. for %s','woocommerce_json_api'),"`$name`", (string)var_export($value,true), get_called_class()) );
     }
   }
 

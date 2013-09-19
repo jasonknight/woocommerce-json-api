@@ -12,7 +12,7 @@ $data = array(
   )
 );
 $result = curl_post($url,$data);
-
+echo $result;
 $orders = json_decode($result,true);
 
 $has_notes = false;

@@ -17,7 +17,21 @@ class Order extends Base {
     $table = array_merge( Base::getDefaultModelSettings(), array(
         'model_conditions' => "WHERE post_type IN ('shop_order') AND post_status != 'trash'",
         'has_many' => array(
-          'order_items' => array('class_name' => 'OrderItem', 'foreign_key' => 'order_id'),
+          'order_items' => array(
+            'class_name' => 'OrderItem', 
+            'foreign_key' => 'order_id',
+            'conditions' => "order_item_type = 'line_item'"
+          ),
+          'tax_items' => array(
+            'class_name' => 'OrderTaxItem', 
+            'foreign_key' => 'order_id',
+            'conditions' => "order_item_type = 'tax'",
+          ),
+          'coupon_items' => array(
+            'class_name' => 'OrderCouponItem', 
+            'foreign_key' => 'order_id', 
+            'conditions' => "order_item_type = 'coupon'",
+          ),
           'notes' => array(
               'class_name' => 'Comment', 
               'foreign_key' => 'comment_post_ID', 
@@ -80,6 +94,7 @@ class Order extends Base {
       'status'                => array(
                                         'name' => 'status', 
                                         'type' => 'string', 
+                                        'values' => static::getOrderStatuses(),
                                         // This is more or less just to have an example of how
                                         // the getter/setter/updaters work
                                         'getter' => function ($model, $name, $desc, $filter ) { 
@@ -149,6 +164,8 @@ class Order extends Base {
     $attrs = parent::asApiArray();
     $attrs['order_items'] = $this->order_items;
     $attrs['notes'] = $this->notes;
+    $attrs['tax_items'] = $this->tax_items;
+    $attrs['coupon_items'] = $this->coupon_items;
     return $attrs;
   }
 }
