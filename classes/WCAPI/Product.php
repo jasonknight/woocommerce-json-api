@@ -8,7 +8,7 @@ require_once(dirname(__FILE__) . "/Base.php");
 require_once(dirname(__FILE__) . "/Category.php");
 require_once(dirname(__FILE__) . "/OrderItem.php");
 class Product extends Base{   
-
+  public $_product_type;
   public static function getModelSettings() {
     include WCAPIDIR."/_globals.php";
     $table = array_merge( Base::getDefaultModelSettings(), array(
@@ -68,6 +68,13 @@ class Product extends Base{
               'foreign_key' => 'comment_post_ID', 
               'conditions' => array(
                 "comment_approved != 'trash'"
+              ),
+          ),
+          'variations' => array(
+              'class_name' => 'Product', 
+              'foreign_key' => 'post_parent', 
+              'conditions' => array(
+                "post_type = 'product_variation'",
               ),
           ),
         ),
@@ -169,6 +176,22 @@ class Product extends Base{
                                'default' => 'none',
                                'sizehint' => 1,
                              ),
+      'product_type' => array(
+        'name' => 'product_type',
+        'type' => 'string',
+        'size_hint' => 3,
+        'default' => 'simple',
+        'values' => array('simple','grouped','variable','external'),
+         'getter' => function ($model, $name, $desc, $filter ) { 
+            return $model->getTerm('product_type','product_type','product'); 
+          },
+          'setter' => function ($model,$name, $desc, $value, $filter_value) {
+            $model->getTerm('product_type','product_type',$value);
+          },
+          'updater' => function ( $model, $name, $value, $desc ) { 
+            $model->updateTerm('product_type','product_type',$value);
+          },
+       ),
     );
     /*
       With this filter, plugins can extend this ones handling of meta attributes for a product,
@@ -245,6 +268,7 @@ class Product extends Base{
     $attributes_to_send['categories'] = $this->categories;
     $attributes_to_send['tags'] = $this->tags;//wp_get_post_terms($this->_actual_model_id,'product_tag');
     $attributes_to_send['reviews'] = $this->reviews;
+    $attributes_to_send['variations'] = $this->variations;
     $feat_image = wp_get_attachment_url( get_post_thumbnail_id( $this->_actual_model_id) );
     $attributes_to_send['featured_image'] = $feat_image;
     return $attributes_to_send;

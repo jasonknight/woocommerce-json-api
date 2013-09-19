@@ -401,7 +401,7 @@ class Base extends Helpers {
 
     if ( isset( $meta_table[$name] ) ) {
       if ( isset($meta_table[$name]['getter'])) {
-        return $this->{$meta_table[$name]['getter']}($this->_actual_model_id);
+        $value = call_user_func($desc['getter'], $this, $name, $desc, $filter_value);
       }
       if ( isset ( $this->_meta_attributes[$name] ) ) {
         return $this->_meta_attributes[$name];
@@ -753,6 +753,39 @@ class Base extends Helpers {
       $wpdb->query($sql);
     }
   }
-  
+  public function getTerm($name,$type,$default) {
+    $wpdb = self::$adapter;
+    if ( $this->{"_$name"} ) {
+      return $this->{"_$name"};
+    }
+    $sql = "
+      SELECT 
+        t.slug
+      FROM
+        wp_terms as t,
+        wp_term_relationships as tr,
+        wp_term_taxonomy as tt
+      WHERE
+        tt.taxonomy = '$type' AND
+        t.term_id = tt.term_id AND
+        tr.term_taxonomy_id = tt.term_taxonomy_id AND
+        tr.object_id = {$this->_actual_model_id}
+      ORDER BY tr.term_order
+    ";
+
+    $terms = $wpdb->get_results( $sql , 'ARRAY_A');
+    $this->{"_$name"} = (isset($terms[0])) ? $terms[0]['slug'] : $default;
+    return $this->{"_$name"};
+  }
+
+  public function setTerm($name, $type, $value ) {
+    $this->{"_$name"} = $s;
+  }
+  public function updateTerm( $name, $type, $value=null) {
+    if ( $value == null ) {
+      $value = $this->{"_$name"};
+    }
+    wp_set_object_terms( $this->_actual_model_id, array( $value ), $type, false );
+  }
 }
 

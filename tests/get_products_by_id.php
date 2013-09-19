@@ -7,7 +7,7 @@ $data = array(
   'proc'        => 'get_products',
   'arguments'   => array(
     'token' => $token,
-    'ids' => array(29),
+    'ids' => array(47),
   )
 );
 echo json_encode($data,JSON_PRETTY_PRINT);

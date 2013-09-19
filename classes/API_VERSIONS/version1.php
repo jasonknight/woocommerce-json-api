@@ -381,14 +381,8 @@ class WC_JSON_API_Provider_v1 extends JSONAPIHelpers {
 
     $products = array();
     foreach ( $posts as $post_id) {
-      try {
-        $post = API\Product::find($post_id);
-      } catch (Exception $e) {
-        JSONAPIHelpers::error("An exception occurred attempting to instantiate a Product object: " . $e->getMessage());
-        $this->result->addError( __("Error occurred instantiating product object",'woocommerce_json_api'),-99);
-        return $this->done();
-      }
-      
+      $post = API\Product::find($post_id);
+
       if ( !$post ) {
         $this->result->addWarning( $post_id. ': ' . __('Product does not exist','woocommerce_json_api'), WCAPI_PRODUCT_NOT_EXISTS, array( 'id' => $post_id) );
       } else {
@@ -970,13 +964,9 @@ class WC_JSON_API_Provider_v1 extends JSONAPIHelpers {
 
     $coupons = array();
     foreach ( $posts as $post_id) {
-      try {
+
         $post = API\Coupon::find($post_id);
-      } catch (Exception $e) {
-        JSONAPIHelpers::error("An exception occurred attempting to instantiate a Coupon object: " . $e->getMessage());
-        $this->result->addError( __("Error occurred instantiating product object",'woocommerce_json_api'),-99);
-        return $this->done();
-      }
+
       
       if ( !$post ) {
         $this->result->addWarning( $post_id. ': ' . __('Coupon does not exist','woocommerce_json_api'), WCAPI_PRODUCT_NOT_EXISTS, array( 'id' => $post_id) );
