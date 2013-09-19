@@ -42,6 +42,7 @@ class Base extends Helpers {
 
   public static $_model_settings;
   public static $adapter;
+  public $mapper;
   public static $blog_id;
 
   public $__delete__ = false;
@@ -54,16 +55,20 @@ class Base extends Helpers {
   * 
   * ( new Object() )->setup()->doCalculation()->update()->done();
   */
-  public function __construct() {
+  public function __construct($mapper=null) {
     parent::init();
     static::setupMetaAttributes();
     static::setupModelAttributes();
     $this->actual_model_attributes_table = static::$_model_attributes_table;
     $this->actual_meta_attributes_table = static::$_meta_attributes_table;
     $this->actual_model_settings = static::$_model_settings;
+    $this->mapper = $mapper;
   }
-  public static function setAdapter( $a ) {
+  public static function setAdapter( &$a ) {
     static::$adapter = $a;
+  }
+  public static function setMapper( &$a ) {
+    static::$mapper = $a;
   }
   public static function setBlogId( $id ) {
     static::$blog_id = $id;;

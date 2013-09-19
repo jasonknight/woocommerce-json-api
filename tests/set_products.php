@@ -39,11 +39,11 @@ $products = json_decode($result,true);
 
 $product = $products['payload'][0];
 
-notEqual($oname, $product['name']);
-equal($nname, $product['name']);
+notEqual($oname, $product['name'], 'old name does not equal new name');
+equal($nname, $product['name'],'new name is equal to product name');
 
-notEqual($old_price, $product['price']);
-equal($nprice, $product['price']);
+notEqual(round($old_price,2), round($product['price'],2),'old price should not equal product price');
+equal(round($nprice,2), round($product['price'],2),'new price should equal product price');
 
 $tcount = count($product['tags']);
 $ccount = count($product['categories']);

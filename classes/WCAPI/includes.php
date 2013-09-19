@@ -1,4 +1,5 @@
 <?php
+require_once( dirname( __FILE__ ) . '/Mapper.php' );
 require_once( dirname( __FILE__ ) . '/Base.php' );
 require_once( dirname( __FILE__ ) . '/Product.php' );
 require_once( dirname( __FILE__ ) . '/Category.php' );

@@ -78,20 +78,29 @@ class CmdColors {
   }
 }
 
-$Fail = function() {
+function _fail() {
   $cmd = new CmdColors();
   $cmd->_("FAILED","red");
   echo "\n";
   exit;
-};
-$Pass = function() {
+}
+function _pass() {
   $cmd = new CmdColors();
   $cmd->_("PASSED","green");
   echo "\n";
-};
-$Notice = function($str) {
+}
+function _notice($str) {
   $cmd = new CmdColors();
   $cmd->_(str_pad(substr($str,0,55),60),"yellow");
+}
+$Fail = function() {
+  _fail();
+};
+$Pass = function() {
+  _pass();
+};
+$Notice = function($str) {
+  _notice($str);
 };
 $Header = function ($str) {
   $cmd = new CmdColors();
@@ -167,34 +176,173 @@ function verifyNonZeroPayload($test,$result) {
     echo $result . "\n\n";
   }
 }
-function notEqual($a,$b, $label = '') {
+function notEqual($a,$b, $label = "should not equal") {
   global $Fail,$Pass,$Notice;
   if ( $label != '' ) {
     $Notice($label);
   } else {
-    $Notice("$a should not equal $b");
+    $ta = testToS($a);
+    $tb = testToS($b);
+    $Notice($label);
   }
-  if ( $a == $b ) {
+  if ( $a === $b ) {
     call_user_func($Fail,"FAILED");
   } else {
     call_user_func($Pass,"PASSED");
   }
 }
-function equal($a,$b, $label = '') {
+function testToS($x) {
+  $tx = $x;
+  if ( is_object($x) )
+      $tx = get_class($x);
+  if ( is_array($x) )
+      $tx = "Array[".count($x)."]";
+  return $tx;
+}
+function equal($a,$b, $label = "should equal") {
   global $Fail,$Pass,$Notice;
-  $Notice("$label $a should equal $b");
-  if ( $a != $b ) {
+  $ta = testToS($a);
+  $tb = testToS($b);
+  $Notice($label);
+  if ( $a !== $b ) {
     call_user_func($Fail,"FAILED");
   } else {
     call_user_func($Pass,"PASSED");
   }
 }
-function keyExists($a,$b) {
+function keyExists($a,$b, $label = "array key exists") {
   global $Fail,$Pass,$Notice;
-  $Notice("Array Key Exists $a");
+  $Notice($label);
   if ( !array_key_exists($a, $b) ) {
     call_user_func($Fail,"FAILED");
   } else {
     call_user_func($Pass,"PASSED");
+  }
+}
+
+function shouldThrowError( $callable, $label = "should throw and error" ) {
+  global $Fail,$Pass,$Notice;
+  $Notice($label);
+  try {
+    call_user_func($callable);
+  } catch (Exception $e) {
+    call_user_func($Pass,"PASSED");
+  }
+  call_user_func($Fail,"FAILED");
+}
+function shouldBeTypeOf($obj,$type, $label = "should be type of") {
+  global $Fail,$Pass,$Notice;
+  $Notice($label);
+  if ( gettype($obj) == $type ) {
+    call_user_func($Pass,"PASSED");
+  } else {
+    call_user_func($Fail,"FAILED");
+  }
+}
+function shouldBeClassOf($obj,$type, $label = "should be class of") {
+  global $Fail,$Pass,$Notice;
+  $Notice($label);
+  if ( get_class($obj) == $type ) {
+    call_user_func($Pass,"PASSED");
+  } else {
+    call_user_func($Fail,"FAILED");
+  }
+}
+function hasAtLeast($a,$l,$label = "has at least") {
+  global $Fail,$Pass,$Notice;
+  $Notice($label);
+  if ( is_array($a) && count($a) >= $l ) {
+    call_user_func($Pass,"PASSED");
+  } else {
+    call_user_func($Fail,"FAILED");
+  }
+}
+function hasAtMost($a,$l,$label = "has at most") {
+  global $Fail,$Pass,$Notice;
+  $Notice($label);
+  if ( is_array($a) && count($a) <= $l ) {
+    call_user_func($Pass,"PASSED");
+  } else {
+    call_user_func($Fail,"FAILED");
+  }
+}
+
+class Mock {
+  public $calls;
+  public $set_attrs;
+  public $got_attrs;
+  public $when_attrs;
+  public $when_calls;
+  public $allow_attr_write;
+  public $name;
+  public function __construct( $name ) {
+    $this->calls = array();
+    $this->set_attrs = array();
+    $this->got_attrs = array();
+    $this->when_attrs = array();
+    $this->when_calls = array();
+    $this->allow_attr_write = false;
+    $this->name = $name;
+  }
+  public function allowAttrWrite($t) {
+    $this->allow_attr_write = $t;
+    return $this;
+  }
+  public function whenAttr($name,$value) {
+    $this->when_attrs[$name] = $value;
+    return $this;
+  }
+  public function whenCalled($name,$value) {
+    $this->when_calls[$name] = $value;
+    return $this;
+  }
+  public function __call($name,$args) {
+    $this->calls[] = $name;
+    if ( isset( $this->when_calls[$name]) ) {
+      return $this->when_calls[$name];
+    }
+    return null;
+  }
+  public function __set($name,$value) {
+    $this->set_attrs[] = $name;
+    if ( isset( $this->when_attrs[$name]) ) {
+      $this->when_attrs[$name] = $value;
+    }
+  }
+  public function __get($name) {
+    $this->got_attrs[] = $name;
+    if ( isset( $this->when_attrs[$name]) ) {
+      return $this->when_attrs[$name];
+    }
+    return null;
+  }
+
+  public function hasReceived($name) {
+    $all = array_merge($this->calls, $this->set_attrs, $this->got_attrs);
+    $b = in_array($name, $all);
+    if ( $b ) {
+      _pass();
+    } else {
+      _fail();
+    }
+    return $this;
+  }
+  public function wasSet($name) {
+    $b = in_array($name, $this->set_attrs);
+    if ( $b ) {
+      _pass();
+    } else {
+      _fail();
+    }
+    return $this;
+  }
+  public function wasGotten() {
+    $b = in_array($name, $this->got_attrs);
+    if ( $b ) {
+      _pass();
+    } else {
+      _fail();
+    } 
+    return $this;
   }
 }
