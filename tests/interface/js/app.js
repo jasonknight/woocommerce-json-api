@@ -8,7 +8,14 @@ String.prototype.titleize = function () {
 };
 
 String.prototype.classify = function () {
-  return this.replace("get", "").titleize().replace(/ /g, "").slice(0, -1);
+  var str = "";
+  str = this.replace("get", "").titleize().replace(/ /g, "").slice(0, -1);
+  if (this.substring(this.length - 3, this.length) == "ies") {
+    str = str.substr(0, str.length - 3) + "ry";
+  } else if (this.substring(this.length - 2, this.length) == "es") {
+    str = str.slice(0, -1);
+  }
+  return str;
 };
 
 function valOrPlaceholder(id) {
@@ -396,7 +403,7 @@ function displaySystemTime( data ) {
 }
 
 function displaySupportedAttributes(data) {
-  $supported_attributes = data.payload;
+  $supported_attributes = data.payload[0];
   $('#results').html("Supported attributes have been saved to global JS variable '$supported_attributes'. You can inpsect it in your console.");
 }
 
@@ -404,7 +411,9 @@ function displaySupportedAttributes(data) {
 function displayModel(data) {
   $('#results').html('');
   json_path = [data.proc.replace("get_", "")];
-  renderEditTable($('#results'), json_path, null, data.payload);
+  //renderEditTable($('#results'), json_path, null, data.payload);
+  var html_result = renderEditFields(data.payload, data.proc.classify(), 0);
+  $("#results").html(html_result);
 }
 
 
@@ -487,6 +496,56 @@ function renderEditTable(parent_element, json_path, model_id, collection) {
   
 }
 
+function renderEditFields(collection, model, depth) {
+  if (depth > 5) {
+    console.log("cap reached", collection, model);
+    return "";
+  }
+  var html_result = ""
+  //console.log(collection);
+  //var target = $('#results');
+  var row_tmpl = _.template($("#attribute_row_template").html());
+  var tmpl = _.template($("#attribute_template").html());
+  for ( i=0; i < collection.length; i++ ) {
+    var obj = collection[i];
+    console.log("obj", obj);
+    var rendered_template = "";
+    for (var key in obj) {
+      if (key == "id") {
+        continue;
+      }
+      if (Object.prototype.toString.call(obj[key]) == "[object Array]") {
+        console.log("entering recursion key", key.classify());
+        depth += 1;
+        rendered_template += renderEditFields(obj[key], key.classify(), depth);
+        continue;
+      }
+      console.log("key", key);
+      var desc = $supported_attributes[model][key];
+      
+      if (!desc) {
+        continue;
+      }
+      
+      console.log("desc", desc);
+      var attr_desc = {
+        columns: Math.floor(desc.sizehint * 22 / 10),
+        value: obj[key]
+      };
+      rendered_template += tmpl(attr_desc);
+      
+      
+      
+    }
+    html_result += row_tmpl({
+      value: rendered_template
+    });
+    // target.append(rendered_template);
+  }
+  return html_result;
+  
+}
+
 function onInputChanged() {
   var input = $(this);
   var json_path = input.attr("json_path").split(".");
@@ -507,6 +566,7 @@ function onInputChanged() {
 function inputChangedComplete(data) {
   data.effect('highlight');
   console.log('completed', data);
+  
 }
 
 function setDeepHashValue(obj, path, value) {

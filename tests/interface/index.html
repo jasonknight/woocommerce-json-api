@@ -156,6 +156,7 @@
   <script>
     $(document).foundation();
   </script>
+  
   <script type="text/template" id="argument_template">
     <div class="small-<%= columns %> columns">
       <label><%= label %></label>
@@ -176,6 +177,12 @@
       </select>
     </div>
   </script>
+  
+  <script type="text/template" id="argument_template_select">
+  
+  </script>
+  
+  
   <script type="text/template" id="product_row_header_template">
     <div class="panel">
       <div class="row header-row">
@@ -545,8 +552,17 @@
       </div>
     </div>
   </script>
-  <script type="text/template" id="coupon_row_template">
-
+  
+  <script type="text/template" id="attribute_template">
+    <div class="small-<%= columns %> columns">
+      <%= value %>
+    </div>
+  </script>
+  
+  <script type="text/template" id="attribute_row_template">
+    <div class="row">
+      <%= value %>
+    </div>
   </script>
 </body>
 </html>
