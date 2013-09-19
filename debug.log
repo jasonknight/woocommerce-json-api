@@ -14255,3 +14255,2855 @@ path to validator should be validators/class-page-argument-validator.php
 /var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
 in function fetch: WPDB returned 1 results using SELECT * FROM wp_posts WHERE post_type IN ('shop_coupon') AND post_status NOT IN ('trash','auto-draft') LIMIT 0,2
 in function fetch: 1 were returned from: SELECT * FROM wp_posts WHERE post_type IN ('shop_coupon') AND post_status NOT IN ('trash','auto-draft') LIMIT 0,2
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '119',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '36015',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379562371.781',
+  'Request-Time' => '1379562371',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_products',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '2',
+    'page' => '1',
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+in function fetch: WPDB returned 2 results using SELECT id FROM wp_posts WHERE post_type IN ('product','product_variation') AND post_status NOT IN ('trash','auto-draft') LIMIT 0,2
+in function fetch: 2 were returned from: SELECT id FROM wp_posts WHERE post_type IN ('product','product_variation') AND post_status NOT IN ('trash','auto-draft') LIMIT 0,2
+IDs from all() are: array (
+  0 => '29',
+  1 => '30',
+)
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '119',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '36019',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379562464.756',
+  'Request-Time' => '1379562464',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_products',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '2',
+    'page' => '1',
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+in function fetch: WPDB returned 2 results using SELECT id FROM wp_posts WHERE post_type IN ('product','product_variation') AND post_status NOT IN ('trash','auto-draft') LIMIT 0,2
+in function fetch: 2 were returned from: SELECT id FROM wp_posts WHERE post_type IN ('product','product_variation') AND post_status NOT IN ('trash','auto-draft') LIMIT 0,2
+IDs from all() are: array (
+  0 => '29',
+  1 => '30',
+)
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '119',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '36030',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379562535.443',
+  'Request-Time' => '1379562535',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_products',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '2',
+    'page' => '1',
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+in function fetch: WPDB returned 2 results using SELECT id FROM wp_posts WHERE post_type IN ('product','product_variation') AND post_status NOT IN ('trash','auto-draft') LIMIT 0,2
+in function fetch: 2 were returned from: SELECT id FROM wp_posts WHERE post_type IN ('product','product_variation') AND post_status NOT IN ('trash','auto-draft') LIMIT 0,2
+IDs from all() are: array (
+  0 => '29',
+  1 => '30',
+)
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '73',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '36207',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379567547.102',
+  'Request-Time' => '1379567547',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_categories',
+  'arguments' => 
+  array (
+    'token' => '1234',
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '116',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '36209',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379567547.527',
+  'Request-Time' => '1379567547',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_categories',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'order_by' => 'non-exisent-column',
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_OrderBy_Argument_Validator
+path to validator should be validators/class-order-by-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-order-by-argument-validator.php didn't exist
+Beggining validation of OrderBy
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '131',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '36210',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379567547.721',
+  'Request-Time' => '1379567547',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_categories',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'ids' => 
+    array (
+      0 => '33',
+      1 => '54',
+    ),
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_Ids_Argument_Validator
+path to validator should be validators/class-ids-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-ids-argument-validator.php didn't exist
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '120',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '36211',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379567547.917',
+  'Request-Time' => '1379567547',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_customers',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '2',
+    'page' => '1',
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '77',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '36212',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379567548.107',
+  'Request-Time' => '1379567548',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_store_settings',
+  'arguments' => 
+  array (
+    'token' => '1234',
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '118',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '36213',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379567548.302',
+  'Request-Time' => '1379567548',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_coupons',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '2',
+    'page' => '1',
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+in function fetch: WPDB returned 1 results using SELECT * FROM wp_posts WHERE post_type IN ('shop_coupon') AND post_status NOT IN ('trash','auto-draft') LIMIT 0,2
+in function fetch: 1 were returned from: SELECT * FROM wp_posts WHERE post_type IN ('shop_coupon') AND post_status NOT IN ('trash','auto-draft') LIMIT 0,2
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '118',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '36216',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379567610.29',
+  'Request-Time' => '1379567610',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_coupons',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '2',
+    'page' => '1',
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+in function fetch: WPDB returned 1 results using SELECT * FROM wp_posts WHERE post_type IN ('shop_coupon') AND post_status NOT IN ('trash','auto-draft') LIMIT 0,2
+in function fetch: 1 were returned from: SELECT * FROM wp_posts WHERE post_type IN ('shop_coupon') AND post_status NOT IN ('trash','auto-draft') LIMIT 0,2
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '131',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '36217',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379567637.879',
+  'Request-Time' => '1379567637',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_supported_attributes',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '2',
+    'page' => '1',
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '131',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '36219',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379567701.405',
+  'Request-Time' => '1379567701',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_supported_attributes',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '2',
+    'page' => '1',
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '131',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '36222',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379567730.389',
+  'Request-Time' => '1379567730',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_supported_attributes',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '2',
+    'page' => '1',
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '131',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '36230',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379567925.875',
+  'Request-Time' => '1379567925',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_supported_attributes',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '2',
+    'page' => '1',
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '131',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '36232',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379567958.876',
+  'Request-Time' => '1379567958',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_supported_attributes',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '2',
+    'page' => '1',
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '73',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '36234',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379567977.658',
+  'Request-Time' => '1379567977',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_categories',
+  'arguments' => 
+  array (
+    'token' => '1234',
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '116',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '36235',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379567977.878',
+  'Request-Time' => '1379567977',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_categories',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'order_by' => 'non-exisent-column',
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_OrderBy_Argument_Validator
+path to validator should be validators/class-order-by-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-order-by-argument-validator.php didn't exist
+Beggining validation of OrderBy
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '131',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '36236',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379567978.062',
+  'Request-Time' => '1379567978',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_categories',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'ids' => 
+    array (
+      0 => '33',
+      1 => '54',
+    ),
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_Ids_Argument_Validator
+path to validator should be validators/class-ids-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-ids-argument-validator.php didn't exist
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '120',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '36237',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379567978.253',
+  'Request-Time' => '1379567978',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_customers',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '2',
+    'page' => '1',
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '77',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '36238',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379567978.449',
+  'Request-Time' => '1379567978',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_store_settings',
+  'arguments' => 
+  array (
+    'token' => '1234',
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '118',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '36239',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379567978.644',
+  'Request-Time' => '1379567978',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_coupons',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '2',
+    'page' => '1',
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+in function fetch: WPDB returned 1 results using SELECT * FROM wp_posts WHERE post_type IN ('shop_coupon') AND post_status NOT IN ('trash','auto-draft') LIMIT 0,2
+in function fetch: 1 were returned from: SELECT * FROM wp_posts WHERE post_type IN ('shop_coupon') AND post_status NOT IN ('trash','auto-draft') LIMIT 0,2
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '131',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '36240',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379567978.848',
+  'Request-Time' => '1379567978',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_supported_attributes',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '2',
+    'page' => '1',
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '77',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '36241',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379567979.051',
+  'Request-Time' => '1379567979',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_store_settings',
+  'arguments' => 
+  array (
+    'token' => '1234',
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '3568',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '36242',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379567979.241',
+  'Request-Time' => '1379567979',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'set_store_settings',
+  'arguments' => 
+  array (
+    'token' => '1234',
+  ),
+  'status' => '1',
+  'payload' => 
+  array (
+    'allowed_countries' => 'all',
+    'allow_customers_to_reorder' => 'no',
+    'calc_shipping' => 'yes',
+    'calc_taxes' => 'yes',
+    'cart_page_id' => '5',
+    'cart_redirect_after_add' => 'no',
+    'category_archive_display' => '',
+    'change_password_page_id' => '11',
+    'checkout_page_id' => '6',
+    'clear_cart_on_logout' => 'no',
+    'currency' => 'GBP',
+    'currency_pos' => 'left',
+    'db_version' => '2.0.10',
+    'default_catalog_orderby' => 'title',
+    'default_country' => 'GB',
+    'default_customer_address' => 'base',
+    'demo_store' => 'no',
+    'demo_store_notice' => 'This is a demo store for testing purposes &mdash; no orders shall be fulfilled.',
+    'dimension_unit' => 'cm',
+    'downloads_grant_access_after_payment' => 'yes',
+    'downloads_require_login' => 'no',
+    'edit_address_page_id' => '9',
+    'email_background_color' => '#f5f5f5',
+    'email_base_color' => '#557da1',
+    'email_body_background_color' => '#fdfdfd',
+    'email_footer_text' => 'Woo Test - Powered by WooCommerce',
+    'email_from_address' => 'jason@jolierouge.ent',
+    'email_from_name' => 'Woo Test',
+    'email_header_image' => '',
+    'email_text_color' => '#505050',
+    'enable_ajax_add_to_cart' => 'yes',
+    'enable_chosen' => 'yes',
+    'enable_coupons' => 'yes',
+    'enable_dimensions' => 'yes',
+    'enable_dimension_product_attributes' => 'yes',
+    'enable_guest_checkout' => 'yes',
+    'enable_lightbox' => 'yes',
+    'enable_myaccount_registration' => 'no',
+    'enable_order_comments' => 'yes',
+    'enable_review_rating' => 'yes',
+    'enable_shipping_calc' => 'yes',
+    'enable_signup_and_login_from_checkout' => 'yes',
+    'enable_sku' => 'yes',
+    'enable_weight' => 'yes',
+    'errors' => '',
+    'file_download_method' => 'force',
+    'force_ssl_checkout' => 'yes',
+    'frontend_css' => 'yes',
+    'hide_out_of_stock_items' => 'no',
+    'hold_stock_minutes' => '60',
+    'json_api_enabled' => 'yes',
+    'json_api_require_https' => 'no',
+    'lock_down_admin' => 'no',
+    'logout_page_id' => '12',
+    'lost_password_page_id' => '8',
+    'manage_stock' => 'yes',
+    'myaccount_page_id' => '7',
+    'notify_low_stock' => 'yes',
+    'notify_low_stock_amount' => '2',
+    'notify_no_stock' => 'yes',
+    'notify_no_stock_amount' => '0',
+    'pay_page_id' => '13',
+    'prices_include_tax' => 'no',
+    'price_decimal_sep' => '.',
+    'price_num_decimals' => '2',
+    'price_thousand_sep' => ',',
+    'price_trim_zeros' => 'yes',
+    'registration_email_for_username' => 'no',
+    'require_shipping_address' => 'no',
+    'review_rating_required' => 'yes',
+    'review_rating_verification_label' => 'yes',
+    'shipping_cost_requires_address' => 'no',
+    'shipping_method_format' => '',
+    'shipping_tax_class' => '',
+    'ship_to_billing_address_only' => 'no',
+    'ship_to_same_address' => 'yes',
+    'shop_page_display' => '',
+    'shop_page_id' => '4',
+    'specific_allowed_countries' => '',
+    'stock_email_recipient' => 'jason@jolierouge.ent',
+    'stock_format' => '',
+    'tax_based_on' => 'shipping',
+    'tax_classes' => 'Reduced Rate
+Zero Rate',
+    'tax_display_cart' => 'excl',
+    'tax_round_at_subtotal' => 'no',
+    'terms_page_id' => '',
+    'thanks_page_id' => '14',
+    'unforce_ssl_checkout' => 'no',
+    'version' => '2.0.10',
+    'view_order_page_id' => '10',
+    'weight_unit' => 'kg',
+  ),
+  'payload_length' => '91',
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '3567',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '36243',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379567979.451',
+  'Request-Time' => '1379567979',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'set_store_settings',
+  'arguments' => 
+  array (
+    'token' => '1234',
+  ),
+  'status' => '1',
+  'payload' => 
+  array (
+    'allowed_countries' => 'all',
+    'allow_customers_to_reorder' => 'no',
+    'calc_shipping' => 'yes',
+    'calc_taxes' => 'yes',
+    'cart_page_id' => '5',
+    'cart_redirect_after_add' => 'no',
+    'category_archive_display' => '',
+    'change_password_page_id' => '11',
+    'checkout_page_id' => '6',
+    'clear_cart_on_logout' => 'no',
+    'currency' => 'GBP',
+    'currency_pos' => 'left',
+    'db_version' => '2.0.10',
+    'default_catalog_orderby' => 'title',
+    'default_country' => 'GB',
+    'default_customer_address' => 'base',
+    'demo_store' => 'no',
+    'demo_store_notice' => 'This is a demo store for testing purposes &mdash; no orders shall be fulfilled.',
+    'dimension_unit' => 'cm',
+    'downloads_grant_access_after_payment' => 'yes',
+    'downloads_require_login' => 'no',
+    'edit_address_page_id' => '9',
+    'email_background_color' => '#f5f5f5',
+    'email_base_color' => '#557da1',
+    'email_body_background_color' => '#fdfdfd',
+    'email_footer_text' => 'Woo Test - Powered by WooCommerce',
+    'email_from_address' => 'jason@jolierouge.ent',
+    'email_from_name' => 'Woo Test',
+    'email_header_image' => '',
+    'email_text_color' => '#505050',
+    'enable_ajax_add_to_cart' => 'yes',
+    'enable_chosen' => 'yes',
+    'enable_coupons' => 'yes',
+    'enable_dimensions' => 'yes',
+    'enable_dimension_product_attributes' => 'yes',
+    'enable_guest_checkout' => 'yes',
+    'enable_lightbox' => 'yes',
+    'enable_myaccount_registration' => 'no',
+    'enable_order_comments' => 'yes',
+    'enable_review_rating' => 'yes',
+    'enable_shipping_calc' => 'yes',
+    'enable_signup_and_login_from_checkout' => 'yes',
+    'enable_sku' => 'yes',
+    'enable_weight' => 'yes',
+    'errors' => '',
+    'file_download_method' => 'force',
+    'force_ssl_checkout' => 'no',
+    'frontend_css' => 'yes',
+    'hide_out_of_stock_items' => 'no',
+    'hold_stock_minutes' => '60',
+    'json_api_enabled' => 'yes',
+    'json_api_require_https' => 'no',
+    'lock_down_admin' => 'no',
+    'logout_page_id' => '12',
+    'lost_password_page_id' => '8',
+    'manage_stock' => 'yes',
+    'myaccount_page_id' => '7',
+    'notify_low_stock' => 'yes',
+    'notify_low_stock_amount' => '2',
+    'notify_no_stock' => 'yes',
+    'notify_no_stock_amount' => '0',
+    'pay_page_id' => '13',
+    'prices_include_tax' => 'no',
+    'price_decimal_sep' => '.',
+    'price_num_decimals' => '2',
+    'price_thousand_sep' => ',',
+    'price_trim_zeros' => 'yes',
+    'registration_email_for_username' => 'no',
+    'require_shipping_address' => 'no',
+    'review_rating_required' => 'yes',
+    'review_rating_verification_label' => 'yes',
+    'shipping_cost_requires_address' => 'no',
+    'shipping_method_format' => '',
+    'shipping_tax_class' => '',
+    'ship_to_billing_address_only' => 'no',
+    'ship_to_same_address' => 'yes',
+    'shop_page_display' => '',
+    'shop_page_id' => '4',
+    'specific_allowed_countries' => '',
+    'stock_email_recipient' => 'jason@jolierouge.ent',
+    'stock_format' => '',
+    'tax_based_on' => 'shipping',
+    'tax_classes' => 'Reduced Rate
+Zero Rate',
+    'tax_display_cart' => 'excl',
+    'tax_round_at_subtotal' => 'no',
+    'terms_page_id' => '',
+    'thanks_page_id' => '14',
+    'unforce_ssl_checkout' => 'no',
+    'version' => '2.0.10',
+    'view_order_page_id' => '10',
+    'weight_unit' => 'kg',
+  ),
+  'payload_length' => '91',
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '105',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '36244',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379567979.656',
+  'Request-Time' => '1379567979',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_store_settings',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'filter' => 'force',
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_Filter_Argument_Validator
+path to validator should be validators/class-filter-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-filter-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-filter-argument-validator.php didn't exist
+validator validators/class-filter-argument-validator.php does not exist
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '119',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '36245',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379567979.85',
+  'Request-Time' => '1379567979',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_products',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '2',
+    'page' => '1',
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+in function fetch: WPDB returned 2 results using SELECT id FROM wp_posts WHERE post_type IN ('product','product_variation') AND post_status NOT IN ('trash','auto-draft') LIMIT 0,2
+in function fetch: 2 were returned from: SELECT id FROM wp_posts WHERE post_type IN ('product','product_variation') AND post_status NOT IN ('trash','auto-draft') LIMIT 0,2
+IDs from all() are: array (
+  0 => '29',
+  1 => '30',
+)
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '13952',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '36246',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379567980.068',
+  'Request-Time' => '1379567980',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'set_products',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '2',
+    'page' => '1',
+  ),
+  'status' => '1',
+  'payload' => 
+  array (
+    0 => 
+    array (
+      'id' => '29',
+      'name' => 'Api created product 55 I edited it',
+      'slug' => 'api-created-product',
+      'type' => 'product',
+      'description' => 'A test description',
+      'short_description' => '',
+      'parent_id' => '0',
+      'publishing' => 'publish',
+      'sku' => 'T1',
+      'downloadable' => 'no',
+      'visibility' => 'visible',
+      'virtual' => 'no',
+      'manage_stock' => 'no',
+      'sold_individually' => 'no',
+      'featured' => 'no',
+      'allow_backorders' => 'no',
+      'quantity' => '0',
+      'height' => '',
+      'weight' => '',
+      'length' => '',
+      'price' => '892.8',
+      'sale_price' => '',
+      'sale_from' => '',
+      'sale_to' => '',
+      'status' => 'instock',
+      'attributes' => 
+      array (
+        'color' => 
+        array (
+          'name' => 'Color',
+          'value' => 'Blue | Red | Green',
+          'position' => '0',
+          'is_visible' => '1',
+          'is_variation' => '0',
+          'is_taxonomy' => '0',
+        ),
+      ),
+      'tax_class' => '',
+      'tax_status' => 'none',
+      'categories' => 
+      array (
+        0 => 
+        array (
+          'id' => '13',
+          'name' => 'Test Product Category',
+          'slug' => 'test-product-category',
+          'group_id' => '0',
+          'description' => '',
+          'parent_id' => '0',
+          'count' => '2',
+          'taxonomy' => 'product_cat',
+          'taxonomy_id' => '13',
+        ),
+        1 => 
+        array (
+          'id' => '63',
+          'name' => 'This-is-an-api-category 30841',
+          'slug' => 'this-is-a-category-30841',
+          'group_id' => '0',
+          'description' => 'I was created by the API',
+          'parent_id' => '0',
+          'count' => '1',
+          'taxonomy' => 'product_cat',
+          'taxonomy_id' => '26',
+        ),
+        2 => 
+        array (
+          'id' => '65',
+          'name' => 'This-is-an-api-category 56679',
+          'slug' => 'this-is-a-category-56679',
+          'group_id' => '0',
+          'description' => 'I was created by the API',
+          'parent_id' => '0',
+          'count' => '1',
+          'taxonomy' => 'product_cat',
+          'taxonomy_id' => '28',
+        ),
+        3 => 
+        array (
+          'id' => '67',
+          'name' => 'This-is-an-api-category 57230',
+          'slug' => 'this-is-a-category-57230',
+          'group_id' => '0',
+          'description' => 'I was created by the API',
+          'parent_id' => '0',
+          'count' => '1',
+          'taxonomy' => 'product_cat',
+          'taxonomy_id' => '30',
+        ),
+        4 => 
+        array (
+          'id' => '69',
+          'name' => 'This-is-an-api-category 31082',
+          'slug' => 'this-is-a-category-31082',
+          'group_id' => '0',
+          'description' => 'I was created by the API',
+          'parent_id' => '0',
+          'count' => '1',
+          'taxonomy' => 'product_cat',
+          'taxonomy_id' => '32',
+        ),
+        5 => 
+        array (
+          'id' => '71',
+          'name' => 'This-is-an-api-category 97277',
+          'slug' => 'this-is-a-category-97277',
+          'group_id' => '0',
+          'description' => 'I was created by the API',
+          'parent_id' => '0',
+          'count' => '1',
+          'taxonomy' => 'product_cat',
+          'taxonomy_id' => '34',
+        ),
+        6 => 
+        array (
+          'id' => '73',
+          'name' => 'This-is-an-api-category 83541',
+          'slug' => 'this-is-a-category-83541',
+          'group_id' => '0',
+          'description' => 'I was created by the API',
+          'parent_id' => '0',
+          'count' => '1',
+          'taxonomy' => 'product_cat',
+          'taxonomy_id' => '36',
+        ),
+        7 => 
+        array (
+          'id' => '75',
+          'name' => 'This-is-an-api-category 89165',
+          'slug' => 'this-is-a-category-89165',
+          'group_id' => '0',
+          'description' => 'I was created by the API',
+          'parent_id' => '0',
+          'count' => '1',
+          'taxonomy' => 'product_cat',
+          'taxonomy_id' => '38',
+        ),
+        8 => 
+        array (
+          'id' => '77',
+          'name' => 'This-is-an-api-category 20560',
+          'slug' => 'this-is-a-category-20560',
+          'group_id' => '0',
+          'description' => 'I was created by the API',
+          'parent_id' => '0',
+          'count' => '1',
+          'taxonomy' => 'product_cat',
+          'taxonomy_id' => '40',
+        ),
+      ),
+      'tags' => 
+      array (
+        0 => 
+        array (
+          'id' => '14',
+          'name' => 'This-is-a-tag',
+          'slug' => 'this-is-a-tag',
+          'group_id' => '0',
+          'description' => '',
+          'parent_id' => '0',
+          'count' => '1',
+          'taxonomy' => 'product_tag',
+          'taxonomy_id' => '14',
+        ),
+        1 => 
+        array (
+          'id' => '60',
+          'name' => 'This-is-an-api-tag 4977',
+          'slug' => 'this-is-a-tag-4977',
+          'group_id' => '0',
+          'description' => 'I was created by the API',
+          'parent_id' => '0',
+          'count' => '1',
+          'taxonomy' => 'product_tag',
+          'taxonomy_id' => '23',
+        ),
+        2 => 
+        array (
+          'id' => '61',
+          'name' => 'This-is-an-api-tag 98712',
+          'slug' => 'this-is-a-tag-98712',
+          'group_id' => '0',
+          'description' => 'I was created by the API',
+          'parent_id' => '0',
+          'count' => '1',
+          'taxonomy' => 'product_tag',
+          'taxonomy_id' => '24',
+        ),
+        3 => 
+        array (
+          'id' => '62',
+          'name' => 'This-is-an-api-tag 43888',
+          'slug' => 'this-is-a-tag-43888',
+          'group_id' => '0',
+          'description' => 'I was created by the API',
+          'parent_id' => '0',
+          'count' => '1',
+          'taxonomy' => 'product_tag',
+          'taxonomy_id' => '25',
+        ),
+        4 => 
+        array (
+          'id' => '64',
+          'name' => 'This-is-an-api-tag 30841',
+          'slug' => 'this-is-a-tag-30841',
+          'group_id' => '0',
+          'description' => 'I was created by the API',
+          'parent_id' => '0',
+          'count' => '1',
+          'taxonomy' => 'product_tag',
+          'taxonomy_id' => '27',
+        ),
+        5 => 
+        array (
+          'id' => '66',
+          'name' => 'This-is-an-api-tag 56679',
+          'slug' => 'this-is-a-tag-56679',
+          'group_id' => '0',
+          'description' => 'I was created by the API',
+          'parent_id' => '0',
+          'count' => '1',
+          'taxonomy' => 'product_tag',
+          'taxonomy_id' => '29',
+        ),
+        6 => 
+        array (
+          'id' => '68',
+          'name' => 'This-is-an-api-tag 57230',
+          'slug' => 'this-is-a-tag-57230',
+          'group_id' => '0',
+          'description' => 'I was created by the API',
+          'parent_id' => '0',
+          'count' => '1',
+          'taxonomy' => 'product_tag',
+          'taxonomy_id' => '31',
+        ),
+        7 => 
+        array (
+          'id' => '70',
+          'name' => 'This-is-an-api-tag 31082',
+          'slug' => 'this-is-a-tag-31082',
+          'group_id' => '0',
+          'description' => 'I was created by the API',
+          'parent_id' => '0',
+          'count' => '1',
+          'taxonomy' => 'product_tag',
+          'taxonomy_id' => '33',
+        ),
+        8 => 
+        array (
+          'id' => '72',
+          'name' => 'This-is-an-api-tag 97277',
+          'slug' => 'this-is-a-tag-97277',
+          'group_id' => '0',
+          'description' => 'I was created by the API',
+          'parent_id' => '0',
+          'count' => '1',
+          'taxonomy' => 'product_tag',
+          'taxonomy_id' => '35',
+        ),
+        9 => 
+        array (
+          'id' => '74',
+          'name' => 'This-is-an-api-tag 83541',
+          'slug' => 'this-is-a-tag-83541',
+          'group_id' => '0',
+          'description' => 'I was created by the API',
+          'parent_id' => '0',
+          'count' => '1',
+          'taxonomy' => 'product_tag',
+          'taxonomy_id' => '37',
+        ),
+        10 => 
+        array (
+          'id' => '76',
+          'name' => 'This-is-an-api-tag 89165',
+          'slug' => 'this-is-a-tag-89165',
+          'group_id' => '0',
+          'description' => 'I was created by the API',
+          'parent_id' => '0',
+          'count' => '1',
+          'taxonomy' => 'product_tag',
+          'taxonomy_id' => '39',
+        ),
+        11 => 
+        array (
+          'id' => '78',
+          'name' => 'This-is-an-api-tag 20560',
+          'slug' => 'this-is-a-tag-20560',
+          'group_id' => '0',
+          'description' => 'I was created by the API',
+          'parent_id' => '0',
+          'count' => '1',
+          'taxonomy' => 'product_tag',
+          'taxonomy_id' => '41',
+        ),
+      ),
+      'reviews' => 
+      array (
+        0 => 
+        array (
+          'id' => '39',
+          'name' => 'admin',
+          'date' => '2013-09-18 06:35:55',
+          'email' => 'jason@jolierouge.ent',
+          'body' => 'Hello, this is a review',
+          'approved' => '1',
+          'object_id' => '29',
+          'parent_id' => '0',
+          'user_id' => '1',
+          'rating' => '5',
+        ),
+      ),
+      'featured_image' => '0',
+    ),
+    1 => 
+    array (
+      'id' => '30',
+      'name' => 'New API Product',
+      'slug' => 'new-api-product',
+      'type' => 'product',
+      'description' => '',
+      'short_description' => '',
+      'parent_id' => '0',
+      'publishing' => 'publish',
+      'sku' => 'T1495',
+      'downloadable' => '',
+      'visibility' => '',
+      'virtual' => '',
+      'manage_stock' => '',
+      'sold_individually' => '',
+      'featured' => '',
+      'allow_backorders' => '',
+      'quantity' => '0',
+      'height' => '',
+      'weight' => '',
+      'length' => '',
+      'price' => '',
+      'sale_price' => '',
+      'sale_from' => '',
+      'sale_to' => '',
+      'status' => '',
+      'tax_class' => '',
+      'tax_status' => '',
+      'featured_image' => '0',
+    ),
+  ),
+  'payload_length' => '2',
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '119',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '36247',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379567981.104',
+  'Request-Time' => '1379567981',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_products',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '2',
+    'page' => '1',
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+in function fetch: WPDB returned 2 results using SELECT id FROM wp_posts WHERE post_type IN ('product','product_variation') AND post_status NOT IN ('trash','auto-draft') LIMIT 0,2
+in function fetch: 2 were returned from: SELECT id FROM wp_posts WHERE post_type IN ('product','product_variation') AND post_status NOT IN ('trash','auto-draft') LIMIT 0,2
+IDs from all() are: array (
+  0 => '29',
+  1 => '30',
+)
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '14801',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '36248',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379567981.326',
+  'Request-Time' => '1379567981',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'set_products',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '2',
+    'page' => '1',
+  ),
+  'status' => '1',
+  'payload' => 
+  array (
+    0 => 
+    array (
+      'id' => '29',
+      'name' => 'Api created product 55',
+      'slug' => 'api-created-product',
+      'type' => 'product',
+      'description' => 'A test description',
+      'short_description' => '',
+      'parent_id' => '0',
+      'publishing' => 'publish',
+      'sku' => 'T1',
+      'downloadable' => 'no',
+      'visibility' => 'visible',
+      'virtual' => 'no',
+      'manage_stock' => 'no',
+      'sold_individually' => 'no',
+      'featured' => 'no',
+      'allow_backorders' => 'no',
+      'quantity' => '0',
+      'height' => '',
+      'weight' => '',
+      'length' => '',
+      'price' => '446.4',
+      'sale_price' => '',
+      'sale_from' => '',
+      'sale_to' => '',
+      'status' => 'instock',
+      'attributes' => 
+      array (
+        'color' => 
+        array (
+          'name' => 'Color',
+          'value' => 'Blue | Red | Green',
+          'position' => '0',
+          'is_visible' => '1',
+          'is_variation' => '0',
+          'is_taxonomy' => '0',
+        ),
+      ),
+      'tax_class' => '',
+      'tax_status' => 'none',
+      'categories' => 
+      array (
+        0 => 
+        array (
+          'id' => '13',
+          'name' => 'Test Product Category',
+          'slug' => 'test-product-category',
+          'group_id' => '0',
+          'description' => '',
+          'parent_id' => '0',
+          'count' => '2',
+          'taxonomy' => 'product_cat',
+          'taxonomy_id' => '13',
+        ),
+        1 => 
+        array (
+          'id' => '63',
+          'name' => 'This-is-an-api-category 30841',
+          'slug' => 'this-is-a-category-30841',
+          'group_id' => '0',
+          'description' => 'I was created by the API',
+          'parent_id' => '0',
+          'count' => '1',
+          'taxonomy' => 'product_cat',
+          'taxonomy_id' => '26',
+        ),
+        2 => 
+        array (
+          'id' => '65',
+          'name' => 'This-is-an-api-category 56679',
+          'slug' => 'this-is-a-category-56679',
+          'group_id' => '0',
+          'description' => 'I was created by the API',
+          'parent_id' => '0',
+          'count' => '1',
+          'taxonomy' => 'product_cat',
+          'taxonomy_id' => '28',
+        ),
+        3 => 
+        array (
+          'id' => '67',
+          'name' => 'This-is-an-api-category 57230',
+          'slug' => 'this-is-a-category-57230',
+          'group_id' => '0',
+          'description' => 'I was created by the API',
+          'parent_id' => '0',
+          'count' => '1',
+          'taxonomy' => 'product_cat',
+          'taxonomy_id' => '30',
+        ),
+        4 => 
+        array (
+          'id' => '69',
+          'name' => 'This-is-an-api-category 31082',
+          'slug' => 'this-is-a-category-31082',
+          'group_id' => '0',
+          'description' => 'I was created by the API',
+          'parent_id' => '0',
+          'count' => '1',
+          'taxonomy' => 'product_cat',
+          'taxonomy_id' => '32',
+        ),
+        5 => 
+        array (
+          'id' => '71',
+          'name' => 'This-is-an-api-category 97277',
+          'slug' => 'this-is-a-category-97277',
+          'group_id' => '0',
+          'description' => 'I was created by the API',
+          'parent_id' => '0',
+          'count' => '1',
+          'taxonomy' => 'product_cat',
+          'taxonomy_id' => '34',
+        ),
+        6 => 
+        array (
+          'id' => '73',
+          'name' => 'This-is-an-api-category 83541',
+          'slug' => 'this-is-a-category-83541',
+          'group_id' => '0',
+          'description' => 'I was created by the API',
+          'parent_id' => '0',
+          'count' => '1',
+          'taxonomy' => 'product_cat',
+          'taxonomy_id' => '36',
+        ),
+        7 => 
+        array (
+          'id' => '75',
+          'name' => 'This-is-an-api-category 89165',
+          'slug' => 'this-is-a-category-89165',
+          'group_id' => '0',
+          'description' => 'I was created by the API',
+          'parent_id' => '0',
+          'count' => '1',
+          'taxonomy' => 'product_cat',
+          'taxonomy_id' => '38',
+        ),
+        8 => 
+        array (
+          'id' => '77',
+          'name' => 'This-is-an-api-category 20560',
+          'slug' => 'this-is-a-category-20560',
+          'group_id' => '0',
+          'description' => 'I was created by the API',
+          'parent_id' => '0',
+          'count' => '1',
+          'taxonomy' => 'product_cat',
+          'taxonomy_id' => '40',
+        ),
+        9 => 
+        array (
+          'name' => 'This-is-an-api-category 7120',
+          'slug' => 'this-is-a-category-7120',
+          'group_id' => '0',
+          'description' => 'I was created by the API',
+          'parent_id' => '0',
+          'count' => '1',
+          'taxonomy' => 'product_cat',
+        ),
+      ),
+      'tags' => 
+      array (
+        0 => 
+        array (
+          'id' => '14',
+          'name' => 'This-is-a-tag',
+          'slug' => 'this-is-a-tag',
+          'group_id' => '0',
+          'description' => '',
+          'parent_id' => '0',
+          'count' => '1',
+          'taxonomy' => 'product_tag',
+          'taxonomy_id' => '14',
+        ),
+        1 => 
+        array (
+          'id' => '60',
+          'name' => 'This-is-an-api-tag 4977',
+          'slug' => 'this-is-a-tag-4977',
+          'group_id' => '0',
+          'description' => 'I was created by the API',
+          'parent_id' => '0',
+          'count' => '1',
+          'taxonomy' => 'product_tag',
+          'taxonomy_id' => '23',
+        ),
+        2 => 
+        array (
+          'id' => '61',
+          'name' => 'This-is-an-api-tag 98712',
+          'slug' => 'this-is-a-tag-98712',
+          'group_id' => '0',
+          'description' => 'I was created by the API',
+          'parent_id' => '0',
+          'count' => '1',
+          'taxonomy' => 'product_tag',
+          'taxonomy_id' => '24',
+        ),
+        3 => 
+        array (
+          'id' => '62',
+          'name' => 'This-is-an-api-tag 43888',
+          'slug' => 'this-is-a-tag-43888',
+          'group_id' => '0',
+          'description' => 'I was created by the API',
+          'parent_id' => '0',
+          'count' => '1',
+          'taxonomy' => 'product_tag',
+          'taxonomy_id' => '25',
+        ),
+        4 => 
+        array (
+          'id' => '64',
+          'name' => 'This-is-an-api-tag 30841',
+          'slug' => 'this-is-a-tag-30841',
+          'group_id' => '0',
+          'description' => 'I was created by the API',
+          'parent_id' => '0',
+          'count' => '1',
+          'taxonomy' => 'product_tag',
+          'taxonomy_id' => '27',
+        ),
+        5 => 
+        array (
+          'id' => '66',
+          'name' => 'This-is-an-api-tag 56679',
+          'slug' => 'this-is-a-tag-56679',
+          'group_id' => '0',
+          'description' => 'I was created by the API',
+          'parent_id' => '0',
+          'count' => '1',
+          'taxonomy' => 'product_tag',
+          'taxonomy_id' => '29',
+        ),
+        6 => 
+        array (
+          'id' => '68',
+          'name' => 'This-is-an-api-tag 57230',
+          'slug' => 'this-is-a-tag-57230',
+          'group_id' => '0',
+          'description' => 'I was created by the API',
+          'parent_id' => '0',
+          'count' => '1',
+          'taxonomy' => 'product_tag',
+          'taxonomy_id' => '31',
+        ),
+        7 => 
+        array (
+          'id' => '70',
+          'name' => 'This-is-an-api-tag 31082',
+          'slug' => 'this-is-a-tag-31082',
+          'group_id' => '0',
+          'description' => 'I was created by the API',
+          'parent_id' => '0',
+          'count' => '1',
+          'taxonomy' => 'product_tag',
+          'taxonomy_id' => '33',
+        ),
+        8 => 
+        array (
+          'id' => '72',
+          'name' => 'This-is-an-api-tag 97277',
+          'slug' => 'this-is-a-tag-97277',
+          'group_id' => '0',
+          'description' => 'I was created by the API',
+          'parent_id' => '0',
+          'count' => '1',
+          'taxonomy' => 'product_tag',
+          'taxonomy_id' => '35',
+        ),
+        9 => 
+        array (
+          'id' => '74',
+          'name' => 'This-is-an-api-tag 83541',
+          'slug' => 'this-is-a-tag-83541',
+          'group_id' => '0',
+          'description' => 'I was created by the API',
+          'parent_id' => '0',
+          'count' => '1',
+          'taxonomy' => 'product_tag',
+          'taxonomy_id' => '37',
+        ),
+        10 => 
+        array (
+          'id' => '76',
+          'name' => 'This-is-an-api-tag 89165',
+          'slug' => 'this-is-a-tag-89165',
+          'group_id' => '0',
+          'description' => 'I was created by the API',
+          'parent_id' => '0',
+          'count' => '1',
+          'taxonomy' => 'product_tag',
+          'taxonomy_id' => '39',
+        ),
+        11 => 
+        array (
+          'id' => '78',
+          'name' => 'This-is-an-api-tag 20560',
+          'slug' => 'this-is-a-tag-20560',
+          'group_id' => '0',
+          'description' => 'I was created by the API',
+          'parent_id' => '0',
+          'count' => '1',
+          'taxonomy' => 'product_tag',
+          'taxonomy_id' => '41',
+        ),
+        12 => 
+        array (
+          'name' => 'This-is-an-api-tag 7120',
+          'slug' => 'this-is-a-tag-7120',
+          'group_id' => '0',
+          'description' => 'I was created by the API',
+          'parent_id' => '0',
+          'count' => '1',
+          'taxonomy' => 'product_tag',
+        ),
+      ),
+      'reviews' => 
+      array (
+        0 => 
+        array (
+          'id' => '39',
+          'name' => 'admin',
+          'date' => '2013-09-18 06:35:55',
+          'email' => 'jason@jolierouge.ent',
+          'body' => 'Hello, this is a review',
+          'approved' => '1',
+          'object_id' => '29',
+          'parent_id' => '0',
+          'user_id' => '1',
+          'rating' => '5',
+        ),
+      ),
+      'featured_image' => '0',
+    ),
+    1 => 
+    array (
+      'id' => '30',
+      'name' => 'New API Product',
+      'slug' => 'new-api-product',
+      'type' => 'product',
+      'description' => '',
+      'short_description' => '',
+      'parent_id' => '0',
+      'publishing' => 'publish',
+      'sku' => 'T1495',
+      'downloadable' => '',
+      'visibility' => '',
+      'virtual' => '',
+      'manage_stock' => '',
+      'sold_individually' => '',
+      'featured' => '',
+      'allow_backorders' => '',
+      'quantity' => '0',
+      'height' => '',
+      'weight' => '',
+      'length' => '',
+      'price' => '',
+      'sale_price' => '',
+      'sale_from' => '',
+      'sale_to' => '',
+      'status' => '',
+      'tax_class' => '',
+      'tax_status' => '',
+      'featured_image' => '0',
+    ),
+  ),
+  'payload_length' => '2',
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '119',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '36249',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379567982.18',
+  'Request-Time' => '1379567982',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_products',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '2',
+    'page' => '1',
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+in function fetch: WPDB returned 2 results using SELECT id FROM wp_posts WHERE post_type IN ('product','product_variation') AND post_status NOT IN ('trash','auto-draft') LIMIT 0,2
+in function fetch: 2 were returned from: SELECT id FROM wp_posts WHERE post_type IN ('product','product_variation') AND post_status NOT IN ('trash','auto-draft') LIMIT 0,2
+IDs from all() are: array (
+  0 => '29',
+  1 => '30',
+)
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '117',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '36250',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379567982.408',
+  'Request-Time' => '1379567982',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_orders',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '2',
+    'page' => '1',
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+in function fetch: WPDB returned 2 results using SELECT * FROM wp_posts WHERE post_type IN ('shop_order') AND post_status != 'trash' LIMIT 0,2
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '12325',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '36251',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379567982.626',
+  'Request-Time' => '1379567982',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'set_orders',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '2',
+    'page' => '1',
+  ),
+  'status' => '1',
+  'payload' => 
+  array (
+    0 => 
+    array (
+      'id' => '32',
+      'name' => 'Order &ndash; September 12, 2013 @ 07:47 PM',
+      'guid' => 'http://woo.localhost/?post_type=shop_order&#038;p=32',
+      'order_key' => 'order_52321a46121d1',
+      'billing_first_name' => 'John',
+      'billing_last_name' => 'Doe',
+      'billing_company' => '',
+      'billing_address_1' => '777 666',
+      'billing_address_2' => '',
+      'billing_city' => 'Toulouse',
+      'billing_postcode' => '31000',
+      'billing_country' => 'FR',
+      'billing_state' => '',
+      'billing_email' => 'jason@jolierouge.ent',
+      'billing_phone' => '5555368',
+      'shipping_first_name' => 'John',
+      'shipping_last_name' => 'Doe',
+      'shipping_company' => '',
+      'shipping_address_1' => '777 666',
+      'shipping_address_2' => '',
+      'shipping_city' => 'Toulouse',
+      'shipping_postcode' => '31000',
+      'shipping_country' => 'FR',
+      'shipping_state' => '',
+      'shipping_method' => 'free_shipping',
+      'shipping_method_title' => 'Free Shipping',
+      'payment_method' => 'cheque',
+      'payment_method_title' => 'Cheque Payment',
+      'order_discount' => '0.00',
+      'cart_discount' => '0.00',
+      'order_tax' => '0',
+      'order_shipping' => '0.00',
+      'order_shipping_tax' => '0',
+      'order_total' => '15.95',
+      'customer_user' => '1',
+      'completed_date' => '',
+      'status' => 'processing',
+      'order_items' => 
+      array (
+        0 => 
+        array (
+          'id' => '1',
+          'name' => 'New API Product 2',
+          'type' => 'line_item',
+          'order_id' => '32',
+          'quantity' => '1',
+          'tax_class' => '',
+          'product_id' => '31',
+          'variation_id' => '',
+          'subtotal' => '15.95',
+          'total' => '15.95',
+          'tax' => '0',
+          'subtotal_tax' => '0',
+        ),
+      ),
+      'notes' => 
+      array (
+        0 => 
+        array (
+          'id' => '3',
+          'name' => 'WooCommerce',
+          'date' => '2013-09-12 19:47:19',
+          'email' => 'woocommerce@woo.localhost',
+          'body' => 'Order item stock reduced successfully.',
+          'approved' => '1',
+          'object_id' => '32',
+          'parent_id' => '0',
+          'user_id' => '0',
+          'type' => 'order_note',
+        ),
+        1 => 
+        array (
+          'id' => '4',
+          'name' => 'WooCommerce',
+          'date' => '2013-09-13 10:14:18',
+          'email' => 'woocommerce@woo.localhost',
+          'body' => 'Order status changed from on-hold to processing.',
+          'approved' => '1',
+          'object_id' => '32',
+          'parent_id' => '0',
+          'user_id' => '0',
+          'type' => 'order_note',
+        ),
+        2 => 
+        array (
+          'id' => '26',
+          'name' => 'WooCommerceAPI',
+          'date' => '2013-09-13 10:14:18',
+          'email' => 'woocommerce@woo.localhost',
+          'body' => 'This note was added from the test suite!',
+          'approved' => '1',
+          'object_id' => '32',
+          'parent_id' => '0',
+          'user_id' => '0',
+          'type' => 'order_note',
+        ),
+        3 => 
+        array (
+          'id' => '27',
+          'name' => 'WooCommerceAPI',
+          'date' => '2013-09-13 10:14:18',
+          'email' => 'woocommerce@woo.localhost',
+          'body' => 'This note was added from the test suite!',
+          'approved' => '1',
+          'object_id' => '32',
+          'parent_id' => '0',
+          'user_id' => '0',
+          'type' => 'order_note',
+        ),
+        4 => 
+        array (
+          'id' => '28',
+          'name' => 'WooCommerceAPI',
+          'date' => '2013-09-13 10:14:18',
+          'email' => 'woocommerce@woo.localhost',
+          'body' => 'This note was added from the test suite!',
+          'approved' => '1',
+          'object_id' => '32',
+          'parent_id' => '0',
+          'user_id' => '0',
+          'type' => 'order_note',
+        ),
+        5 => 
+        array (
+          'id' => '29',
+          'name' => 'WooCommerceAPI',
+          'date' => '2013-09-13 10:14:18',
+          'email' => 'woocommerce@woo.localhost',
+          'body' => 'This note was added from the test suite!',
+          'approved' => '1',
+          'object_id' => '32',
+          'parent_id' => '0',
+          'user_id' => '0',
+          'type' => 'order_note',
+        ),
+        6 => 
+        array (
+          'id' => '30',
+          'name' => 'WooCommerceAPI',
+          'date' => '2013-09-13 10:14:18',
+          'email' => 'woocommerce@woo.localhost',
+          'body' => 'This note was added from the test suite!',
+          'approved' => '1',
+          'object_id' => '32',
+          'parent_id' => '0',
+          'user_id' => '0',
+          'type' => 'order_note',
+        ),
+        7 => 
+        array (
+          'id' => '31',
+          'name' => 'WooCommerceAPI',
+          'date' => '2013-09-13 10:14:18',
+          'email' => 'woocommerce@woo.localhost',
+          'body' => 'This note was added from the test suite!',
+          'approved' => '1',
+          'object_id' => '32',
+          'parent_id' => '0',
+          'user_id' => '0',
+          'type' => 'order_note',
+        ),
+        8 => 
+        array (
+          'id' => '32',
+          'name' => 'WooCommerceAPI',
+          'date' => '2013-09-13 10:14:18',
+          'email' => 'woocommerce@woo.localhost',
+          'body' => 'This note was added from the test suite!',
+          'approved' => '1',
+          'object_id' => '32',
+          'parent_id' => '0',
+          'user_id' => '0',
+          'type' => 'order_note',
+        ),
+        9 => 
+        array (
+          'id' => '33',
+          'name' => 'WooCommerceAPI',
+          'date' => '2013-09-13 10:14:18',
+          'email' => 'woocommerce@woo.localhost',
+          'body' => 'This note was added from the test suite!',
+          'approved' => '1',
+          'object_id' => '32',
+          'parent_id' => '0',
+          'user_id' => '0',
+          'type' => 'order_note',
+        ),
+        10 => 
+        array (
+          'id' => '34',
+          'name' => 'WooCommerceAPI',
+          'date' => '2013-09-13 10:14:18',
+          'email' => 'woocommerce@woo.localhost',
+          'body' => 'This note was added from the test suite!',
+          'approved' => '1',
+          'object_id' => '32',
+          'parent_id' => '0',
+          'user_id' => '0',
+          'type' => 'order_note',
+        ),
+        11 => 
+        array (
+          'id' => '35',
+          'name' => 'WooCommerceAPI',
+          'date' => '2013-09-13 10:14:18',
+          'email' => 'woocommerce@woo.localhost',
+          'body' => 'This note was added from the test suite!',
+          'approved' => '1',
+          'object_id' => '32',
+          'parent_id' => '0',
+          'user_id' => '0',
+          'type' => 'order_note',
+        ),
+        12 => 
+        array (
+          'id' => '36',
+          'name' => 'WooCommerceAPI',
+          'date' => '2013-09-13 10:14:18',
+          'email' => 'woocommerce@woo.localhost',
+          'body' => 'This note was added from the test suite!',
+          'approved' => '1',
+          'object_id' => '32',
+          'parent_id' => '0',
+          'user_id' => '0',
+          'type' => 'order_note',
+        ),
+        13 => 
+        array (
+          'id' => '37',
+          'name' => 'WooCommerceAPI',
+          'date' => '2013-09-13 10:14:18',
+          'email' => 'woocommerce@woo.localhost',
+          'body' => 'This note was added from the test suite!',
+          'approved' => '1',
+          'object_id' => '32',
+          'parent_id' => '0',
+          'user_id' => '0',
+          'type' => 'order_note',
+        ),
+        14 => 
+        array (
+          'id' => '38',
+          'name' => 'WooCommerceAPI',
+          'date' => '2013-09-13 10:14:18',
+          'email' => 'woocommerce@woo.localhost',
+          'body' => 'This note was added from the test suite!',
+          'approved' => '1',
+          'object_id' => '32',
+          'parent_id' => '0',
+          'user_id' => '0',
+          'type' => 'order_note',
+        ),
+        15 => 
+        array (
+          'id' => '40',
+          'name' => 'WooCommerceAPI',
+          'date' => '2013-09-13 10:14:18',
+          'email' => 'woocommerce@woo.localhost',
+          'body' => 'This note was added from the test suite!',
+          'approved' => '1',
+          'object_id' => '32',
+          'parent_id' => '0',
+          'user_id' => '0',
+          'type' => 'order_note',
+        ),
+        16 => 
+        array (
+          'name' => 'WooCommerceAPI',
+          'date' => '2013-09-13 10:14:18',
+          'email' => 'woocommerce@woo.localhost',
+          'body' => 'This note was added from the test suite!',
+          'approved' => '1',
+          'object_id' => '32',
+          'parent_id' => '0',
+          'user_id' => '0',
+          'type' => 'order_note',
+        ),
+      ),
+    ),
+  ),
+  'payload_length' => '2',
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+array (
+  'Server-Software' => 'Apache/2.2.22 (Debian)',
+  'Request-Uri' => '/shop/',
+  'Redirect-Status' => '200',
+  'Content-Length' => '117',
+  'Content-Type' => 'application/x-www-form-urlencoded',
+  'Path' => '/usr/local/bin:/usr/bin:/bin',
+  'Server-Signature' => '<address>Apache/2.2.22 (Debian) Server at woo.localhost Port 80</address>
+',
+  'Server-Name' => 'woo.localhost',
+  'Server-Addr' => '127.0.1.1',
+  'Server-Port' => '80',
+  'Remote-Addr' => '127.0.0.1',
+  'Document-Root' => '/var/www/woo',
+  'Server-Admin' => 'webmaster@localhost',
+  'Script-Filename' => '/var/www/woo/index.php',
+  'Remote-Port' => '36252',
+  'Redirect-Url' => '/shop/',
+  'Gateway-Interface' => 'CGI/1.1',
+  'Server-Protocol' => 'HTTP/1.1',
+  'Request-Method' => 'POST',
+  'Query-String' => '',
+  'Script-Name' => '/index.php',
+  'Php-Self' => '/index.php',
+  'Request-Time-Float' => '1379567983.01',
+  'Request-Time' => '1379567983',
+)
+Beggining request
+array (
+  'action' => 'woocommerce_json_api',
+  'proc' => 'get_orders',
+  'arguments' => 
+  array (
+    'token' => '1234',
+    'per_page' => '2',
+    'page' => '1',
+  ),
+)
+validator class name to load is JSONAPI_Token_Argument_Validator
+path to validator should be validators/class-token-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-token-argument-validator.php didn't exist
+/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/validators/class-token-argument-validator.php didn't exist
+validator validators/class-token-argument-validator.php does not exist
+validator class name to load is JSONAPI_PerPage_Argument_Validator
+path to validator should be validators/class-per-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-per-page-argument-validator.php didn't exist
+validator class name to load is JSONAPI_Page_Argument_Validator
+path to validator should be validators/class-page-argument-validator.php
+/var/www/woo/wp-content/themes/twentytwelve/classes/validators/class-page-argument-validator.php didn't exist
+in function fetch: WPDB returned 2 results using SELECT * FROM wp_posts WHERE post_type IN ('shop_order') AND post_status != 'trash' LIMIT 0,2

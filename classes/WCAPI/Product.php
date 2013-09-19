@@ -152,9 +152,10 @@ class Product extends Base{
                                'sizehint' => 4
                              ),
       'attributes'        => array(
-                              'name' => '_attributes',   
-                              'type' => 'object', 
-                              'class' => 'ProductAttributes',
+                              'name' => '_product_attributes',   
+                              'type' => 'array', 
+                              'default' => '',
+                              'sizehint' => 3,
                              ), 
       'tax_class'         => array('name' => '_tax_class',        'type' => 'string'),
       'tax_status'        => array(
@@ -165,7 +166,8 @@ class Product extends Base{
                                 'shipping',
                                 'none',
                                ),
-                               'default' => 'none'
+                               'default' => 'none',
+                               'sizehint' => 1,
                              ),
     );
     /*
