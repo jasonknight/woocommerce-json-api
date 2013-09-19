@@ -4,6 +4,12 @@ require_once dirname( __FILE__ ) . '/BaseHelpers.php';
 if (!defined('WCAPIDIR')) {
   define('WCAPIDIR', dirname(__FILE__) );
 }
+if (!defined('EVERYTHING_IM_SURE')) {
+  define('EVERYTHING_IM_SURE', true );
+}
+if (!defined('THIS_IM_SURE')) {
+  define('THIS_IM_SURE', true );
+}
 class Base extends Helpers {
   // We want to be able to update the product in one go, as quickly
   // as possible because it is not unrealistic for us to want to
@@ -37,6 +43,10 @@ class Base extends Helpers {
   public static $_model_settings;
   public static $adapter;
   public static $blog_id;
+
+  public $__delete__ = false;
+  public $__delete__everything = false;
+
   
   /**
   * We want to establish a "fluid" API for the objects.
@@ -750,6 +760,43 @@ class Base extends Helpers {
       } else if ( is_string($where) ) {
         $sql .= " WHERE " . $where;
       } 
+      $wpdb->query($sql);
+    }
+  }
+  public function delete($table, $where = null, $limit = 1) {
+    include WCAPIDIR."/_globals.php";
+    include WCAPIDIR."/_model_static_attributes.php";
+    if ( $table == THIS_IM_SURE ) {
+      $table = "`{$self->settings['model_table']}`";
+      if ( $where == null ) {
+        $where = array(
+          "{$self->settings['model_table_id']}" => $this->_actual_model_id,
+        );
+      }
+    } else {
+      $table = "`$table`";
+    }
+    
+    $sql = "DELTE FROM $table";
+    if ( is_array( $where ) ) {
+      $conditions = array();
+      foreach ( $where as $key=>$value ) {
+        if ( $key = $this->databaseAttribute($key) ) {
+          $conditions[] = $wpdb->prepare("`$key` = %s",$value);
+        }
+      }
+      if ( count($conditions) > 0 ) {
+        $sql .= " WHERE " . join(' AND ', $conditions);
+      }
+    } else if ( is_string($where) ) {
+      $sql .= " WHERE " . $where;
+    } else {
+      throw new \Exception( sprintf(__("you cannot call %s::delete without a WHERE clause specifcy conditions in \$where, that is highly dangerous!",'WCAPI'), get_called_class()) );
+    }
+    $sql .= " LIMIT $limit";
+    if ( strpos('WHERE',$sql) === FALSE) {
+      throw new \Exception( sprintf(__("you cannot call %s::delete without a WHERE clause, that is highly dangerous!",'WCAPI'), get_called_class()) );
+    } else {
       $wpdb->query($sql);
     }
   }

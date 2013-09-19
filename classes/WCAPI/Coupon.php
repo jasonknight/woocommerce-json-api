@@ -8,7 +8,8 @@ require_once(dirname(__FILE__) . "/Base.php");
 require_once(dirname(__FILE__) . "/Category.php");
 require_once(dirname(__FILE__) . "/OrderItem.php");
 class Coupon extends Base{   
-
+  public $_product_ids;
+  public $_exclude_product_ids;
   public static function getModelSettings() {
     include WCAPIDIR."/_globals.php";
     $table = array_merge( Base::getDefaultModelSettings(), array(
@@ -126,33 +127,27 @@ class Coupon extends Base{
         'type' => 'array', 
         'sizehint' => 10,
         'getter' => function ($model, $name, $desc, $filter_value) {
-          $str = get_post_meta($model->_actual_model_id, $desc['name'],true);
-          return explode(",",$str);
+          return $model->updateProductIds('getter',$name,$desc,null);  
         },
         'setter' => function ($model, $name, $desc, $value, $filter_value ) {
-          if ( is_array($value) ) {
-            $str = join(',',$value);
-            update_post_meta($model->_actual_model_id,$desc['name'],$str);
-          } else {
-            update_post_meta($model->_actual_model_id,$desc['name'],$value);
-          }
+            $model->updateProductIds('setter',$name,$desc,$value); 
+        },
+        'updater' => function ($model, $name, $desc, $value, $filter_value ) {
+            $model->updateProductIds('updater',$name,$desc,$value); 
         },
       ),
       'exclude_product_ids' => array(
-        'name' => 'product_ids',
+        'name' => 'exclude_product_ids',
         'type' => 'string', 
         'sizehint' => 10,
         'getter' => function ($model, $name, $desc, $filter_value) {
-          $str = get_post_meta($model->_actual_model_id, $desc['name'],true);
-          return explode(",",$str);
+          return $model->updateProductIds('getter',$name,$desc,null);  
         },
         'setter' => function ($model, $name, $desc, $value, $filter_value ) {
-          if ( is_array($value) ) {
-            $str = join(',',$value);
-            update_post_meta($model->_actual_model_id,$desc['name'],$str);
-          } else {
-            update_post_meta($model->_actual_model_id,$desc['name'],$value);
-          }
+            $model->updateProductIds('setter',$name,$desc,$value); 
+        },
+        'updater' => function ($model, $name, $desc, $value, $filter_value ) {
+            $model->updateProductIds('updater',$name,$desc,$value); 
         },
       ),
       'expiry_date' => array(
@@ -289,6 +284,30 @@ class Coupon extends Base{
       $product = Product::find( $pid );
     }
     return $product;
+  }
+
+  public function updateProductIds($type,$name,$desc,$value) {
+    
+    if ( $type == 'getter') {
+      if ( isset( $this->{"_{$desc['name']}"} ) ) {
+        return $this->{"_{$desc['name']}"};
+      }
+      $str = maybe_unserialize(get_post_meta($model->_actual_model_id, $desc['name'],true));
+      if ( is_string($str) ) {
+        die("exploding");
+        $str = explode(",",$str);
+      } else {
+        array_map('maybe_unserialize',$str);
+      }
+      $this->{"_{$desc['name']}"} = $str;
+      return $this->{"_{$desc['name']}"};
+    } else if ( $type == 'setter' ) {
+      $this->{"_{$desc['name']}"} = $value;
+    } else if ( $type == 'updater' ) {
+      update_post_meta($model->_actual_model_id,$desc['name'],$value);
+    } else {
+      throw new \Exception("updateProductIds does not understand type of $type");
+    }
   }
    
 }

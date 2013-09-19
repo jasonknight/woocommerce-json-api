@@ -12,6 +12,7 @@ $data = array(
   )
 );
 $result = curl_post($url,$data);
+echo $result;
 verifySuccess("Get Coupons",$result);
 verifyNonZeroPayload("Get Coupons", $result);
 
