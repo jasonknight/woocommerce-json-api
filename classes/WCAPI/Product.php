@@ -39,6 +39,14 @@ class Product extends Base{
                     'term_taxonomy_id' => $category->taxonomy_id,
                   ) 
                 );
+              },
+              'disconnect' => function ($product,$category) {
+                include WCAPIDIR."/_globals.php";
+                $product->delete($wpdb->term_relationships, array(
+                    'object_id' => $product->_actual_model_id,
+                    'term_taxonomy_id' => $category->taxonomy_id,
+                  ) 
+                );
               }
           ),
           'tags' => array(
@@ -57,6 +65,14 @@ class Product extends Base{
               'connect' => function ($product,$tag) {
                 include WCAPIDIR."/_globals.php";
                 $product->insert($wpdb->term_relationships, array(
+                    'object_id' => $product->_actual_model_id,
+                    'term_taxonomy_id' => $tag->taxonomy_id,
+                  ) 
+                );
+              },
+              'disconnect' => function ($product,$tag) {
+                include WCAPIDIR."/_globals.php";
+                $product->delete($wpdb->term_relationships, array(
                     'object_id' => $product->_actual_model_id,
                     'term_taxonomy_id' => $tag->taxonomy_id,
                   ) 
