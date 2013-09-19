@@ -12,13 +12,14 @@ class WC_JSON_API_Provider_v1 extends JSONAPIHelpers {
   public static $implemented_methods;
 
   public static function getImplementedMethods() {
+    $accepted_resources = array('Product','Category','Comment','Order','OrderItem','OrderTaxItem','OrderCouponItem','Customer','Coupon','Review');
     self::$implemented_methods = array(
       'get_system_time' => null,
       'get_supported_attributes' => array(
           'resources' => array(
             'type' => 'array',
-            'values' => array('Product','Category','Comment','Order','OrderItem','Customer','Coupon','Review'),
-            'default' => array('Product','Category','Comment','Order','OrderItem','Customer','Coupon','Review'),
+            'values' => $accepted_resources,
+            'default' => $accepted_resources,
             'required' => false,
             'sizehint' => 10,
             'description' => __('List what resources you would like additional information on.','woocommerce_json_api'),
@@ -380,14 +381,8 @@ class WC_JSON_API_Provider_v1 extends JSONAPIHelpers {
 
     $products = array();
     foreach ( $posts as $post_id) {
-      try {
-        $post = API\Product::find($post_id);
-      } catch (Exception $e) {
-        JSONAPIHelpers::error("An exception occurred attempting to instantiate a Product object: " . $e->getMessage());
-        $this->result->addError( __("Error occurred instantiating product object",'woocommerce_json_api'),-99);
-        return $this->done();
-      }
-      
+      $post = API\Product::find($post_id);
+
       if ( !$post ) {
         $this->result->addWarning( $post_id. ': ' . __('Product does not exist','woocommerce_json_api'), WCAPI_PRODUCT_NOT_EXISTS, array( 'id' => $post_id) );
       } else {
@@ -402,7 +397,7 @@ class WC_JSON_API_Provider_v1 extends JSONAPIHelpers {
     return $this->done();
   }
   public function get_supported_attributes( $params ) {
-    $accepted_resources = array('Product','Category','Comment','Order','OrderItem','Customer','Coupon','Review');
+    $accepted_resources = array('Product','Category','Comment','Order','OrderItem','OrderTaxItem','OrderCouponItem','Customer','Coupon','Review');
     $models = $this->orEq( $params['arguments'], 'resources', $accepted_resources);
     
     if ( ! is_array($models) ) {
@@ -422,13 +417,21 @@ class WC_JSON_API_Provider_v1 extends JSONAPIHelpers {
         $model = new API\Customer();
       } else if ( $m == 'Coupon' ) {
         $model = new API\Coupon();
+      } else if ( $m == 'Comment' ) {
+        $model = new API\Comment();
+      } else if ( $m == 'Review' ) {
+        $model = new API\Review();
+      } else if ( $m == 'OrderTaxItem' ) {
+        $model = new API\OrderTaxItem();
+      } else if ( $m == 'OrderCouponItem' ) {
+        $model = new API\OrderCouponItem();
       } else {
         $this->badArgument($m, join(',', $accepted_resources ) );
         return $this->done();
       }
       $results[$m] = $model->getSupportedAttributes() ;
     }
-    $this->result->setPayload( $results );
+    $this->result->setPayload( array( $results ) );
     return $this->done();
   }
   public function get_products_by_tags($params) {
@@ -961,13 +964,9 @@ class WC_JSON_API_Provider_v1 extends JSONAPIHelpers {
 
     $coupons = array();
     foreach ( $posts as $post_id) {
-      try {
+
         $post = API\Coupon::find($post_id);
-      } catch (Exception $e) {
-        JSONAPIHelpers::error("An exception occurred attempting to instantiate a Coupon object: " . $e->getMessage());
-        $this->result->addError( __("Error occurred instantiating product object",'woocommerce_json_api'),-99);
-        return $this->done();
-      }
+
       
       if ( !$post ) {
         $this->result->addWarning( $post_id. ': ' . __('Coupon does not exist','woocommerce_json_api'), WCAPI_PRODUCT_NOT_EXISTS, array( 'id' => $post_id) );
