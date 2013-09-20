@@ -7,6 +7,10 @@ String.prototype.titleize = function () {
   return this.replace(/_/g," ").replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 };
 
+var reveal = function (m) {
+  return Object.prototype.toString.call(m);
+}
+
 String.prototype.classify = function () {
   var str = "";
   str = this.replace("get", "").titleize().replace(/ /g, "").slice(0, -1);
@@ -496,54 +500,52 @@ function renderEditTable(parent_element, json_path, model_id, collection) {
   
 }
 
-function renderEditFields(collection, model, depth) {
-  if (depth > 5) {
-    console.log("cap reached", collection, model);
-    return "";
+function renderEditFields(collection, klass, depth) {
+  //console.log('Collection',collection);
+  var html_result = '';
+  if ( collection.length == 0 ) {
+    return html_result;
   }
-  var html_result = ""
-  //console.log(collection);
-  //var target = $('#results');
-  var row_tmpl = _.template($("#attribute_row_template").html());
-  var tmpl = _.template($("#attribute_template").html());
-  for ( i=0; i < collection.length; i++ ) {
-    var obj = collection[i];
-    console.log("obj", obj);
-    var rendered_template = "";
-    for (var key in obj) {
-      if (key == "id") {
+  if ( ! $supported_attributes[klass] ) {
+    return 'Editing not supported';
+  }
+  var data;
+  var tmpl_attr     = _.template($('#attribute_template').html());
+  var tmpl_attr_row = _.template($('#attribute_row_template').html());
+  for (var i = 0; i < collection.length; i++) {
+    var model = collection[i];
+    //console.log("Model",model);
+    var cols = '';
+    for ( var key in model) {
+
+      //console.log("Key", key, reveal(model[key]));
+      if ( key == 'id' ) {
         continue;
       }
-      if (Object.prototype.toString.call(obj[key]) == "[object Array]") {
-        console.log("entering recursion key", key.classify());
-        depth += 1;
-        rendered_template += renderEditFields(obj[key], key.classify(), depth);
-        continue;
+      if ( reveal(model[key]) == '[object Array]' && model[key].length > 0) {
+        //console.log("I should recurse with", model[key],'as', key.classify());
+        var v = renderEditFields(model[key],key.classify());
+         data = {
+          columns: 22, 
+          value: v,
+          key: key,
+        };
+        cols += tmpl_attr(data);
+      } else {
+        var desc = $supported_attributes[klass][key];
+        if ( ! desc ) { continue; }
+        
+        data = {
+          columns: Math.floor(desc.sizehint * 22 / 10), 
+          value: model[key],
+          key: key,
+        };
+        cols += tmpl_attr(data);
       }
-      console.log("key", key);
-      var desc = $supported_attributes[model][key];
-      
-      if (!desc) {
-        continue;
-      }
-      
-      console.log("desc", desc);
-      var attr_desc = {
-        columns: Math.floor(desc.sizehint * 22 / 10),
-        value: obj[key]
-      };
-      rendered_template += tmpl(attr_desc);
-      
-      
-      
     }
-    html_result += row_tmpl({
-      value: rendered_template
-    });
-    // target.append(rendered_template);
+    html_result += tmpl_attr_row({ value: cols }); 
   }
   return html_result;
-  
 }
 
 function onInputChanged() {

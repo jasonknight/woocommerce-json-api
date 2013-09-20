@@ -29,7 +29,7 @@
               <div class="small-10 columns">
                 <h5>Settings</h5>
                 <label>API URL</label>
-                <input type="text" id="url" placeholder="http://localhost" />
+                <input type="text" id="url" placeholder="http://woo.localhost" />
                 <br />
                 <label>API Token</label>
                 <input type="text" id="token" placeholder="1234" />
@@ -554,13 +554,14 @@
   </script>
   
   <script type="text/template" id="attribute_template">
-    <div class="small-<%= columns %> columns">
+    <div class="small-<%= columns %> columns attr-input-column">
+      <label><%= key %></label>
       <%= value %>
     </div>
   </script>
   
   <script type="text/template" id="attribute_row_template">
-    <div class="row">
+    <div class="row attr-row">
       <%= value %>
     </div>
   </script>

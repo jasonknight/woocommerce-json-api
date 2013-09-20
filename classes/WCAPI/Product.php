@@ -180,7 +180,7 @@ class Product extends Base{
                               'default' => '',
                               'sizehint' => 3,
                              ), 
-      'tax_class'         => array('name' => '_tax_class',        'type' => 'string'),
+      'tax_class'         => array('name' => '_tax_class',        'type' => 'string', 'sizehint' => 1),
       'tax_status'        => array(
                                'name' => '_tax_status',           
                                'type' => 'string',
@@ -195,7 +195,7 @@ class Product extends Base{
       'product_type' => array(
         'name' => 'product_type',
         'type' => 'string',
-        'size_hint' => 3,
+        'sizehint' => 3,
         'default' => 'simple',
         'values' => array('simple','grouped','variable','external'),
          'getter' => function ($model, $name, $desc, $filter ) { 

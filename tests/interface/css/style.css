@@ -22,3 +22,7 @@ div.header-row {
 div.row {
   max-width: none !important;
 }
+
+div.attr-row label {
+  font-size: 110% !important;
+}
