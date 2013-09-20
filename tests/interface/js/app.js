@@ -6,10 +6,8 @@ var $query_results = {};
 /* DOCUMENTREADY */
 $(function () {
   $('#load_methods_button').on('click',onLoadMethodsButtonClick);
+  /* AUTOMATION */
   onLoadMethodsButtonClick();
-  
-  
-  
 });
 
 String.prototype.tableize = function () {
@@ -179,11 +177,6 @@ function onGetProductsButtonClick() {
 }
 
 function onGetCategoriesButtonClick() {
-  var request = prepareRequest('get_categories');
-  getRequest( request, onGetRequestComplete );
-}
-
-function onGetCategoriesButtonClick() {
   $('#results').html('');
   var div = $('#arguments');
   div.html('');
@@ -239,7 +232,7 @@ function onGetCategoriesButtonClick() {
       }
       request.arguments[arg.id] = val;
     }
-    getRequest( request );
+    getRequest( request, displayModel );
   });
   div.append("<hr />")
   div.append(button);
@@ -253,7 +246,7 @@ function onGetCouponsButtonClick() {
   var button = $('<div class="small button">Load Coupons</div>');
   button.on('click', function () {
     var request = prepareRequest('get_coupons');
-    getRequest( request );
+    getRequest( request, displayModel );
   });
   div.append("<hr />")
   div.append(button);
@@ -266,7 +259,7 @@ function onGetTaxesButtonClick() {
   var button = $('<div class="small button">Load Taxes</div>');
   button.on('click', function () {
     var request = prepareRequest('get_taxes');
-    getRequest( request );
+    getRequest( request, displayModel );
   });
   div.append("<hr />")
   div.append(button);
@@ -279,7 +272,7 @@ function onGetShippingMethodsButtonClick() {
   var button = $('<div class="small button">Load Shipping Methods</div>');
   button.on('click', function () {
     var request = prepareRequest('get_shipping_methods');
-    getRequest( request );
+    getRequest( request, displayModel );
   });
   div.append("<hr />")
   div.append(button);
@@ -292,11 +285,13 @@ function onGetPaymentGatewaysButtonClick() {
   var button = $('<div class="small button">Load Payment Gateways</div>');
   button.on('click', function () {
     var request = prepareRequest('get_payment_gateways');
-    getRequest( request );
+    getRequest( request, displayModel );
   });
   div.append("<hr />")
   div.append(button);
 }
+
+/* SET FUNCTIONS */
 function onSetProductsButtonClick() {
   $('#results').html('');
   var div = $('#arguments');
@@ -434,11 +429,15 @@ function displaySupportedAttributes(data) {
 function displayModel(data) {
   $('#results').html('');
   json_path = [data.proc.replace("get_", "")];
-  //renderEditTable($('#results'), json_path, null, data.payload);
-  var html_result = renderEditFields(data.payload, data.proc.tableize(), 0, json_path);
-  $("#results").html($("#results").html() + html_result);
-  $(".datepicker").datepicker();
-  $(".editme").on('change', onInputChanged);
+  klass = data.proc.classify();
+  if ( $supported_attributes[klass] ) {
+    var html_result = renderEditFields(data.payload, data.proc.tableize(), 0, json_path);
+    $("#results").html($("#results").html() + html_result);
+    $(".datepicker").datepicker();
+    $(".editme").on('change', onInputChanged);
+  } else {
+    renderEditTable($('#results'), json_path, null, data.payload);
+  }
 }
 
 
@@ -481,7 +480,8 @@ function renderEditTable(parent_element, json_path, model_id, collection) {
       $.each(val, function(k,v) {
         var col = $(document.createElement('td'));
         row.append(col);
-        if (typeof v == "object" && v.length > 0) {
+        console.log("XXX k ", k, "v", v, typeof(v));
+        if (typeof v == "object") {
           json_path.push(key);
           json_path.push(k);
           renderEditTable(col, json_path, model_id, v); // recursion
@@ -532,7 +532,7 @@ function renderEditFields(collection, table, depth, json_path) {
     return html_result;
   }
   if ( ! $supported_attributes[klass] ) {
-    return 'Editing not supported';
+    return klass + "is not in $supported_attributes";
   }
   var data;
   var tmpl_attr     = _.template($('#attribute_template').html());
@@ -547,9 +547,8 @@ function renderEditFields(collection, table, depth, json_path) {
     for (var key in model) {
 
       if ( reveal(model[key]) == '[object Array]' && model[key].length > 0) {
-        //console.log("I should recurse with", model[key],'as', key.classify());
-        //console.log("KLASS", key.titleize());
-        var rendered_header1 = tmpl_header({
+        // display HAS_MANY relationship in place
+        var rendered_hasmany_header = tmpl_header({
           klass: key.titleize(),
           depth: depth + 3,
         });
@@ -557,13 +556,15 @@ function renderEditFields(collection, table, depth, json_path) {
         json_path.push(key);
         var v = renderEditFields(model[key], key, depth, json_path);
         depth -= 1;
-        v = rendered_header1 + v;
+        v = rendered_hasmany_header + v;
         tmpl_data = {
           columns: 22, 
           value: v,
           key: key,
           nested: true,
           depth: depth,
+          record_id: 0,
+          klass: 'nested',
         };
         //console.log("tmpl_data is", tmpl_data);
         cols += tmpl_attr(tmpl_data);
@@ -581,12 +582,13 @@ function renderEditFields(collection, table, depth, json_path) {
           nested: false,
           json_path: table + "." + key,
           record_id: record_id,
+          klass: klass,
         };
         cols += tmpl_attr(tmpl_data);
       }
     }
     
-    var rendered_header2 = tmpl_header({
+    var rendered_header = tmpl_header({
       klass: klass,
       depth: depth + 1,
     });
@@ -597,7 +599,7 @@ function renderEditFields(collection, table, depth, json_path) {
     
     // prepend header for each new record
     if (depth == 0) {
-      html_result += rendered_header2 + rendered_row;
+      html_result += rendered_header + rendered_row;
     } else {
       html_result += rendered_row;
     }
@@ -622,7 +624,13 @@ function onInputChanged() {
 }
 
 function inputChangedComplete(data, options) {
+  console.log("CHANGED COMPLETE", data, options.element);
   options.element.effect('highlight');
+  var tmpl_statusmessage = _.template($('#attribute_row_statusmessage_template').html());
+  var rendered_statusmessage = tmpl_statusmessage({
+    statusmessage: data.status,
+  });
+  $(rendered_statusmessage).insertAfter(options.element);
   
 }
 

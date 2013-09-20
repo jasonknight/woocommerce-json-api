@@ -555,13 +555,13 @@
   </script>
   
   <script type="text/template" id="attribute_template">
-    <div class="small-<%= columns %> columns attr-input-column">
+    <div class="small-<%= columns %> columns attr-input-column" id="input_<%= klass %>_<%= record_id %>_<%= key %>">
       <% if (nested) { %>
         <div class="row attr-row">
           <%= value %>
         </div>
       <% } else { %>
-        <label><%= key %><br><small><%= record_id %><%= json_path %></small></label>
+        <label><%= key %><br><small>ID <%= record_id %>, <%= json_path %></small></label>
         <% if ( key == "id" ) { %>
           <span><b>#<%= value %></b></span>
         <% } else if ( (type == "string" && values) || ( type == "bool" && values ) ) { %>
@@ -596,6 +596,10 @@
   <script type="text/template" id="attribute_row_heading_template">
     <hr />
     <h<%= depth %>><%= klass %></h<%= depth %>>
+  </script>
+  
+  <script type="text/template" id="attribute_row_statusmessage_template">
+    <div class="statusmessage"><%= statusmessage %></div>
   </script>
 </body>
 </html>

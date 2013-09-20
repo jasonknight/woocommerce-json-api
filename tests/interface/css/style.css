@@ -30,3 +30,7 @@ div.attr-row label {
 label {
   color: #000099;
 }
+
+div.statusmessage {
+  color: green;
+}
