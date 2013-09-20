@@ -48,10 +48,10 @@ class Category extends Base {
 
   public static function getModelAttributes() {
     $table = array(
-      'id'            => array( 'name' => 'term_id',            'type' => 'number'),
-      'name'          => array( 'name' => 'name',               'type' => 'string'),
-      'slug'          => array( 'name' => 'slug',               'type' => 'string'),
-      'group_id'      => array( 'name' => 'term_group',         'type' => 'number'),
+      'id'            => array( 'name' => 'term_id',    'type' => 'number', 'sizehint' => 1),
+      'name'          => array( 'name' => 'name',       'type' => 'string', 'sizehint' => 10),
+      'slug'          => array( 'name' => 'slug',       'type' => 'string', 'sizehint' => 5),
+      'group_id'      => array( 'name' => 'term_group', 'type' => 'number', 'sizehint' => 1),
     );
     $table = apply_filters( 'WCAPI_category_model_attributes_table', $table );
     return $table;
@@ -59,11 +59,11 @@ class Category extends Base {
 
   public static function getMetaAttributes() {
     $table = array(
-      'description'   => array( 'name' => 'description',        'type' => 'string'),
-      'parent_id'     => array( 'name' => 'parent',             'type' => 'number'),
-      'count'         => array( 'name' => 'count',              'type' => 'number'),
-      'taxonomy'      => array( 'name' => 'taxonomy',           'type' => 'string'),
-      'taxonomy_id'   => array( 'name' => 'term_taxonomy_id',   'type' => 'number'),
+      'description'   => array( 'name' => 'description',      'type' => 'text', 'sizehint' => 10),
+      'parent_id'     => array( 'name' => 'parent',           'type' => 'number', 'sizehint' => 1),
+      'count'         => array( 'name' => 'count',            'type' => 'number', 'sizehint' => 1),
+      'taxonomy'      => array( 'name' => 'taxonomy',         'type' => 'string', 'sizehint' => 5),
+      'taxonomy_id'   => array( 'name' => 'term_taxonomy_id', 'type' => 'number', 'sizehint' => 1),
     );
     $table = apply_filters( 'WCAPI_category_meta_attributes_table', $table );
     return $table;
