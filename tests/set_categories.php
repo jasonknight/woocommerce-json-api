@@ -9,7 +9,8 @@ $data = array(
   ),
   'payload' => array(
     array(
-      'name' => 'Appliances',
+      'id' => '13',
+      'name' => 'My New Appliances',
     ),
   ),
 );
