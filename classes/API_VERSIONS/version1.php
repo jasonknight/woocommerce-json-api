@@ -584,7 +584,7 @@ class WC_JSON_API_Provider_v1 extends JSONAPIHelpers {
   
   public function set_categories( $params ) {
     $categories = $this->orEq( $params, 'payload', array());
-    foreach ( $categories as $category ) {
+    foreach ( $categories as &$category ) {
       if ( isset($category['id']) ) {
         $actual = API\Category::find( $category['id'] );
         $actual->fromApiArray($category);
@@ -592,6 +592,7 @@ class WC_JSON_API_Provider_v1 extends JSONAPIHelpers {
       } else {
         $actual = new API\Category();
         $actual->create( $category );
+        $category = $category->asApiArray();
       }
       $category = $actual->asApiArray();
     }
