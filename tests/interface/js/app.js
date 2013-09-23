@@ -3,6 +3,21 @@ var $methods = null;
 var $supported_attributes;
 var $query_results = {};
 
+/* DOCUMENTREADY */
+$(function () {
+  $('#load_methods_button').on('click',onLoadMethodsButtonClick);
+  /* AUTOMATION */
+  onLoadMethodsButtonClick();
+});
+
+String.prototype.tableize = function () {
+  if (this.indexOf("get_") == 0) {
+    return this.replace("get_", "");
+  } else {
+    return "tableizeInputStringNotSupported";
+  }
+};
+
 String.prototype.titleize = function () {
   return this.replace(/_/g," ").replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 };
@@ -13,7 +28,7 @@ var reveal = function (m) {
 
 String.prototype.classify = function () {
   var str = "";
-  str = this.replace("get", "").titleize().replace(/ /g, "").slice(0, -1);
+  str = this.replace("get_", "").titleize().replace(/ /g, "").slice(0, -1);
   if (this.substring(this.length - 3, this.length) == "ies") {
     str = str.substr(0, str.length - 3) + "ry";
   } else if (this.substring(this.length - 2, this.length) == "es") {
@@ -58,7 +73,7 @@ function prepareRequest(name,existing_req) {
   return req;
 }
 
-function getRequest(req, callback) {
+function getRequest(req, callback, options) {
   var s = getSettings();
   //$.getJSON(s.url, req, onGetRequestComplete );
   $.ajax({
@@ -66,21 +81,20 @@ function getRequest(req, callback) {
     url: s.url,
     data: JSON.stringify(req),
     contentType: 'application/json',
-    success: callback,
+    success: function(data) {
+      callback(data, options);
+      console.log("getRequest RECEIVED:", data);
+    },
     dataType: 'json',
     error: function (xhr,type) { console.log( "ERROR", xhr, type)},
   });
-  console.log("Sent", req);
+  console.log("getRequest SENT:", req);
 }
 
 
 /* ============================ */
 /* GET BUTTON FUNCTIONS BEGIN */
 /* ============================ */
-
-$(function () {
-  $('#load_methods_button').on('click',onLoadMethodsButtonClick);
-});
 
 function onLoadMethodsButtonClick() {
   var request = prepareRequest('get_api_methods');
@@ -163,11 +177,6 @@ function onGetProductsButtonClick() {
 }
 
 function onGetCategoriesButtonClick() {
-  var request = prepareRequest('get_categories');
-  getRequest( request, onGetRequestComplete );
-}
-
-function onGetCategoriesButtonClick() {
   $('#results').html('');
   var div = $('#arguments');
   div.html('');
@@ -223,7 +232,7 @@ function onGetCategoriesButtonClick() {
       }
       request.arguments[arg.id] = val;
     }
-    getRequest( request );
+    getRequest( request, displayModel );
   });
   div.append("<hr />")
   div.append(button);
@@ -237,7 +246,7 @@ function onGetCouponsButtonClick() {
   var button = $('<div class="small button">Load Coupons</div>');
   button.on('click', function () {
     var request = prepareRequest('get_coupons');
-    getRequest( request );
+    getRequest( request, displayModel );
   });
   div.append("<hr />")
   div.append(button);
@@ -250,7 +259,7 @@ function onGetTaxesButtonClick() {
   var button = $('<div class="small button">Load Taxes</div>');
   button.on('click', function () {
     var request = prepareRequest('get_taxes');
-    getRequest( request );
+    getRequest( request, displayModel );
   });
   div.append("<hr />")
   div.append(button);
@@ -263,7 +272,7 @@ function onGetShippingMethodsButtonClick() {
   var button = $('<div class="small button">Load Shipping Methods</div>');
   button.on('click', function () {
     var request = prepareRequest('get_shipping_methods');
-    getRequest( request );
+    getRequest( request, displayModel );
   });
   div.append("<hr />")
   div.append(button);
@@ -276,11 +285,13 @@ function onGetPaymentGatewaysButtonClick() {
   var button = $('<div class="small button">Load Payment Gateways</div>');
   button.on('click', function () {
     var request = prepareRequest('get_payment_gateways');
-    getRequest( request );
+    getRequest( request, displayModel );
   });
   div.append("<hr />")
   div.append(button);
 }
+
+/* SET FUNCTIONS */
 function onSetProductsButtonClick() {
   $('#results').html('');
   var div = $('#arguments');
@@ -394,6 +405,9 @@ function displayAPIMethods( data ) {
     $('#methods').append(button);
     $('#methods').append('<br />');
   }
+  /* AUTOMATION CODE */
+  onGetSupportedAttributesButtonClick();
+  onGetProductsButtonClick();
 }
 
 function displaySystemTime( data ) {
@@ -415,9 +429,15 @@ function displaySupportedAttributes(data) {
 function displayModel(data) {
   $('#results').html('');
   json_path = [data.proc.replace("get_", "")];
-  //renderEditTable($('#results'), json_path, null, data.payload);
-  var html_result = renderEditFields(data.payload, data.proc.classify(), 0);
-  $("#results").html(html_result);
+  klass = data.proc.classify();
+  if ( $supported_attributes[klass] ) {
+    var html_result = renderEditFields(data.payload, data.proc.tableize(), 0, json_path);
+    $("#results").html($("#results").html() + html_result);
+    $(".datepicker").datepicker();
+    $(".editme").on('change', onInputChanged);
+  } else {
+    renderEditTable($('#results'), json_path, null, data.payload);
+  }
 }
 
 
@@ -460,7 +480,8 @@ function renderEditTable(parent_element, json_path, model_id, collection) {
       $.each(val, function(k,v) {
         var col = $(document.createElement('td'));
         row.append(col);
-        if (typeof v == "object" && v.length > 0) {
+        console.log("XXX k ", k, "v", v, typeof(v));
+        if (typeof v == "object") {
           json_path.push(key);
           json_path.push(k);
           renderEditTable(col, json_path, model_id, v); // recursion
@@ -500,50 +521,88 @@ function renderEditTable(parent_element, json_path, model_id, collection) {
   
 }
 
-function renderEditFields(collection, klass, depth) {
-  //console.log('Collection',collection);
+function renderEditFields(collection, table, depth, json_path) {
+  console.log("RENDER CALLED", collection, table, depth, json_path);
+  var klass = table.classify();
+  console.log("KLASS BEGINNING", klass);
+  
+  
   var html_result = '';
   if ( collection.length == 0 ) {
     return html_result;
   }
   if ( ! $supported_attributes[klass] ) {
-    return 'Editing not supported';
+    return klass + "is not in $supported_attributes";
   }
   var data;
   var tmpl_attr     = _.template($('#attribute_template').html());
   var tmpl_attr_row = _.template($('#attribute_row_template').html());
+  var tmpl_header   = _.template($("#attribute_row_heading_template").html());
+  
   for (var i = 0; i < collection.length; i++) {
     var model = collection[i];
     //console.log("Model",model);
     var cols = '';
-    for ( var key in model) {
+    var record_id = model.id;
+    for (var key in model) {
 
-      //console.log("Key", key, reveal(model[key]));
-      if ( key == 'id' ) {
-        continue;
-      }
       if ( reveal(model[key]) == '[object Array]' && model[key].length > 0) {
-        //console.log("I should recurse with", model[key],'as', key.classify());
-        var v = renderEditFields(model[key],key.classify());
-         data = {
+        // display HAS_MANY relationship in place
+        var rendered_hasmany_header = tmpl_header({
+          klass: key.titleize(),
+          depth: depth + 3,
+        });
+        depth += 1;
+        json_path.push(key);
+        var v = renderEditFields(model[key], key, depth, json_path);
+        depth -= 1;
+        v = rendered_hasmany_header + v;
+        tmpl_data = {
           columns: 22, 
           value: v,
           key: key,
+          nested: true,
+          depth: depth,
+          record_id: 0,
+          klass: 'nested',
         };
-        cols += tmpl_attr(data);
+        //console.log("tmpl_data is", tmpl_data);
+        cols += tmpl_attr(tmpl_data);
       } else {
+        // simple datatypes
+        
         var desc = $supported_attributes[klass][key];
         if ( ! desc ) { continue; }
-        
-        data = {
+        tmpl_data = {
           columns: Math.floor(desc.sizehint * 22 / 10), 
           value: model[key],
+          values: desc.values,
           key: key,
+          type: desc.type,
+          nested: false,
+          json_path: table + "." + key,
+          record_id: record_id,
+          klass: klass,
         };
-        cols += tmpl_attr(data);
+        cols += tmpl_attr(tmpl_data);
       }
     }
-    html_result += tmpl_attr_row({ value: cols }); 
+    
+    var rendered_header = tmpl_header({
+      klass: klass,
+      depth: depth + 1,
+    });
+    var rendered_row = tmpl_attr_row({
+      value: cols,
+      klass: klass,
+    });
+    
+    // prepend header for each new record
+    if (depth == 0) {
+      html_result += rendered_header + rendered_row;
+    } else {
+      html_result += rendered_row;
+    }
   }
   return html_result;
 }
@@ -557,17 +616,21 @@ function onInputChanged() {
   request.proc = "set_" + json_path.shift();
   //json_path.shift();
   request.payload = [{
-    id: input.attr("model_id"),
+    id: input.attr("record_id"),
   }];
-  setDeepHashValue(request.payload, json_path.join("."), input.val());
-  console.log("SET", request);
-  getRequest(request, inputChangedComplete(input));
+  setDeepHashValue(request.payload[0], json_path.join("."), input.val());
+  getRequest(request, inputChangedComplete, {element: input});
   
 }
 
-function inputChangedComplete(data) {
-  data.effect('highlight');
-  console.log('completed', data);
+function inputChangedComplete(data, options) {
+  console.log("CHANGED COMPLETE", data, options.element);
+  options.element.effect('highlight');
+  var tmpl_statusmessage = _.template($('#attribute_row_statusmessage_template').html());
+  var rendered_statusmessage = tmpl_statusmessage({
+    statusmessage: data.status,
+  });
+  $(rendered_statusmessage).insertAfter(options.element);
   
 }
 

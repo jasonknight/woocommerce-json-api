@@ -172,7 +172,7 @@ class Product extends Base{
                                 'outofstock',
                                ),
                                'default' => 'instock', 
-                               'sizehint' => 4
+                               'sizehint' => 2
                              ),
       'attributes'        => array(
                               'name' => '_product_attributes',   
@@ -180,7 +180,7 @@ class Product extends Base{
                               'default' => '',
                               'sizehint' => 3,
                              ), 
-      'tax_class'         => array('name' => '_tax_class',        'type' => 'string', 'sizehint' => 1),
+      'tax_class'         => array('name' => '_tax_class',        'type' => 'string', 'sizehint' => 2),
       'tax_status'        => array(
                                'name' => '_tax_status',           
                                'type' => 'string',
@@ -219,7 +219,7 @@ class Product extends Base{
   }
   public static function getModelAttributes() {
     $table = array(
-      'name'                  => array('name' => 'post_title', 'type' => 'string', 'sizehint' => 10),
+      'name'                  => array('name' => 'post_title', 'type' => 'string', 'sizehint' => 10, 'group_name' => 'main' ),
       'slug'                  => array('name' => 'post_name',  'type' => 'string', 'sizehint' => 10),
       'type'                  => array('name' => 'post_type',
                                        'type' => 'string',

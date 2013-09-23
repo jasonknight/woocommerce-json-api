@@ -7,6 +7,7 @@
 
   <link rel="stylesheet" href="/wp-content/plugins/woocommerce-json-api/tests/interface/css/foundation.css">
   <link rel="stylesheet" href="/wp-content/plugins/woocommerce-json-api/tests/interface/css/style.css">
+  <link rel="stylesheet" href="/wp-content/plugins/woocommerce-json-api/tests/interface/css/jquery-ui.min.css">
   <script src="/wp-content/plugins/woocommerce-json-api/tests/interface/js/vendor/custom.modernizr.js"></script>
 
 </head>
@@ -29,7 +30,7 @@
               <div class="small-10 columns">
                 <h5>Settings</h5>
                 <label>API URL</label>
-                <input type="text" id="url" placeholder="http://woo.localhost" />
+                <input type="text" id="url" placeholder="http://localhost" />
                 <br />
                 <label>API Token</label>
                 <input type="text" id="token" placeholder="1234" />
@@ -554,9 +555,35 @@
   </script>
   
   <script type="text/template" id="attribute_template">
-    <div class="small-<%= columns %> columns attr-input-column">
-      <label><%= key %></label>
-      <%= value %>
+    <div class="small-<%= columns %> columns attr-input-column" id="input_<%= klass %>_<%= record_id %>_<%= key %>">
+      <% if (nested) { %>
+        <div class="row attr-row">
+          <%= value %>
+        </div>
+      <% } else { %>
+        <label><%= key %><br><small>ID <%= record_id %>, <%= json_path %></small></label>
+        <% if ( key == "id" ) { %>
+          <span><b>#<%= value %></b></span>
+        <% } else if ( (type == "string" && values) || ( type == "bool" && values ) ) { %>
+          <select json_path="<%= json_path %>" record_id=<%= record_id %>>
+            <% _.each(values, function(idx) { %>
+              <option value=<%= idx %>><%= idx %></option>
+            <% }); %>
+          </select>
+        <% } else if ( type == "string" ) { %>
+          <input value="<%= value %>" class="small-<%= columns %> columns editme" json_path="<%= json_path %>" record_id=<%= record_id %>></input>
+        <% } else if (type == "text") { %>
+          <textarea value="<%= value %>" class="small-<%= columns %> columns editme" json_path="<%= json_path %>" record_id=<%= record_id %>></textarea>
+        <% } else if ( type == "number" ) { %>
+          <input type="number" value="<%= value %>" class="small-<%= columns %> columns editme" json_path="<%= json_path %>" record_id=<%= record_id %>></input>
+        <% } else if ( type == "timestamp" ) { %>
+          <input value="<%= value %>" class="small-<%= columns %> columns datepicker editme" json_path="<%= json_path %>" record_id=<%= record_id %>></input>
+        <% } else if ( type == "array" ) { %>
+          <input value="<%= value.join(',') %>" class="small-<%= columns %> columns editme" json_path="<%= json_path %>" record_id=<%= record_id %>></input>
+        <% } else { %>
+          Input type "<%= type %>" not yet implemented.
+        <% } %>
+      <% } %>
     </div>
   </script>
   
@@ -564,6 +591,15 @@
     <div class="row attr-row">
       <%= value %>
     </div>
+  </script>
+  
+  <script type="text/template" id="attribute_row_heading_template">
+    <hr />
+    <h<%= depth %>><%= klass %></h<%= depth %>>
+  </script>
+  
+  <script type="text/template" id="attribute_row_statusmessage_template">
+    <div class="statusmessage"><%= statusmessage %></div>
   </script>
 </body>
 </html>
