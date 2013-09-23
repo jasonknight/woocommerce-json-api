@@ -477,6 +477,9 @@ class Base extends Helpers {
       else
         throw new \Exception( $desc['setter'] .' setter is not a function in this scope');
     } else {
+      if ( (!$value || empty($value) ) && (isset($desc['default']) && $desc['default'] && ! empty($desc['default']) ) ) {
+        $value = $desc['default'];
+      }
       $this->{ $name } = $value;
     }
   }
@@ -494,7 +497,10 @@ class Base extends Helpers {
     } else {
       $value = $this->{ $name };
     }
-    if ( isset($desc['type']) && $desc['type'] == 'array') {
+    if ( (!$value || empty($value) ) && (isset($desc['default']) && $desc['default'] && ! empty($desc['default']) ) ) {
+      $value = $desc['default'];
+    }
+    if ( isset($desc['type']) && $desc['type'] == 'array' && !is_array($value) ) {
       $value = maybe_unserialize( $value );
     }
     if ( isset($desc['type']) && $desc['type'] == 'array' && empty($value) ) {
