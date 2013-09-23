@@ -65,6 +65,7 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
       'get_site_settings',
       'get_api_methods',
       'get_coupons',
+      'get_images',
       
       // Write capable methods
       

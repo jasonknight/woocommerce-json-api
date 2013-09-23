@@ -156,7 +156,8 @@ class Product extends Base{
       'height'            => array('name' => '_height',           'type' => 'number', 'sizehint' => 2),
       'weight'            => array('name' => '_weight',           'type' => 'number', 'sizehint' => 2),
       'length'            => array('name' => '_length',           'type' => 'number', 'sizehint' => 2),
-      'price'             => array('name' => '_regular_price',            'type' => 'number', 'sizehint' => 3),
+      'price'             => array('name' => '_price',    'type' => 'number', 'sizehint' => 3, 'overwrites' => array('regular_price')),
+      'regular_price'     => array('name' => '_regular_price',    'type' => 'number', 'sizehint' => 3, 'overwrites' => array('price')),
       'sale_price'        => array('name' => '_sale_price',       'type' => 'number', 'sizehint' => 3),
       'sale_from'         => array('name' => '_sale_price_dates_from', 'type' => 'timestamp', 'sizehint' => 6),
       'sale_to'           => array('name' => '_sale_price_dates_to',   'type' => 'timestamp', 'sizehint' => 6),
@@ -202,7 +203,7 @@ class Product extends Base{
             return $model->getTerm('product_type','product_type','product'); 
           },
           'setter' => function ($model,$name, $desc, $value, $filter_value) {
-            $model->getTerm('product_type','product_type',$value);
+            $model->setTerm('product_type','product_type',$value);
           },
           'updater' => function ( $model, $name, $value, $desc ) { 
             $model->updateTerm('product_type','product_type',$value);

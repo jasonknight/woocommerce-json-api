@@ -11,6 +11,7 @@ require_once( dirname( __FILE__ ) . '/Customer.php' );
 require_once( dirname( __FILE__ ) . '/Comment.php' );
 require_once( dirname( __FILE__ ) . '/Coupon.php' );
 require_once( dirname( __FILE__ ) . '/Review.php' );
+require_once( dirname( __FILE__ ) . '/Image.php' );
 function __fixPHPNSGlobalStupidity() {
   global $wpdb,$post,$user_ID,$post_ID;
   \WCAPI\Base::setAdapter( $wpdb );

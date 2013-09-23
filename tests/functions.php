@@ -213,6 +213,7 @@ function equal($a,$b, $label = "should equal") {
 function keyExists($a,$b, $label = "array key exists") {
   global $Fail,$Pass,$Notice;
   $Notice($label);
+  //echo " checking for $a in Array";
   if ( !array_key_exists($a, $b) ) {
     call_user_func($Fail,"FAILED");
   } else {

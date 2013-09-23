@@ -12,7 +12,7 @@ class WC_JSON_API_Provider_v1 extends JSONAPIHelpers {
   public static $implemented_methods;
 
   public static function getImplementedMethods() {
-    $accepted_resources = array('Product','Category','Comment','Order','OrderItem','OrderTaxItem','OrderCouponItem','Customer','Coupon','Review');
+    $accepted_resources = array('Product','Category','Comment','Order','OrderItem','OrderTaxItem','OrderCouponItem','Customer','Coupon','Review','Image');
     self::$implemented_methods = array(
       'get_system_time' => null,
       'get_supported_attributes' => array(
@@ -108,6 +108,56 @@ class WC_JSON_API_Provider_v1 extends JSONAPIHelpers {
           'required' => false,
           'sizehint' => 10,
           'description' => __('An array of IDs to use as a filter','woocommerce_json_api'),
+        ),
+      ),
+      'get_images' => array(
+        'order_by' => array(
+          'type' => 'string',
+          'values' => array('id','count','name','slug'),
+          'default' => "name",
+          'required' => false,
+          'sizehint' => 1,
+          'description' => __('What column to order results by','woocommerce_json_api'),
+        ),
+        'order' => array(
+          'type' => 'number',
+          'values' => array('ASC','DESC'),
+          'default' => 'ASC',
+          'required' => false,
+          'sizehint' => 1,
+          'description' => __('What order to show the results in','woocommerce_json_api'),
+        ),
+        'ids' => array(
+          'type' => 'array',
+          'values' => null,
+          'default' => null,
+          'required' => false,
+          'sizehint' => 10,
+          'description' => __('An array of IDs to use as a filter','woocommerce_json_api'),
+        ),
+        'parent_ids' => array(
+          'type' => 'array',
+          'values' => null,
+          'default' => null,
+          'required' => false,
+          'sizehint' => 10,
+          'description' => __('An array of parent IDs to use as a filter','woocommerce_json_api'),
+        ),
+        'page' => array(
+          'type' => 'number',
+          'values' => null,
+          'default' => 1,
+          'required' => false,
+          'sizehint' => 1,
+          'description' => __('What page to show.','woocommerce_json_api'),
+        ),
+        'per_page' => array(
+          'type' => 'number',
+          'values' => null,
+          'default' => 15,
+          'sizehint' => 1,
+          'required' => false,
+          'description' => __('How many results to show','woocommerce_json_api'),
         ),
       ),
       'get_coupons' => null,
@@ -397,7 +447,7 @@ class WC_JSON_API_Provider_v1 extends JSONAPIHelpers {
     return $this->done();
   }
   public function get_supported_attributes( $params ) {
-    $accepted_resources = array('Product','Category','Comment','Order','OrderItem','OrderTaxItem','OrderCouponItem','Customer','Coupon','Review');
+    $accepted_resources = array('Product','Category','Comment','Order','OrderItem','OrderTaxItem','OrderCouponItem','Customer','Coupon','Review','Image');
     $models = $this->orEq( $params['arguments'], 'resources', $accepted_resources);
     
     if ( ! is_array($models) ) {
@@ -419,6 +469,8 @@ class WC_JSON_API_Provider_v1 extends JSONAPIHelpers {
         $model = new API\Coupon();
       } else if ( $m == 'Comment' ) {
         $model = new API\Comment();
+      } else if ( $m == 'Image' ) {
+        $model = new API\Image();
       } else if ( $m == 'Review' ) {
         $model = new API\Review();
       } else if ( $m == 'OrderTaxItem' ) {
@@ -913,6 +965,7 @@ class WC_JSON_API_Provider_v1 extends JSONAPIHelpers {
     $this->result->setPayload($m);
     return $this->done();
   }
+
   public function get_coupons( $params ) {
     global $wpdb;
     $allowed_order_bys = array('ID','post_title','post_date','post_author','post_modified');
@@ -980,6 +1033,64 @@ class WC_JSON_API_Provider_v1 extends JSONAPIHelpers {
     }
     // We manage the array ourselves, so call setPayload, instead of addPayload
     $this->result->setPayload($coupons);
+
+    return $this->done();
+  }
+   public function get_images( $params ) {
+    $allowed_order_bys = array('ID','post_title','post_date','post_author','post_modified');
+    $posts_per_page = $this->orEq( $params['arguments'], 'per_page', 15 ); 
+    $paged          = $this->orEq( $params['arguments'], 'page', 0 );
+    $order_by       = $this->orEq( $params['arguments'], 'order_by', 'ID');
+    $order          = $this->orEq( $params['arguments'], 'order', 'ASC');
+    $ids            = $this->orEq( $params['arguments'], 'ids', false);
+    $ids            = $this->orEq( $params['arguments'], 'ids', false);
+    $parent_ids     = $this->orEq( $params['arguments'], 'parent_ids', false);
+    $by_ids = true;
+    if ( ! $this->inArray($order_by,$allowed_order_bys) ) {
+      $this->result->addError( __('order_by must be one of these:','woocommerce_json_api') . join( $allowed_order_bys, ','), WCAPI_BAD_ARGUMENT );
+      return $this->done();
+      return;
+    }
+    if ( ! $ids && ! $skus ) {
+        if ($parent_ids) {
+          $images = API\Image::all('*', "`post_parent` IN (" . join(",",$parent_ids) . ")")->per($posts_per_page)->page($paged)->fetch(function ( $result) {
+            $model = new API\Image();
+            $model->fromDatabaseResult($result);
+            return $model->asApiArray();
+          });
+        } else {
+          $images = API\Image::all('*')->per($posts_per_page)->page($paged)->fetch(function ( $result) {
+            $model = new API\Image();
+            $model->fromDatabaseResult($result);
+            return $model->asApiArray();
+          });
+          $this->result->setPayload($images);
+        }
+
+      return $this->done();
+
+    } else if ( $ids ) {
+    
+      $posts = $ids;
+      
+    } 
+
+    $images = array();
+    foreach ( $posts as $post_id) {
+
+        $post = API\Image::find($post_id);
+
+      
+      if ( !$post ) {
+        $this->result->addWarning( $post_id. ': ' . __('Image does not exist','woocommerce_json_api'), WCAPI_PRODUCT_NOT_EXISTS, array( 'id' => $post_id) );
+      } else {
+
+        $images[] = $post->asApiArray();
+      }
+      
+    }
+    // We manage the array ourselves, so call setPayload, instead of addPayload
+    $this->result->setPayload($images);
 
     return $this->done();
   }

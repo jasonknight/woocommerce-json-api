@@ -443,7 +443,8 @@ class Base extends Helpers {
     $s = $this->actual_model_settings;
     if ( isset( $meta_table[$name] ) ) {
       if ( isset($meta_table[$name]['setter'])) {
-        call_user_func($desc['setter'],$this,$name, $desc, $value, $filter_value );
+        $desc = $meta_table[$name];
+        call_user_func($desc['setter'],$this,$name, $desc, $value, false);
       }
       $this->_meta_attributes[$name] = $value;
     } else if (strtolower($name) == 'id') {
@@ -481,6 +482,11 @@ class Base extends Helpers {
         $value = $desc['default'];
       }
       $this->{ $name } = $value;
+      if ( isset($desc['overwrites']) && is_array($desc['overwrites']) ) {
+        foreach ($desc['overwrites'] as $attr ) {
+          $this->{$attr} = $value;
+        }
+      }
     }
   }
 
@@ -657,7 +663,13 @@ class Base extends Helpers {
     // Maybe we want to set attribs and create in one go.
     if ( $attrs ) {
       foreach ( $attrs as $name=>$value ) {
-        $this->{ $name } = $value;
+        if ( isset( $self->attributes_table[$name]) ) {
+          $desc = $self->attributes_table[$name];
+          $this->dynamic_set( $name, $desc, $value, false);
+        } else {
+          $this->{ $name } = $value;
+        }
+        
       }
     }
     $post = array();
@@ -698,6 +710,7 @@ class Base extends Helpers {
     } else {
       $this->setValid(true);
       $this->_actual_model_id = $id;
+      $this->runAfterCreateCallbacks();
       if ( isset( $self->settings['create_meta_function']) ) {
         call_user_func($self->settings['create_meta_function'],$this);
       } else {
@@ -726,7 +739,19 @@ class Base extends Helpers {
     }
     return $this;
   }
-
+  public function runAfterCreateCallbacks() {
+    if ( isset( $this->after_create) ) {
+      if ( is_array( $this->after_create) ) {
+        foreach ( $this->after_create as $cb ) {
+          call_user_func($cb,$this);
+        }
+      } else if ( is_string( $cb ) ) {
+        call_user_func($cb,$this);
+      } else if ( is_callable($cb) ) {
+        call_user_func($cb,$this);
+      }
+    }
+  }
   public function update() {
     $wpdb = static::$adapter;
     $model_table             = $this->orEq( static::$_model_settings, 'model_table', $wpdb->posts );  
@@ -837,7 +862,7 @@ class Base extends Helpers {
   }
 
   public function setTerm($name, $type, $value ) {
-    $this->{"_$name"} = $s;
+    $this->{"_$name"} = $value;
   }
   public function updateTerm( $name, $type, $value=null) {
     if ( $value == null ) {
