@@ -1,5 +1,17 @@
 # WooCommerce JSON API
 
+### Before you download/use this API
+
+This API is currently under heavy development! While I run the test suite
+before committing each change, only the get_* methods are guaranteed to work,
+as they are more or less complete. The set_* methods are currently being retooled
+based on user requests and feedback. If you want to use this API, expect to
+pull updates often. And be ready to post issues. 
+
+When you post issues, please include extra details like how you are posting to
+the API, and complete JSON objects and error output that you posted (minus any 
+sensitive details of course.)
+
 **You cannot test this code while logged into Wordpress.** You will need to
 log out of wordpress, or open a new incognito window to test the code.
 
