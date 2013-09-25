@@ -145,6 +145,9 @@ $new_product_data = array(
   'images' => array(
     array('name' => 'fractal.png'),
   ),
+  'featured_image' => array(
+    array('name' => 'fractal3.png'),
+  )
 );
 
 $data = array(
@@ -155,6 +158,7 @@ $data = array(
   ),
   'payload' => array($new_product_data),
   'images[0]' => "@" . dirname(__FILE__) ."/fractal.png",
+  'images[1]' => "@" . dirname(__FILE__) ."/fractal3.png",
 );
 
 $result = curl_post($url,$data);

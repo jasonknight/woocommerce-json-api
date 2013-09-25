@@ -102,13 +102,28 @@ class Product extends Base{
                 $sql = $wpdb->prepare($sql,$product->_actual_model_id, $image->_actual_model_id);
                 Helpers::debug("connection sql is: $sql");
                 $wpdb->query($sql);
-                $product_gallery = get_post_meta($product->id,"_product_image_gallery");
-                $product_gallery = explode(',',$product_gallery);
+                $product_gallery = get_post_meta($product->_actual_model_id,"_product_image_gallery",true);
+                Helpers::debug("product_gallery as fetched from meta: $product_gallery");
+                if ( empty( $product_gallery ) ) {
+                  Helpers::debug("product_gallery is empty!");
+                  $product_gallery = array();
+                } else if ( ! strpos(',', $product_gallery) == false ) {
+                  Helpers::debug("product_gallery contains  a comma!");
+                  $product_gallery = explode(',',$product_gallery);
+                } else {
+                  Helpers::debug("product_gallery is empty!");
+                  $product_gallery = array($product_gallery);
+                }
+                
+                Helpers::debug( "Product Gallery is: " . var_export($product_gallery,true) ) ;
                 if ( ! in_array($image->_actual_model_id, $product_gallery) ) {
                   Helpers::debug("id {$image->_actual_model_id} is not in " . join(",",$product_gallery) );
                   $product_gallery[] = $image->_actual_model_id;
                   $product_gallery = join(",",$product_gallery);
+                  Helpers::debug("Updating {$product->_actual_model_id}'s' _product_image_gallery to $product_gallery");
                   update_post_meta($product->_actual_model_id,'_product_image_gallery',$product_gallery);
+                } else {
+                  Helpers::debug("In Array failed.");
                 }
               }
           ),
