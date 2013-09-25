@@ -24,6 +24,7 @@ class Base extends Helpers {
   public $_valid;
   public $_page;
   public $_per_page;
+  public $td = 'WCAPI';
 
   public $_result; // so we can add errors
   
@@ -48,13 +49,14 @@ class Base extends Helpers {
   public $__delete__ = false;
   public $__delete__everything = false;
 
-  
+
   /**
   * We want to establish a "fluid" API for the objects.
   * which is why most of these methods return $this.
   * 
   * ( new Object() )->setup()->doCalculation()->update()->done();
   */
+  
   public function __construct($mapper=null) {
     parent::init();
     static::setupMetaAttributes();
@@ -176,6 +178,7 @@ class Base extends Helpers {
   public function loadMetaAttributes() {
     static::setupMetaAttributes();
     static::setupModelAttributes();
+    Helpers::debug("Base::loadMetaAttributes called");
     $s = static::getModelSettings();
     $meta_function = $s['meta_function'];
     $load_meta_function = $s['load_meta_function'];
@@ -234,6 +237,7 @@ class Base extends Helpers {
   }
   // We need an easier interface to fetching items
   public function fetch( $callback = null ) {
+    Helpers::debug( "Base::fetch called");
     $wpdb = static::$adapter;
     $sql = $this->_queries_to_run[count($this->_queries_to_run) - 1];
     if ( ! empty($sql) ) {
@@ -289,31 +293,43 @@ class Base extends Helpers {
   
 
   public function saveAssociations() {
-     $wpdb = static::$adapter;
+    Helpers::debug("Base::saveAssociations beginning");
+    $wpdb = static::$adapter;
     $meta_table = $this->actual_meta_attributes_table;
     $model_table = $this->actual_model_attributes_table;
     $hm = $this->orEq($this->actual_model_settings,'has_many',array());
-
+    Helpers::debug("hm: " . var_export( $hm, true ) ); 
     foreach ($hm as $name => $desc ) {
       if ( isset( $this->{ $name } ) ) {
         $values = $this->{ $name };
         if ( is_array($values) ) {
           foreach ( $values as &$value ) {
             if ( is_array( $value ) ) {
-              $klass = 'WCAPI\\' . $desc['class_name'];             
+              $klass = 'WCAPI\\' . $desc['class_name'];  
+              Helpers::debug("is_array and klass is: $klass");           
               if ( isset( $value['id'] ) ) {
+                Helpers::debug("id is already set");
                 $model =  $klass::find( $value['id'] );
                 if ( $model->isValid() ) {
                   $model->fromApiArray( $value );
                   $model->update();
                 }
               } else {
+                Helpers::debug("need to create association of type $klass");
                 $model = new $klass();
                 $model->create( $value );
                 $model =  $klass::find( $model->_actual_model_id );
                 // now we need to connect them
                 if ( isset( $desc['connect'] ) ) {
                   call_user_func($desc['connect'], $this, $model);
+                } else {
+                  Helpers::debug("default connection");
+                  $ms = $model->getModelSettings();
+                  $fkey = $desc['foreign_key'];
+                  $sql = "UPDATE {$ms['model_table']} SET {$fkey} = %s WHERE ID = %s";
+                  $sql = $wpdb->prepare($sql,$this->_actual_model_id, $model->_actual_model_id);
+                  Helpers::debug("connection sql is: $sql");
+                  $wpdb->query($sql);
                 }
                 $value = $model->asApiArray();
               }
@@ -328,8 +344,22 @@ class Base extends Helpers {
       }
     }
   }
+  public function getConditionsString( $conditions ) {
+      $sql = "";
+      Helpers::debug("Base::getConditionsString " . var_export($conditions,true));
+      if ( is_array( $conditions ) ) {
 
+        $sql = join(' AND ', $conditions);
+      } else if ( is_callable($conditions) ) {
+        $sql = call_user_func($conditions,$this);
+      } else if ( is_string($conditions) ) {
+        $sql = $conditions;
+      }
+      Helpers::debug("Base::getConditionsString returning $sql");
+      return $sql;
+  }
   public function loadHasManyAssociation( $name ) {
+    Helpers::debug("Base::loadHasManyAssociation $name");
     $wpdb = static::$adapter;
     $meta_table = $this->actual_meta_attributes_table;
     $model_table = $this->actual_model_attributes_table;
@@ -348,13 +378,14 @@ class Base extends Helpers {
         $sql = $wpdb->prepare("SELECT {$s['model_table_id']} FROM {$s['model_table']} WHERE {$fkey} = %d",$this->_actual_model_id);
       }
       if ( isset($hm[$name]['conditions']) ) {
-        $conditions = $hm[$name]['conditions'];
-        if ( is_array( $conditions ) ) {
-          $sql .= " AND " . join(' AND ', $conditions);
-        } else {
-          $sql .= " AND " . $conditions;
+        $conditions = $this->getConditionsString($hm[$name]['conditions']);
+        if ( !$conditions ) {
+          Helpers::debug("conditions is false, returing");
+          return array();
         }
+        $sql .= " AND ($conditions)";
       }
+      Helpers::debug("Base::loadHasManyAssociation sql is $sql");
       $ids = $wpdb->get_col($sql);
       foreach ( $ids as $id ) {
         $model = $klass::find($id);
@@ -642,17 +673,21 @@ class Base extends Helpers {
       $model_table_id          = 'ID'; 
       $model_conditions        = '';  
     }
+    $model_conditions = $model->getConditionsString($model_conditions);
+    $conditions = $model->getConditionsString( $conditions );
     if ( ! empty( $model_conditions) && $conditions && ! empty( $conditions )) {
       $model_conditions .= " AND ($conditions)";
     } else if ( empty( $model_conditions) && $conditions && ! empty( $conditions )) {
       $model_conditions = $conditions;
     }
     $sql = "SELECT $fields FROM {$model_table} {$model_conditions}";
+    Helpers::debug("sql for " . get_called_class() . "::all $sql");
     $model->addQuery($sql);
     return $model;
   }
 
   public function create( $attrs = null ) {
+    Helpers::debug("Base::create() for " . get_called_class() );
     include WCAPIDIR."/_model_static_attributes.php";
     $meta_table = $this->actual_meta_attributes_table;
     $model_table = $this->actual_model_attributes_table;
@@ -662,6 +697,8 @@ class Base extends Helpers {
 
     // Maybe we want to set attribs and create in one go.
     if ( $attrs ) {
+      Helpers::debug( "attrs is set" );
+      Helpers::debug( var_export($attrs,true) );
       foreach ( $attrs as $name=>$value ) {
         if ( isset( $self->attributes_table[$name]) ) {
           $desc = $self->attributes_table[$name];
@@ -702,6 +739,7 @@ class Base extends Helpers {
 
     if ( is_wp_error( $id )) {
       // we  should handle errors
+      Helpers::debug(" is_wp_error");
       $this->setValid(false);
       $this->_result->addError( 
         __('Failed to create ' . get_called_class() ), 
@@ -733,7 +771,7 @@ class Base extends Helpers {
 
         }  
       }
-      
+      Helpers::debug("saving associations for " . get_called_class());
       $this->saveAssociations();
 
     }
@@ -743,7 +781,9 @@ class Base extends Helpers {
     if ( isset( $this->after_create) ) {
       if ( is_array( $this->after_create) ) {
         foreach ( $this->after_create as $cb ) {
-          call_user_func($cb,$this);
+          if ( is_callable($cb) ) {
+            call_user_func($cb,$this);
+          }
         }
       } else if ( is_string( $cb ) ) {
         call_user_func($cb,$this);

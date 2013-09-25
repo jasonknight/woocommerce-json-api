@@ -6,8 +6,8 @@ namespace WCAPI;
 */
 require_once(dirname(__FILE__) . "/Base.php");
 require_once(dirname(__FILE__) . "/Category.php");
+require_once(dirname(__FILE__) . "/Upload.php");
 class Image extends Base {
-  public $after_create = array('process');
   public static function getModelSettings() {
     include WCAPIDIR."/_globals.php";
     $table = array_merge( Base::getDefaultModelSettings(), array(
@@ -82,6 +82,42 @@ class Image extends Base {
   }
  
   public function create($attrs) {
-
+    Helpers::debug("Image::create() was called");
+    include WCAPIDIR . "/_globals.php";
+    include WCAPIDIR."/_model_static_attributes.php";
+    $name = $attrs['name'];
+    if ( isset( $_FILES['images']) ) {
+      foreach ($_FILES["images"]["error"] as $key => $error) {
+          if ($error == UPLOAD_ERR_OK) {
+              $fname = basename($_FILES["images"]["name"][$key]);
+              if ( $fname == $name) {
+                $upload = new Upload(
+                  $_FILES["images"]["tmp_name"][$key],
+                  $_FILES["images"]["name"][$key],
+                  $_FILES["images"]["error"][$key],
+                  $_FILES["images"]["size"][$key]
+                );
+                $id = $upload->saveMediaAttachment();
+                $record = $wpdb->get_row( $wpdb->prepare("SELECT * FROM {$self->settings['model_table']} WHERE {$self->settings['model_table_id']} = %d", (int) $id), 'ARRAY_A' );
+                if ( $record ) {
+                  $this->fromDatabaseResult( $record );
+                  $this->setNewRecord(true); // i.e. we want to know if models were created in this request.
+                  Helpers::debug("Set attrs from record: " . var_export($record,true));
+                } else {
+                  Helpers::debug("Did not get record! setting valid to false");
+                  $this->setValid(false);
+                }
+                return $this;
+              }
+          }
+      }
+      Helpers::debug("Image::create: throwing exception No entry for %s found in uploaded files!");
+      throw new \Exception( sprintf( __('No entry for %s found in uploaded files!',$this->td), $name ) );
+    } else {
+      Helpers::debug("Image::create: throwing exception You cannot create a new image unless you upload an image with the same name as %s");
+      Helpers::debug( var_export($_FILES,true));
+      throw new \Exception( sprintf(__('You cannot create a new image unless you upload an image with the same name as %s',$this->td),$name) );
+    }
   }
+
 }

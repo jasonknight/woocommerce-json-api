@@ -126,11 +126,22 @@ function curl_post($url, array $post = NULL, array $options = array()) {
     ); 
 
     $ch = curl_init(); 
-    curl_setopt_array($ch, ($options + $defaults)); 
-    if( ! $result = curl_exec($ch)) 
-    { 
-        trigger_error(curl_error($ch)); 
-    } 
+    // curl_setopt_array($ch, ($options + $defaults)); 
+    // if( ! $result = curl_exec($ch)) 
+    // { 
+    //     trigger_error(curl_error($ch)); 
+    // } 
+    foreach ( $post as &$value ) {
+      if ( is_array($value) ) {
+        $value = json_encode($value);
+      }
+    }
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $post); 
+    $result = curl_exec($ch);
     curl_close($ch); 
     return $result; 
 } 

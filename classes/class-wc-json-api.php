@@ -151,6 +151,21 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
       $klass = str_replace('.','_',$klass);
       $this->provider = new $klass( $this );
     }
+
+    // Reorganize any uploaded files and put them in
+    // the params
+    $files = array();
+    // $file_count = count($_FILES['name']);
+    // $file_keys = array_keys($_FILES);
+
+    // for ($i=0; $i<$file_count; $i++) {
+    //     foreach ($file_keys as $key) {
+    //         $files[$i][$key] = $_FILES[$key][$i];
+    //     }
+    // }
+
+    $params['uploads'] = $files; 
+
     $this->createNewResult( $params );
 
     JSONAPIHelpers::debug( "Beggining request" );
@@ -174,6 +189,8 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
         if ( $this->result->status() == false ) {
           JSONAPIHelpers::warn("Arguments did not pass validation");
           return $this->done();
+        } else {
+          JSONAPIHelpers::debug("Arguments have passed validation");
         }
         return $this->provider->{ $proc }($params);
 
@@ -295,8 +312,9 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
       $t = "{$t['file']}:{$t['line']}:{$t['class']}";
     }
     $this->result->addError( 
-      sprintf(__('An unexpected error has occured %s, Trace:', 'woocommerce_json_api' ),$error->getMessage()) . join("\n",$trace) , 
-      WCAPI_UNEXPECTED_ERROR 
+      sprintf( __('An unexpected error has occured %s ', 'woocommerce_json_api' ) ,$error->getMessage() ), 
+      WCAPI_UNEXPECTED_ERROR,
+      array('trace' => $trace)
     );
 
     return $this->done();
@@ -310,6 +328,7 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
     }
   }
   public function done() {
+    JSONAPIHelpers::debug("WooCommerce_JSON_API::done() called..");
     wp_logout();
     if ( $this->return_type == 'HTTP') {
       header("Content-type: application/json");

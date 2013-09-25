@@ -560,6 +560,7 @@ class WC_JSON_API_Provider_v1 extends JSONAPIHelpers {
     // exploited. we need to track errors, and temporarily ban users with
     // too many. We need a way to lift the ban in the interface and so on.
   public function set_products( $params ) {
+    JSONAPIHelpers::debug("set_products beginning");
     $products = $this->orEq( $params, 'payload', array() );
     foreach ( $products as &$attrs) {
       $product = null;
@@ -585,15 +586,18 @@ class WC_JSON_API_Provider_v1 extends JSONAPIHelpers {
           )
         );
         // Let's create the product if it doesn't exist.
+        JSONAPIHelpers::debug("Creating a new product");
         $product = new API\Product();
         $product->create( $attrs );
         if ( ! $product->isValid() ) {
+          JSONAPIHelpers::debug("Product is not valid!");
           return $this->done();
         }
         $attrs = $product->asApiArray();
       }
     }
     $this->result->setPayload( $products );
+    JSONAPIHelpers::debug("set_products done.");
     return $this->done();
   }
 

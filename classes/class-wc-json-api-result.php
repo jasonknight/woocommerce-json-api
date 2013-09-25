@@ -8,6 +8,7 @@ class WooCommerce_JSON_API_Result {
     $this->params['status'] = $bool;
   }
   public function setParams( $params ) {
+    unset($params['uploads']); // we don't need this in the result
     $this->params = $params;
     $this->params['status'] = true;
     $this->params['errors'] = array();

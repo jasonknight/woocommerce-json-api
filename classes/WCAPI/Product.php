@@ -86,6 +86,52 @@ class Product extends Base{
                 "comment_approved != 'trash'"
               ),
           ),
+          'images' => array(
+              'class_name' => 'Image', 
+              'foreign_key' => 'post_parent', 
+              'conditions' => array(
+                "post_type = 'attachment'",
+                "post_mime_type IN ('image/jpeg','image/png','image/gif')"
+              ),
+              'connect' => function ($product,$image) {
+                include WCAPIDIR."/_globals.php";
+                Helpers::debug("Product::image::connect");
+                $ms = $image->getModelSettings();
+                $fkey = 'post_parent';
+                $sql = "UPDATE {$ms['model_table']} SET {$fkey} = %s WHERE ID = %s";
+                $sql = $wpdb->prepare($sql,$product->_actual_model_id, $image->_actual_model_id);
+                Helpers::debug("connection sql is: $sql");
+                $wpdb->query($sql);
+                $product_gallery = get_post_meta($product->id,"_product_image_gallery");
+                $product_gallery = explode(',',$product_gallery);
+                if ( ! in_array($image->_actual_model_id, $product_gallery) ) {
+                  Helpers::debug("id {$image->_actual_model_id} is not in " . join(",",$product_gallery) );
+                  $product_gallery[] = $image->_actual_model_id;
+                  $product_gallery = join(",",$product_gallery);
+                  update_post_meta($product->_actual_model_id,'_product_image_gallery',$product_gallery);
+                }
+              }
+          ),
+          'featured_image' => array(
+              'class_name' => 'Image', 
+              'foreign_key' => 'post_parent', 
+              'conditions' => function ($model) {
+                $tid = get_post_thumbnail_id( $model->_actual_model_id );
+                if ( empty( $tid ) ) {
+                  return false;
+                }
+                $parts = array(
+                  "post_type = 'attachment'",
+                  "post_mime_type IN ('image/jpeg','image/png','image/gif')",
+                  "ID = $tid",
+                );
+                return join(' AND ', $parts);
+              },
+              'connect' => function ($product,$image) {
+                update_post_meta($product->_actual_model_id, '_thumbnail_id',$image->_actual_model_id);
+                
+              },
+          ),
           'variations' => array(
               'class_name' => 'Product', 
               'foreign_key' => 'post_parent', 
@@ -157,7 +203,7 @@ class Product extends Base{
       'weight'            => array('name' => '_weight',           'type' => 'number', 'sizehint' => 2),
       'length'            => array('name' => '_length',           'type' => 'number', 'sizehint' => 2),
       'price'             => array('name' => '_price',    'type' => 'number', 'sizehint' => 3, 'overwrites' => array('regular_price')),
-      'regular_price'     => array('name' => '_regular_price',    'type' => 'number', 'sizehint' => 3, 'overwrites' => array('price')),
+      'regular_price'     => array('name' => '_regular_price',    'type' => 'number', 'sizehint' => 3),
       'sale_price'        => array('name' => '_sale_price',       'type' => 'number', 'sizehint' => 3),
       'sale_from'         => array('name' => '_sale_price_dates_from', 'type' => 'timestamp', 'sizehint' => 6),
       'sale_to'           => array('name' => '_sale_price_dates_to',   'type' => 'timestamp', 'sizehint' => 6),
@@ -286,8 +332,8 @@ class Product extends Base{
     $attributes_to_send['tags'] = $this->tags;//wp_get_post_terms($this->_actual_model_id,'product_tag');
     $attributes_to_send['reviews'] = $this->reviews;
     $attributes_to_send['variations'] = $this->variations;
-    $feat_image = wp_get_attachment_url( get_post_thumbnail_id( $this->_actual_model_id) );
-    $attributes_to_send['featured_image'] = $feat_image;
+    $attributes_to_send['images'] = $this->images;
+    $attributes_to_send['featured_image'] = $this->featured_image;
     return $attributes_to_send;
   }
 

@@ -157,7 +157,17 @@ function woocommerce_json_api_template_redirect() {
       $api = new WooCommerce_JSON_API();
       $api->setOut('HTTP');
       $api->setUser(null);
-      $api->route($_REQUEST);
+      $params = array();
+      // maybe we had to serialize some subarrays, so we'll have to unserialize them here
+      foreach ($_REQUEST as $key=>$value) {
+        $params[$key] = $value;
+      }
+      foreach ( array('payload','arguments') as $key ) {
+        if ( isset($_REQUEST[$key]) && is_string($_REQUEST[$key]) ) {
+          $params[$key] = json_decode(stripslashes($_REQUEST[$key]),true);
+        }
+      }
+      $api->route($params);
 
     } else {
       JSONAPIHelpers::debug("JSON API is not set to enabled.");
