@@ -17,7 +17,7 @@
   <div class="small-22 columns">
     <div class="row">
       <div class="small-22 columns">
-        <h2>Welcome to the WooCommerce JSON API</h2>
+        <h2>Welcome to the WooCommerce JSON API Demonstration!</h2>
         <hr />
       </div>
     </div>
@@ -62,7 +62,6 @@
       <div class="small-17 columns">
         <div class="panel">
           <div id="arguments"></div>
-          <h4>Response</h4>
           <div id="results"></div>
         </div>
       </div>
@@ -71,13 +70,13 @@
     <div class="row">
       <div class="small-10 columns">
         <div class="panel">
-          <h4>Debug Request</h4>
+          <h4>Raw JSON Request</h4>
           <div id="request_debug"></div>
         </div>
       </div>
       <div class="small-12 columns">
         <div class="panel">
-          <h4>Debug Payload</h4>
+          <h4>Raw JSON Payload</h4>
           <div id="payload_debug"></div>
         </div>
       </div>
@@ -180,6 +179,19 @@
   </script>
   
   
+  <script type="text/template" id="attribute_template_error">
+    <div class="small-20 columns attr-input-column attr-input-error">
+      <%= error_message %>
+    </div>
+  </script>
+  
+  <script type="text/template" id="response_errors">
+    <% _.each(error_messages, function(val) { %>
+      <div class="small-22 columns attr-input-column attr-input-error">
+        ERROR CODE <%= val.code %>: <%= val.text %>
+      </div>
+    <% }); %>
+  </script>
   
   <script type="text/template" id="attribute_template">
     <div class="small-<%= columns %> columns attr-input-column" id="input_<%= klass %>_<%= record_id %>_<%= key %>">
@@ -192,7 +204,7 @@
         <% if ( key == "id" ) { %>
           <span><b>#<%= value %></b></span>
         <% } else if ( (type == "string" && values) || ( type == "bool" && values ) ) { %>
-          <select json_path="<%= json_path %>" record_id=<%= record_id %>>
+          <select class="editme" json_path="<%= json_path %>" record_id=<%= record_id %>>
             <% _.each(values, function(idx) { %>
               <option value=<%= idx %>><%= idx %></option>
             <% }); %>
@@ -226,7 +238,7 @@
   </script>
   
   <script type="text/template" id="attribute_row_statusmessage_template">
-    <div class="statusmessage"><%= statusmessage %></div>
+    <div class="small-22 columns attr-input-column statusmessage"><%= statusmessage %></div>
   </script>
 </body>
 </html>

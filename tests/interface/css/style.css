@@ -34,3 +34,7 @@ label {
 div.statusmessage {
   color: green;
 }
+
+div.attr-input-error {
+  color: red;
+}

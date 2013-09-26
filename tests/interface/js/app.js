@@ -31,7 +31,7 @@ String.prototype.classify = function () {
   str = this.replace("get_", "").titleize().replace(/ /g, "").slice(0, -1);
   if (this.substring(this.length - 3, this.length) == "ies") {
     str = str.substr(0, str.length - 3) + "ry";
-  } else if (this.substring(this.length - 2, this.length) == "es") {
+  } else if (this.substring(this.length - 2, this.length) == "es" && this != "get_images") {
     str = str.slice(0, -1);
   }
   return str;
@@ -97,199 +97,101 @@ function getRequest(req, callback, options) {
 /* ============================ */
 
 function onLoadMethodsButtonClick() {
+  $('#results').html('');
+  $('#arguments').html('');
   var request = prepareRequest('get_api_methods');
   getRequest(request, displayAPIMethods);
 }
 
-function onGetSystemTimeButtonClick() {
-  var request = prepareRequest('get_system_time');
-  getRequest(request, displaySystemTime );
-}
 
-function onGetSupportedAttributesButtonClick() {
-  var request = prepareRequest('get_supported_attributes');
-  request.arguments.resources = ['Product','Order','Category','Customer','OrderItem'];
-  getRequest(request, displaySupportedAttributes);
-}
-
-
-
-function onGetProductsButtonClick() {
+function onGetMethodButtonClick(proc) {
+  //console.log("onMethodButtonClick", proc);
   $('#results').html('');
+  $('#arguments').html('');
+  var request;
   var div = $('#arguments');
-  div.html('');
   var tmpl = _.template($('#argument_template').html());
   var tmpl_select = _.template($('#argument_template_select').html());
-  var args = [];
-  $.each($methods.get_products, function(field, desc) {
-    if (desc.values) {
-      // is an array
-      args.push({
-        columns: desc.sizehint + 2,
-        id: field,
-        label: field.titleize(),
-        placeholder: desc.default,
-        options: desc.values,
-        type: desc.type,
-      });
-    } else {
-      args.push({
-        columns: desc.sizehint + 2,
-        id: field,
-        label: field.titleize(),
-        placeholder: desc.default,
-        type: desc.type,
-      });
-    };
+  var query_args = [];
+  
+  switch(proc) {
+    case "get_system_time":
+      // this one is special and needs individual rendering
+      request = prepareRequest(proc);
+      getRequest(request, displaySystemTime );
+      break;
       
-  });
-  
-  for ( var i = 0; i < args.length; i++ ) {
-    if (args[i].options) {
-      div.append( tmpl_select( args[i] ) );
-    } else {
-      div.append( tmpl( args[i] ) );
-    }
-  }
-  var button = $('<div class="small button">Load Products</div>');
-  button.on('click', function () {
-    var request = prepareRequest('get_products');
-    for ( var i = 0; i < args.length; i++ ) {
-      var arg = args[i];
-      var val;
-
-      if ( arg.type == "array" && ! arg.options ) {
-        val = $('#' + arg.id).val();
-        if ( val == "" )
-          continue;
-        val = val.split(',');
-      } else {
-        val = $('#' + arg.id).val();
-        if ( val == ""  )
-          continue;
+    case "get_supported_attributes":
+      // this one is special and needs individual rendering
+      request = prepareRequest(proc);
+      getRequest(request, displaySupportedAttributes );
+      break;
+      
+    default:
+      // this one displays various klasses delivered by the backend, e.g. Product, Category, etc.
+      if ($methods[proc]) {
+        //
+        $.each($methods[proc], function(field, desc) {
+          if (desc.values) {
+            // is an array
+            query_args.push({
+              columns: desc.sizehint + 2,
+              id: field,
+              label: field.titleize(),
+              placeholder: desc.default,
+              options: desc.values,
+              type: desc.type,
+            });
+          } else {
+            query_args.push({
+              columns: desc.sizehint + 2,
+              id: field,
+              label: field.titleize(),
+              placeholder: desc.default,
+              type: desc.type,
+            });
+          };
+        });
+        
+      } 
+        
+      for ( var i = 0; i < query_args.length; i++ ) {
+        if (query_args[i].options) {
+          div.append( tmpl_select( query_args[i] ) );
+        } else {
+          div.append( tmpl( query_args[i] ) );
+        }
       }
-      request.arguments[arg.id] = val;
-    }
-    getRequest(request, displayModel);
-  });
-  div.append("<hr />")
-  div.append(button);
-}
+      var button = $('<div class="small button">Load</div>');
+      button.on('click', function () {
+        var request = prepareRequest(proc);
+        // now, add the query arguments to the request
+        for ( var i = 0; i < query_args.length; i++ ) {
+          var arg = query_args[i];
+          var val;
 
-function onGetCategoriesButtonClick() {
-  $('#results').html('');
-  var div = $('#arguments');
-  div.html('');
-  var tmpl = _.template($('#argument_template').html());
-  var tmpl_select = _.template($('#argument_template_select').html());
-  var args = [];
-  $.each($methods.get_categories, function(field, desc) {
-    if (desc.values) {
-      // is an array
-      args.push({
-        columns: desc.sizehint + 2,
-        id: field,
-        label: field.titleize(),
-        placeholder: desc.default,
-        options: desc.values,
-        type: desc.type,
+          if ( arg.type == "array" && ! arg.options ) {
+            val = $('#' + arg.id).val();
+            if ( val == "" )
+              continue;
+            val = val.split(',');
+          } else {
+            val = $('#' + arg.id).val();
+            if ( val == ""  )
+              continue;
+          }
+          request.arguments[arg.id] = val;
+        }
+        getRequest(request, displayModel);
       });
-    } else {
-      args.push({
-        columns: desc.sizehint + 2,
-        id: field,
-        label: field.titleize(),
-        placeholder: desc.default,
-        type: desc.type,
-      });
-    };
-  });
-  
-  for ( var i = 0; i < args.length; i++ ) {
-    if (args[i].options) {
-      div.append( tmpl_select( args[i] ) );
-    } else {
-      div.append( tmpl( args[i] ) );
-    }
+      div.append("<hr />")
+      div.append(button);
+      
+      break;
   }
   
-  var button = $('<div class="small button">Load Categories</div>');
-  button.on('click', function () {
-    var request = prepareRequest('get_categories');
-    for ( var i = 0; i < args.length; i++ ) {
-      var arg = args[i];
-      var val;
+}
 
-      if (arg.type == "array" && ! arg.options) {
-        val = $('#' + arg.id).val();
-        if ( val == "" )
-          continue;
-        val = val.split(',');
-      } else {
-        val = $('#' + arg.id).val();
-        if ( val == ""  )
-          continue;
-      }
-      request.arguments[arg.id] = val;
-    }
-    getRequest( request, displayModel );
-  });
-  div.append("<hr />")
-  div.append(button);
-}
-function onGetCouponsButtonClick() {
-  console.log('called');
-  $('#results').html('');
-  var div = $('#arguments');
-  div.html('');
-  var tmpl = _.template($('#argument_template').html());
-  var button = $('<div class="small button">Load Coupons</div>');
-  button.on('click', function () {
-    var request = prepareRequest('get_coupons');
-    getRequest( request, displayModel );
-  });
-  div.append("<hr />")
-  div.append(button);
-}
-function onGetTaxesButtonClick() {
-  $('#results').html('');
-  var div = $('#arguments');
-  div.html('');
-  var tmpl = _.template($('#argument_template').html());
-  var button = $('<div class="small button">Load Taxes</div>');
-  button.on('click', function () {
-    var request = prepareRequest('get_taxes');
-    getRequest( request, displayModel );
-  });
-  div.append("<hr />")
-  div.append(button);
-}
-function onGetShippingMethodsButtonClick() {
-  $('#results').html('');
-  var div = $('#arguments');
-  div.html('');
-  var tmpl = _.template($('#argument_template').html());
-  var button = $('<div class="small button">Load Shipping Methods</div>');
-  button.on('click', function () {
-    var request = prepareRequest('get_shipping_methods');
-    getRequest( request, displayModel );
-  });
-  div.append("<hr />")
-  div.append(button);
-}
-function onGetPaymentGatewaysButtonClick() {
-  $('#results').html('');
-  var div = $('#arguments');
-  div.html('');
-  var tmpl = _.template($('#argument_template').html());
-  var button = $('<div class="small button">Load Payment Gateways</div>');
-  button.on('click', function () {
-    var request = prepareRequest('get_payment_gateways');
-    getRequest( request, displayModel );
-  });
-  div.append("<hr />")
-  div.append(button);
-}
 
 /* SET FUNCTIONS */
 function onSetProductsButtonClick() {
@@ -399,15 +301,29 @@ function displayAPIMethods( data ) {
     if ( key.indexOf('set_') == 0) {
       button.addClass('alert');
     }
-    var method = key.titleize();
-    method = 'on' + method.replace(/\s/g,'') + "ButtonClick";
-    button.on('click',window[method]);
+    
+    button.on('click', function(k) {
+      return function() {
+        onGetMethodButtonClick(k);
+      }
+    }(key)
+    );
     $('#methods').append(button);
     $('#methods').append('<br />');
   }
+
   /* AUTOMATION CODE */
-  onGetSupportedAttributesButtonClick();
-  onGetProductsButtonClick();
+  // After the "Load Methods" button has been clicked, automatically trigger loading of supported attributes
+  onGetMethodButtonClick("get_supported_attributes");
+  onGetMethodButtonClick("get_products");
+}
+
+function onClickFunction(model) {
+  var f;
+  f = function() {
+    onMethodButtonClick(model)
+  }
+  return f;
 }
 
 function displaySystemTime( data ) {
@@ -425,9 +341,19 @@ function displaySupportedAttributes(data) {
   $('#results').html("Supported attributes have been saved to global JS variable '$supported_attributes'. You can inpsect it in your console.");
 }
 
-
 function displayModel(data) {
   $('#results').html('');
+  
+  if (data.errors.length > 0) {
+    var tmpl_error = _.template($('#response_errors').html());
+    $('#results').append(tmpl_error({ error_messages: data.errors }));
+  }
+  
+  var tmpl_notice = _.template($('#attribute_row_statusmessage_template').html());
+  var statusmessage = "Received payload of length " + data.payload.length;
+  $('#results').append(tmpl_notice({ statusmessage: statusmessage }));
+  console.log(statusmessage);
+  
   json_path = [data.proc.replace("get_", "")];
   klass = data.proc.classify();
   if ( $supported_attributes[klass] ) {
@@ -436,7 +362,8 @@ function displayModel(data) {
     $(".datepicker").datepicker();
     $(".editme").on('change', onInputChanged);
   } else {
-    renderEditTable($('#results'), json_path, null, data.payload);
+    $("#results").append("WARNING: The method 'get_supported_attributes' does not define Klass '" + data.proc.classify() + "'. Inplace-editing of fields is therefore not supported. Simply displaying values instead.");
+    renderEditTable($('#results'), data.payload);
   }
 }
 
@@ -449,93 +376,65 @@ function displayModel(data) {
 /* ============================ */
 
 
-function renderEditTable(parent_element, json_path, model_id, collection) {
+function renderEditTable(parent_element, collection) {
+  
   
   var table = $(document.createElement('table'));
+  parent_element.append(table);
   var header = $(document.createElement('tr'));
+  table.append(header);
 
-  if (Object.prototype.toString.call(collection[0]) == "[object Object]") {
-    // render a header only for objects, i.e. no arrays or simple types
+  if (reveal(collection) == "[object Array]" && collection[0]) {
+    // render a header from the keys in the first element
     $.each(collection[0], function(k,v) {
       var th = $(document.createElement('th'));
       th.html(k);
       header.append(th);
     });
-    table.append(header);
+  } else if (reveal(collection) == "[object Object]") {
+    // The rendering code below is made for Arrays only. If we get an Object instead, render Warning and wrap object in an Array.
+    $.each(collection, function(k,v) {
+      var th = $(document.createElement('th'));
+      th.html(k);
+      header.append(th);
+    });
+    var warning = $(document.createElement('p'));
+    warning.css("color", "red");
+    warning.html("WARNING: Backend returned object instead of Array");
+    collection = [collection];
+    warning.insertBefore(table);
   }
-  
-  $.each(collection, function(key,val) {
+
+  $.each(collection, function(idx,val) {
+    // render a row for each array entry
     var row = $(document.createElement('tr'));
-    
-    if (model_id == null) {
-      // only execute during the first call of this function
-      console.log("setting model_id " + val.id);
-      model_id = val.id;
-    }
-    
-    row.attr('model_id', model_id);
-    
-    if (typeof val == "object") {
-      // iterator for arrays of objects and objects
-      $.each(val, function(k,v) {
-        var col = $(document.createElement('td'));
-        row.append(col);
-        console.log("XXX k ", k, "v", v, typeof(v));
-        if (typeof v == "object") {
-          json_path.push(key);
-          json_path.push(k);
-          renderEditTable(col, json_path, model_id, v); // recursion
-        } else {
-          var input = $(document.createElement('input'));
-          input.val(v);
-          var json_path_string = json_path.join(".") + "." + key + "." + k;
-          input.attr('json_path', json_path_string);
-          input.attr('model_id', model_id);
-          input.on('change', onInputChanged);
-          var width = v.length * 6 + 10;
-          if (width < 50)
-            width = 50;
-          input.css('width', width);
-          col.append(input);
-          table.append(row);
-        }
-      });
-    } else {
-      // for simple types, i.e. arrays that only contain strings
-      var input = $(document.createElement('input'));
-      input.val(val);
-      var json_path_string = json_path.join(".") + "." + key;
-      input.attr('json_path', json_path_string);
-      input.attr('model_id', model_id);
-      var width = val.length * 6 + 10;
-      if (width < 50)
-        width = 50;
-      input.css('width', width);
+    $.each(val, function(k,v) {
       var col = $(document.createElement('td'));
-      col.append(input);
+      if (reveal(v) == "[object Object]" || reveal(v) == "[object Array]") {
+        // start recursion
+        renderEditTable(col, v);
+      } else {
+        var span = $(document.createElement('span'));
+        span.html(v);
+        col.append(span);
+        table.append(row);
+      }
       row.append(col);
-      table.append(row);
-    }
+    });
   });
-  parent_element.append(table);
-  
 }
 
 function renderEditFields(collection, table, depth, json_path) {
-  console.log("RENDER CALLED", collection, table, depth, json_path);
+  //console.log("RENDER CALLED", collection, table, depth, json_path);
   var klass = table.classify();
-  console.log("KLASS BEGINNING", klass);
+  //console.log("KLASS BEGINNING", klass);
   
   
   var html_result = '';
-  if ( collection.length == 0 ) {
-    return html_result;
-  }
-  if ( ! $supported_attributes[klass] ) {
-    return klass + "is not in $supported_attributes";
-  }
+
   var data;
   var tmpl_attr     = _.template($('#attribute_template').html());
+  var tmpl_attr_error = _.template($('#attribute_template_error').html());
   var tmpl_attr_row = _.template($('#attribute_row_template').html());
   var tmpl_header   = _.template($("#attribute_row_heading_template").html());
   
@@ -547,7 +446,7 @@ function renderEditFields(collection, table, depth, json_path) {
     for (var key in model) {
 
       if ( reveal(model[key]) == '[object Array]' && model[key].length > 0) {
-        // display HAS_MANY relationship in place
+        // display HAS_MANY relationship in place, via Recursion
         var rendered_hasmany_header = tmpl_header({
           klass: key.titleize(),
           depth: depth + 3,
@@ -568,11 +467,24 @@ function renderEditFields(collection, table, depth, json_path) {
         };
         //console.log("tmpl_data is", tmpl_data);
         cols += tmpl_attr(tmpl_data);
+        
       } else {
         // simple datatypes
         
+        if ( ! $supported_attributes[klass] ) {
+          var msg = "ERROR: $supported_attributes does not contain klass '" + klass + "'";
+          cols += tmpl_attr_error({ error_message: msg });
+          continue;
+        }
+        
+        if ( ! $supported_attributes[klass][key] ) {
+          var msg = "ERROR: $supported_attributes does not contain key '" + key + "' in klass '" + klass + "'";
+          cols += tmpl_attr_error({ error_message: msg });
+          continue;
+        }
+        
         var desc = $supported_attributes[klass][key];
-        if ( ! desc ) { continue; }
+        
         tmpl_data = {
           columns: Math.floor(desc.sizehint * 22 / 10), 
           value: model[key],
@@ -584,6 +496,13 @@ function renderEditFields(collection, table, depth, json_path) {
           record_id: record_id,
           klass: klass,
         };
+        
+        // output error if types don't match
+        if (desc.type == "array" && reveal(model[key]) != "[object " + desc.type.titleize() + "]") {
+          var msg = "ERROR! Key '" + key + "' of Klass '" + klass + "' is supposed to be a " + desc.type.titleize() + " but we got a " + reveal(model[key]) + " from the backend.";
+          cols += tmpl_attr_error({ error_message: msg });
+          continue;
+        }
         cols += tmpl_attr(tmpl_data);
       }
     }
@@ -611,7 +530,7 @@ function onInputChanged() {
   var input = $(this);
   var json_path = input.attr("json_path").split(".");
   
-  console.log("onInputChanged", input.val());
+  //console.log("onInputChanged", input.val());
   var request = prepareRequest();
   request.proc = "set_" + json_path.shift();
   //json_path.shift();
@@ -624,11 +543,18 @@ function onInputChanged() {
 }
 
 function inputChangedComplete(data, options) {
-  console.log("CHANGED COMPLETE", data, options.element);
+  //console.log("CHANGED COMPLETE", data, options.element);
+  var msg;
+  
+  if (data.status == true) {
+    msg = "Request succeeded!";
+  } else {
+    msg = "Request did not succeed.";
+  }
   options.element.effect('highlight');
   var tmpl_statusmessage = _.template($('#attribute_row_statusmessage_template').html());
   var rendered_statusmessage = tmpl_statusmessage({
-    statusmessage: data.status,
+    statusmessage: msg,
   });
   $(rendered_statusmessage).insertAfter(options.element);
   
