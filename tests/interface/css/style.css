@@ -38,3 +38,20 @@ div.statusmessage {
 div.attr-input-error {
   color: red;
 }
+
+div.response-warning {
+  color: brown;
+}
+
+div.response-error {
+  color: red;
+}
+
+div.response-notification {
+  color: orange;
+}
+
+div#request_debug,
+div#payload_debug {
+  font-size: 80%;
+}

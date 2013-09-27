@@ -83,6 +83,7 @@ function getRequest(req, callback, options) {
     contentType: 'application/json',
     success: function(data) {
       callback(data, options);
+      displayDebug(data);
       console.log("getRequest RECEIVED:", data);
     },
     dataType: 'json',
@@ -152,9 +153,7 @@ function onGetMethodButtonClick(proc) {
             });
           };
         });
-        
-      } 
-        
+      }
       for ( var i = 0; i < query_args.length; i++ ) {
         if (query_args[i].options) {
           div.append( tmpl_select( query_args[i] ) );
@@ -186,92 +185,12 @@ function onGetMethodButtonClick(proc) {
       });
       div.append("<hr />")
       div.append(button);
-      
       break;
   }
-  
 }
 
 
-/* SET FUNCTIONS */
-function onSetProductsButtonClick() {
-  $('#results').html('');
-  var div = $('#arguments');
-  div.html('');
-  var tmpl = _.template($('#argument_template').html());
-  var tmpl_txt = _.template($('#argument_template_text').html());
-  var select_tmpl = _.template($('#argument_template_select').html());
-  //console.log($supported_attributes);
-  var args = [];
-  var field;
-  $.each($supported_attributes.Product, function(attr, desc) {
-    if ( ! desc.sizehint ) {
-      desc.sizehint = 3;
-    } else {
-      desc.sizehint += 2;
-    }
-    if (desc.values) {
-      field = {
-        columns: desc.sizehint,
-        id: attr,
-        label: attr.titleize(),
-        options: desc.values,
-        placeholder: desc.default,
-        
-      };
-    } else {
-      field = {
-        columns: desc.sizehint,
-        id: attr,
-        label: attr.titleize(),
-        placeholder: desc.default,
-        input_type: desc.type
-      }
-    }
-    args.push(field);
-  });
 
-  for ( var i = 0; i < args.length; i++ ) {
-    if ( args[i].options ) {
-      div.append( select_tmpl( args[i] ) );
-    } else {
-      if ( args[i].input_type == 'text') {
-        var rendered_template = tmpl_txt( args[i] );
-        div.append( rendered_template );
-      } else {
-        var rendered_template = $(tmpl( args[i] ));
-        if ( args[i].id == 'name' ) {
-          rendered_template.find('input').on('keyup', function() {
-            var str = $(this).val().replace(/\s+/g, '-').toLowerCase();
-            $('#slug').val(str);
-          });
-        }
-        div.append( rendered_template );
-      }
-    }
-  }
-  var button = $('<div class="small button">Create Product</div>');
-  button.on('click', function () {
-    var request = prepareRequest('set_products');
-    var obj = {};
-    for ( var i = 0; i < args.length; i++ ) {
-      var arg = args[i];
-      var val;
-
-      if (typeof arg.placehold == 'string' && arg.placeholder.indexOf(',') != -1) {
-        val = $('#' + arg.id).val();
-        val = val.split(',');
-      } else {
-        val = valOrPlaceholder('#' + arg.id);
-      }
-      obj[arg.id] = val;
-    }
-    request.payload = [obj];
-    getRequest( request );
-  });
-  div.append("<hr />")
-  div.append(button);
-}
 
 
 
@@ -281,16 +200,18 @@ function onSetProductsButtonClick() {
 
 function displayDebug( data ) {
   console.log(data);
-  var req_vars = ['action','arguments','errors','warnings','notifications','status'];
+  var req_vars = ['action','proc','arguments','errors','warnings','notifications','status'];
   var div = $('#request_debug');
   div.html('');
   for ( var i = 0; i < req_vars.length; i++ ) {
     div.append('<h5>' + req_vars[i].titleize() + '</h5>');
     div.append('<pre>' + JSON.stringify(data[req_vars[i]],undefined,2) + '</pre>');
   }
+  div.effect("highlight");
   div = $('#payload_debug');
   div.html('');
   div.append('<pre>' + JSON.stringify(data[ 'payload' ],undefined,2) + '</pre>');
+  div.effect("highlight");
 }
 
 function displayAPIMethods( data ) {
@@ -298,16 +219,25 @@ function displayAPIMethods( data ) {
   $methods = data.payload;
   for (var key in data.payload ) {
     var button = $('<div class="small button">' + key.titleize() + '<div>');
+    
     if ( key.indexOf('set_') == 0) {
+      console.log("XXXXX", key);
       button.addClass('alert');
+      button.on('click', function(method) {
+        return function() {
+          onSetMethodButtonClick(method);
+        }
+      }(data.proc));
     }
     
-    button.on('click', function(k) {
-      return function() {
-        onGetMethodButtonClick(k);
-      }
-    }(key)
-    );
+    if ( key.indexOf('get_') == 0) {
+      button.on('click', function(k) {
+        return function() {
+          onGetMethodButtonClick(k);
+        }
+      }(key));
+    }
+    
     $('#methods').append(button);
     $('#methods').append('<br />');
   }
@@ -315,16 +245,9 @@ function displayAPIMethods( data ) {
   /* AUTOMATION CODE */
   // After the "Load Methods" button has been clicked, automatically trigger loading of supported attributes
   onGetMethodButtonClick("get_supported_attributes");
-  onGetMethodButtonClick("get_products");
+  //onGetMethodButtonClick("get_products");
 }
 
-function onClickFunction(model) {
-  var f;
-  f = function() {
-    onMethodButtonClick(model)
-  }
-  return f;
-}
 
 function displaySystemTime( data ) {
   var div = $('#results');
@@ -346,13 +269,22 @@ function displayModel(data) {
   
   if (data.errors.length > 0) {
     var tmpl_error = _.template($('#response_errors').html());
-    $('#results').append(tmpl_error({ error_messages: data.errors }));
+    $('#results').append(tmpl_error({ messages: data.errors }));
   }
   
-  var tmpl_notice = _.template($('#attribute_row_statusmessage_template').html());
+  if (data.warnings.length > 0) {
+    var tmpl_warning = _.template($('#response_warnings').html());
+    $('#results').append(tmpl_warning({ messages: data.warnings }));
+  }
+  
+  if (data.notifications.length > 0) {
+    var tmpl_notification = _.template($('#response_notifications').html());
+    $('#results').append(tmpl_warning({ messages: data.notifications }));
+  }
+  
+  var tmpl_notice = _.template($('#statusmessage_template').html());
   var statusmessage = "Received payload of length " + data.payload.length;
   $('#results').append(tmpl_notice({ statusmessage: statusmessage }));
-  console.log(statusmessage);
   
   json_path = [data.proc.replace("get_", "")];
   klass = data.proc.classify();
@@ -362,11 +294,22 @@ function displayModel(data) {
     $(".datepicker").datepicker();
     $(".editme").on('change', onInputChanged);
   } else {
-    $("#results").append("WARNING: The method 'get_supported_attributes' does not define Klass '" + data.proc.classify() + "'. Inplace-editing of fields is therefore not supported. Simply displaying values instead.");
+    var statusmessage = "WARNING: The method 'get_supported_attributes' does not define Klass '" + data.proc.classify() + "'. Inplace-editing of fields is therefore not supported. Simply displaying values instead.";
+    $("#results").append(tmpl_notice({ statusmessage: statusmessage }));
     renderEditTable($('#results'), data.payload);
   }
 }
 
+
+/* SET FUNCTIONS */
+function onSetMethodButtonClick(proc) {
+  json_path = [proc.replace("set_", "")];
+  klass = proc.classify();
+  console.log("onSetMethodButtonClick called with", proc, klass);
+  $.each($supported_attributes[klass], function(attr, desc) {
+    $("#response").append(attr);
+  });
+}
 
 
 
@@ -377,8 +320,6 @@ function displayModel(data) {
 
 
 function renderEditTable(parent_element, collection) {
-  
-  
   var table = $(document.createElement('table'));
   parent_element.append(table);
   var header = $(document.createElement('tr'));
@@ -445,7 +386,7 @@ function renderEditFields(collection, table, depth, json_path) {
     var record_id = model.id;
     for (var key in model) {
 
-      if ( reveal(model[key]) == '[object Array]' && model[key].length > 0) {
+      if ( reveal(model[key]) == '[object Array]') {
         // display HAS_MANY relationship in place, via Recursion
         var rendered_hasmany_header = tmpl_header({
           klass: key.titleize(),
@@ -472,13 +413,13 @@ function renderEditFields(collection, table, depth, json_path) {
         // simple datatypes
         
         if ( ! $supported_attributes[klass] ) {
-          var msg = "ERROR: $supported_attributes does not contain klass '" + klass + "'";
+          var msg = "Klass '" + klass + "' not defined by the response of  'get_supported_attributes' method. Skipping.";
           cols += tmpl_attr_error({ error_message: msg });
           continue;
         }
         
         if ( ! $supported_attributes[klass][key] ) {
-          var msg = "ERROR: $supported_attributes does not contain key '" + key + "' in klass '" + klass + "'";
+          var msg = "Attribute '" + key + "' in klass '" + klass + "' not defined by the response of get_supported_attributes method. Skipping.";
           cols += tmpl_attr_error({ error_message: msg });
           continue;
         }
@@ -547,12 +488,12 @@ function inputChangedComplete(data, options) {
   var msg;
   
   if (data.status == true) {
-    msg = "Request succeeded!";
+    msg = "Request '" + data.proc + "' succeeded!";
   } else {
-    msg = "Request did not succeed.";
+    msg = "Request '" + data.proc + "' did not succeed.";
   }
   options.element.effect('highlight');
-  var tmpl_statusmessage = _.template($('#attribute_row_statusmessage_template').html());
+  var tmpl_statusmessage = _.template($('#statusmessage_template').html());
   var rendered_statusmessage = tmpl_statusmessage({
     statusmessage: msg,
   });
