@@ -15,6 +15,7 @@ class WooCommerce_JSON_API_Result {
     $this->params['warnings'] = array();
     $this->params['notifications'] = array();
     $this->params['payload'] = array();
+    $this->params['token'] = "";
     return $this;
   }
   public function getParams() {
@@ -23,6 +24,9 @@ class WooCommerce_JSON_API_Result {
   public function setPayload( $collection ) {
     $this->params['payload'] = $collection;
     return $this;
+  }
+  public function setToken( $token ){
+    $this->params['token'] = $token;
   }
   
   /**
