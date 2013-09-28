@@ -386,6 +386,9 @@ class Base extends Helpers {
         if ( strpos(' ',$hm[$name]['sql']) === false && is_callable($hm[$name]['sql']) ) {
           Helpers::debug("sql is a function, so we should call it!");
           $sql = call_user_func($hm[$name]['sql'],$this);
+          if ( ! $sql ) {
+            return array();
+          }
         } else {
           $sql = $wpdb->prepare($hm[$name]['sql'], $this->_actual_model_id);
         }
