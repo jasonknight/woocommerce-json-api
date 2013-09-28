@@ -58,10 +58,12 @@ class Image extends Base {
   }
 
   public static function getMetaAttributes() {
+    $upload_dir = wp_upload_dir();
     $table = array(
       'path'  => array('name' => '_wp_attached_file', 'type' => 'string', 'sizehint' => 10),
       'metadata'  => array('name' => '_wp_attachment_metadata', 'type' => 'array', 'sizehint' => 10),
       'alt'  => array('name' => '_wp_attachment_image_alt', 'type' => 'string', 'sizehint' => 10),
+      'base_url' => array('name' => 'base_url', 'type' => 'string', 'sizehint' => 10, 'default' => $upload_dir['url']),
     );
     /*
       With this filter, plugins can extend this ones handling of meta attributes for a customer,
