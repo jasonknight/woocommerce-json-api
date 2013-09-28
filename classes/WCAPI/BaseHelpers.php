@@ -68,33 +68,33 @@ class Helpers {
     if ($fp) {
       $text = str_replace("\n","\\n",$text);
       $cmd = new CmdColors();
-      $keywords = array('SELECT','FROM','WHERE','AND','NOT','IN','UPDATE','SET','INSERT','VALUES','=>','AS','=','FALSE','false','TRUE','true');
-      foreach ($keywords as $kw ) {
-        $nkw = $cmd->getColoredString($kw,'red');
-        $text = str_replace($kw,$nkw,$text);
-      }
-      $text = preg_replace_callback("/[A-Z]{1}[\w_]+::[a-z]{1}[\w]+/", function($matches) {
-        $colors = new CmdColors();
-        $parts = explode("::",$matches[0]);
-        return $colors->getColoredString($parts[0],'blue') . "::" . $colors->getColoredString($parts[1],'cyan');
-      }, $text);
+      // $keywords = array('SELECT','FROM','WHERE','AND','NOT','IN','UPDATE','SET','INSERT','VALUES','=>','AS','=','FALSE','false','TRUE','true');
+      // foreach ($keywords as $kw ) {
+      //   $nkw = $cmd->getColoredString($kw,'red');
+      //   $text = str_replace($kw,$nkw,$text);
+      // }
+      // $text = preg_replace_callback("/[A-Z]{1}[\w_]+::[a-z]{1}[\w]+/", function($matches) {
+      //   $colors = new CmdColors();
+      //   $parts = explode("::",$matches[0]);
+      //   return $colors->getColoredString($parts[0],'blue') . "::" . $colors->getColoredString($parts[1],'cyan');
+      // }, $text);
       
-      $text = preg_replace_callback("/'[\w\-\d\/]+'/", function($matches) {
-        $colors = new CmdColors();
-        return $colors->getColoredString($matches[0],'yellow');
-      }, $text);
-      $text = preg_replace_callback("/\"[\w\-\d\/]+\"/", function($matches) {
-        $colors = new CmdColors();
-        return $colors->getColoredString($matches[0],'yellow');
-      }, $text);
-      $text = preg_replace_callback("/wp_[\w]+|post_[\w]+|term_[\w]+|comment_[\w]+|[a-z]+\./", function($matches) {
-        $colors = new CmdColors();
-        return $colors->getColoredString($matches[0],'light_purple');
-      }, $text);
-      $text = preg_replace_callback("/Closure/", function($matches) {
-        $colors = new CmdColors();
-        return $colors->getColoredString($matches[0],'green');
-      }, $text);
+      // $text = preg_replace_callback("/'[\w\-\d\/]+'/", function($matches) {
+      //   $colors = new CmdColors();
+      //   return $colors->getColoredString($matches[0],'yellow');
+      // }, $text);
+      // $text = preg_replace_callback("/\"[\w\-\d\/]+\"/", function($matches) {
+      //   $colors = new CmdColors();
+      //   return $colors->getColoredString($matches[0],'yellow');
+      // }, $text);
+      // $text = preg_replace_callback("/wp_[\w]+|post_[\w]+|term_[\w]+|comment_[\w]+|[a-z]+\./", function($matches) {
+      //   $colors = new CmdColors();
+      //   return $colors->getColoredString($matches[0],'light_purple');
+      // }, $text);
+      // $text = preg_replace_callback("/Closure/", function($matches) {
+      //   $colors = new CmdColors();
+      //   return $colors->getColoredString($matches[0],'green');
+      // }, $text);
       fwrite($fp,$text . "\n");
       fclose($fp);
     }

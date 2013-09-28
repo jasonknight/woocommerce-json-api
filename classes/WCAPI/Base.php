@@ -383,7 +383,12 @@ class Base extends Helpers {
       $s = $klass::getModelSettings();
       if ( isset( $hm[$name]['sql'] ) ) {
         //echo $sql . "\n";
-        $sql = $wpdb->prepare($hm[$name]['sql'], $this->_actual_model_id);
+        if ( strpos(' ',$hm[$name]['sql']) === false && is_callable($hm[$name]['sql']) ) {
+          Helpers::debug("sql is a function, so we should call it!");
+          $sql = call_user_func($hm[$name]['sql'],$this);
+        } else {
+          $sql = $wpdb->prepare($hm[$name]['sql'], $this->_actual_model_id);
+        }
       } else {
         $sql = $wpdb->prepare("SELECT {$s['model_table_id']} FROM {$s['model_table']} WHERE {$fkey} = %d",$this->_actual_model_id);
       }

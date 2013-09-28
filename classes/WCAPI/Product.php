@@ -132,7 +132,8 @@ class Product extends Base{
           'featured_image' => array(
               'class_name' => 'Image', 
               'foreign_key' => 'post_parent', 
-              'conditions' => function ($model) {
+              'sql' => function ($model) {
+                $s = $model->getModelSettings();
                 $tid = get_post_thumbnail_id( $model->_actual_model_id );
                 if ( empty( $tid ) ) {
                   return false;
@@ -142,11 +143,11 @@ class Product extends Base{
                   "post_mime_type IN ('image/jpeg','image/png','image/gif')",
                   "ID = $tid",
                 );
-                return join(' AND ', $parts);
+                return "SELECT {$s['model_table_id']} FROM {$s['model_table']} WHERE " . join(' AND ', $parts);
               },
               'connect' => function ($product,$image) {
-                update_post_meta($product->_actual_model_id, '_thumbnail_id',$image->_actual_model_id);
-                
+                //update_post_meta($product->_actual_model_id, '_thumbnail_id',$image->_actual_model_id);   
+                // Don't need to do this...hrmm           
               },
           ),
           'variations' => array(

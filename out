@@ -1,13 +1,42 @@
-[0;34m   *----------------------------------------------------*   [0m
-[0;34m                Reading Supported Attributes                [0m
-[0;34m   *----------------------------------------------------*   [0m
 {
     "action": "woocommerce_json_api",
-    "proc": "get_supported_attributes",
+    "proc": "get_products",
     "arguments": {
         "token": "1234",
-        "per_page": 2,
-        "page": 1
+        "ids": [
+            203
+        ]
+    }
+}Result is: 
+
+<br />
+<b>Notice</b>:  Object of class Closure could not be converted to int in <b>/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/WCAPI/Base.php</b> on line <b>386</b><br />
+<div id='error'>
+			<p class='wpdberror'><strong>WordPress database error:</strong> [You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &#039;= &#039;attachment&#039; AND post_mime_type IN (&#039;image/jpeg&#039;,&#039;image/png&#039;,&#039;image/gif&#039;) AND &#039; at line 1]<br />
+			<code>SELECT id FROM wp_posts WHEREpost_type = &#039;attachment&#039; AND post_mime_type IN (&#039;image/jpeg&#039;,&#039;image/png&#039;,&#039;image/gif&#039;) AND ID = 210</code></p>
+			</div><br />
+<b>Notice</b>:  Object of class Closure could not be converted to int in <b>/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/WCAPI/Base.php</b> on line <b>386</b><br />
+<div id='error'>
+			<p class='wpdberror'><strong>WordPress database error:</strong> [You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &#039;= &#039;attachment&#039; AND post_mime_type IN (&#039;image/jpeg&#039;,&#039;image/png&#039;,&#039;image/gif&#039;) AND &#039; at line 1]<br />
+			<code>SELECT id FROM wp_posts WHEREpost_type = &#039;attachment&#039; AND post_mime_type IN (&#039;image/jpeg&#039;,&#039;image/png&#039;,&#039;image/gif&#039;) AND ID = 214</code></p>
+			</div><br />
+<b>Notice</b>:  Object of class Closure could not be converted to int in <b>/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/WCAPI/Base.php</b> on line <b>386</b><br />
+<div id='error'>
+			<p class='wpdberror'><strong>WordPress database error:</strong> [You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &#039;= &#039;attachment&#039; AND post_mime_type IN (&#039;image/jpeg&#039;,&#039;image/png&#039;,&#039;image/gif&#039;) AND &#039; at line 1]<br />
+			<code>SELECT id FROM wp_posts WHEREpost_type = &#039;attachment&#039; AND post_mime_type IN (&#039;image/jpeg&#039;,&#039;image/png&#039;,&#039;image/gif&#039;) AND ID = 218</code></p>
+			</div><br />
+<b>Notice</b>:  Object of class Closure could not be converted to int in <b>/var/www/woo/wp-content/plugins/woocommerce-json-api/classes/WCAPI/Base.php</b> on line <b>386</b><br />
+<div id='error'>
+			<p class='wpdberror'><strong>WordPress database error:</strong> [You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &#039;= &#039;attachment&#039; AND post_mime_type IN (&#039;image/jpeg&#039;,&#039;image/png&#039;,&#039;image/gif&#039;) AND &#039; at line 1]<br />
+			<code>SELECT id FROM wp_posts WHEREpost_type = &#039;attachment&#039; AND post_mime_type IN (&#039;image/jpeg&#039;,&#039;image/png&#039;,&#039;image/gif&#039;) AND ID = 210</code></p>
+			</div>{
+    "action": "woocommerce_json_api",
+    "proc": "get_products",
+    "arguments": {
+        "token": "1234",
+        "ids": [
+            203
+        ]
     },
     "status": true,
     "errors": [
@@ -21,966 +50,765 @@
     ],
     "payload": [
         {
-            "Product": {
-                "name": {
-                    "name": "post_title",
-                    "type": "string",
-                    "sizehint": 10,
-                    "group_name": "main"
-                },
-                "slug": {
-                    "name": "post_name",
-                    "type": "string",
-                    "sizehint": 10
-                },
-                "type": {
-                    "name": "post_type",
-                    "type": "string",
-                    "values": [
-                        "product",
-                        "product_variation"
+            "id": "203",
+            "name": "An API Created Product 3416513",
+            "slug": "an-api-created-product-3416513",
+            "type": "product",
+            "description": "",
+            "short_description": "",
+            "parent_id": "0",
+            "publishing": "publish",
+            "sku": "API3416513",
+            "downloadable": "no",
+            "visibility": "visible",
+            "virtual": "no",
+            "manage_stock": "no",
+            "sold_individually": "no",
+            "featured": "no",
+            "allow_backorders": "no",
+            "quantity": "",
+            "height": "",
+            "weight": "",
+            "length": "",
+            "price": "5",
+            "regular_price": "",
+            "sale_price": "",
+            "sale_from": "",
+            "sale_to": "",
+            "status": "instock",
+            "attributes": {
+                "none": {
+                    "name": "None",
+                    "value": [
+                        "1",
+                        "2"
                     ],
-                    "default": "product",
-                    "sizehint": 5
+                    "position": "0",
+                    "is_visible": "no",
+                    "is_variation": "yes",
+                    "is_taxonomy": "no"
+                }
+            },
+            "tax_class": "",
+            "tax_status": "taxable",
+            "product_type": "variable",
+            "categories": [
+                {
+                    "id": "63",
+                    "name": "This-is-an-api-category 30841",
+                    "slug": "this-is-a-category-30841",
+                    "group_id": "0",
+                    "description": "I was created by the API",
+                    "parent_id": "0",
+                    "count": "3",
+                    "taxonomy": "product_cat",
+                    "taxonomy_id": "26"
                 },
-                "description": {
-                    "name": "post_content",
-                    "type": "text",
-                    "sizehint": 10
+                {
+                    "id": "77",
+                    "name": "This-is-an-api-category 20560",
+                    "slug": "this-is-a-category-20560",
+                    "group_id": "0",
+                    "description": "I was created by the API",
+                    "parent_id": "0",
+                    "count": "3",
+                    "taxonomy": "product_cat",
+                    "taxonomy_id": "40"
+                }
+            ],
+            "tags": [
+                {
+                    "id": "14",
+                    "name": "This-is-a-tag",
+                    "slug": "this-is-a-tag",
+                    "group_id": "0",
+                    "description": "",
+                    "parent_id": "0",
+                    "count": "3",
+                    "taxonomy": "product_tag",
+                    "taxonomy_id": "14"
                 },
-                "short_description": {
-                    "name": "post_excerpt",
-                    "type": "text",
-                    "sizehint": 10
-                },
-                "parent_id": {
-                    "name": "post_parent",
-                    "type": "string",
-                    "sizehint": 3
-                },
-                "publishing": {
-                    "name": "post_status",
-                    "type": "string",
-                    "values": [
-                        "publish",
-                        "inherit",
-                        "pending",
-                        "future",
-                        "draft",
-                        "trash"
+                {
+                    "id": "64",
+                    "name": "This-is-an-api-tag 30841",
+                    "slug": "this-is-a-tag-30841",
+                    "group_id": "0",
+                    "description": "I was created by the API",
+                    "parent_id": "0",
+                    "count": "3",
+                    "taxonomy": "product_tag",
+                    "taxonomy_id": "27"
+                }
+            ],
+            "reviews": [
+
+            ],
+            "variations": [
+                {
+                    "id": "207",
+                    "name": "Variation #207 of An API Created Product 3416513",
+                    "slug": "an-api-created-product-203-variation",
+                    "type": "product_variation",
+                    "description": "",
+                    "short_description": "",
+                    "parent_id": "203",
+                    "publishing": "publish",
+                    "sku": "API6527999",
+                    "downloadable": "no",
+                    "visibility": "visible",
+                    "virtual": "no",
+                    "manage_stock": "no",
+                    "sold_individually": "no",
+                    "featured": "no",
+                    "allow_backorders": "no",
+                    "quantity": "",
+                    "height": "",
+                    "weight": "",
+                    "length": "",
+                    "price": "6.25",
+                    "regular_price": "6.25",
+                    "sale_price": "",
+                    "sale_from": "",
+                    "sale_to": "",
+                    "status": "instock",
+                    "attributes": [
+
                     ],
-                    "default": "publish",
-                    "sizehint": 5
-                },
-                "sku": {
-                    "name": "_sku",
-                    "type": "string",
-                    "sizehint": 10
-                },
-                "downloadable": {
-                    "name": "_downloadable",
-                    "type": "bool",
-                    "values": [
-                        "yes",
-                        "no"
+                    "tax_class": "",
+                    "tax_status": "none",
+                    "product_type": "product",
+                    "categories": [
+
                     ],
-                    "default": "no",
-                    "sizehint": 2
-                },
-                "visibility": {
-                    "name": "_visibility",
-                    "type": "string",
-                    "default": "visible",
-                    "sizehint": 5
-                },
-                "virtual": {
-                    "name": "_virtual",
-                    "type": "bool",
-                    "values": [
-                        "yes",
-                        "no"
+                    "tags": [
+
                     ],
-                    "sizehint": 2,
-                    "default": "no"
-                },
-                "manage_stock": {
-                    "name": "_manage_stock",
-                    "type": "bool",
-                    "values": [
-                        "yes",
-                        "no"
+                    "reviews": [
+
                     ],
-                    "default": "no",
-                    "sizehint": 2
-                },
-                "sold_individually": {
-                    "name": "_sold_individually",
-                    "type": "bool",
-                    "values": [
-                        "yes",
-                        "no"
+                    "variations": [
+
                     ],
-                    "sizehint": 2,
-                    "default": "no"
-                },
-                "featured": {
-                    "name": "_featured",
-                    "type": "bool",
-                    "values": [
-                        "yes",
-                        "no"
+                    "images": [
+                        {
+                            "id": "208",
+                            "filename": "fractal",
+                            "slug": "fractal-33",
+                            "mime_type": "image\/png",
+                            "type": "attachment",
+                            "description": "",
+                            "caption": "",
+                            "parent_id": "207",
+                            "publishing": "inherit",
+                            "path": "2013\/09\/fractal53.png",
+                            "metadata": {
+                                "width": 600,
+                                "height": 600,
+                                "file": "2013\/09\/fractal53.png",
+                                "sizes": {
+                                    "thumbnail": {
+                                        "file": "fractal53-150x150.png",
+                                        "width": 150,
+                                        "height": 150,
+                                        "mime-type": "image\/png"
+                                    },
+                                    "medium": {
+                                        "file": "fractal53-300x300.png",
+                                        "width": 300,
+                                        "height": 300,
+                                        "mime-type": "image\/png"
+                                    },
+                                    "shop_thumbnail": {
+                                        "file": "fractal53-90x90.png",
+                                        "width": 90,
+                                        "height": 90,
+                                        "mime-type": "image\/png"
+                                    },
+                                    "shop_catalog": {
+                                        "file": "fractal53-150x150.png",
+                                        "width": 150,
+                                        "height": 150,
+                                        "mime-type": "image\/png"
+                                    },
+                                    "shop_single": {
+                                        "file": "fractal53-300x300.png",
+                                        "width": 300,
+                                        "height": 300,
+                                        "mime-type": "image\/png"
+                                    }
+                                },
+                                "image_meta": {
+                                    "aperture": 0,
+                                    "credit": "",
+                                    "camera": "",
+                                    "caption": "",
+                                    "created_timestamp": 0,
+                                    "copyright": "",
+                                    "focal_length": 0,
+                                    "iso": 0,
+                                    "shutter_speed": 0,
+                                    "title": ""
+                                }
+                            },
+                            "alt": "",
+                            "base_url": "http:\/\/woo.localhost\/wp-content\/uploads\/2013\/09"
+                        },
+                        {
+                            "id": "209",
+                            "filename": "fractal2",
+                            "slug": "fractal2-20",
+                            "mime_type": "image\/png",
+                            "type": "attachment",
+                            "description": "",
+                            "caption": "",
+                            "parent_id": "207",
+                            "publishing": "inherit",
+                            "path": "2013\/09\/fractal228.png",
+                            "metadata": {
+                                "width": 600,
+                                "height": 600,
+                                "file": "2013\/09\/fractal228.png",
+                                "sizes": {
+                                    "thumbnail": {
+                                        "file": "fractal228-150x150.png",
+                                        "width": 150,
+                                        "height": 150,
+                                        "mime-type": "image\/png"
+                                    },
+                                    "medium": {
+                                        "file": "fractal228-300x300.png",
+                                        "width": 300,
+                                        "height": 300,
+                                        "mime-type": "image\/png"
+                                    },
+                                    "shop_thumbnail": {
+                                        "file": "fractal228-90x90.png",
+                                        "width": 90,
+                                        "height": 90,
+                                        "mime-type": "image\/png"
+                                    },
+                                    "shop_catalog": {
+                                        "file": "fractal228-150x150.png",
+                                        "width": 150,
+                                        "height": 150,
+                                        "mime-type": "image\/png"
+                                    },
+                                    "shop_single": {
+                                        "file": "fractal228-300x300.png",
+                                        "width": 300,
+                                        "height": 300,
+                                        "mime-type": "image\/png"
+                                    }
+                                },
+                                "image_meta": {
+                                    "aperture": 0,
+                                    "credit": "",
+                                    "camera": "",
+                                    "caption": "",
+                                    "created_timestamp": 0,
+                                    "copyright": "",
+                                    "focal_length": 0,
+                                    "iso": 0,
+                                    "shutter_speed": 0,
+                                    "title": ""
+                                }
+                            },
+                            "alt": "",
+                            "base_url": "http:\/\/woo.localhost\/wp-content\/uploads\/2013\/09"
+                        }
                     ],
-                    "default": "no",
-                    "sizehint": 2
-                },
-                "allow_backorders": {
-                    "name": "_backorders",
-                    "type": "string",
-                    "values": [
-                        "yes",
-                        "no",
-                        "notify"
-                    ],
-                    "default": "no",
-                    "sizehint": 2
-                },
-                "quantity": {
-                    "name": "_stock",
-                    "type": "number",
-                    "filters": [
-                        "woocommerce_stock_amount"
-                    ],
-                    "sizehint": 3
-                },
-                "height": {
-                    "name": "_height",
-                    "type": "number",
-                    "sizehint": 2
-                },
-                "weight": {
-                    "name": "_weight",
-                    "type": "number",
-                    "sizehint": 2
-                },
-                "length": {
-                    "name": "_length",
-                    "type": "number",
-                    "sizehint": 2
-                },
-                "price": {
-                    "name": "_price",
-                    "type": "number",
-                    "sizehint": 3,
-                    "overwrites": [
-                        "regular_price"
+                    "featured_image": [
+
                     ]
                 },
-                "regular_price": {
-                    "name": "_regular_price",
-                    "type": "number",
-                    "sizehint": 3
-                },
-                "sale_price": {
-                    "name": "_sale_price",
-                    "type": "number",
-                    "sizehint": 3
-                },
-                "sale_from": {
-                    "name": "_sale_price_dates_from",
-                    "type": "timestamp",
-                    "sizehint": 6
-                },
-                "sale_to": {
-                    "name": "_sale_price_dates_to",
-                    "type": "timestamp",
-                    "sizehint": 6
-                },
-                "status": {
-                    "name": "_stock_status",
-                    "type": "string",
-                    "values": [
-                        "instock",
-                        "outofstock"
-                    ],
-                    "default": "instock",
-                    "sizehint": 2
-                },
-                "attributes": {
-                    "name": "_product_attributes",
-                    "type": "array",
-                    "default": "",
-                    "sizehint": 3,
-                    "getter": "getProductAttributes",
-                    "setter": "setProductAttributes",
-                    "updater": {
+                {
+                    "id": "211",
+                    "name": "Variation #211 of An API Created Product 3416513",
+                    "slug": "an-api-created-product-203-variation-2",
+                    "type": "product_variation",
+                    "description": "",
+                    "short_description": "",
+                    "parent_id": "203",
+                    "publishing": "publish",
+                    "sku": "API5628819",
+                    "downloadable": "no",
+                    "visibility": "visible",
+                    "virtual": "no",
+                    "manage_stock": "no",
+                    "sold_individually": "no",
+                    "featured": "no",
+                    "allow_backorders": "no",
+                    "quantity": "",
+                    "height": "",
+                    "weight": "",
+                    "length": "",
+                    "price": "5",
+                    "regular_price": "5",
+                    "sale_price": "",
+                    "sale_from": "",
+                    "sale_to": "",
+                    "status": "instock",
+                    "attributes": [
 
-                    }
-                },
-                "tax_class": {
-                    "name": "_tax_class",
-                    "type": "string",
-                    "sizehint": 2
-                },
-                "tax_status": {
-                    "name": "_tax_status",
-                    "type": "string",
-                    "values": [
-                        "taxable",
-                        "shipping",
-                        "none"
                     ],
-                    "default": "none",
-                    "sizehint": 1
-                },
-                "product_type": {
-                    "name": "product_type",
-                    "type": "string",
-                    "sizehint": 3,
-                    "default": "simple",
-                    "values": [
-                        "simple",
-                        "grouped",
-                        "variable",
-                        "external"
-                    ],
-                    "getter": {
+                    "tax_class": "",
+                    "tax_status": "none",
+                    "product_type": "product",
+                    "categories": [
 
-                    },
-                    "setter": {
+                    ],
+                    "tags": [
 
-                    },
-                    "updater": {
+                    ],
+                    "reviews": [
 
-                    }
-                }
-            },
-            "ProductAttribute": {
-                "name": {
-                    "name": "name",
-                    "type": "string",
-                    "sizehint": 5
-                },
-                "value": {
-                    "name": "value",
-                    "type": "array",
-                    "sizehint": 10
-                },
-                "position": {
-                    "name": "position",
-                    "type": "number",
-                    "sizehint": 1
-                },
-                "is_visible": {
-                    "name": "is_visible",
-                    "type": "bool",
-                    "values": [
-                        "yes",
-                        "no"
                     ],
-                    "sizehint": 1
-                },
-                "is_variation": {
-                    "name": "is_variation",
-                    "type": "bool",
-                    "values": [
-                        "yes",
-                        "no"
+                    "variations": [
+
                     ],
-                    "sizehint": 1
-                },
-                "is_taxonomy": {
-                    "name": "is_taxonomy",
-                    "type": "bool",
-                    "values": [
-                        "yes",
-                        "no"
+                    "images": [
+                        {
+                            "id": "212",
+                            "filename": "fractal",
+                            "slug": "fractal-34",
+                            "mime_type": "image\/png",
+                            "type": "attachment",
+                            "description": "",
+                            "caption": "",
+                            "parent_id": "211",
+                            "publishing": "inherit",
+                            "path": "2013\/09\/fractal54.png",
+                            "metadata": {
+                                "width": 600,
+                                "height": 600,
+                                "file": "2013\/09\/fractal54.png",
+                                "sizes": {
+                                    "thumbnail": {
+                                        "file": "fractal54-150x150.png",
+                                        "width": 150,
+                                        "height": 150,
+                                        "mime-type": "image\/png"
+                                    },
+                                    "medium": {
+                                        "file": "fractal54-300x300.png",
+                                        "width": 300,
+                                        "height": 300,
+                                        "mime-type": "image\/png"
+                                    },
+                                    "shop_thumbnail": {
+                                        "file": "fractal54-90x90.png",
+                                        "width": 90,
+                                        "height": 90,
+                                        "mime-type": "image\/png"
+                                    },
+                                    "shop_catalog": {
+                                        "file": "fractal54-150x150.png",
+                                        "width": 150,
+                                        "height": 150,
+                                        "mime-type": "image\/png"
+                                    },
+                                    "shop_single": {
+                                        "file": "fractal54-300x300.png",
+                                        "width": 300,
+                                        "height": 300,
+                                        "mime-type": "image\/png"
+                                    }
+                                },
+                                "image_meta": {
+                                    "aperture": 0,
+                                    "credit": "",
+                                    "camera": "",
+                                    "caption": "",
+                                    "created_timestamp": 0,
+                                    "copyright": "",
+                                    "focal_length": 0,
+                                    "iso": 0,
+                                    "shutter_speed": 0,
+                                    "title": ""
+                                }
+                            },
+                            "alt": "",
+                            "base_url": "http:\/\/woo.localhost\/wp-content\/uploads\/2013\/09"
+                        },
+                        {
+                            "id": "213",
+                            "filename": "fractal2",
+                            "slug": "fractal2-21",
+                            "mime_type": "image\/png",
+                            "type": "attachment",
+                            "description": "",
+                            "caption": "",
+                            "parent_id": "211",
+                            "publishing": "inherit",
+                            "path": "2013\/09\/fractal229.png",
+                            "metadata": {
+                                "width": 600,
+                                "height": 600,
+                                "file": "2013\/09\/fractal229.png",
+                                "sizes": {
+                                    "thumbnail": {
+                                        "file": "fractal229-150x150.png",
+                                        "width": 150,
+                                        "height": 150,
+                                        "mime-type": "image\/png"
+                                    },
+                                    "medium": {
+                                        "file": "fractal229-300x300.png",
+                                        "width": 300,
+                                        "height": 300,
+                                        "mime-type": "image\/png"
+                                    },
+                                    "shop_thumbnail": {
+                                        "file": "fractal229-90x90.png",
+                                        "width": 90,
+                                        "height": 90,
+                                        "mime-type": "image\/png"
+                                    },
+                                    "shop_catalog": {
+                                        "file": "fractal229-150x150.png",
+                                        "width": 150,
+                                        "height": 150,
+                                        "mime-type": "image\/png"
+                                    },
+                                    "shop_single": {
+                                        "file": "fractal229-300x300.png",
+                                        "width": 300,
+                                        "height": 300,
+                                        "mime-type": "image\/png"
+                                    }
+                                },
+                                "image_meta": {
+                                    "aperture": 0,
+                                    "credit": "",
+                                    "camera": "",
+                                    "caption": "",
+                                    "created_timestamp": 0,
+                                    "copyright": "",
+                                    "focal_length": 0,
+                                    "iso": 0,
+                                    "shutter_speed": 0,
+                                    "title": ""
+                                }
+                            },
+                            "alt": "",
+                            "base_url": "http:\/\/woo.localhost\/wp-content\/uploads\/2013\/09"
+                        }
                     ],
-                    "sizehint": 1
-                }
-            },
-            "Category": {
-                "id": {
-                    "name": "term_id",
-                    "type": "number",
-                    "sizehint": 1
+                    "featured_image": [
+
+                    ]
                 },
-                "name": {
-                    "name": "name",
-                    "type": "string",
-                    "sizehint": 10
-                },
-                "slug": {
-                    "name": "slug",
-                    "type": "string",
-                    "sizehint": 5
-                },
-                "group_id": {
-                    "name": "term_group",
-                    "type": "number",
-                    "sizehint": 1
-                },
-                "description": {
-                    "name": "description",
-                    "type": "text",
-                    "sizehint": 10
-                },
-                "parent_id": {
-                    "name": "parent",
-                    "type": "number",
-                    "sizehint": 1
-                },
-                "count": {
-                    "name": "count",
-                    "type": "number",
-                    "sizehint": 1
-                },
-                "taxonomy": {
-                    "name": "taxonomy",
-                    "type": "string",
-                    "sizehint": 5
-                },
-                "taxonomy_id": {
-                    "name": "term_taxonomy_id",
-                    "type": "number",
-                    "sizehint": 1
-                }
-            },
-            "Comment": {
-                "name": {
-                    "name": "comment_author",
-                    "type": "string"
-                },
-                "date": {
-                    "name": "comment_date_gmt",
-                    "type": "string"
-                },
-                "email": {
-                    "name": "comment_author_email",
-                    "type": "string"
-                },
-                "body": {
-                    "name": "comment_content",
-                    "type": "text"
-                },
-                "approved": {
-                    "name": "comment_approved",
-                    "type": "number"
-                },
-                "object_id": {
-                    "name": "comment_post_ID",
-                    "type": "number"
-                },
-                "parent_id": {
-                    "name": "comment_parent",
-                    "type": "number"
-                },
-                "user_id": {
-                    "name": "user_id",
-                    "type": "number"
-                },
-                "type": {
-                    "name": "comment_type",
-                    "type": "string",
-                    "values": [
-                        "order_note"
+                {
+                    "id": "215",
+                    "name": "Variation #215 of An API Created Product 3416513",
+                    "slug": "an-api-created-product-203-variation-3",
+                    "type": "product_variation",
+                    "description": "",
+                    "short_description": "",
+                    "parent_id": "203",
+                    "publishing": "publish",
+                    "sku": "API4943981",
+                    "downloadable": "no",
+                    "visibility": "visible",
+                    "virtual": "no",
+                    "manage_stock": "no",
+                    "sold_individually": "no",
+                    "featured": "no",
+                    "allow_backorders": "no",
+                    "quantity": "",
+                    "height": "",
+                    "weight": "",
+                    "length": "",
+                    "price": "5",
+                    "regular_price": "5",
+                    "sale_price": "",
+                    "sale_from": "",
+                    "sale_to": "",
+                    "status": "instock",
+                    "attributes": [
+
+                    ],
+                    "tax_class": "",
+                    "tax_status": "none",
+                    "product_type": "product",
+                    "categories": [
+
+                    ],
+                    "tags": [
+
+                    ],
+                    "reviews": [
+
+                    ],
+                    "variations": [
+
+                    ],
+                    "images": [
+                        {
+                            "id": "216",
+                            "filename": "fractal",
+                            "slug": "fractal-35",
+                            "mime_type": "image\/png",
+                            "type": "attachment",
+                            "description": "",
+                            "caption": "",
+                            "parent_id": "215",
+                            "publishing": "inherit",
+                            "path": "2013\/09\/fractal55.png",
+                            "metadata": {
+                                "width": 600,
+                                "height": 600,
+                                "file": "2013\/09\/fractal55.png",
+                                "sizes": {
+                                    "thumbnail": {
+                                        "file": "fractal55-150x150.png",
+                                        "width": 150,
+                                        "height": 150,
+                                        "mime-type": "image\/png"
+                                    },
+                                    "medium": {
+                                        "file": "fractal55-300x300.png",
+                                        "width": 300,
+                                        "height": 300,
+                                        "mime-type": "image\/png"
+                                    },
+                                    "shop_thumbnail": {
+                                        "file": "fractal55-90x90.png",
+                                        "width": 90,
+                                        "height": 90,
+                                        "mime-type": "image\/png"
+                                    },
+                                    "shop_catalog": {
+                                        "file": "fractal55-150x150.png",
+                                        "width": 150,
+                                        "height": 150,
+                                        "mime-type": "image\/png"
+                                    },
+                                    "shop_single": {
+                                        "file": "fractal55-300x300.png",
+                                        "width": 300,
+                                        "height": 300,
+                                        "mime-type": "image\/png"
+                                    }
+                                },
+                                "image_meta": {
+                                    "aperture": 0,
+                                    "credit": "",
+                                    "camera": "",
+                                    "caption": "",
+                                    "created_timestamp": 0,
+                                    "copyright": "",
+                                    "focal_length": 0,
+                                    "iso": 0,
+                                    "shutter_speed": 0,
+                                    "title": ""
+                                }
+                            },
+                            "alt": "",
+                            "base_url": "http:\/\/woo.localhost\/wp-content\/uploads\/2013\/09"
+                        },
+                        {
+                            "id": "217",
+                            "filename": "fractal2",
+                            "slug": "fractal2-22",
+                            "mime_type": "image\/png",
+                            "type": "attachment",
+                            "description": "",
+                            "caption": "",
+                            "parent_id": "215",
+                            "publishing": "inherit",
+                            "path": "2013\/09\/fractal230.png",
+                            "metadata": {
+                                "width": 600,
+                                "height": 600,
+                                "file": "2013\/09\/fractal230.png",
+                                "sizes": {
+                                    "thumbnail": {
+                                        "file": "fractal230-150x150.png",
+                                        "width": 150,
+                                        "height": 150,
+                                        "mime-type": "image\/png"
+                                    },
+                                    "medium": {
+                                        "file": "fractal230-300x300.png",
+                                        "width": 300,
+                                        "height": 300,
+                                        "mime-type": "image\/png"
+                                    },
+                                    "shop_thumbnail": {
+                                        "file": "fractal230-90x90.png",
+                                        "width": 90,
+                                        "height": 90,
+                                        "mime-type": "image\/png"
+                                    },
+                                    "shop_catalog": {
+                                        "file": "fractal230-150x150.png",
+                                        "width": 150,
+                                        "height": 150,
+                                        "mime-type": "image\/png"
+                                    },
+                                    "shop_single": {
+                                        "file": "fractal230-300x300.png",
+                                        "width": 300,
+                                        "height": 300,
+                                        "mime-type": "image\/png"
+                                    }
+                                },
+                                "image_meta": {
+                                    "aperture": 0,
+                                    "credit": "",
+                                    "camera": "",
+                                    "caption": "",
+                                    "created_timestamp": 0,
+                                    "copyright": "",
+                                    "focal_length": 0,
+                                    "iso": 0,
+                                    "shutter_speed": 0,
+                                    "title": ""
+                                }
+                            },
+                            "alt": "",
+                            "base_url": "http:\/\/woo.localhost\/wp-content\/uploads\/2013\/09"
+                        }
+                    ],
+                    "featured_image": [
+
                     ]
                 }
-            },
-            "Order": {
-                "name": {
-                    "name": "post_title",
-                    "type": "string"
-                },
-                "guid": {
-                    "name": "guid",
-                    "type": "string"
-                },
-                "order_key": {
-                    "name": "_order_key",
-                    "type": "string"
-                },
-                "billing_first_name": {
-                    "name": "_billing_first_name",
-                    "type": "string"
-                },
-                "billing_last_name": {
-                    "name": "_billing_last_name",
-                    "type": "string"
-                },
-                "billing_company": {
-                    "name": "_billing_company",
-                    "type": "string"
-                },
-                "billing_address_1": {
-                    "name": "_billing_address_1",
-                    "type": "string"
-                },
-                "billing_address_2": {
-                    "name": "_billing_address_2",
-                    "type": "string"
-                },
-                "billing_city": {
-                    "name": "_billing_city",
-                    "type": "string"
-                },
-                "billing_postcode": {
-                    "name": "_billing_postcode",
-                    "type": "string"
-                },
-                "billing_country": {
-                    "name": "_billing_country",
-                    "type": "string"
-                },
-                "billing_state": {
-                    "name": "_billing_state",
-                    "type": "string"
-                },
-                "billing_email": {
-                    "name": "_billing_email",
-                    "type": "string"
-                },
-                "billing_phone": {
-                    "name": "_billing_phone",
-                    "type": "string"
-                },
-                "shipping_first_name": {
-                    "name": "_shipping_first_name",
-                    "type": "string"
-                },
-                "shipping_last_name": {
-                    "name": "_shipping_last_name",
-                    "type": "string"
-                },
-                "shipping_company": {
-                    "name": "_shipping_company",
-                    "type": "string"
-                },
-                "shipping_address_1": {
-                    "name": "_shipping_address_1",
-                    "type": "string"
-                },
-                "shipping_address_2": {
-                    "name": "_shipping_address_2",
-                    "type": "string"
-                },
-                "shipping_city": {
-                    "name": "_shipping_city",
-                    "type": "string"
-                },
-                "shipping_postcode": {
-                    "name": "_shipping_postcode",
-                    "type": "string"
-                },
-                "shipping_country": {
-                    "name": "_shipping_country",
-                    "type": "string"
-                },
-                "shipping_state": {
-                    "name": "_shipping_state",
-                    "type": "string"
-                },
-                "shipping_method": {
-                    "name": "_shipping_method",
-                    "type": "string"
-                },
-                "shipping_method_title": {
-                    "name": "_shipping_method_title",
-                    "type": "string"
-                },
-                "payment_method": {
-                    "name": "_payment_method",
-                    "type": "string"
-                },
-                "payment_method_title": {
-                    "name": "_payment_method_title",
-                    "type": "string"
-                },
-                "order_discount": {
-                    "name": "_order_discount",
-                    "type": "number"
-                },
-                "cart_discount": {
-                    "name": "_cart_discount",
-                    "type": "number"
-                },
-                "order_tax": {
-                    "name": "_order_tax",
-                    "type": "number"
-                },
-                "order_shipping": {
-                    "name": "_order_shipping",
-                    "type": "number"
-                },
-                "order_shipping_tax": {
-                    "name": "_order_shipping_tax",
-                    "type": "number"
-                },
-                "order_total": {
-                    "name": "_order_total",
-                    "type": "number"
-                },
-                "customer_user": {
-                    "name": "_customer_user",
-                    "type": "number"
-                },
-                "completed_date": {
-                    "name": "_completed_date",
-                    "type": "datetime"
-                },
-                "status": {
-                    "name": "status",
-                    "type": "string",
-                    "values": [
-                        "pending",
-                        "failed",
-                        "on-hold",
-                        "processing",
-                        "completed",
-                        "refunded",
-                        "cancelled"
-                    ],
-                    "getter": {
-
+            ],
+            "images": [
+                {
+                    "id": "204",
+                    "filename": "fractal",
+                    "slug": "fractal-32",
+                    "mime_type": "image\/png",
+                    "type": "attachment",
+                    "description": "",
+                    "caption": "",
+                    "parent_id": "203",
+                    "publishing": "inherit",
+                    "path": "2013\/09\/fractal52.png",
+                    "metadata": {
+                        "width": 600,
+                        "height": 600,
+                        "file": "2013\/09\/fractal52.png",
+                        "sizes": {
+                            "thumbnail": {
+                                "file": "fractal52-150x150.png",
+                                "width": 150,
+                                "height": 150,
+                                "mime-type": "image\/png"
+                            },
+                            "medium": {
+                                "file": "fractal52-300x300.png",
+                                "width": 300,
+                                "height": 300,
+                                "mime-type": "image\/png"
+                            },
+                            "shop_thumbnail": {
+                                "file": "fractal52-90x90.png",
+                                "width": 90,
+                                "height": 90,
+                                "mime-type": "image\/png"
+                            },
+                            "shop_catalog": {
+                                "file": "fractal52-150x150.png",
+                                "width": 150,
+                                "height": 150,
+                                "mime-type": "image\/png"
+                            },
+                            "shop_single": {
+                                "file": "fractal52-300x300.png",
+                                "width": 300,
+                                "height": 300,
+                                "mime-type": "image\/png"
+                            }
+                        },
+                        "image_meta": {
+                            "aperture": 0,
+                            "credit": "",
+                            "camera": "",
+                            "caption": "",
+                            "created_timestamp": 0,
+                            "copyright": "",
+                            "focal_length": 0,
+                            "iso": 0,
+                            "shutter_speed": 0,
+                            "title": ""
+                        }
                     },
-                    "setter": {
-
+                    "alt": "",
+                    "base_url": "http:\/\/woo.localhost\/wp-content\/uploads\/2013\/09"
+                },
+                {
+                    "id": "205",
+                    "filename": "fractal2",
+                    "slug": "fractal2-19",
+                    "mime_type": "image\/png",
+                    "type": "attachment",
+                    "description": "",
+                    "caption": "",
+                    "parent_id": "203",
+                    "publishing": "inherit",
+                    "path": "2013\/09\/fractal227.png",
+                    "metadata": {
+                        "width": 600,
+                        "height": 600,
+                        "file": "2013\/09\/fractal227.png",
+                        "sizes": {
+                            "thumbnail": {
+                                "file": "fractal227-150x150.png",
+                                "width": 150,
+                                "height": 150,
+                                "mime-type": "image\/png"
+                            },
+                            "medium": {
+                                "file": "fractal227-300x300.png",
+                                "width": 300,
+                                "height": 300,
+                                "mime-type": "image\/png"
+                            },
+                            "shop_thumbnail": {
+                                "file": "fractal227-90x90.png",
+                                "width": 90,
+                                "height": 90,
+                                "mime-type": "image\/png"
+                            },
+                            "shop_catalog": {
+                                "file": "fractal227-150x150.png",
+                                "width": 150,
+                                "height": 150,
+                                "mime-type": "image\/png"
+                            },
+                            "shop_single": {
+                                "file": "fractal227-300x300.png",
+                                "width": 300,
+                                "height": 300,
+                                "mime-type": "image\/png"
+                            }
+                        },
+                        "image_meta": {
+                            "aperture": 0,
+                            "credit": "",
+                            "camera": "",
+                            "caption": "",
+                            "created_timestamp": 0,
+                            "copyright": "",
+                            "focal_length": 0,
+                            "iso": 0,
+                            "shutter_speed": 0,
+                            "title": ""
+                        }
                     },
-                    "updater": {
+                    "alt": "",
+                    "base_url": "http:\/\/woo.localhost\/wp-content\/uploads\/2013\/09"
+                }
+            ],
+            "featured_image": [
 
-                    }
-                }
-            },
-            "OrderItem": {
-                "name": {
-                    "name": "order_item_name",
-                    "type": "string"
-                },
-                "type": {
-                    "name": "order_item_type",
-                    "type": "string"
-                },
-                "order_id": {
-                    "name": "order_id",
-                    "type": "number"
-                },
-                "quantity": {
-                    "name": "_qty",
-                    "type": "number"
-                },
-                "tax_class": {
-                    "name": "_tax_class",
-                    "type": "number"
-                },
-                "product_id": {
-                    "name": "_product_id",
-                    "type": "number"
-                },
-                "variation_id": {
-                    "name": "_variation_id",
-                    "type": "number"
-                },
-                "subtotal": {
-                    "name": "_line_subtotal",
-                    "type": "number"
-                },
-                "total": {
-                    "name": "_line_total",
-                    "type": "number"
-                },
-                "tax": {
-                    "name": "_line_tax",
-                    "type": "number"
-                },
-                "subtotal_tax": {
-                    "name": "_line_subtotal_tax",
-                    "type": "number"
-                }
-            },
-            "OrderTaxItem": {
-                "name": {
-                    "name": "order_item_name",
-                    "type": "string"
-                },
-                "type": {
-                    "name": "order_item_type",
-                    "type": "string"
-                },
-                "order_id": {
-                    "name": "order_id",
-                    "type": "number"
-                },
-                "rate_id": {
-                    "name": "rate_id",
-                    "type": "number"
-                },
-                "label": {
-                    "name": "label",
-                    "type": "number"
-                },
-                "compound": {
-                    "name": "compound",
-                    "type": "number"
-                },
-                "tax_amount": {
-                    "name": "tax_amount",
-                    "type": "number"
-                },
-                "shipping_tax": {
-                    "name": "shipping_tax",
-                    "type": "number"
-                }
-            },
-            "OrderCouponItem": {
-                "name": {
-                    "name": "order_item_name",
-                    "type": "string"
-                },
-                "type": {
-                    "name": "order_item_type",
-                    "type": "string"
-                },
-                "order_id": {
-                    "name": "order_id",
-                    "type": "number"
-                },
-                "quantity": {
-                    "name": "_qty",
-                    "type": "number"
-                },
-                "tax_class": {
-                    "name": "_tax_class",
-                    "type": "number"
-                },
-                "product_id": {
-                    "name": "_product_id",
-                    "type": "number"
-                },
-                "variation_id": {
-                    "name": "_variation_id",
-                    "type": "number"
-                },
-                "subtotal": {
-                    "name": "_line_subtotal",
-                    "type": "number"
-                },
-                "total": {
-                    "name": "_line_total",
-                    "type": "number"
-                },
-                "tax": {
-                    "name": "_line_tax",
-                    "type": "number"
-                },
-                "subtotal_tax": {
-                    "name": "_line_subtotal_tax",
-                    "type": "number"
-                },
-                "rate_id": {
-                    "name": "rate_id",
-                    "type": "number"
-                },
-                "label": {
-                    "name": "label",
-                    "type": "number"
-                },
-                "compound": {
-                    "name": "compound",
-                    "type": "number"
-                },
-                "tax_amount": {
-                    "name": "tax_amount",
-                    "type": "number"
-                },
-                "shipping_tax": {
-                    "name": "shipping_tax",
-                    "type": "number"
-                }
-            },
-            "Customer": {
-                "name": {
-                    "name": "display_name",
-                    "type": "string"
-                },
-                "username": {
-                    "name": "user_login",
-                    "type": "string"
-                },
-                "slug": {
-                    "name": "user_nicename",
-                    "type": "string"
-                },
-                "email": {
-                    "name": "user_email",
-                    "type": "string"
-                },
-                "status": {
-                    "name": "user_status",
-                    "type": "number"
-                },
-                "date_registered": {
-                    "name": "user_registered",
-                    "type": "datetime"
-                },
-                "order_count": {
-                    "name": "_order_count",
-                    "type": "number"
-                },
-                "paying_customer": {
-                    "name": "paying_customer",
-                    "type": "number"
-                }
-            },
-            "Coupon": {
-                "code": {
-                    "name": "post_title",
-                    "type": "string",
-                    "sizehint": 10
-                },
-                "slug": {
-                    "name": "post_name",
-                    "type": "string",
-                    "sizehint": 10
-                },
-                "type": {
-                    "name": "post_type",
-                    "type": "string",
-                    "default": "shop_coupon",
-                    "sizehint": 5
-                },
-                "publishing": {
-                    "name": "post_status",
-                    "type": "string",
-                    "values": [
-                        "publish",
-                        "inherit",
-                        "pending",
-                        "future",
-                        "draft",
-                        "trash"
-                    ],
-                    "default": "publish",
-                    "sizehint": 5
-                },
-                "discount_type": {
-                    "name": "discount_type",
-                    "type": "string",
-                    "valus": [
-                        "fixed_cart",
-                        "percent",
-                        "fixed_product",
-                        "percent_product"
-                    ],
-                    "sizehint": 2
-                },
-                "value": {
-                    "name": "coupon_amount",
-                    "type": "number",
-                    "sizehint": 1
-                },
-                "is_exclusive": {
-                    "name": "individual_use",
-                    "type": "bool",
-                    "values": [
-                        "yes",
-                        "no"
-                    ],
-                    "sizehint": 1
-                },
-                "limit": {
-                    "name": "usage_limit",
-                    "type": "number",
-                    "sizehint": 1
-                },
-                "product_ids": {
-                    "name": "product_ids",
-                    "type": "array",
-                    "sizehint": 10,
-                    "getter": {
-
-                    },
-                    "setter": {
-
-                    },
-                    "updater": {
-
-                    }
-                },
-                "exclude_product_ids": {
-                    "name": "exclude_product_ids",
-                    "type": "string",
-                    "sizehint": 10,
-                    "getter": {
-
-                    },
-                    "setter": {
-
-                    },
-                    "updater": {
-
-                    }
-                },
-                "expiry_date": {
-                    "name": "expiry_date",
-                    "type": "date(y-m-d)",
-                    "sizehint": 10
-                },
-                "is_before_tax": {
-                    "name": "apply_before_tax",
-                    "type": "bool",
-                    "values": [
-                        "yes",
-                        "no"
-                    ],
-                    "sizehint": 1
-                },
-                "is_shipping_free": {
-                    "name": "shipping_free",
-                    "type": "bool",
-                    "values": [
-                        "yes",
-                        "no"
-                    ],
-                    "sizehint": 1
-                },
-                "will_exclude_sale_products": {
-                    "name": "exclude_sale_items",
-                    "type": "bool",
-                    "values": [
-                        "yes",
-                        "no"
-                    ],
-                    "sizehint": 1
-                },
-                "product_category_ids": {
-                    "name": "product_categories",
-                    "type": "array",
-                    "sizehint": 10
-                },
-                "exclude_product_category_ids": {
-                    "name": "product_categories",
-                    "type": "array",
-                    "sizehint": 10
-                },
-                "minimum_total": {
-                    "name": "minimum_amount",
-                    "type": "number",
-                    "sizehint": 1
-                },
-                "customer_email": {
-                    "name": "customer_email",
-                    "type": "number",
-                    "sizehint": 1
-                }
-            },
-            "Review": {
-                "name": {
-                    "name": "comment_author",
-                    "type": "string"
-                },
-                "date": {
-                    "name": "comment_date_gmt",
-                    "type": "datetime"
-                },
-                "email": {
-                    "name": "comment_author_email",
-                    "type": "string"
-                },
-                "body": {
-                    "name": "comment_content",
-                    "type": "text"
-                },
-                "approved": {
-                    "name": "comment_approved",
-                    "type": "number"
-                },
-                "object_id": {
-                    "name": "comment_post_ID",
-                    "type": "number"
-                },
-                "parent_id": {
-                    "name": "comment_parent",
-                    "type": "number"
-                },
-                "user_id": {
-                    "name": "user_id",
-                    "type": "number"
-                },
-                "rating": {
-                    "name": "rating",
-                    "type": "number",
-                    "default": 0
-                }
-            },
-            "Image": {
-                "filename": {
-                    "name": "post_title",
-                    "type": "string",
-                    "sizehint": 10,
-                    "group_name": "main"
-                },
-                "slug": {
-                    "name": "post_name",
-                    "type": "string",
-                    "sizehint": 10
-                },
-                "mime_type": {
-                    "name": "post_mime_type",
-                    "type": "string",
-                    "sizehint": 10
-                },
-                "type": {
-                    "name": "post_type",
-                    "type": "string",
-                    "values": [
-                        "attachment"
-                    ],
-                    "default": "attachment",
-                    "sizehint": 5
-                },
-                "description": {
-                    "name": "post_content",
-                    "type": "text",
-                    "sizehint": 10
-                },
-                "caption": {
-                    "name": "post_excerpt",
-                    "type": "text",
-                    "sizehint": 10
-                },
-                "parent_id": {
-                    "name": "post_parent",
-                    "type": "string",
-                    "sizehint": 3
-                },
-                "publishing": {
-                    "name": "post_status",
-                    "type": "string",
-                    "values": [
-                        "inherit",
-                        "draft",
-                        "trash"
-                    ],
-                    "default": "inherit",
-                    "sizehint": 5
-                },
-                "path": {
-                    "name": "_wp_attached_file",
-                    "type": "string",
-                    "sizehint": 10
-                },
-                "metadata": {
-                    "name": "_wp_attachment_metadata",
-                    "type": "array",
-                    "sizehint": 10
-                },
-                "alt": {
-                    "name": "_wp_attachment_image_alt",
-                    "type": "string",
-                    "sizehint": 10
-                }
-            }
+            ]
         }
     ],
     "payload_length": 1
-}[1;33m[40mGet Supported Attributes                                    [0m[0;32m[40mPASSED[0m
-[1;33mGet Supported Attributes                                    [0m[0;32mPASSED[0m
+}
+
