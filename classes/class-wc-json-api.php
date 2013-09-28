@@ -286,7 +286,7 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
         }
         
         $this->logUserIn($user);
-        $this->result->setToken($meta['token']);
+        $this->result->setToken($meta['token']); 
         return true;
 
       }
