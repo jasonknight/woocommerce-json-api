@@ -383,7 +383,7 @@ class Base extends Helpers {
       $s = $klass::getModelSettings();
       if ( isset( $hm[$name]['sql'] ) ) {
         //echo $sql . "\n";
-        if ( strpos(' ',$hm[$name]['sql']) === false && is_callable($hm[$name]['sql']) ) {
+        if ( is_callable($hm[$name]['sql'])) {
           Helpers::debug("sql is a function, so we should call it!");
           $sql = call_user_func($hm[$name]['sql'],$this);
           if ( ! $sql ) {

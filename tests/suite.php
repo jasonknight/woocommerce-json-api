@@ -7,4 +7,5 @@ include "get_coupons.php";
 include "get_supported_attributes.php";
 include "set_store_settings.php";
 include "set_products.php";
+include "set_product_image.php";
 include "orders.php";

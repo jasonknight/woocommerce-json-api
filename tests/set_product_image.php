@@ -40,7 +40,6 @@ $data = array(
 );
 
 $result = curl_post($url,$data);
-echo $result;
 $result = json_decode($result,true); 
 $product = $result['payload'][0];
 keyExists('id',$product['images'][0],'Was the id of the image set?');
