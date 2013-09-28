@@ -7,7 +7,7 @@ $data = array(
   'proc'        => 'get_products',
   'arguments'   => array(
     'token' => $token,
-    'ids' => array(64),
+    'ids' => array(203),
   )
 );
 echo json_encode($data,JSON_PRETTY_PRINT);
@@ -16,6 +16,7 @@ $result = curl_post($url,$data);
 echo "Result is: \n\n";
 echo $result;
 echo "\n\n";
+die;
 
 echo "Getting next: ";
 $data['arguments']['ids'] = "1,2,3";

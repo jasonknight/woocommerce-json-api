@@ -107,6 +107,9 @@ function woocommerce_json_api_update_user_profile( $user_id ) {
   $key = $helpers->getPluginPrefix() . '_settings';
   $params = serialize($_POST[$key]);
   update_user_meta($user_id,$key,$params);
+  // Need this for faster access to users.
+  $key2 = $helpers->getPluginPrefix() . '_api_token';
+  update_user_meta($user_id,$key2,$_POST[$key]['token']);
 }
 
 /*

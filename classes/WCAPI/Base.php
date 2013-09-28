@@ -65,6 +65,7 @@ class Base extends Helpers {
     $this->actual_meta_attributes_table = static::$_meta_attributes_table;
     $this->actual_model_settings = static::$_model_settings;
     $this->mapper = $mapper;
+    Helpers::debug(get_called_class() ."::__construct");
   }
   public static function setAdapter( &$a ) {
     static::$adapter = $a;
@@ -184,25 +185,32 @@ class Base extends Helpers {
     $load_meta_function = $s['load_meta_function'];
     $id = $this->_actual_model_id;
     if ( $load_meta_function !== null ) {
+      Helpers::debug("Using load_meta_function!");
       $attrs = call_user_func($load_meta_function, $this);
       foreach ( static::$_meta_attributes_table as $name => $desc ) {
         $value = $attrs[ $desc['name'] ];
+        $value = maybe_unserialize($value);
         $this->dynamic_set( $name, $desc, $value, $this->getModelId() );
       }
     } else {
       foreach ( static::$_meta_attributes_table as $name => $desc ) {
+        Helpers::debug("\tLoading meta_attribute $name");
         $value = call_user_func($meta_function, $id, $desc['name'], true );
+        $value = maybe_unserialize($value);
+        Helpers::debug("\tresult from db is: " . var_export($value,true));
         $this->dynamic_set( $name, $desc, $value, $this->getModelId() );
       }
     }
     return $this;
   }
   public function saveMetaAttributes() {
+    Helpers::debug("Base::saveMetaAttributes called");
     $wpdb = static::$adapter;
     $meta_table              = $this->orEq( static::$_model_settings, 'meta_table', $wpdb->postmeta ); 
     $meta_table_foreign_key  = $this->orEq( static::$_model_settings, 'meta_table_foreign_key', 'post_id' );
     $save_meta_function = static::$_model_settings['save_meta_function'];
     if ( $save_meta_function) {
+      Helpers::debug("calling save_meta_function");
       $meta_sql = call_user_func($save_meta_function, $this);
     } else {
       $meta_sql = "
@@ -217,8 +225,10 @@ class Base extends Helpers {
                 }
                 if ( ! empty($value) ) {
                   if ( isset( $desc['updater'] ) ) {
-                    $this->{ $desc['updater'] }( $value );
+                    Helpers::debug("Calling updater!");
+                    call_user_func($desc['updater'],$this, $attr, $value, $desc );
                   } else {
+                    Helpers::debug("No updater set for $attr for value $value");
                     //$meta_keys[] = $wpdb->prepare("%s",$desc['name']);
                     $meta_sql .= $wpdb->prepare( "\tWHEN '{$desc['name']}' THEN %s\n ", $value);
                   }
@@ -441,6 +451,7 @@ class Base extends Helpers {
   *  From here we have a dynamic getter. We return a special REDENOTSET variable.
   */
   public function __get( $name ) {
+    Helpers::debug(get_called_class() . "::__get $name");
     $meta_table = $this->actual_meta_attributes_table;
     $model_table = $this->actual_model_attributes_table;
     $s = $this->actual_model_settings;
@@ -469,13 +480,19 @@ class Base extends Helpers {
   
   // Dynamic setter
   public function __set( $name, $value ) {
+    Helpers::debug(get_called_class() . "::__set $name");
     $meta_table = $this->actual_meta_attributes_table;
     $model_table = $this->actual_model_attributes_table;
     $s = $this->actual_model_settings;
+    if ( ! isset( $meta_table[$name] ) ) {
+      Helpers::debug(get_called_class() . "::__set $name is not defined in meta_table");
+    }
     if ( isset( $meta_table[$name] ) ) {
       if ( isset($meta_table[$name]['setter'])) {
         $desc = $meta_table[$name];
         call_user_func($desc['setter'],$this,$name, $desc, $value, false);
+      } else {
+        Helpers::debug("There is no setter for this attr.");
       }
       $this->_meta_attributes[$name] = $value;
     } else if (strtolower($name) == 'id') {
@@ -491,23 +508,27 @@ class Base extends Helpers {
 
 
   public function dynamic_set( $name, $desc, $value, $filter_value = null ) {
-
+    Helpers::debug(get_called_class(). "::dynamic_set $name and " . var_export($value,true));
     if ( $desc['type'] == 'array') {
-      $value = serialize( $value );
+      $value = maybe_serialize( $value );
     }
 
-    if ( isset($desc['filters'] ) && $filter_value == true ) {
-      foreach ( $desc['filters'] as $filter ) {
-        $value = apply_filters( $filter, $value, $filter_value );
-      }
-    }
+    // if ( isset($desc['filters'] ) && $filter_value == true ) {
+    //   foreach ( $desc['filters'] as $filter ) {
+    //     Helpers::debug("applying filters to $name");
+    //     $value = apply_filters( $filter, $value, $filter_value );
+    //   }
+    // }
     if ( isset($desc['setter']) ) {
-      if ( is_string($desc['setter']) )
-        $this->{ $desc['setter'] }( $value );
-      else if (is_callable($desc['setter']))
+      if ( is_string($desc['setter']) ) {
+        Helpers::debug(get_called_class() . "::dynamic_set using member function for $name with " . var_export($value,true));
+        $this->{ $desc['setter'] }( $value, $desc );
+      } else if (is_callable($desc['setter'])) {
+        Helpers::debug(get_called_class() . "::dynamic_set using callable! with value ");
         call_user_func($desc['setter'],$this,$name, $desc, $value, $filter_value );
-      else
+      } else {
         throw new \Exception( $desc['setter'] .' setter is not a function in this scope');
+      }
     } else {
       if ( (!$value || empty($value) ) && (isset($desc['default']) && $desc['default'] && ! empty($desc['default']) ) ) {
         $value = $desc['default'];
@@ -525,7 +546,7 @@ class Base extends Helpers {
     if ( isset($desc['getter']) ) {
 
       if ( is_string($desc['getter']))
-        $value = $this->{ $desc['getter'] }();
+        $value = $this->{ $desc['getter'] }($desc);
       else if ( is_callable($desc['getter']))
         $value = call_user_func($desc['getter'], $this, $name, $desc, $filter_value);
       else
@@ -877,6 +898,7 @@ class Base extends Helpers {
     }
   }
   public function getTerm($name,$type,$default) {
+    Helpers::debug("Base::getTerm $name $type $default");
     $wpdb = self::$adapter;
     if ( $this->{"_$name"} ) {
       return $this->{"_$name"};
@@ -902,13 +924,20 @@ class Base extends Helpers {
   }
 
   public function setTerm($name, $type, $value ) {
+    Helpers::debug("Base::setTerm $name $type $value");
     $this->{"_$name"} = $value;
   }
   public function updateTerm( $name, $type, $value=null) {
+    Helpers::debug("Base::updateTerm $name $type $value");
     if ( $value == null ) {
       $value = $this->{"_$name"};
     }
-    wp_set_object_terms( $this->_actual_model_id, array( $value ), $type, false );
+    $ret = wp_set_object_terms( $this->_actual_model_id, array( $value ), $type);
+    if ( is_wp_error( $ret ) ) {
+      throw new \Exception( $ret->get_messages());
+    } else if ( is_string( $ret ) ) {
+      throw new \Exception("Wrong term name $ret");
+    }
   }
 }
 

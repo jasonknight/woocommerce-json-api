@@ -12,7 +12,7 @@ class WC_JSON_API_Provider_v1 extends JSONAPIHelpers {
   public static $implemented_methods;
 
   public static function getImplementedMethods() {
-    $accepted_resources = array('Product','Category','Comment','Order','OrderItem','OrderTaxItem','OrderCouponItem','Customer','Coupon','Review','Image');
+    $accepted_resources = array('Product','ProductAttribute','Category','Comment','Order','OrderItem','OrderTaxItem','OrderCouponItem','Customer','Coupon','Review','Image');
     self::$implemented_methods = array(
       'get_system_time' => null,
       'get_supported_attributes' => array(
@@ -447,7 +447,7 @@ class WC_JSON_API_Provider_v1 extends JSONAPIHelpers {
     return $this->done();
   }
   public function get_supported_attributes( $params ) {
-    $accepted_resources = array('Product','Category','Comment','Order','OrderItem','OrderTaxItem','OrderCouponItem','Customer','Coupon','Review','Image');
+    $accepted_resources = array('Product','ProductAttribute','Category','Comment','Order','OrderItem','OrderTaxItem','OrderCouponItem','Customer','Coupon','Review','Image');
     $models = $this->orEq( $params['arguments'], 'resources', $accepted_resources);
     
     if ( ! is_array($models) ) {
@@ -477,6 +477,8 @@ class WC_JSON_API_Provider_v1 extends JSONAPIHelpers {
         $model = new API\OrderTaxItem();
       } else if ( $m == 'OrderCouponItem' ) {
         $model = new API\OrderCouponItem();
+      } else if ( $m == 'ProductAttribute' ) {
+        $model = new API\ProductAttribute();
       } else {
         $this->badArgument($m, join(',', $accepted_resources ) );
         return $this->done();

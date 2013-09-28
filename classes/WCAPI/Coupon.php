@@ -292,9 +292,8 @@ class Coupon extends Base{
       if ( isset( $this->{"_{$desc['name']}"} ) ) {
         return $this->{"_{$desc['name']}"};
       }
-      $str = maybe_unserialize(get_post_meta($model->_actual_model_id, $desc['name'],true));
+      $str = maybe_unserialize(get_post_meta($this->_actual_model_id, $desc['name'],true));
       if ( is_string($str) ) {
-        die("exploding");
         $str = explode(",",$str);
       } else {
         array_map('maybe_unserialize',$str);
@@ -304,7 +303,7 @@ class Coupon extends Base{
     } else if ( $type == 'setter' ) {
       $this->{"_{$desc['name']}"} = $value;
     } else if ( $type == 'updater' ) {
-      update_post_meta($model->_actual_model_id,$desc['name'],$value);
+      update_post_meta($this->_actual_model_id,$desc['name'],$value);
     } else {
       throw new \Exception("updateProductIds does not understand type of $type");
     }

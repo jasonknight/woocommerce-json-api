@@ -227,19 +227,12 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
       }
       
     }
-    $key = $this->getPluginPrefix() . '_settings';
-    
-    $args = array(
-      'blog_id' => $GLOBALS['blog_id'],
-      'meta_key' => $key
-    );
+
 
     API\Base::setBlogId($GLOBALS['blog_id']);
 
-    $users = get_users( $args );
-
     if (! $by_token ) {
-
+        Helpers::debug("Authentication by username {$params['arguments']['username']}");
         $user = wp_authenticate_username_password( null, $params['arguments']['username'],$params['arguments']['password']);
         
         if ( is_a($user,'WP_Error') ) {
@@ -252,6 +245,16 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
         return true;
 
     }
+    JSONAPIHelpers::debug("Authentication by Token");
+    
+    $key = $this->getPluginPrefix() . '_settings';
+    
+    $args = array(
+      'blog_id' => $GLOBALS['blog_id'],
+      'meta_key' => $key,
+      
+    );
+    $users = get_users( $args );
     foreach ($users as $user) {
       
       $meta = maybe_unserialize( get_user_meta( $user->ID, $key, true ) );

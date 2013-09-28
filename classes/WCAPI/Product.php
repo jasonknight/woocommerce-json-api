@@ -7,8 +7,10 @@ namespace WCAPI;
 require_once(dirname(__FILE__) . "/Base.php");
 require_once(dirname(__FILE__) . "/Category.php");
 require_once(dirname(__FILE__) . "/OrderItem.php");
+require_once(dirname(__FILE__) . "/ProductAttribute.php");
 class Product extends Base{   
   public $_product_type;
+  public $_product_attributes;
   public static function getModelSettings() {
     include WCAPIDIR."/_globals.php";
     $table = array_merge( Base::getDefaultModelSettings(), array(
@@ -241,6 +243,11 @@ class Product extends Base{
                               'type' => 'array', 
                               'default' => '',
                               'sizehint' => 3,
+                              'getter' => 'getProductAttributes',
+                              'setter' => 'setProductAttributes',
+                              'updater' => function ( $model, $name, $value, $desc ) { 
+                                $model->updateProductAttributes('updater',$name,$desc,$value);
+                              },
                              ), 
       'tax_class'         => array('name' => '_tax_class',        'type' => 'string', 'sizehint' => 2),
       'tax_status'        => array(
@@ -264,9 +271,9 @@ class Product extends Base{
             return $model->getTerm('product_type','product_type','product'); 
           },
           'setter' => function ($model,$name, $desc, $value, $filter_value) {
-            $model->setTerm('product_type','product_type',$value);
+            
           },
-          'updater' => function ( $model, $name, $value, $desc ) { 
+          'updater' => function (&$model, $name, $value, $desc ) { 
             $model->updateTerm('product_type','product_type',$value);
           },
        ),
@@ -361,6 +368,61 @@ class Product extends Base{
       $product = Product::find( $pid );
     }
     return $product;
+  }
+  public function updateProductAttributes($type,$name,$desc,$value) {
+    $var_name = $name;
+    if ( $type == 'getter') {
+      if ( isset( $this->{"{$var_name}"} ) ) {
+        return $this->{"{$var_name}"};
+      }
+      $collection = array();
+      if ( is_array( $value ) ) {
+        foreach ( $value as $v) {
+          $attr = new ProductAttribute($v);
+          $collection[] = $attr->attrs;
+        }
+      }
+      $this->{"{$var_name}"} = $collection;
+      return $this->{"{$var_name}"};
+    } else if ( $type == 'setter' ) {
+      $this->{"{$var_name}"} = $value;
+    } else if ( $type == 'updater' ) {
+      $value = $this->{"{$var_name}"};
+      $collection = array();
+      if ( is_array( $value ) ) {
+        foreach ( $value as $v) {
+          $attr = new ProductAttribute($v);
+          $collection = array_merge($collection,$attr->getForDb());
+        }
+      }
+      update_post_meta($this->_actual_model_id,$var_name,$collection);
+    } else {
+      throw new \Exception("updateProductIds does not understand type of $type");
+    }
+  }
+  public function getProductAttributes($desc) {
+    $name = "attributes";
+    if ( isset($this->_meta_attributes[$name])) {
+      return $this->_meta_attributes[$name]; 
+    } else {
+      return array();
+    }
+  }
+  public function setProductAttributes($value,$desc) {
+    $name = "attributes";
+    $value = maybe_unserialize( $value );
+    $collection = array();
+    if ( is_array( $value ) ) {
+      foreach ( $value as $v) {
+        Helpers::debug("array  is: " . var_export($v,true));
+        $attr = new ProductAttribute($v);
+        Helpers::debug("Attr is: " . var_export($attr,true));
+        $collection = array_merge($collection, $attr->asApiArray());
+      }
+      $this->_meta_attributes[$name] = $collection;
+    } else {
+      Helpers::debug("attributes wasn't an array");
+    }
   }
    
 }
