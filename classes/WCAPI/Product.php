@@ -146,7 +146,7 @@ class Product extends Base{
                 return "SELECT {$s['model_table_id']} FROM {$s['model_table']} WHERE " . join(' AND ', $parts);
               },
               'connect' => function ($product,$image) {
-                //update_post_meta($product->_actual_model_id, '_thumbnail_id',$image->_actual_model_id);   
+                update_post_meta($product->_actual_model_id, '_thumbnail_id',$image->_actual_model_id);   
                 // Don't need to do this...hrmm           
               },
           ),
