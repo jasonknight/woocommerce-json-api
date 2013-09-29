@@ -180,6 +180,10 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
       return $this->done();
 
     }
+    if ( isset($params['arguments']['password']) ) {
+      // We shouldn't pass back the password.
+      $params['arguments']['password'] = '[FILTERED]';
+    }
     if ( $this->provider->isImplemented( $proc ) ) {
 
       try {
@@ -230,9 +234,9 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
 
 
     API\Base::setBlogId($GLOBALS['blog_id']);
-
+    $key = $this->getPluginPrefix() . '_settings';
     if (! $by_token ) {
-        Helpers::debug("Authentication by username {$params['arguments']['username']}");
+        JSONAPIHelpers::debug("Authentication by username {$params['arguments']['username']}");
         $user = wp_authenticate_username_password( null, $params['arguments']['username'],$params['arguments']['password']);
         
         if ( is_a($user,'WP_Error') ) {
@@ -249,7 +253,7 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
     }
     JSONAPIHelpers::debug("Authentication by Token");
     
-    $key = $this->getPluginPrefix() . '_settings';
+    
     
     $args = array(
       'blog_id' => $GLOBALS['blog_id'],

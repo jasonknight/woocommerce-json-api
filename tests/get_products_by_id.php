@@ -6,7 +6,8 @@ $data = array(
   'action'      => 'woocommerce_json_api',
   'proc'        => 'get_products',
   'arguments'   => array(
-    'token' => $token,
+    'username' => 'admin',
+    'password' => 'nimda',
     'ids' => array(233),
   )
 );

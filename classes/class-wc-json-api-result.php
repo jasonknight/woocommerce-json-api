@@ -8,6 +8,10 @@ class WooCommerce_JSON_API_Result {
     $this->params['status'] = $bool;
   }
   public function setParams( $params ) {
+    if ( isset($params['arguments']['password']) ) {
+      // We shouldn't pass back the password.
+      $params['arguments']['password'] = '[FILTERED]';
+    }
     unset($params['uploads']); // we don't need this in the result
     $this->params = $params;
     $this->params['status'] = true;
@@ -15,7 +19,8 @@ class WooCommerce_JSON_API_Result {
     $this->params['warnings'] = array();
     $this->params['notifications'] = array();
     $this->params['payload'] = array();
-    $this->params['token'] = "";
+    $this->params['arguments']['token'] = "";
+
     return $this;
   }
   public function getParams() {
@@ -26,7 +31,7 @@ class WooCommerce_JSON_API_Result {
     return $this;
   }
   public function setToken( $token ){
-    $this->params['token'] = $token;
+    $this->params['arguments']['token'] = $token;
   }
   
   /**
