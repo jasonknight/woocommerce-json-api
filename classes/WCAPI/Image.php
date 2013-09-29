@@ -121,5 +121,31 @@ class Image extends Base {
       throw new \Exception( sprintf(__('You cannot create a new image unless you upload an image with the same name as %s',$this->td),$name) );
     }
   }
+  public function asApiArray() {
+    $attributes = parent::asApiArray();
+
+    if ( isset($attributes['metadata']) ) {
+      $md = $attributes['metadata'];
+      $md['url'] = site_url() . "/" . $md['file'];
+      $attributes['metadata'] = $md;
+      $upload_dir = wp_upload_dir();
+      foreach ( $attributes['metadata']['sizes'] as $key=>&$md ) {
+        $md['url'] = $upload_dir['url'] . "/" . $md['file'];
+      }
+    }
+    return $attributes;
+  }
+  public function fromApiArray($attributes) {
+    if ( isset($attributes['metadata']) ) {
+      $md = $attributes['metadata'];
+      unset($md['url']);
+      $attributes['metadata'] = $md;
+      $upload_dir = wp_upload_dir();
+      foreach ( $attributes['metadata']['sizes'] as $key=>&$md ) {
+        unset($md['url']);
+      }
+    }
+    parent::fromApiArray( $attributes );
+  }
 
 }
