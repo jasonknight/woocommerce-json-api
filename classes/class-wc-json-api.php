@@ -241,6 +241,8 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
           }
           return false;
         }
+        $meta = maybe_unserialize( get_user_meta( $user->ID, $key, true ) );
+        $this->result->setToken($meta['token']);
         $this->logUserIn($user);
         return true;
 
@@ -284,6 +286,7 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
         }
         
         $this->logUserIn($user);
+        $this->result->setToken($meta['token']); 
         return true;
 
       }
