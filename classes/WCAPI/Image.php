@@ -10,6 +10,7 @@ require_once(dirname(__FILE__) . "/Upload.php");
 class Image extends Base {
   public static function getModelSettings() {
     include WCAPIDIR."/_globals.php";
+
     $table = array_merge( Base::getDefaultModelSettings(), array(
         'model_table'                => $wpdb->posts,
         'meta_table'                => $wpdb->postmeta,
@@ -20,8 +21,10 @@ class Image extends Base {
     );
     $table = apply_filters('WCAPI_image_model_settings',$table);
     return $table;
+
   }
   public static function getModelAttributes() {
+
       $table = array(
       'filename' => array('name' => 'post_title', 'type' => 'string', 'sizehint' => 10, 'group_name' => 'main' ),
       'slug' => array('name' => 'post_name',  'type' => 'string', 'sizehint' => 10),
@@ -53,42 +56,52 @@ class Image extends Base {
         'sizehint' => 5
       ),
     );
+
+
     $table = apply_filters( 'WCAPI_image_model_attributes_table', $table );
+    
     return $table;
   }
 
   public static function getMetaAttributes() {
+
     $upload_dir = wp_upload_dir();
+
     $table = array(
       'path'  => array('name' => '_wp_attached_file', 'type' => 'string', 'sizehint' => 10),
       'metadata'  => array('name' => '_wp_attachment_metadata', 'type' => 'array', 'sizehint' => 10),
       'alt'  => array('name' => '_wp_attachment_image_alt', 'type' => 'string', 'sizehint' => 10),
       'base_url' => array('name' => 'base_url', 'type' => 'string', 'sizehint' => 10, 'default' => $upload_dir['url']),
     );
-    /*
-      With this filter, plugins can extend this ones handling of meta attributes for a customer,
-      this helps to facilitate interoperability with other plugins that may be making arcane
-      magic with a customer, or want to expose their customer extensions via the api.
-    */
+
     $table = apply_filters( 'WCAPI_image_meta_attributes_table', $table );
     return $table;
   }
 
-   public static function setupMetaAttributes() {
+  public static function setupMetaAttributes() {
+
     // We only accept these attributes.
     static::$_meta_attributes_table = self::getMetaAttributes();
+
   } // end setupMetaAttributes
   public static function setupModelAttributes() {
+
     self::$_model_settings = self::getModelSettings();
     self::$_model_attributes_table = self::getModelAttributes();
+
   }
  
   public function create($attrs) {
+
+
     Helpers::debug("Image::create() was called");
     include WCAPIDIR . "/_globals.php";
     include WCAPIDIR."/_model_static_attributes.php";
     $name = $attrs['name'];
+
     if ( isset( $_FILES['images']) ) {
+
+
       foreach ($_FILES["images"]["error"] as $key => $error) {
           if ($error == UPLOAD_ERR_OK) {
               $fname = basename($_FILES["images"]["name"][$key]);
@@ -112,9 +125,12 @@ class Image extends Base {
                 return $this;
               }
           }
-      }
+      } // end foreach
+
+      // We shouldn't get this far if we did it right...
       Helpers::debug("Image::create: throwing exception No entry for %s found in uploaded files!");
       throw new \Exception( sprintf( __('No entry for %s found in uploaded files!',$this->td), $name ) );
+
     } else {
       Helpers::debug("Image::create: throwing exception You cannot create a new image unless you upload an image with the same name as %s");
       Helpers::debug( var_export($_FILES,true));
@@ -125,6 +141,8 @@ class Image extends Base {
     $attributes = parent::asApiArray();
 
     if ( isset($attributes['metadata']) ) {
+
+
       $md = $attributes['metadata'];
       $md['url'] = site_url() . "/" . $md['file'];
       $attributes['metadata'] = $md;
@@ -132,11 +150,16 @@ class Image extends Base {
       foreach ( $attributes['metadata']['sizes'] as $key=>&$md ) {
         $md['url'] = $upload_dir['url'] . "/" . $md['file'];
       }
+
+
     }
     return $attributes;
   }
   public function fromApiArray($attributes) {
+
     if ( isset($attributes['metadata']) ) {
+
+
       $md = $attributes['metadata'];
       unset($md['url']);
       $attributes['metadata'] = $md;
@@ -144,7 +167,10 @@ class Image extends Base {
       foreach ( $attributes['metadata']['sizes'] as $key=>&$md ) {
         unset($md['url']);
       }
+
+      
     }
+
     parent::fromApiArray( $attributes );
   }
 
