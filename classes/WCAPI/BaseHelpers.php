@@ -228,6 +228,15 @@ class Helpers {
     }
     return $obj;
   }
+  public static function std2a($obj) {
+    $a = array();
+    foreach ( $obj as $key=>$value ) {
+      if ( is_object($value))
+        $value = static::std2a($value);
+      $a[$key] = $value;
+    }
+    return $a;
+  }
   public static function getOrderStatuses() {
     $results = array();
     $statuses = (array) get_terms( 'shop_order_status', array( 'hide_empty' => 0, 'orderby' => 'id' ) );

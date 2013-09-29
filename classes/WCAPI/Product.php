@@ -392,8 +392,13 @@ class Product extends Base{
       $collection = array();
       if ( is_array( $value ) ) {
         foreach ( $value as $v) {
-          $attr = new ProductAttribute($v);
-          $collection = array_merge($collection,$attr->getForDb());
+          $attr = new ProductAttribute($v,$this->_actual_model_id);
+          $intermediate = $attr->getForDb();
+          if ( isset($intermediate['is_taxonomy']) && intval($intermediate['is_taxonomy']) == 1) {
+            wp_update_object_terms($this->_actual_model_id, $intermediate['value'], 'names');
+            unset($intermediate['value']);
+          }
+          $collection = array_merge($collection,$intermediate);
         }
       }
       update_post_meta($this->_actual_model_id,$var_name,$collection);
@@ -416,7 +421,7 @@ class Product extends Base{
     if ( is_array( $value ) ) {
       foreach ( $value as $v) {
         Helpers::debug("array  is: " . var_export($v,true));
-        $attr = new ProductAttribute($v);
+        $attr = new ProductAttribute($v,$this->_actual_model_id);
         Helpers::debug("Attr is: " . var_export($attr,true));
         $collection = array_merge($collection, $attr->asApiArray());
       }

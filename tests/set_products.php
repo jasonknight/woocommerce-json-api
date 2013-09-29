@@ -31,9 +31,12 @@ $products['payload'][0] = $product;
 
 
 $result = curl_post($url,$products);
+//echo $result;
 // Now do the load a second time:
 
 $result = curl_post($url,$data);
+//echo $result;
+
 $products = json_decode($result,true);
 
 $product = $products['payload'][0];

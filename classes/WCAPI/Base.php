@@ -136,7 +136,8 @@ class Base extends Helpers {
     if ( ! is_array($this->_queries_to_run) )
       return $this;
     foreach ( $this->_queries_to_run as $key=>$query ) {
-      $wpdb->query($query);
+      $ret = $wpdb->query($query);
+      static::maybe_throw_wp_error( $ret );
       unset($this->_queries_to_run[$key]);
     }
   }
@@ -204,20 +205,24 @@ class Base extends Helpers {
     return $this;
   }
   public function saveMetaAttributes() {
-    Helpers::debug("Base::saveMetaAttributes called");
-    $wpdb = static::$adapter;
-    $meta_table              = $this->orEq( static::$_model_settings, 'meta_table', $wpdb->postmeta ); 
-    $meta_table_foreign_key  = $this->orEq( static::$_model_settings, 'meta_table_foreign_key', 'post_id' );
-    $save_meta_function = static::$_model_settings['save_meta_function'];
+    Helpers::debug("Base::saveMetaAttributes " . get_called_class() . "({$this->_actual_model_id}) called");
+    include WCAPIDIR."/_globals.php";
+    include WCAPIDIR."/_model_static_attributes.php";
+    $meta_table              = $this->orEq( $self->settings, 'meta_table', $wpdb->postmeta ); 
+    $meta_table_foreign_key  = $this->orEq( $self->settings, 'meta_table_foreign_key', 'post_id' );
+    $save_meta_function = $self->settings['save_meta_function'];
+    Helpers::debug("meta_table is $meta_table fkey is $meta_table_foreign_key");
     if ( $save_meta_function) {
       Helpers::debug("calling save_meta_function");
       $meta_sql = call_user_func($save_meta_function, $this);
     } else {
+      $hits = 0;
       $meta_sql = "
         UPDATE {$meta_table}
           SET `meta_value` = CASE `meta_key`
             ";
-            foreach (static::$_meta_attributes_table as $attr => $desc) {
+            foreach ($self->meta_attributes_table  as $attr => $desc) {
+              Helpers::debug("METASQL: $attr => {$desc['name']}");
               if ( isset( $this->_meta_attributes[$attr] ) ) {
                 $value = $this->_meta_attributes[$attr];
                 if ( empty( $value ) && isset( $desc['default'] ) ) {
@@ -225,14 +230,19 @@ class Base extends Helpers {
                 }
                 if ( ! empty($value) ) {
                   if ( isset( $desc['updater'] ) ) {
-                    Helpers::debug("Calling updater!");
+                    Helpers::debug("METASQL:Calling updater! for $attr");
                     call_user_func($desc['updater'],$this, $attr, $value, $desc );
                   } else {
-                    Helpers::debug("No updater set for $attr for value $value");
+                    Helpers::debug("METASQL:No updater set for $attr for value $value");
                     //$meta_keys[] = $wpdb->prepare("%s",$desc['name']);
                     $meta_sql .= $wpdb->prepare( "\tWHEN '{$desc['name']}' THEN %s\n ", $value);
+                    $hits++;
                   }
+                } else {
+                  Helpers::debug("METASQL: The value was empty");
                 }
+              } else {
+                Helpers::debug("METASQL: Not set in this->_meta_attributes");
               }
             }
             $meta_sql .= "
@@ -242,7 +252,11 @@ class Base extends Helpers {
       ";
     }
     if ( is_string($meta_sql)) {
-      $wpdb->query($meta_sql);
+      Helpers::debug("METASQL: is a string!");
+      $ret = $wpdb->query($meta_sql);
+      static::maybe_throw_wp_error( $ret );
+    } else {
+      Helpers::debug("METASQL: was not a string");
     }
   }
   // We need an easier interface to fetching items
@@ -465,8 +479,9 @@ class Base extends Helpers {
     $s = $this->actual_model_settings;
 
     if ( isset( $meta_table[$name] ) ) {
-      if ( isset($meta_table[$name]['getter'])) {
-        $value = call_user_func($desc['getter'], $this, $name, $desc, $filter_value);
+      $desc = $meta_table[$name];
+      if ( isset($desc['getter']) && is_callable( $desc['getter'] )) {
+        $value = call_user_func($desc['getter'], $this, $name, $desc, false);
       }
       if ( isset ( $this->_meta_attributes[$name] ) ) {
         return $this->_meta_attributes[$name];
@@ -821,18 +836,26 @@ class Base extends Helpers {
       }
     }
   }
-  public function update() {
-    $wpdb = static::$adapter;
-    $model_table             = $this->orEq( static::$_model_settings, 'model_table', $wpdb->posts );  
-    $model_table_id          = $this->orEq( static::$_model_settings, 'model_table_id', 'ID' );  
-        
+  public function update( $attrs = null) {
+    Helpers::debug(get_called_class() . "({$this->_actual_model_id}) is beginning an update.");
+    include WCAPIDIR."/_globals.php";
+    include WCAPIDIR."/_model_static_attributes.php";
+    $model_table             = $this->orEq( $self->settings, 'model_table', $wpdb->posts );  
+    $model_table_id          = $this->orEq( $self->settings, 'model_table_id', 'ID' );  
+    Helpers::debug("model_table is $model_table and model_table_id is $model_table_id");
+    if ( $attrs && is_array($attrs) ) {
+      Helpers::debug("attrs where sent, calling fromApiArray");
+      $this->fromApiArray($attrs);
+    }
     $values = array();
-    foreach (static::$_model_attributes_table as $attr => $desc) {
+    foreach ($self->model_attributes_table as $attr => $desc) {
       $value = $this->dynamic_get( $attr, $desc, $this->getModelId());
       $values[] = $wpdb->prepare("`{$desc['name']}` = %s", $value );
     }
     $post_sql = "UPDATE `{$model_table}` SET " . join(',',$values) . " WHERE `{$model_table_id}` = '{$this->_actual_model_id}'";
-    $wpdb->query($post_sql);
+    Helpers::debug("post_sql is $post_sql");
+    $ret = $wpdb->query($post_sql);
+    static::maybe_throw_wp_error($ret);
     $this->saveMetaAttributes();
     $this->saveAssociations();
     return $this;
@@ -852,20 +875,12 @@ class Base extends Helpers {
     }
     if ( count($values) > 0 ) {
       $sql = "INSERT INTO $table (" . join(',',$keys). ") VALUES (" . join(',', $values) . ")";
-      if ( is_array( $where ) ) {
-        $conditions = array();
-        foreach ( $where as $key=>$value ) {
-          if ( $key = $this->databaseAttribute($key) ) {
-            $conditions[] = $wpdb->prepare("`$key` = %s",$value);
-          }
-        }
-        if ( count($conditions) > 0 ) {
-          $sql .= " WHERE " . join(' AND ', $conditions);
-        }
-      } else if ( is_string($where) ) {
-        $sql .= " WHERE " . $where;
-      } 
-      $wpdb->query($sql);
+      $ret = $wpdb->query($sql);
+    }
+  }
+  public static function maybe_throw_wp_error( $val ) {
+    if ( is_wp_error($val) ) {
+      throw new \Exception( get_called_class() . " : " . $val->get_messages() );
     }
   }
   public function delete($table, $where = null, $limit = 1) {
@@ -902,7 +917,8 @@ class Base extends Helpers {
     if ( strpos('WHERE',$sql) === FALSE) {
       throw new \Exception( sprintf(__("you cannot call %s::delete without a WHERE clause, that is highly dangerous!",'WCAPI'), get_called_class()) );
     } else {
-      $wpdb->query($sql);
+      $ret = $wpdb->query($sql);
+      static::maybe_throw_wp_error( $ret );
     }
   }
   public function getTerm($name,$type,$default) {
@@ -927,6 +943,7 @@ class Base extends Helpers {
     ";
 
     $terms = $wpdb->get_results( $sql , 'ARRAY_A');
+    static::maybe_throw_wp_error( $terms );
     $this->{"_$name"} = (isset($terms[0])) ? $terms[0]['slug'] : $default;
     return $this->{"_$name"};
   }

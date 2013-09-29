@@ -7,7 +7,7 @@ $data = array(
   'proc'        => 'get_products',
   'arguments'   => array(
     'token' => $token,
-    'ids' => array(203),
+    'ids' => array(233),
   )
 );
 echo json_encode($data,JSON_PRETTY_PRINT);
@@ -15,7 +15,9 @@ echo json_encode($data,JSON_PRETTY_PRINT);
 $result = curl_post($url,$data);
 echo "Result is: \n\n";
 echo $result;
-echo "\n\n";
+$result = json_decode($result,true);
+$product = $result['payload'][0];
+print_r($product['attributes']);
 die;
 
 echo "Getting next: ";
