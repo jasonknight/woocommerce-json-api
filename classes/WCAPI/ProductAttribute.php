@@ -81,14 +81,23 @@ class ProductAttribute {
 
 		);
 		$new_attrs = array();
+
+
 		foreach ( $fromto as $key=>$nkey) {
-			$new_attrs[$nkey] = $attrs[$key];
+			if ( isset($attrs[$key]) )
+				$new_attrs[$nkey] = $attrs[$key];
 		}
+
+
 		$cat = new Category();
+
+
 		if ( isset( $new_attrs['id']) && !empty($new_attrs['id']) ) {
 			$cat->update($new_attrs);
 		} else {
 			$cat->create($new_attrs);
 		}
-	}
+
+
+	} // end createOrUpdateAttribute
 }
