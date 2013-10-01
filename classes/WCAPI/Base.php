@@ -931,9 +931,9 @@ class Base extends Helpers {
       SELECT 
         t.slug
       FROM
-        wp_terms as t,
-        wp_term_relationships as tr,
-        wp_term_taxonomy as tt
+        {$wpdb->terms} as t,
+        {$wpdb->term_relationships} as tr,
+        {$wpdb->term_taxonomy} as tt
       WHERE
         tt.taxonomy = '$type' AND
         t.term_id = tt.term_id AND
