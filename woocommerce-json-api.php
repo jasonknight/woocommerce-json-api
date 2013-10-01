@@ -29,7 +29,7 @@ function woocommerce_json_api_initialize_plugin() {
   require_once( REDE_PLUGIN_BASE_PATH . '/woocommerce-json-api-actions.php' );
   require_once( plugin_dir_path(__FILE__) . 'woocommerce-json-api-filters.php' );
   require_once( plugin_dir_path(__FILE__) . 'woocommerce-json-api-shortcodes.php' );
-  woocommerce_json_api_template_redirect();
+  //woocommerce_json_api_template_redirect();
 } // end woocommerce_json_api_initialize_plugin
 
 function woocommerce_json_api_activate() {
