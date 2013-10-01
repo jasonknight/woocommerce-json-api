@@ -310,6 +310,16 @@ class WC_JSON_API_Provider_v1 extends JSONAPIHelpers {
             'description' => __('A collection of Product arrays for update/create, to create omit `id`','woocommerce_json_api'),
           ),
         ),
+      'set_coupons'  => array(
+          'payload' => array(
+            'type' => 'array',
+            'values' => null,
+            'default' => null,
+            'required' => true,
+            'sizehint' => 1,
+            'description' => __('A collection of Coupon arrays for update/create, to create omit `id`','woocommerce_json_api'),
+          ),
+        ),
       'set_categories' => null,
       'set_orders' => null,
       'set_store_settings' => null,
@@ -1040,6 +1050,54 @@ class WC_JSON_API_Provider_v1 extends JSONAPIHelpers {
     // We manage the array ourselves, so call setPayload, instead of addPayload
     $this->result->setPayload($coupons);
 
+    return $this->done();
+  }
+  function set_coupons( $params ) {
+    JSONAPIHelpers::debug("set_coupons beginning");
+    $coupons = $this->orEq( $params, 'payload', array() );
+    foreach ( $coupons as &$attrs) {
+      $coupon = null;
+      if (isset($attrs['id'])) {
+        $coupon = API\Coupon::find($attrs['id']);
+      } 
+      if ($coupon && is_object($coupon) && $coupon->isValid()) {
+        $coupon->fromApiArray( $attrs );
+        $coupon->update();
+        $attrs = $coupon->asApiArray();
+      } else {
+        $this->result->addWarning( 
+          __(
+              'Coupon does not exist.',
+              'woocommerce_json_api'
+            ),
+          WCAPI_PRODUCT_NOT_EXISTS, 
+          array( 
+            'id' => isset($attrs['id']) ? $attrs['id'] : 'none',
+          )
+        );
+        // Let's create the coupon if it doesn't exist.
+        JSONAPIHelpers::debug("Creating a new coupon");
+        $coupon = new API\Coupon();
+        $coupon->create( $attrs );
+        if ( ! $coupon->isValid() ) {
+          JSONAPIHelpers::debug("Coupon is not valid!");
+          $this->result->addWarning( 
+          __(
+              'Failed to create coupon!',
+              'woocommerce_json_api'
+            ),
+          WCAPI_CANNOT_INSERT_RECORD, 
+          array( 
+            'code' => isset($attrs['code']) ? $attrs['code'] : 'none',
+          )
+        );
+          return $this->done();
+        }
+        $attrs = $coupon->asApiArray();
+      }
+    }
+    $this->result->setPayload( $coupons );
+    JSONAPIHelpers::debug("set_coupons done.");
     return $this->done();
   }
    public function get_images( $params ) {

@@ -248,32 +248,6 @@ class Coupon extends Base{
     self::$_model_attributes_table = self::getModelAttributes();
   }
   
-  public function asApiArray() {
-    include WCAPIDIR."/_globals.php";
-    // $category_objs = woocommerce_get_product_terms($this->_actual_model_id, 'product_cat', 'all');
-    // $categories = array();
-
-    // foreach ( $category_objs as $cobj ) {
-    //   // This looks scary if you've never used Javascript () evaluates the
-    //   // the contents and returns the value, in the same way that (3+4) * 8 
-    //   // works. Because we define the class with a Fluid API, most functions
-    //   // that modify state of the object, return the object.
-    //   try {
-    //     $_cat = new Category();
-    //     $categories[] = $_cat->setCategory( $cobj )->asApiArray();
-    //   } catch (Exception $e) {
-    //     // we should put some logging here soon!
-    //     JSONAPIHelpers::error( $e->getMessage() );
-    //   }
-      
-    // }
-    $attributes_to_send = parent::asApiArray();
-    $attributes_to_send['categories'] = $this->categories;
-    $attributes_to_send['tags'] = $this->tags;//wp_get_post_terms($this->_actual_model_id,'product_tag');
-    $feat_image = wp_get_attachment_url( get_post_thumbnail_id( $this->_actual_model_id) );
-    $attributes_to_send['featured_image'] = $feat_image;
-    return $attributes_to_send;
-  }
 
   public static function find_by_sku( $sku ) {
     include WCAPIDIR."/_globals.php";

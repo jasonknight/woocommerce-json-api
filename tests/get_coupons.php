@@ -7,7 +7,7 @@ $data = array(
   'proc'        => 'get_coupons',
   'arguments'   => array(
     'token' => $token,
-    'per_page' => 2,
+    'per_page' => 5,
     'page'     => 1
   )
 );
@@ -15,4 +15,5 @@ $result = curl_post($url,$data);
 echo $result;
 verifySuccess("Get Coupons",$result);
 verifyNonZeroPayload("Get Coupons", $result);
+
 
