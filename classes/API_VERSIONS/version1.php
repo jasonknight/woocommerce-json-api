@@ -84,6 +84,65 @@ class WC_JSON_API_Provider_v1 extends JSONAPIHelpers {
         ),
 
       ),
+      'get_products_from_trash' => array(
+        'order_by' => array(
+          'type' => 'string',
+          'values' => array('ID','post_title','post_date','post_author','post_modified','woocommerce_json_api'),
+          'default' => "ID",
+          'required' => false,
+          'sizehint' => 1,
+          'description' => __('What column to order results by','woocommerce_json_api'),
+        ),
+        'order' => array(
+          'type' => 'number',
+          'values' => array('ASC','DESC'),
+          'default' => 'ASC',
+          'required' => false,
+          'sizehint' => 1,
+          'description' => __('What order to show the results in','woocommerce_json_api'),
+        ),
+        'page' => array(
+          'type' => 'number',
+          'values' => null,
+          'default' => 1,
+          'required' => false,
+          'sizehint' => 1,
+          'description' => __('What page to show.','woocommerce_json_api'),
+        ),
+        'per_page' => array(
+          'type' => 'number',
+          'values' => null,
+          'default' => 15,
+          'sizehint' => 1,
+          'required' => false,
+          'description' => __('How many results to show','woocommerce_json_api'),
+        ),
+        'ids' => array(
+          'type' => 'array',
+          'values' => null,
+          'default' => null,
+          'required' => false,
+          'sizehint' => 10,
+          'description' => __('An array of IDs to use as a filter','woocommerce_json_api'),
+        ),
+        'skus' => array(
+          'type' => 'array',
+          'values' => null,
+          'default' => null,
+          'required' => false,
+          'sizehint' => 10,
+          'description' => __('An array of SKUs to use as a filter','woocommerce_json_api'),
+        ),
+        'parent_ids' => array(
+          'type' => 'array',
+          'values' => null,
+          'default' => null,
+          'required' => false,
+          'sizehint' => 10,
+          'description' => __('An array of parent IDs to use as a filter','woocommerce_json_api'),
+        ),
+
+      ),
       'get_categories' => array(
         'order_by' => array(
           'type' => 'string',
@@ -251,6 +310,32 @@ class WC_JSON_API_Provider_v1 extends JSONAPIHelpers {
           ),
         ),
       'get_orders' => array(
+          'page' => array(
+            'type' => 'number',
+            'values' => null,
+            'default' => 1,
+            'required' => false,
+            'sizehint' => 1,
+            'description' => __('What page to show.','woocommerce_json_api'),
+          ),
+          'per_page' => array(
+            'type' => 'number',
+            'values' => null,
+            'default' => 15,
+            'required' => false,
+            'sizehint' => 1,
+            'description' => __('How many results to show','woocommerce_json_api'),
+          ),
+          'ids' => array(
+            'type' => 'array',
+            'values' => null,
+            'default' => null,
+            'required' => false,
+            'sizehint' => 1,
+            'description' => __('An array of IDs to use as a filter','woocommerce_json_api'),
+          ),
+        ),
+      'get_orders_from_trash' => array(
           'page' => array(
             'type' => 'number',
             'values' => null,
@@ -456,6 +541,110 @@ class WC_JSON_API_Provider_v1 extends JSONAPIHelpers {
 
     return $this->done();
   }
+
+  public function get_products_from_trash( $params ) {
+    global $wpdb;
+    $allowed_order_bys = array('ID','post_title','post_date','post_author','post_modified');
+    /**
+    *  Read this section to get familiar with the arguments of this method.
+    */
+    $posts_per_page = $this->orEq( $params['arguments'], 'per_page', 15 ); 
+    $paged          = $this->orEq( $params['arguments'], 'page', 0 );
+    $order_by       = $this->orEq( $params['arguments'], 'order_by', 'ID');
+    $order          = $this->orEq( $params['arguments'], 'order', 'ASC');
+    $ids            = $this->orEq( $params['arguments'], 'ids', false);
+    $parent_ids     = $this->orEq( $params['arguments'], 'parent_ids', false);
+    $skus           = $this->orEq( $params['arguments'], 'skus', false);
+    
+    $by_ids = true;
+    if ( ! $this->inArray($order_by,$allowed_order_bys) ) {
+      $this->result->addError( __('order_by must be one of these:','woocommerce_json_api') . join( $allowed_order_bys, ','), WCAPI_BAD_ARGUMENT );
+      return $this->done();
+      return;
+    }
+    if ( ! $ids && ! $skus ) {
+        if ($parent_ids) {
+          $args = array(
+            'posts_per_page' => $posts_per_page,
+            'paged' => $paged,
+            'fields' => 'ids',
+            'post_type' => array('product','product_variation'),
+            'post_status' => 'trash',
+            'post_parent' => $parent_ids,
+           );
+           $ids = get_posts($args);
+           goto set_ids;
+          // $posts = API\Product::all('id', "`post_parent` IN (" . join(",",$parent_ids) . ") AND post_status='trash'")->per($posts_per_page)->page($paged)->fetch(function ( $result) {
+          //   return $result['id'];
+          // });
+        } else {
+          // $posts = API\Product::all()->per($posts_per_page)->page($paged)->fetch(function ( $result) {
+          //   return $result['id'];
+          // });
+          $args = array(
+            'posts_per_page' => $posts_per_page,
+            'paged' => $paged,
+            'fields' => 'ids',
+            'post_type' => array('product','product_variation'),
+            'post_status' => 'trash',
+           );
+           $ids = get_posts($args);
+           goto set_ids;
+        }
+        
+      //JSONAPIHelpers::debug( "IDs from all() are: " . var_export($posts,true) );
+    } else if ( $ids ) {
+      $args = array(
+        'posts_per_page' => $posts_per_page,
+        'paged' => $paged,
+        'fields' => 'ids',
+        'post_type' => array('product','product_variation'),
+        'post_status' => 'trash',
+        'include' => $ids,
+      );
+      $ids = get_posts($args);
+      set_ids:
+      $posts = $ids;
+      
+    } else if ( $skus ) {
+      $ids = array();
+      foreach ($skus as $sku) {
+        $pid = $wpdb->get_var( $wpdb->prepare( "SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key='_sku' AND meta_value='%s' LIMIT 1",$sku) );
+        if ( ! $pid ) {
+          $this->result->addWarning( $sku . ': ' . __('Product does not exist','woocommerce_json_api'), WCAPI_PRODUCT_NOT_EXISTS, array( 'sku' => $sku) );
+        } else {
+          $ids[] = $pid;
+        }
+      }
+      $args = array(
+        'posts_per_page' => $posts_per_page,
+        'paged' => $paged,
+        'fields' => 'ids',
+        'post_type' => array('product','product_variation'),
+        'post_status' => 'trash',
+        'include' => $ids,
+      );
+      $posts = get_posts($args);
+    }
+
+    $products = array();
+    foreach ( $posts as $post_id) {
+      $post = API\Product::find($post_id);
+
+      if ( !$post ) {
+        $this->result->addWarning( $post_id. ': ' . __('Product does not exist','woocommerce_json_api'), WCAPI_PRODUCT_NOT_EXISTS, array( 'id' => $post_id) );
+      } else {
+
+        $products[] = $post->asApiArray();
+      }
+      
+    }
+    // We manage the array ourselves, so call setPayload, instead of addPayload
+    $this->result->setPayload($products);
+
+    return $this->done();
+  }
+
   public function get_supported_attributes( $params ) {
     $accepted_resources = array('Product','ProductAttribute','Category','Comment','Order','OrderItem','OrderTaxItem','OrderCouponItem','Customer','Coupon','Review','Image');
     $models = $this->orEq( $params['arguments'], 'resources', $accepted_resources);
@@ -830,6 +1019,57 @@ class WC_JSON_API_Provider_v1 extends JSONAPIHelpers {
     } else if ( $ids ) {
     
       $posts = $ids;
+      $orders = array();
+      foreach ( $posts as $post_id) {
+        try {
+          $post = API\Order::find($post_id);
+        } catch (Exception $e) {
+          JSONAPIHelpers::error("An exception occurred attempting to instantiate a Order object: " . $e->getMessage());
+          $this->result->addError( __("Error occurred instantiating Order object"),-99);
+          return $this->done();
+        }
+        
+        if ( !$post ) {
+          $this->result->addWarning( $post_id. ': ' . __('Order does not exist','woocommerce_json_api'), WCAPI_ORDER_NOT_EXISTS, array( 'id' => $post_id) );
+        } else {
+          $orders[] = $post->asApiArray();
+        }
+        
+      }
+    }
+    
+    $this->result->setPayload($orders);
+    return $this->done();
+  }
+  public function get_orders_from_trash( $params ) {
+    $posts_per_page = $this->orEq( $params['arguments'], 'per_page', 15 ); 
+    $paged          = $this->orEq( $params['arguments'], 'page', 0 );
+    $ids            = $this->orEq( $params['arguments'], 'ids', false);
+
+    if ( ! $ids ) {
+       $args = array(
+        'posts_per_page' => $posts_per_page,
+        'paged' => $paged,
+        'fields' => 'ids',
+        'post_type' => 'shop_order',
+        'post_status' => 'trash',
+       );
+       $ids = get_posts($args);
+       goto fetch;
+      // $models = API\Order::all("*")->per($posts_per_page)->page($paged)->fetch();
+      // foreach ( $models as $model ) {
+      //   $orders[] = $model->asApiArray();
+      // }
+    } else if ( $ids ) {
+      fetch:
+      //$posts = $ids;
+      $joined_ids = join( ',', array_map($ids,function ($id) { return "'$id'"; } ) );
+
+      $sql = "SELECT ID FROM {$wpdb->posts} WHERE `post_type` IN ('shop_order') AND `post_status` = 'trash' AND `ID` IN ($joined_ids)";
+      $posts = $wpdb->get_col($sql);
+      if ( is_wp_error( $posts ) ) {
+        throw new Exception( $posts->get_messages() );
+      }
       $orders = array();
       foreach ( $posts as $post_id) {
         try {

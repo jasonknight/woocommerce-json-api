@@ -24,13 +24,19 @@
   }
 
 </style>
-
+<?php 
+  $cans = array();
+ ?>
 <table class="woocommerce-json-api-table" width="600px" align="center">
   <tr>
     <th colspan="2"><h3><?php echo $attrs['json_api_settings']['title']; ?></h3></th>
   </tr>
 <?php
   foreach ($attrs['json_api_settings']['fields'] as $value) {
+    if ( strpos($value['id'],'json_api_can') !== false) {
+      $cans[] = $value;
+      continue;
+    }
     ?>
       <tr>
         <td width="200px" valign="top">
@@ -51,4 +57,32 @@
     <?php
   }
 ?>
+<tr>
+  <td colspan="2">
+    <table width="100%">
+<?php
+  foreach ($cans as $value) {
+    ?>
+      <tr>
+        <td width="80%" valign="top">
+          <?php echo $helpers->labelTag($value) ?>
+        </td>
+        <td>
+         <?php 
+            if ( $helpers->orEq($value,'type','') == 'text') { 
+              echo $helpers->inputTag( $value ); 
+            } else if ( $helpers->orEq($value,'type','') == 'textarea' ) {
+              echo $helpers->textAreaTag( $value ); 
+            }  else if ( $helpers->orEq($value,'type','') == 'select' ) {
+              echo $helpers->selectTag( $value ); 
+            }
+         ?> 
+        </td>
+      </tr>
+    <?php
+  }
+?>      
+    </table>
+  </td>
+</tr>
 </table>

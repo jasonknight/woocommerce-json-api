@@ -11,43 +11,34 @@
  * @param $user the user
 */
 require_once( plugin_dir_path(__FILE__) . 'classes/class-wc-json-api.php' );
-function woocommerce_json_api_show_user_profile( $user ) {
+function woocommerce_json_api_get_api_settings_array($user_id,$default_token='',$default_ips='') {
   $helpers = new JSONAPIHelpers();
-  // We use PluginPrefic, which is just the plugin name
-  // with - replaced with _, easier to type and more
-  // extensible. 
   $key = $helpers->getPluginPrefix() . '_settings';
-  $meta = maybe_unserialize( get_user_meta( $user->ID, $key, true ) );
-  /*
-    The general format at this point should be something like this:
-    {
-      'token': 1234blahblah
-    }
-  */
+  $meta = maybe_unserialize( get_user_meta( $user_id, $key, true ) );
   $attrs = array (
-	  'json_api_settings' => array(
-		  'title' => __( 'WooCommerce JSON API Settings', 'woocommerce_json_api' ),
-		  'fields' => array(
-		      array(
-		        'name'          => $helpers->getPluginPrefix() . '_settings[token]',
-		        'id'            => 'json_api_token_id',
-		        'value'         => $helpers->orEq($meta,'token',''),
-		        'type'          => 'text',
-				    'label'         => __( 'API Token', 'woocommerce_json_api' ),
-				    'description'   => __('A large string of letters and numbers, mixed case, that will be used to authenticate requests', 'woocommerce_json_api' )
-			    ),
-			    array(
-		        'name'          => $helpers->getPluginPrefix() . '_settings[ips_allowed]',
-		        'id'            => 'json_api_ips_allowed_id',
-		        'value'         => $helpers->orEq($meta,'ips_allowed',''),
-		        'type'          => 'textarea',
-				    'label'         => __( 'IPs Allowed', 'woocommerce_json_api' ),
-				    'description'   => __('What ips are permitted to connect with this user...', 'woocommerce_json_api' )
-			    ),
-		  ),
-	  ),
-	);
-  // Here we implement some permissions, a simple yes/no.
+    'json_api_settings' => array(
+      'title' => __( 'WooCommerce JSON API Settings', 'woocommerce_json_api' ),
+      'fields' => array(
+          array(
+            'name'          => $helpers->getPluginPrefix() . '_settings[token]',
+            'id'            => 'json_api_token_id',
+            'value'         => $helpers->orEq($meta,'token',$default_token),
+            'type'          => 'text',
+            'label'         => __( 'API Token', 'woocommerce_json_api' ),
+            'description'   => __('A large string of letters and numbers, mixed case, that will be used to authenticate requests', 'woocommerce_json_api' )
+          ),
+          array(
+            'name'          => $helpers->getPluginPrefix() . '_settings[ips_allowed]',
+            'id'            => 'json_api_ips_allowed_id',
+            'value'         => $helpers->orEq($meta,'ips_allowed',$default_ips),
+            'type'          => 'textarea',
+            'label'         => __( 'IPs Allowed', 'woocommerce_json_api' ),
+            'description'   => __('What ips are permitted to connect with this user...', 'woocommerce_json_api' )
+          ),
+      ),
+    ),
+  );
+    // Here we implement some permissions, a simple yes/no.
     $method = 'access_the_api';
     $field = array(
       'name'          => $helpers->getPluginPrefix() . '_settings[can_' . $method . ']',
@@ -63,10 +54,15 @@ function woocommerce_json_api_show_user_profile( $user ) {
     );
     $attrs['json_api_settings']['fields'][] = $field;
   foreach (WooCommerce_JSON_API::getImplementedMethods() as $method) {
+    if ( strpos($method,'set_') !== false ) {
+      $default_value = 'no';
+    } else {
+      $default_value = 'yes';
+    }
     $field = array(
       'name'          => $helpers->getPluginPrefix() . '_settings[can_' . $method . ']',
       'id'            => 'json_api_can_' . $method . '_id',
-      'value'         => $helpers->orEq($meta,'can_' . $method, 'yes'),
+      'value'         => $helpers->orEq($meta,'can_' . $method, $default_value),
       'type'          => 'select',
       'options'       => array(
           array( 'value' => 'yes', 'content' => __('Yes','woocommerce_json_api') ),
@@ -79,6 +75,22 @@ function woocommerce_json_api_show_user_profile( $user ) {
   }
 
   $attrs = apply_filters('woocommerce_json_api_settings_fields', $attrs);
+  return $attrs;
+}
+function woocommerce_json_api_show_user_profile( $user ) {
+  $helpers = new JSONAPIHelpers();
+  // We use PluginPrefic, which is just the plugin name
+  // with - replaced with _, easier to type and more
+  // extensible. 
+  $key = $helpers->getPluginPrefix() . '_settings';
+  $meta = maybe_unserialize( get_user_meta( $user->ID, $key, true ) );
+  /*
+    The general format at this point should be something like this:
+    {
+      'token': 1234blahblah
+    }
+  */
+  $attrs = woocommerce_json_api_get_api_settings_array( $user->ID );
                                                                               // The second argument puts this var in scope, similar to a
                                                                               // "binding" in Ruby
   $content = $helpers->renderTemplate( 'user-fields.php', array( 'attrs' => $attrs) );
@@ -197,16 +209,20 @@ function woocommerce_json_api_settings_page() {
     foreach ($params[$key] as $key2=>$value) {
       update_option($helpers->getPluginPrefix() . '_' . $key2, maybe_serialize($value));
     }
+    $key = $helpers->getPluginPrefix() . '_default_permissions';
+    if ( isset( $params[$key] ) ) {
+      update_option($key,$params[$key]);
+    }
     
   }
   
   
-  $json_api_slug = get_option( $helpers->getPluginPrefix() . '_slug' );
-  $pages = get_pages( array('post_type' => 'page') );
-  $options = array();
-  foreach ( $pages as $page ) {
-    $options[] = array('value' => $page->post_name, 'content' => $page->post_title);
-  }
+  //$json_api_slug = get_option( $helpers->getPluginPrefix() . '_slug' );
+  // $pages = get_pages( array('post_type' => 'page') );
+  // $options = array();
+  // foreach ( $pages as $page ) {
+  //   $options[] = array('value' => $page->post_name, 'content' => $page->post_title);
+  // }
   $attrs = array (
 	  'json_api_sitewide_settings' => array(
 		  'title' => __( 'WooCommerce JSON API Settings', 'woocommerce_json_api' ),
@@ -234,13 +250,64 @@ function woocommerce_json_api_settings_page() {
             'type'          => 'select',
             'label'         => __( 'Require HTTPS', 'woocommerce_json_api' ),
             'description'   => __('Only serve HTTPS requests?', 'woocommerce_json_api' ),
+          ),
+          array(
+            'name'          => $helpers->getPluginPrefix() . '_sitewide_settings[auto_generate_token]',
+            'id'            => 'json_api_auto_generate_token',
+            'value'         => get_option( $helpers->getPluginPrefix() . '_auto_generate_token' ),
+            'options'       => array(
+                array( 'value' => 'yes', 'content' => __('Yes','woocommerce_json_api')),
+                array( 'value' => 'no', 'content' => __('No','woocommerce_json_api')),
+            ),
+            'type'          => 'select',
+            'label'         => __( 'Automatically Generate Token', 'woocommerce_json_api' ),
+            'description'   => __('Generate a token automatically when a user is registered?', 'woocommerce_json_api' ),
           )
 		  ),
 	  ),
 	);
+  // Here we implement some permissions, a simple yes/no.
+    $meta = get_option( $helpers->getPluginPrefix() . '_default_permissions' );
+    if ( ! is_array( $meta ) ) {
+      $meta = array();
+    }
+    $method = 'access_the_api';
+    $field = array(
+      'name'          => $helpers->getPluginPrefix() . '_default_permissions[can_' . $method . ']',
+      'id'            => 'json_api_can_' . $method . '_id',
+      'value'         => $helpers->orEq($meta,'can_' . $method, 'yes'),
+      'type'          => 'select',
+      'options'       => array(
+          array( 'value' => 'yes', 'content' => __('Yes','woocommerce_json_api') ),
+          array( 'value' => 'no', 'content' => __('No','woocommerce_json_api') ),
+        ),
+      'label'         => __( 'Default Can access ', 'woocommerce_json_api' ) . ucwords(str_replace('_',' ', $method)),
+      'description'   => __('Whether or not this user can access this method', 'woocommerce_json_api' )
+    );
+    $attrs['json_api_sitewide_settings']['fields'][] = $field;
+    foreach (WooCommerce_JSON_API::getImplementedMethods() as $method) {
+      if ( strpos($method,'set_') !== false ) {
+        $default_value = 'no';
+      } else {
+        $default_value = 'yes';
+      }
+      $field = array(
+        'name'          => $helpers->getPluginPrefix() . '_default_permissions[can_' . $method . ']',
+        'id'            => 'json_api_can_' . $method . '_id',
+        'value'         => $helpers->orEq($meta,'can_' . $method, $default_value),
+        'type'          => 'select',
+        'options'       => array(
+            array( 'value' => 'yes', 'content' => __('Yes','woocommerce_json_api') ),
+            array( 'value' => 'no', 'content' => __('No','woocommerce_json_api') ),
+          ),
+        'label'         => __( 'Default Can access ', 'woocommerce_json_api' ) . ucwords(str_replace('_',' ', $method)),
+        'description'   => __('Whether or not this user can access this method', 'woocommerce_json_api' )
+      );
+      $attrs['json_api_sitewide_settings']['fields'][] = $field;
+    }
   $attrs = apply_filters('woocommerce_json_api_sitewide_settings_fields', $attrs);
   
-  echo $helpers->renderTemplate('admin-settings-page.php', array( 'attrs' => $attrs, 'json_api_slug' => $json_api_slug) );
+  echo $helpers->renderTemplate('admin-settings-page.php', array( 'attrs' => $attrs) );
 }
 
 function woocommerce_json_api_parse_headers() {

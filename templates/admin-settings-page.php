@@ -39,7 +39,7 @@
   foreach ($attrs['json_api_sitewide_settings']['fields'] as $value) {
     ?>
       <tr>
-        <td width="200px" valign="top">
+        <td width="80%" valign="top">
           <?php echo $helpers->labelTag($value) ?>
         </td>
         <td>

@@ -61,6 +61,8 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
       'get_products_by_tags',
       'get_customers',
       'get_orders', // New Method
+      'get_orders_from_trash',
+      'get_products_from_trash',
       'get_store_settings',
       'get_site_settings',
       'get_api_methods',
