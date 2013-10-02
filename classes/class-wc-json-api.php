@@ -3,18 +3,19 @@
  * Core JSON API
 */
 // Error Codes are negative, Warning codes are positive
-define('WCAPI_EXPECTED_ARGUMENT',             -1);
-define('WCAPI_NOT_IMPLEMENTED',               -2);
-define('WCAPI_UNEXPECTED_ERROR',              -3);
-define('WCAPI_INVALID_CREDENTIALS',           -4);
-define('WCAPI_BAD_ARGUMENT',                  -5);
-define('WCAPI_CANNOT_INSERT_RECORD',          -6);
-define('WCAPI_PERMSNOTSET',                   -7);
-define('WCAPI_PERMSINSUFF',                   -8);
-define('WCAPI_INTERNAL_ERROR',                -9);
+define('JSONAPI_EXPECTED_ARGUMENT',             -1);
+define('JSONAPI_NOT_IMPLEMENTED',               -2);
+define('JSONAPI_UNEXPECTED_ERROR',              -3);
+define('JSONAPI_INVALID_CREDENTIALS',           -4);
+define('JSONAPI_BAD_ARGUMENT',                  -5);
+define('JSONAPI_CANNOT_INSERT_RECORD',          -6);
+define('JSONAPI_PERMSNOTSET',                   -7);
+define('JSONAPI_PERMSINSUFF',                   -8);
+define('JSONAPI_INTERNAL_ERROR',                -9);
 
-define('WCAPI_PRODUCT_NOT_EXISTS', 1);
-define('WCAPI_ORDER_NOT_EXISTS', 2);
+define('JSONAPI_PRODUCT_NOT_EXISTS', 1);
+define('JSONAPI_ORDER_NOT_EXISTS', 2);
+define('JSONAPI_NO_RESULTS_POSSIBLE', 3);
 
 require_once( plugin_dir_path(__FILE__) . '/class-rede-helpers.php' );
 require_once( plugin_dir_path(__FILE__) . '/class-wc-json-api-result.php' );
@@ -178,7 +179,7 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
 
       $this->result->addError( 
         __('Not a valid API User', 'woocommerce_json_api' ), 
-        WCAPI_INVALID_CREDENTIALS 
+        JSONAPI_INVALID_CREDENTIALS 
       );
       return $this->done();
 
@@ -215,7 +216,7 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
       return true;
     }
     if ( ! isset($params['arguments']) ) {
-      $this->result->addError( __( 'Missing `arguments` key','woocommerce_json_api' ),WCAPI_EXPECTED_ARGUMENT );
+      $this->result->addError( __( 'Missing `arguments` key','woocommerce_json_api' ),JSONAPI_EXPECTED_ARGUMENT );
       return false;
     }
     $by_token = true;
@@ -229,7 +230,7 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
         $by_token = false;
 
       } else {
-        $this->result->addError( __( 'Missing `token` in `arguments`','woocommerce_json_api' ),WCAPI_EXPECTED_ARGUMENT );
+        $this->result->addError( __( 'Missing `token` in `arguments`','woocommerce_json_api' ),JSONAPI_EXPECTED_ARGUMENT );
         return false;
       }
       
@@ -244,7 +245,7 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
         
         if ( is_a($user,'WP_Error') ) {
           foreach( $user->get_error_messages() as $msg) {
-            $this->result->addError( $msg ,WCAPI_INTERNAL_ERROR );
+            $this->result->addError( $msg ,JSONAPI_INTERNAL_ERROR );
           }
           return false;
         }
@@ -274,19 +275,19 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
           !isset($meta[ 'can_access_the_api' ])
         ) {
 
-          $this->result->addError( __( 'Permissions for this user have not been set','woocommerce_json_api' ),WCAPI_PERMSNOTSET );
+          $this->result->addError( __( 'Permissions for this user have not been set','woocommerce_json_api' ),JSONAPI_PERMSNOTSET );
           return false;
 
         }
         if ( $meta[ 'can_access_the_api' ] == 'no' ) {
 
-          $this->result->addError( __( 'You have been banned.','woocommerce_json_api' ), WCAPI_PERMSINSUFF );
+          $this->result->addError( __( 'You have been banned.','woocommerce_json_api' ), JSONAPI_PERMSINSUFF );
           
           return false;
         }
         if ( $meta[ 'can_' . $params['proc'] ] == 'no' ) {
 
-          $this->result->addError( __( 'You do not have sufficient permissions.','woocommerce_json_api' ), WCAPI_PERMSINSUFF );
+          $this->result->addError( __( 'You do not have sufficient permissions.','woocommerce_json_api' ), JSONAPI_PERMSINSUFF );
           
           return false;
 
@@ -326,7 +327,7 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
     }
     $this->result->addError( 
       sprintf( __('An unexpected error has occured %s ', 'woocommerce_json_api' ) ,$error->getMessage() ), 
-      WCAPI_UNEXPECTED_ERROR,
+      JSONAPI_UNEXPECTED_ERROR,
       array('trace' => $trace)
     );
 
@@ -368,13 +369,13 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
 
       $this->result->addError( 
           __('Expected argument was not present', 'woocommerce_json_api') . ' `proc`',
-           WCAPI_EXPECTED_ARGUMENT 
+           JSONAPI_EXPECTED_ARGUMENT 
       );
     }
 
     $this->result->addError( 
       __('That API method has not been implemented', 'woocommerce_json_api' ), 
-      WCAPI_NOT_IMPLEMENTED 
+      JSONAPI_NOT_IMPLEMENTED 
     );
 
     return $this->done();
