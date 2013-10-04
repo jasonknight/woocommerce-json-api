@@ -172,6 +172,18 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
 
     $this->createNewResult( $params );
 
+    // Now we need to allow for people to add dynamic
+    // filters to the models.
+    if ( isset( $params['model_filters'] ) ) {
+      
+      foreach ( $params['model_filters'] as $filter_text=>$filter ) {
+        $callback = function ($table) use ($filter) {
+            return array_merge($table,$filter);
+        };
+        add_filter($filter_text, $callback );
+      }
+    }
+
     JSONAPIHelpers::debug( "Beggining request" );
     JSONAPIHelpers::debug( var_export($params,true));
 

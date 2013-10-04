@@ -8,8 +8,24 @@ $data = array(
   'arguments'   => array(
     'username' => 'admin',
     'password' => 'nimda',
-    'ids' => array(233),
-  )
+    'ids' => array(294),
+  ),
+  'model_filters' => array(
+
+    'WCAPI_product_meta_attributes_table' => array(
+    	'size_attribute' => array(
+		   'name' => 'attribute_size',          
+		   'type' => 'string', 
+		   'values' => array(
+		    'small',
+		    'medium',
+		    'large',
+		   ),
+		   'sizehint' => 2
+		 ),
+    )
+
+  ),
 );
 echo json_encode($data,JSON_PRETTY_PRINT);
 

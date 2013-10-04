@@ -190,7 +190,7 @@ class Coupon extends Base{
       ),
       'customer_email' => array(
         'name' => 'customer_email',
-        'type' => 'number', 
+        'type' => 'array', 
         'sizehint' => 1,
       ),
     );

@@ -1,939 +1,53 @@
-[0;34m   *----------------------------------------------------*   [0m
-[0;34m                      Writing Products                      [0m
-[0;34m   *----------------------------------------------------*   [0m
 {
-    "action": "woocommerce_json_api",
-    "proc": "set_products",
-    "arguments": {
-        "token": "1234",
-        "per_page": 2,
-        "page": 1
-    },
-    "status": true,
-    "errors": [
-
-    ],
-    "warnings": [
-
-    ],
-    "notifications": [
-
-    ],
-    "payload": [
-        {
-            "id": "29",
-            "name": "Api created product 55 I edited it I edited it I edited it I edited it",
-            "slug": "api-created-product",
-            "type": "product",
-            "description": "A test description",
-            "short_description": "",
-            "parent_id": "0",
-            "publishing": "publish",
-            "sku": "T1",
-            "downloadable": "no",
-            "visibility": "visible",
-            "virtual": "no",
-            "manage_stock": "no",
-            "sold_individually": "no",
-            "featured": "no",
-            "allow_backorders": "no",
-            "quantity": "",
-            "height": "",
-            "weight": "",
-            "length": "",
-            "price": 7142.4,
-            "regular_price": "3571.2",
-            "sale_price": "",
-            "sale_from": "",
-            "sale_to": "",
-            "status": "instock",
-            "attributes": {
-                "color": {
-                    "name": "Color",
-                    "value": [
-                        "1",
-                        "2",
-                        "3"
-                    ],
-                    "position": "3",
-                    "is_visible": "yes",
-                    "is_variation": "no",
-                    "is_taxonomy": "no"
-                }
-            },
-            "tax_class": "",
-            "tax_status": "none",
-            "product_type": "simple",
-            "categories": [
-                {
-                    "id": "13",
-                    "name": "My New Appliances",
-                    "slug": "test-product-category",
-                    "group_id": "0",
-                    "description": "",
-                    "parent_id": "0",
-                    "count": "2",
-                    "taxonomy": "product_cat",
-                    "taxonomy_id": "13"
-                },
-                {
-                    "id": "63",
-                    "name": "This-is-an-api-category 30841",
-                    "slug": "this-is-a-category-30841",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "3",
-                    "taxonomy": "product_cat",
-                    "taxonomy_id": "26"
-                },
-                {
-                    "id": "65",
-                    "name": "This-is-an-api-category 56679",
-                    "slug": "this-is-a-category-56679",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "2",
-                    "taxonomy": "product_cat",
-                    "taxonomy_id": "28"
-                },
-                {
-                    "id": "67",
-                    "name": "This-is-an-api-category 57230",
-                    "slug": "this-is-a-category-57230",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_cat",
-                    "taxonomy_id": "30"
-                },
-                {
-                    "id": "69",
-                    "name": "This-is-an-api-category 31082",
-                    "slug": "this-is-a-category-31082",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_cat",
-                    "taxonomy_id": "32"
-                },
-                {
-                    "id": "71",
-                    "name": "This-is-an-api-category 97277",
-                    "slug": "this-is-a-category-97277",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_cat",
-                    "taxonomy_id": "34"
-                },
-                {
-                    "id": "73",
-                    "name": "This-is-an-api-category 83541",
-                    "slug": "this-is-a-category-83541",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "2",
-                    "taxonomy": "product_cat",
-                    "taxonomy_id": "36"
-                },
-                {
-                    "id": "75",
-                    "name": "This-is-an-api-category 89165",
-                    "slug": "this-is-a-category-89165",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_cat",
-                    "taxonomy_id": "38"
-                },
-                {
-                    "id": "77",
-                    "name": "This-is-an-api-category 20560",
-                    "slug": "this-is-a-category-20560",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "3",
-                    "taxonomy": "product_cat",
-                    "taxonomy_id": "40"
-                },
-                {
-                    "id": "79",
-                    "name": "This-is-an-api-category 7120",
-                    "slug": "this-is-a-category-7120",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_cat",
-                    "taxonomy_id": "42"
-                },
-                {
-                    "id": "81",
-                    "name": "This-is-an-api-category 38963",
-                    "slug": "this-is-a-category-38963",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_cat",
-                    "taxonomy_id": "44"
-                },
-                {
-                    "id": "83",
-                    "name": "This-is-an-api-category 98138",
-                    "slug": "this-is-a-category-98138",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_cat",
-                    "taxonomy_id": "46"
-                },
-                {
-                    "id": "85",
-                    "name": "This-is-an-api-category 80885",
-                    "slug": "this-is-a-category-80885",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_cat",
-                    "taxonomy_id": "48"
-                },
-                {
-                    "id": "89",
-                    "name": "This-is-an-api-category 37038",
-                    "slug": "this-is-a-category-37038",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_cat",
-                    "taxonomy_id": "51"
-                },
-                {
-                    "id": "91",
-                    "name": "This-is-an-api-category 49011",
-                    "slug": "this-is-a-category-49011",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_cat",
-                    "taxonomy_id": "53"
-                },
-                {
-                    "id": "93",
-                    "name": "This-is-an-api-category 58146",
-                    "slug": "this-is-a-category-58146",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_cat",
-                    "taxonomy_id": "55"
-                },
-                {
-                    "id": "95",
-                    "name": "This-is-an-api-category 80214",
-                    "slug": "this-is-a-category-80214",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_cat",
-                    "taxonomy_id": "57"
-                },
-                {
-                    "id": "97",
-                    "name": "This-is-an-api-category 9658",
-                    "slug": "this-is-a-category-9658",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_cat",
-                    "taxonomy_id": "59"
-                },
-                {
-                    "id": "99",
-                    "name": "This-is-an-api-category 25707",
-                    "slug": "this-is-a-category-25707",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_cat",
-                    "taxonomy_id": "61"
-                },
-                {
-                    "id": "101",
-                    "name": "This-is-an-api-category 83145",
-                    "slug": "this-is-a-category-83145",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_cat",
-                    "taxonomy_id": "63"
-                },
-                {
-                    "id": "103",
-                    "name": "This-is-an-api-category 37624",
-                    "slug": "this-is-a-category-37624",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_cat",
-                    "taxonomy_id": "65"
-                },
-                {
-                    "id": "105",
-                    "name": "This-is-an-api-category 90909",
-                    "slug": "this-is-a-category-90909",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_cat",
-                    "taxonomy_id": "67"
-                },
-                {
-                    "id": "110",
-                    "name": "This-is-an-api-category 19712",
-                    "slug": "this-is-a-category-19712",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_cat",
-                    "taxonomy_id": "72"
-                },
-                {
-                    "id": "112",
-                    "name": "This-is-an-api-category 612",
-                    "slug": "this-is-a-category-612",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_cat",
-                    "taxonomy_id": "74"
-                },
-                {
-                    "id": "114",
-                    "name": "This-is-an-api-category 14425",
-                    "slug": "this-is-a-category-14425",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_cat",
-                    "taxonomy_id": "76"
-                },
-                {
-                    "id": "116",
-                    "name": "This-is-an-api-category 40922",
-                    "slug": "this-is-a-category-40922",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_cat",
-                    "taxonomy_id": "78"
-                },
-                {
-                    "id": "118",
-                    "name": "This-is-an-api-category 17278",
-                    "slug": "this-is-a-category-17278",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_cat",
-                    "taxonomy_id": "80"
-                },
-                {
-                    "id": "120",
-                    "name": "This-is-an-api-category 7763",
-                    "slug": "this-is-a-category-7763",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_cat",
-                    "taxonomy_id": "82"
-                },
-                {
-                    "id": "122",
-                    "name": "This-is-an-api-category 40422",
-                    "slug": "this-is-a-category-40422",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_cat",
-                    "taxonomy_id": "84"
-                },
-                {
-                    "id": "124",
-                    "name": "This-is-an-api-category 52704",
-                    "slug": "this-is-a-category-52704",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_cat",
-                    "taxonomy_id": "86"
-                },
-                {
-                    "id": "126",
-                    "name": "This-is-an-api-category 30443",
-                    "slug": "this-is-a-category-30443",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_cat",
-                    "taxonomy_id": "88"
-                },
-                {
-                    "id": "128",
-                    "name": "This-is-an-api-category 15829",
-                    "slug": "this-is-a-category-15829",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_cat",
-                    "taxonomy_id": "90"
-                },
-                {
-                    "id": "130",
-                    "name": "This-is-an-api-category 56008",
-                    "slug": "this-is-a-category-56008",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_cat",
-                    "taxonomy_id": "92"
-                },
-                {
-                    "id": "132",
-                    "name": "This-is-an-api-category 62972",
-                    "slug": "this-is-a-category-62972",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_cat",
-                    "taxonomy_id": "94"
-                }
-            ],
-            "tags": [
-                {
-                    "id": "14",
-                    "name": "This-is-a-tag",
-                    "slug": "this-is-a-tag",
-                    "group_id": "0",
-                    "description": "",
-                    "parent_id": "0",
-                    "count": "3",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "14"
-                },
-                {
-                    "id": "60",
-                    "name": "This-is-an-api-tag 4977",
-                    "slug": "this-is-a-tag-4977",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "23"
-                },
-                {
-                    "id": "61",
-                    "name": "This-is-an-api-tag 98712",
-                    "slug": "this-is-a-tag-98712",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "24"
-                },
-                {
-                    "id": "62",
-                    "name": "This-is-an-api-tag 43888",
-                    "slug": "this-is-a-tag-43888",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "25"
-                },
-                {
-                    "id": "64",
-                    "name": "This-is-an-api-tag 30841",
-                    "slug": "this-is-a-tag-30841",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "3",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "27"
-                },
-                {
-                    "id": "66",
-                    "name": "This-is-an-api-tag 56679",
-                    "slug": "this-is-a-tag-56679",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "2",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "29"
-                },
-                {
-                    "id": "68",
-                    "name": "This-is-an-api-tag 57230",
-                    "slug": "this-is-a-tag-57230",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "31"
-                },
-                {
-                    "id": "70",
-                    "name": "This-is-an-api-tag 31082",
-                    "slug": "this-is-a-tag-31082",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "33"
-                },
-                {
-                    "id": "72",
-                    "name": "This-is-an-api-tag 97277",
-                    "slug": "this-is-a-tag-97277",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "35"
-                },
-                {
-                    "id": "74",
-                    "name": "This-is-an-api-tag 83541",
-                    "slug": "this-is-a-tag-83541",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "37"
-                },
-                {
-                    "id": "76",
-                    "name": "This-is-an-api-tag 89165",
-                    "slug": "this-is-a-tag-89165",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "39"
-                },
-                {
-                    "id": "78",
-                    "name": "This-is-an-api-tag 20560",
-                    "slug": "this-is-a-tag-20560",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "41"
-                },
-                {
-                    "id": "80",
-                    "name": "This-is-an-api-tag 7120",
-                    "slug": "this-is-a-tag-7120",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "43"
-                },
-                {
-                    "id": "82",
-                    "name": "This-is-an-api-tag 38963",
-                    "slug": "this-is-a-tag-38963",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "45"
-                },
-                {
-                    "id": "84",
-                    "name": "This-is-an-api-tag 98138",
-                    "slug": "this-is-a-tag-98138",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "47"
-                },
-                {
-                    "id": "86",
-                    "name": "This-is-an-api-tag 80885",
-                    "slug": "this-is-a-tag-80885",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "49"
-                },
-                {
-                    "id": "90",
-                    "name": "This-is-an-api-tag 37038",
-                    "slug": "this-is-a-tag-37038",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "52"
-                },
-                {
-                    "id": "92",
-                    "name": "This-is-an-api-tag 49011",
-                    "slug": "this-is-a-tag-49011",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "54"
-                },
-                {
-                    "id": "94",
-                    "name": "This-is-an-api-tag 58146",
-                    "slug": "this-is-a-tag-58146",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "56"
-                },
-                {
-                    "id": "96",
-                    "name": "This-is-an-api-tag 80214",
-                    "slug": "this-is-a-tag-80214",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "58"
-                },
-                {
-                    "id": "98",
-                    "name": "This-is-an-api-tag 9658",
-                    "slug": "this-is-a-tag-9658",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "60"
-                },
-                {
-                    "id": "100",
-                    "name": "This-is-an-api-tag 25707",
-                    "slug": "this-is-a-tag-25707",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "62"
-                },
-                {
-                    "id": "102",
-                    "name": "This-is-an-api-tag 83145",
-                    "slug": "this-is-a-tag-83145",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "64"
-                },
-                {
-                    "id": "104",
-                    "name": "This-is-an-api-tag 37624",
-                    "slug": "this-is-a-tag-37624",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "66"
-                },
-                {
-                    "id": "106",
-                    "name": "This-is-an-api-tag 90909",
-                    "slug": "this-is-a-tag-90909",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "68"
-                },
-                {
-                    "id": "111",
-                    "name": "This-is-an-api-tag 19712",
-                    "slug": "this-is-a-tag-19712",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "73"
-                },
-                {
-                    "id": "113",
-                    "name": "This-is-an-api-tag 612",
-                    "slug": "this-is-a-tag-612",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "75"
-                },
-                {
-                    "id": "115",
-                    "name": "This-is-an-api-tag 14425",
-                    "slug": "this-is-a-tag-14425",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "77"
-                },
-                {
-                    "id": "117",
-                    "name": "This-is-an-api-tag 40922",
-                    "slug": "this-is-a-tag-40922",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "79"
-                },
-                {
-                    "id": "119",
-                    "name": "This-is-an-api-tag 17278",
-                    "slug": "this-is-a-tag-17278",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "81"
-                },
-                {
-                    "id": "121",
-                    "name": "This-is-an-api-tag 7763",
-                    "slug": "this-is-a-tag-7763",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "83"
-                },
-                {
-                    "id": "123",
-                    "name": "This-is-an-api-tag 40422",
-                    "slug": "this-is-a-tag-40422",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "85"
-                },
-                {
-                    "id": "125",
-                    "name": "This-is-an-api-tag 52704",
-                    "slug": "this-is-a-tag-52704",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "87"
-                },
-                {
-                    "id": "127",
-                    "name": "This-is-an-api-tag 30443",
-                    "slug": "this-is-a-tag-30443",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "89"
-                },
-                {
-                    "id": "129",
-                    "name": "This-is-an-api-tag 15829",
-                    "slug": "this-is-a-tag-15829",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "91"
-                },
-                {
-                    "id": "131",
-                    "name": "This-is-an-api-tag 56008",
-                    "slug": "this-is-a-tag-56008",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "93"
-                },
-                {
-                    "id": "133",
-                    "name": "This-is-an-api-tag 62972",
-                    "slug": "this-is-a-tag-62972",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "95"
-                }
-            ],
-            "reviews": [
-                {
-                    "id": "39",
-                    "name": "admin",
-                    "date": "2013-09-18 06:35:55",
-                    "email": "jason@jolierouge.ent",
-                    "body": "Hello, this is a review",
-                    "approved": "1",
-                    "object_id": "29",
-                    "parent_id": "0",
-                    "user_id": "1",
-                    "rating": "5"
-                }
-            ],
-            "variations": [
-
-            ],
-            "images": [
-
-            ],
-            "featured_image": [
-
-            ]
-        },
-        {
-            "id": "30",
-            "name": "New API Product",
-            "slug": "new-api-product",
-            "type": "product",
-            "description": "",
-            "short_description": "",
-            "parent_id": "0",
-            "publishing": "publish",
-            "sku": "T1495",
-            "downloadable": "no",
-            "visibility": "visible",
-            "virtual": "no",
-            "manage_stock": "no",
-            "sold_individually": "no",
-            "featured": "no",
-            "allow_backorders": "no",
-            "quantity": "",
-            "height": "",
-            "weight": "",
-            "length": "",
-            "price": "14.95",
-            "regular_price": "",
-            "sale_price": "",
-            "sale_from": "",
-            "sale_to": "",
-            "status": "instock",
-            "attributes": [
-
-            ],
-            "tax_class": "",
-            "tax_status": "none",
-            "product_type": "product",
-            "categories": [
-
-            ],
-            "tags": [
-
-            ],
-            "reviews": [
-
-            ],
-            "variations": [
-
-            ],
-            "images": [
-
-            ],
-            "featured_image": [
-
-            ]
-        }
-    ],
-    "payload_length": 2
-}{
     "action": "woocommerce_json_api",
     "proc": "get_products",
     "arguments": {
-        "token": "1234",
-        "per_page": 2,
-        "page": 1
+        "username": "admin",
+        "password": "nimda",
+        "ids": [
+            294
+        ]
+    },
+    "model_filters": {
+        "WCAPI_product_meta_attributes_table": {
+            "size_attribute": {
+                "name": "attribute_size",
+                "type": "string",
+                "values": [
+                    "small",
+                    "medium",
+                    "large"
+                ],
+                "sizehint": 2
+            }
+        }
+    }
+}Result is: 
+
+{
+    "action": "woocommerce_json_api",
+    "proc": "get_products",
+    "arguments": {
+        "username": "admin",
+        "password": "[FILTERED]",
+        "ids": [
+            294
+        ],
+        "token": "1234"
+    },
+    "model_filters": {
+        "WCAPI_product_meta_attributes_table": {
+            "size_attribute": {
+                "name": "attribute_size",
+                "type": "string",
+                "values": [
+                    "small",
+                    "medium",
+                    "large"
+                ],
+                "sizehint": 2
+            }
+        }
     },
     "status": true,
     "errors": [
@@ -947,868 +61,15 @@
     ],
     "payload": [
         {
-            "id": "29",
-            "name": "Api created product 55 I edited it I edited it I edited it I edited it",
-            "slug": "api-created-product",
-            "type": "product",
-            "description": "A test description",
-            "short_description": "",
-            "parent_id": "0",
-            "publishing": "publish",
-            "sku": "T1",
-            "downloadable": "no",
-            "visibility": "visible",
-            "virtual": "no",
-            "manage_stock": "no",
-            "sold_individually": "no",
-            "featured": "no",
-            "allow_backorders": "no",
-            "quantity": "",
-            "height": "",
-            "weight": "",
-            "length": "",
-            "price": "7142.4",
-            "regular_price": "3571.2",
-            "sale_price": "",
-            "sale_from": "",
-            "sale_to": "",
-            "status": "instock",
-            "attributes": {
-                "color": {
-                    "name": "Color",
-                    "value": [
-                        "1",
-                        "2",
-                        "3"
-                    ],
-                    "position": "3",
-                    "is_visible": "yes",
-                    "is_variation": "no",
-                    "is_taxonomy": "no"
-                }
-            },
-            "tax_class": "",
-            "tax_status": "none",
-            "product_type": "simple",
-            "categories": [
-                {
-                    "id": "13",
-                    "name": "My New Appliances",
-                    "slug": "test-product-category",
-                    "group_id": "0",
-                    "description": "",
-                    "parent_id": "0",
-                    "count": "2",
-                    "taxonomy": "product_cat",
-                    "taxonomy_id": "13"
-                },
-                {
-                    "id": "63",
-                    "name": "This-is-an-api-category 30841",
-                    "slug": "this-is-a-category-30841",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "3",
-                    "taxonomy": "product_cat",
-                    "taxonomy_id": "26"
-                },
-                {
-                    "id": "65",
-                    "name": "This-is-an-api-category 56679",
-                    "slug": "this-is-a-category-56679",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "2",
-                    "taxonomy": "product_cat",
-                    "taxonomy_id": "28"
-                },
-                {
-                    "id": "67",
-                    "name": "This-is-an-api-category 57230",
-                    "slug": "this-is-a-category-57230",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_cat",
-                    "taxonomy_id": "30"
-                },
-                {
-                    "id": "69",
-                    "name": "This-is-an-api-category 31082",
-                    "slug": "this-is-a-category-31082",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_cat",
-                    "taxonomy_id": "32"
-                },
-                {
-                    "id": "71",
-                    "name": "This-is-an-api-category 97277",
-                    "slug": "this-is-a-category-97277",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_cat",
-                    "taxonomy_id": "34"
-                },
-                {
-                    "id": "73",
-                    "name": "This-is-an-api-category 83541",
-                    "slug": "this-is-a-category-83541",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "2",
-                    "taxonomy": "product_cat",
-                    "taxonomy_id": "36"
-                },
-                {
-                    "id": "75",
-                    "name": "This-is-an-api-category 89165",
-                    "slug": "this-is-a-category-89165",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_cat",
-                    "taxonomy_id": "38"
-                },
-                {
-                    "id": "77",
-                    "name": "This-is-an-api-category 20560",
-                    "slug": "this-is-a-category-20560",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "3",
-                    "taxonomy": "product_cat",
-                    "taxonomy_id": "40"
-                },
-                {
-                    "id": "79",
-                    "name": "This-is-an-api-category 7120",
-                    "slug": "this-is-a-category-7120",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_cat",
-                    "taxonomy_id": "42"
-                },
-                {
-                    "id": "81",
-                    "name": "This-is-an-api-category 38963",
-                    "slug": "this-is-a-category-38963",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_cat",
-                    "taxonomy_id": "44"
-                },
-                {
-                    "id": "83",
-                    "name": "This-is-an-api-category 98138",
-                    "slug": "this-is-a-category-98138",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_cat",
-                    "taxonomy_id": "46"
-                },
-                {
-                    "id": "85",
-                    "name": "This-is-an-api-category 80885",
-                    "slug": "this-is-a-category-80885",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_cat",
-                    "taxonomy_id": "48"
-                },
-                {
-                    "id": "89",
-                    "name": "This-is-an-api-category 37038",
-                    "slug": "this-is-a-category-37038",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_cat",
-                    "taxonomy_id": "51"
-                },
-                {
-                    "id": "91",
-                    "name": "This-is-an-api-category 49011",
-                    "slug": "this-is-a-category-49011",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_cat",
-                    "taxonomy_id": "53"
-                },
-                {
-                    "id": "93",
-                    "name": "This-is-an-api-category 58146",
-                    "slug": "this-is-a-category-58146",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_cat",
-                    "taxonomy_id": "55"
-                },
-                {
-                    "id": "95",
-                    "name": "This-is-an-api-category 80214",
-                    "slug": "this-is-a-category-80214",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_cat",
-                    "taxonomy_id": "57"
-                },
-                {
-                    "id": "97",
-                    "name": "This-is-an-api-category 9658",
-                    "slug": "this-is-a-category-9658",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_cat",
-                    "taxonomy_id": "59"
-                },
-                {
-                    "id": "99",
-                    "name": "This-is-an-api-category 25707",
-                    "slug": "this-is-a-category-25707",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_cat",
-                    "taxonomy_id": "61"
-                },
-                {
-                    "id": "101",
-                    "name": "This-is-an-api-category 83145",
-                    "slug": "this-is-a-category-83145",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_cat",
-                    "taxonomy_id": "63"
-                },
-                {
-                    "id": "103",
-                    "name": "This-is-an-api-category 37624",
-                    "slug": "this-is-a-category-37624",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_cat",
-                    "taxonomy_id": "65"
-                },
-                {
-                    "id": "105",
-                    "name": "This-is-an-api-category 90909",
-                    "slug": "this-is-a-category-90909",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_cat",
-                    "taxonomy_id": "67"
-                },
-                {
-                    "id": "110",
-                    "name": "This-is-an-api-category 19712",
-                    "slug": "this-is-a-category-19712",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_cat",
-                    "taxonomy_id": "72"
-                },
-                {
-                    "id": "112",
-                    "name": "This-is-an-api-category 612",
-                    "slug": "this-is-a-category-612",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_cat",
-                    "taxonomy_id": "74"
-                },
-                {
-                    "id": "114",
-                    "name": "This-is-an-api-category 14425",
-                    "slug": "this-is-a-category-14425",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_cat",
-                    "taxonomy_id": "76"
-                },
-                {
-                    "id": "116",
-                    "name": "This-is-an-api-category 40922",
-                    "slug": "this-is-a-category-40922",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_cat",
-                    "taxonomy_id": "78"
-                },
-                {
-                    "id": "118",
-                    "name": "This-is-an-api-category 17278",
-                    "slug": "this-is-a-category-17278",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_cat",
-                    "taxonomy_id": "80"
-                },
-                {
-                    "id": "120",
-                    "name": "This-is-an-api-category 7763",
-                    "slug": "this-is-a-category-7763",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_cat",
-                    "taxonomy_id": "82"
-                },
-                {
-                    "id": "122",
-                    "name": "This-is-an-api-category 40422",
-                    "slug": "this-is-a-category-40422",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_cat",
-                    "taxonomy_id": "84"
-                },
-                {
-                    "id": "124",
-                    "name": "This-is-an-api-category 52704",
-                    "slug": "this-is-a-category-52704",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_cat",
-                    "taxonomy_id": "86"
-                },
-                {
-                    "id": "126",
-                    "name": "This-is-an-api-category 30443",
-                    "slug": "this-is-a-category-30443",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_cat",
-                    "taxonomy_id": "88"
-                },
-                {
-                    "id": "128",
-                    "name": "This-is-an-api-category 15829",
-                    "slug": "this-is-a-category-15829",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_cat",
-                    "taxonomy_id": "90"
-                },
-                {
-                    "id": "130",
-                    "name": "This-is-an-api-category 56008",
-                    "slug": "this-is-a-category-56008",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_cat",
-                    "taxonomy_id": "92"
-                },
-                {
-                    "id": "132",
-                    "name": "This-is-an-api-category 62972",
-                    "slug": "this-is-a-category-62972",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_cat",
-                    "taxonomy_id": "94"
-                }
-            ],
-            "tags": [
-                {
-                    "id": "14",
-                    "name": "This-is-a-tag",
-                    "slug": "this-is-a-tag",
-                    "group_id": "0",
-                    "description": "",
-                    "parent_id": "0",
-                    "count": "3",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "14"
-                },
-                {
-                    "id": "60",
-                    "name": "This-is-an-api-tag 4977",
-                    "slug": "this-is-a-tag-4977",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "23"
-                },
-                {
-                    "id": "61",
-                    "name": "This-is-an-api-tag 98712",
-                    "slug": "this-is-a-tag-98712",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "24"
-                },
-                {
-                    "id": "62",
-                    "name": "This-is-an-api-tag 43888",
-                    "slug": "this-is-a-tag-43888",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "25"
-                },
-                {
-                    "id": "64",
-                    "name": "This-is-an-api-tag 30841",
-                    "slug": "this-is-a-tag-30841",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "3",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "27"
-                },
-                {
-                    "id": "66",
-                    "name": "This-is-an-api-tag 56679",
-                    "slug": "this-is-a-tag-56679",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "2",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "29"
-                },
-                {
-                    "id": "68",
-                    "name": "This-is-an-api-tag 57230",
-                    "slug": "this-is-a-tag-57230",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "31"
-                },
-                {
-                    "id": "70",
-                    "name": "This-is-an-api-tag 31082",
-                    "slug": "this-is-a-tag-31082",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "33"
-                },
-                {
-                    "id": "72",
-                    "name": "This-is-an-api-tag 97277",
-                    "slug": "this-is-a-tag-97277",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "35"
-                },
-                {
-                    "id": "74",
-                    "name": "This-is-an-api-tag 83541",
-                    "slug": "this-is-a-tag-83541",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "37"
-                },
-                {
-                    "id": "76",
-                    "name": "This-is-an-api-tag 89165",
-                    "slug": "this-is-a-tag-89165",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "39"
-                },
-                {
-                    "id": "78",
-                    "name": "This-is-an-api-tag 20560",
-                    "slug": "this-is-a-tag-20560",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "41"
-                },
-                {
-                    "id": "80",
-                    "name": "This-is-an-api-tag 7120",
-                    "slug": "this-is-a-tag-7120",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "43"
-                },
-                {
-                    "id": "82",
-                    "name": "This-is-an-api-tag 38963",
-                    "slug": "this-is-a-tag-38963",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "45"
-                },
-                {
-                    "id": "84",
-                    "name": "This-is-an-api-tag 98138",
-                    "slug": "this-is-a-tag-98138",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "47"
-                },
-                {
-                    "id": "86",
-                    "name": "This-is-an-api-tag 80885",
-                    "slug": "this-is-a-tag-80885",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "49"
-                },
-                {
-                    "id": "90",
-                    "name": "This-is-an-api-tag 37038",
-                    "slug": "this-is-a-tag-37038",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "52"
-                },
-                {
-                    "id": "92",
-                    "name": "This-is-an-api-tag 49011",
-                    "slug": "this-is-a-tag-49011",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "54"
-                },
-                {
-                    "id": "94",
-                    "name": "This-is-an-api-tag 58146",
-                    "slug": "this-is-a-tag-58146",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "56"
-                },
-                {
-                    "id": "96",
-                    "name": "This-is-an-api-tag 80214",
-                    "slug": "this-is-a-tag-80214",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "58"
-                },
-                {
-                    "id": "98",
-                    "name": "This-is-an-api-tag 9658",
-                    "slug": "this-is-a-tag-9658",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "60"
-                },
-                {
-                    "id": "100",
-                    "name": "This-is-an-api-tag 25707",
-                    "slug": "this-is-a-tag-25707",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "62"
-                },
-                {
-                    "id": "102",
-                    "name": "This-is-an-api-tag 83145",
-                    "slug": "this-is-a-tag-83145",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "64"
-                },
-                {
-                    "id": "104",
-                    "name": "This-is-an-api-tag 37624",
-                    "slug": "this-is-a-tag-37624",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "66"
-                },
-                {
-                    "id": "106",
-                    "name": "This-is-an-api-tag 90909",
-                    "slug": "this-is-a-tag-90909",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "68"
-                },
-                {
-                    "id": "111",
-                    "name": "This-is-an-api-tag 19712",
-                    "slug": "this-is-a-tag-19712",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "73"
-                },
-                {
-                    "id": "113",
-                    "name": "This-is-an-api-tag 612",
-                    "slug": "this-is-a-tag-612",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "75"
-                },
-                {
-                    "id": "115",
-                    "name": "This-is-an-api-tag 14425",
-                    "slug": "this-is-a-tag-14425",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "77"
-                },
-                {
-                    "id": "117",
-                    "name": "This-is-an-api-tag 40922",
-                    "slug": "this-is-a-tag-40922",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "79"
-                },
-                {
-                    "id": "119",
-                    "name": "This-is-an-api-tag 17278",
-                    "slug": "this-is-a-tag-17278",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "81"
-                },
-                {
-                    "id": "121",
-                    "name": "This-is-an-api-tag 7763",
-                    "slug": "this-is-a-tag-7763",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "83"
-                },
-                {
-                    "id": "123",
-                    "name": "This-is-an-api-tag 40422",
-                    "slug": "this-is-a-tag-40422",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "85"
-                },
-                {
-                    "id": "125",
-                    "name": "This-is-an-api-tag 52704",
-                    "slug": "this-is-a-tag-52704",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "87"
-                },
-                {
-                    "id": "127",
-                    "name": "This-is-an-api-tag 30443",
-                    "slug": "this-is-a-tag-30443",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "89"
-                },
-                {
-                    "id": "129",
-                    "name": "This-is-an-api-tag 15829",
-                    "slug": "this-is-a-tag-15829",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "91"
-                },
-                {
-                    "id": "131",
-                    "name": "This-is-an-api-tag 56008",
-                    "slug": "this-is-a-tag-56008",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "93"
-                },
-                {
-                    "id": "133",
-                    "name": "This-is-an-api-tag 62972",
-                    "slug": "this-is-a-tag-62972",
-                    "group_id": "0",
-                    "description": "I was created by the API",
-                    "parent_id": "0",
-                    "count": "1",
-                    "taxonomy": "product_tag",
-                    "taxonomy_id": "95"
-                }
-            ],
-            "reviews": [
-                {
-                    "id": "39",
-                    "name": "admin",
-                    "date": "2013-09-18 06:35:55",
-                    "email": "jason@jolierouge.ent",
-                    "body": "Hello, this is a review",
-                    "approved": "1",
-                    "object_id": "29",
-                    "parent_id": "0",
-                    "user_id": "1",
-                    "rating": "5"
-                }
-            ],
-            "variations": [
-
-            ],
-            "images": [
-
-            ],
-            "featured_image": [
-
-            ]
-        },
-        {
-            "id": "30",
-            "name": "New API Product",
-            "slug": "new-api-product",
+            "id": "294",
+            "name": "An API Created Product 5725980",
+            "slug": "an-api-created-product-5725980",
             "type": "product",
             "description": "",
             "short_description": "",
             "parent_id": "0",
             "publishing": "publish",
-            "sku": "T1495",
+            "sku": "API5725980",
             "downloadable": "no",
             "visibility": "visible",
             "virtual": "no",
@@ -1820,18 +81,30 @@
             "height": "",
             "weight": "",
             "length": "",
-            "price": "14.95",
+            "price": "9",
             "regular_price": "",
             "sale_price": "",
             "sale_from": "",
             "sale_to": "",
             "status": "instock",
-            "attributes": [
-
-            ],
+            "attributes": {
+                "size": {
+                    "name": "Size",
+                    "value": [
+                        "Small",
+                        "Medium",
+                        "Large"
+                    ],
+                    "position": "2",
+                    "is_visible": "no",
+                    "is_variation": "yes",
+                    "is_taxonomy": "no"
+                }
+            },
             "tax_class": "",
-            "tax_status": "none",
-            "product_type": "product",
+            "tax_status": "taxable",
+            "product_type": "variable",
+            "size_attribute": "",
             "categories": [
 
             ],
@@ -1842,25 +115,449 @@
 
             ],
             "variations": [
+                {
+                    "id": "298",
+                    "name": "Variation #298 of An API Created Product 5725980",
+                    "slug": "product-294-variation",
+                    "type": "product_variation",
+                    "description": "",
+                    "short_description": "",
+                    "parent_id": "294",
+                    "publishing": "publish",
+                    "sku": "",
+                    "downloadable": "no",
+                    "visibility": "visible",
+                    "virtual": "no",
+                    "manage_stock": "no",
+                    "sold_individually": "no",
+                    "featured": "no",
+                    "allow_backorders": "no",
+                    "quantity": "",
+                    "height": "",
+                    "weight": "",
+                    "length": "",
+                    "price": "12",
+                    "regular_price": "12",
+                    "sale_price": "",
+                    "sale_from": "",
+                    "sale_to": "",
+                    "status": "instock",
+                    "attributes": [
 
+                    ],
+                    "tax_class": "",
+                    "tax_status": "none",
+                    "product_type": "product",
+                    "size_attribute": "",
+                    "categories": [
+
+                    ],
+                    "tags": [
+
+                    ],
+                    "reviews": [
+
+                    ],
+                    "variations": [
+
+                    ],
+                    "images": [
+
+                    ],
+                    "featured_image": [
+
+                    ]
+                },
+                {
+                    "id": "299",
+                    "name": "Variation #299 of An API Created Product 5725980",
+                    "slug": "product-294-variation-2",
+                    "type": "product_variation",
+                    "description": "",
+                    "short_description": "",
+                    "parent_id": "294",
+                    "publishing": "publish",
+                    "sku": "",
+                    "downloadable": "no",
+                    "visibility": "visible",
+                    "virtual": "no",
+                    "manage_stock": "no",
+                    "sold_individually": "no",
+                    "featured": "no",
+                    "allow_backorders": "no",
+                    "quantity": "",
+                    "height": "",
+                    "weight": "",
+                    "length": "",
+                    "price": "9",
+                    "regular_price": "9",
+                    "sale_price": "",
+                    "sale_from": "",
+                    "sale_to": "",
+                    "status": "instock",
+                    "attributes": [
+
+                    ],
+                    "tax_class": "",
+                    "tax_status": "none",
+                    "product_type": "product",
+                    "size_attribute": "small",
+                    "categories": [
+
+                    ],
+                    "tags": [
+
+                    ],
+                    "reviews": [
+
+                    ],
+                    "variations": [
+
+                    ],
+                    "images": [
+
+                    ],
+                    "featured_image": [
+
+                    ]
+                },
+                {
+                    "id": "300",
+                    "name": "Variation #300 of An API Created Product 5725980",
+                    "slug": "product-294-variation-3",
+                    "type": "product_variation",
+                    "description": "",
+                    "short_description": "",
+                    "parent_id": "294",
+                    "publishing": "publish",
+                    "sku": "",
+                    "downloadable": "no",
+                    "visibility": "visible",
+                    "virtual": "no",
+                    "manage_stock": "no",
+                    "sold_individually": "no",
+                    "featured": "no",
+                    "allow_backorders": "no",
+                    "quantity": "",
+                    "height": "",
+                    "weight": "",
+                    "length": "",
+                    "price": "16",
+                    "regular_price": "16",
+                    "sale_price": "",
+                    "sale_from": "",
+                    "sale_to": "",
+                    "status": "instock",
+                    "attributes": [
+
+                    ],
+                    "tax_class": "",
+                    "tax_status": "none",
+                    "product_type": "product",
+                    "size_attribute": "medium",
+                    "categories": [
+
+                    ],
+                    "tags": [
+
+                    ],
+                    "reviews": [
+
+                    ],
+                    "variations": [
+
+                    ],
+                    "images": [
+
+                    ],
+                    "featured_image": [
+
+                    ]
+                },
+                {
+                    "id": "301",
+                    "name": "Variation #301 of An API Created Product 5725980",
+                    "slug": "product-294-variation-4",
+                    "type": "product_variation",
+                    "description": "",
+                    "short_description": "",
+                    "parent_id": "294",
+                    "publishing": "publish",
+                    "sku": "",
+                    "downloadable": "no",
+                    "visibility": "visible",
+                    "virtual": "no",
+                    "manage_stock": "no",
+                    "sold_individually": "no",
+                    "featured": "no",
+                    "allow_backorders": "no",
+                    "quantity": "",
+                    "height": "",
+                    "weight": "",
+                    "length": "",
+                    "price": "18",
+                    "regular_price": "18",
+                    "sale_price": "",
+                    "sale_from": "",
+                    "sale_to": "",
+                    "status": "instock",
+                    "attributes": [
+
+                    ],
+                    "tax_class": "",
+                    "tax_status": "none",
+                    "product_type": "product",
+                    "size_attribute": "large",
+                    "categories": [
+
+                    ],
+                    "tags": [
+
+                    ],
+                    "reviews": [
+
+                    ],
+                    "variations": [
+
+                    ],
+                    "images": [
+
+                    ],
+                    "featured_image": [
+
+                    ]
+                }
             ],
             "images": [
-
+                {
+                    "id": "295",
+                    "filename": "fractal",
+                    "slug": "fractal-58",
+                    "mime_type": "image\/png",
+                    "type": "attachment",
+                    "description": "",
+                    "caption": "",
+                    "parent_id": "294",
+                    "publishing": "inherit",
+                    "path": "2013\/10\/fractal1.png",
+                    "metadata": {
+                        "width": 600,
+                        "height": 600,
+                        "file": "2013\/10\/fractal1.png",
+                        "sizes": {
+                            "thumbnail": {
+                                "file": "fractal1-150x150.png",
+                                "width": 150,
+                                "height": 150,
+                                "mime-type": "image\/png",
+                                "url": "http:\/\/\/woo.localhost\/wp-content\/uploads\/2013\/10\/fractal1-150x150.png"
+                            },
+                            "medium": {
+                                "file": "fractal1-300x300.png",
+                                "width": 300,
+                                "height": 300,
+                                "mime-type": "image\/png",
+                                "url": "http:\/\/\/woo.localhost\/wp-content\/uploads\/2013\/10\/fractal1-300x300.png"
+                            },
+                            "shop_thumbnail": {
+                                "file": "fractal1-90x90.png",
+                                "width": 90,
+                                "height": 90,
+                                "mime-type": "image\/png",
+                                "url": "http:\/\/\/woo.localhost\/wp-content\/uploads\/2013\/10\/fractal1-90x90.png"
+                            },
+                            "shop_catalog": {
+                                "file": "fractal1-150x150.png",
+                                "width": 150,
+                                "height": 150,
+                                "mime-type": "image\/png",
+                                "url": "http:\/\/\/woo.localhost\/wp-content\/uploads\/2013\/10\/fractal1-150x150.png"
+                            },
+                            "shop_single": {
+                                "file": "fractal1-300x300.png",
+                                "width": 300,
+                                "height": 300,
+                                "mime-type": "image\/png",
+                                "url": "http:\/\/\/woo.localhost\/wp-content\/uploads\/2013\/10\/fractal1-300x300.png"
+                            }
+                        },
+                        "image_meta": {
+                            "aperture": 0,
+                            "credit": "",
+                            "camera": "",
+                            "caption": "",
+                            "created_timestamp": 0,
+                            "copyright": "",
+                            "focal_length": 0,
+                            "iso": 0,
+                            "shutter_speed": 0,
+                            "title": ""
+                        },
+                        "url": "http:\/\/\/woo.localhost\/wp-content\/uploads\/2013\/10\/fractal1.png"
+                    },
+                    "alt": "",
+                    "base_url": "http:\/\/woo.localhost\/wp-content\/uploads\/2013\/10"
+                },
+                {
+                    "id": "296",
+                    "filename": "fractal2",
+                    "slug": "fractal2-27",
+                    "mime_type": "image\/png",
+                    "type": "attachment",
+                    "description": "",
+                    "caption": "",
+                    "parent_id": "294",
+                    "publishing": "inherit",
+                    "path": "2013\/10\/fractal2.png",
+                    "metadata": {
+                        "width": 600,
+                        "height": 600,
+                        "file": "2013\/10\/fractal2.png",
+                        "sizes": {
+                            "thumbnail": {
+                                "file": "fractal2-150x150.png",
+                                "width": 150,
+                                "height": 150,
+                                "mime-type": "image\/png",
+                                "url": "http:\/\/\/woo.localhost\/wp-content\/uploads\/2013\/10\/fractal2-150x150.png"
+                            },
+                            "medium": {
+                                "file": "fractal2-300x300.png",
+                                "width": 300,
+                                "height": 300,
+                                "mime-type": "image\/png",
+                                "url": "http:\/\/\/woo.localhost\/wp-content\/uploads\/2013\/10\/fractal2-300x300.png"
+                            },
+                            "shop_thumbnail": {
+                                "file": "fractal2-90x90.png",
+                                "width": 90,
+                                "height": 90,
+                                "mime-type": "image\/png",
+                                "url": "http:\/\/\/woo.localhost\/wp-content\/uploads\/2013\/10\/fractal2-90x90.png"
+                            },
+                            "shop_catalog": {
+                                "file": "fractal2-150x150.png",
+                                "width": 150,
+                                "height": 150,
+                                "mime-type": "image\/png",
+                                "url": "http:\/\/\/woo.localhost\/wp-content\/uploads\/2013\/10\/fractal2-150x150.png"
+                            },
+                            "shop_single": {
+                                "file": "fractal2-300x300.png",
+                                "width": 300,
+                                "height": 300,
+                                "mime-type": "image\/png",
+                                "url": "http:\/\/\/woo.localhost\/wp-content\/uploads\/2013\/10\/fractal2-300x300.png"
+                            }
+                        },
+                        "image_meta": {
+                            "aperture": 0,
+                            "credit": "",
+                            "camera": "",
+                            "caption": "",
+                            "created_timestamp": 0,
+                            "copyright": "",
+                            "focal_length": 0,
+                            "iso": 0,
+                            "shutter_speed": 0,
+                            "title": ""
+                        },
+                        "url": "http:\/\/\/woo.localhost\/wp-content\/uploads\/2013\/10\/fractal2.png"
+                    },
+                    "alt": "",
+                    "base_url": "http:\/\/woo.localhost\/wp-content\/uploads\/2013\/10"
+                }
             ],
             "featured_image": [
-
+                {
+                    "id": "297",
+                    "filename": "fractal3",
+                    "slug": "fractal3-46",
+                    "mime_type": "image\/png",
+                    "type": "attachment",
+                    "description": "",
+                    "caption": "",
+                    "parent_id": "0",
+                    "publishing": "inherit",
+                    "path": "2013\/10\/fractal31.png",
+                    "metadata": {
+                        "width": 600,
+                        "height": 600,
+                        "file": "2013\/10\/fractal31.png",
+                        "sizes": {
+                            "thumbnail": {
+                                "file": "fractal31-150x150.png",
+                                "width": 150,
+                                "height": 150,
+                                "mime-type": "image\/png",
+                                "url": "http:\/\/\/woo.localhost\/wp-content\/uploads\/2013\/10\/fractal31-150x150.png"
+                            },
+                            "medium": {
+                                "file": "fractal31-300x300.png",
+                                "width": 300,
+                                "height": 300,
+                                "mime-type": "image\/png",
+                                "url": "http:\/\/\/woo.localhost\/wp-content\/uploads\/2013\/10\/fractal31-300x300.png"
+                            },
+                            "shop_thumbnail": {
+                                "file": "fractal31-90x90.png",
+                                "width": 90,
+                                "height": 90,
+                                "mime-type": "image\/png",
+                                "url": "http:\/\/\/woo.localhost\/wp-content\/uploads\/2013\/10\/fractal31-90x90.png"
+                            },
+                            "shop_catalog": {
+                                "file": "fractal31-150x150.png",
+                                "width": 150,
+                                "height": 150,
+                                "mime-type": "image\/png",
+                                "url": "http:\/\/\/woo.localhost\/wp-content\/uploads\/2013\/10\/fractal31-150x150.png"
+                            },
+                            "shop_single": {
+                                "file": "fractal31-300x300.png",
+                                "width": 300,
+                                "height": 300,
+                                "mime-type": "image\/png",
+                                "url": "http:\/\/\/woo.localhost\/wp-content\/uploads\/2013\/10\/fractal31-300x300.png"
+                            }
+                        },
+                        "image_meta": {
+                            "aperture": 0,
+                            "credit": "",
+                            "camera": "",
+                            "caption": "",
+                            "created_timestamp": 0,
+                            "copyright": "",
+                            "focal_length": 0,
+                            "iso": 0,
+                            "shutter_speed": 0,
+                            "title": ""
+                        },
+                        "url": "http:\/\/\/woo.localhost\/wp-content\/uploads\/2013\/10\/fractal31.png"
+                    },
+                    "alt": "",
+                    "base_url": "http:\/\/woo.localhost\/wp-content\/uploads\/2013\/10"
+                }
             ]
         }
     ],
-    "payload_length": 2
-}[1;33m[40mold name does not equal new name                            [0m[0;32m[40mPASSED[0m
-[1;33mnew name is equal to product name                           [0m[0;32mPASSED[0m
-[1;33m[40m3571.2 should not equal 7142.4                              [0m[0;32m[40mPASSED[0m
-[1;33mnew price should equal product price                        [0m[0;32mPASSED[0m
-[1;33m[40mNew product tags?                                           [0m[0;32m[40mPASSED[0m
-[1;33mNew categories?                                             [0m[0;32mPASSED[0m
-[1;33m[40mGet supported attributes?                                   [0m[0;32m[40mPASSED[0m
-[1;33mDo we have attributes for Product?                          [0m[0;32mPASSED[0m
-[1;33m[40mGet supported attributes?                                   [0m[0;32m[40mPASSED[0m
-[1;33mWas the id set?                                             [0m[0;32mPASSED[0m
-[1;33m[40mWas the id of the image set?                                [0m[0;32m[40mPASSED[0m
+    "payload_length": 1
+}Array
+(
+    [size] => Array
+        (
+            [name] => Size
+            [value] => Array
+                (
+                    [0] => Small
+                    [1] => Medium
+                    [2] => Large
+                )
+
+            [position] => 2
+            [is_visible] => no
+            [is_variation] => yes
+            [is_taxonomy] => no
+        )
+
+)

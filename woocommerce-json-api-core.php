@@ -177,7 +177,7 @@ function woocommerce_json_api_template_redirect() {
       foreach ($_REQUEST as $key=>$value) {
         $params[$key] = $value;
       }
-      foreach ( array('payload','arguments') as $key ) {
+      foreach ( array('payload','arguments','model_filters','wordpress_filters') as $key ) {
         if ( isset($_REQUEST[$key]) && is_string($_REQUEST[$key]) ) {
           $params[$key] = json_decode(stripslashes($_REQUEST[$key]),true);
         }

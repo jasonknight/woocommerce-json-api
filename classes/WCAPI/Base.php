@@ -217,6 +217,7 @@ class Base extends Helpers {
       $meta_sql = call_user_func($save_meta_function, $this);
     } else {
       $hits = 0;
+      $attribute_names = array();
       $meta_sql = "
         UPDATE {$meta_table}
           SET `meta_value` = CASE `meta_key`
@@ -235,6 +236,7 @@ class Base extends Helpers {
                   } else {
                     Helpers::debug("METASQL:No updater set for $attr for value $value");
                     //$meta_keys[] = $wpdb->prepare("%s",$desc['name']);
+                    $attribute_names[] = $wpdb->prepare( "%s", $desc['name']);
                     $meta_sql .= $wpdb->prepare( "\tWHEN '{$desc['name']}' THEN %s\n ", $value);
                     $hits++;
                   }
@@ -248,7 +250,7 @@ class Base extends Helpers {
             $meta_sql .= "
             ELSE `meta_value`
           END 
-        WHERE `{$meta_table_foreign_key}` = '{$this->_actual_model_id}' 
+        WHERE `{$meta_table_foreign_key}` = '{$this->_actual_model_id} AND `meta_key` IN (".join(",",$attribute_names).")
       ";
     }
     if ( is_string($meta_sql)) {
