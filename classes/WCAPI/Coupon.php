@@ -10,6 +10,9 @@ require_once(dirname(__FILE__) . "/OrderItem.php");
 class Coupon extends Base{   
   public $_product_ids;
   public $_exclude_product_ids;
+  public $_customer_email;
+  public $_product_category_ids;
+  public $_exclude_product_category_ids;
   public static function getModelSettings() {
     include WCAPIDIR."/_globals.php";
     $table = array_merge( Base::getDefaultModelSettings(), array(
@@ -126,29 +129,17 @@ class Coupon extends Base{
         'name' => 'product_ids',
         'type' => 'array', 
         'sizehint' => 10,
-        'getter' => function ($model, $name, $desc, $filter_value) {
-          return $model->updateProductIds('getter',$name,$desc,null);  
-        },
-        'setter' => function ($model, $name, $desc, $value, $filter_value ) {
-            $model->updateProductIds('setter',$name,$desc,$value); 
-        },
-        'updater' => function ($model, $name, $desc, $value, $filter_value ) {
-            $model->updateProductIds('updater',$name,$desc,$value); 
-        },
+        'getter' => 'getProductIds',
+        'setter' => 'setProductIds',
+        'updater' => 'updateProductIds',
       ),
       'exclude_product_ids' => array(
         'name' => 'exclude_product_ids',
         'type' => 'string', 
         'sizehint' => 10,
-        'getter' => function ($model, $name, $desc, $filter_value) {
-          return $model->updateProductIds('getter',$name,$desc,null);  
-        },
-        'setter' => function ($model, $name, $desc, $value, $filter_value ) {
-            $model->updateProductIds('setter',$name,$desc,$value); 
-        },
-        'updater' => function ($model, $name, $desc, $value, $filter_value ) {
-            $model->updateProductIds('updater',$name,$desc,$value); 
-        },
+        'getter' => 'getExcludeProductIds',
+        'setter' => 'setExcludeProductIds',
+        'updater' => 'updateExcludeProductIds',
       ),
       'expiry_date' => array(
         'name' => 'expiry_date',
@@ -259,28 +250,70 @@ class Coupon extends Base{
     }
     return $product;
   }
-
-  public function updateProductIds($type,$name,$desc,$value) {
-    
-    if ( $type == 'getter') {
-      if ( isset( $this->{"_{$desc['name']}"} ) ) {
-        return $this->{"_{$desc['name']}"};
-      }
-      $str = maybe_unserialize(get_post_meta($this->_actual_model_id, $desc['name'],true));
-      if ( is_string($str) ) {
-        $str = explode(",",$str);
-      } else {
-        array_map('maybe_unserialize',$str);
-      }
-      $this->{"_{$desc['name']}"} = $str;
-      return $this->{"_{$desc['name']}"};
-    } else if ( $type == 'setter' ) {
-      $this->{"_{$desc['name']}"} = $value;
-    } else if ( $type == 'updater' ) {
-      update_post_meta($this->_actual_model_id,$desc['name'],$value);
-    } else {
-      throw new \Exception("updateProductIds does not understand type of $type");
-    }
+  public function getProductIds($desc) {
+  	if ( $this->_product_ids ) {
+  		return $this->_product_ids;
+  	} else {
+  		$str = get_post_meta($this->_actual_model_id, "product_ids",true );
+  		$this->_product_ids = Helpers::noEmptyValues(explode(",",$str));
+  	}
+  	return $this->_product_ids;
   }
+  public function setProductIds($value, $desc) {
+  	if ( is_string( $value ) ) {
+  		$value = explode(',',$value);
+  	} else if ( ! is_array($value) && !is_null($value) ) {
+  		throw new \Exception( __('setProductIds expects either an array, or string but received ' . gettype($value),'WCAPI') );
+  	}
+  	$this->_product_ids = Helpers::noEmptyValues($value);
+  }
+  public function updateProductIds($model, $attr, $value, $desc) {
+  	if ( is_null( $this->_product_ids) ) 
+  		$this->_product_ids = Helpers::noEmptyValues(NULL);
+  	$this->_product_ids = Helpers::noEmptyValues($this->_product_ids);
+  	update_post_meta($this->_actual_model_id,"product_ids",join(',',$this->_product_ids) );
+  }
+
+  public function getExcludeProductIds($desc) {
+  	if ( $this->_exclude_product_ids ) {
+  		return $this->_exclude_product_ids;
+  	} else {
+  		$str = get_post_meta($this->_actual_model_id, "exclude_product_ids",true );
+  		$this->_exclude_product_ids = Helpers::noEmptyValues(explode(",",$str));
+  	}
+  	return $this->_exclude_product_ids;
+  }
+  public function setExcludeProductIds($value, $desc) {
+  	if ( is_string( $value ) ) {
+  		$value = Helpers::noEmptyValues(explode(',',$value));
+  	} else if ( ! is_array($value) && !is_null($value)) {
+  		throw new \Exception( __('setExcludeProductIds expects either an array, or string','WCAPI') );
+  	}
+  	$this->_product_ids = Helpers::noEmptyValues($value);
+  }
+  public function updateExcludeProductIds($model, $attr, $value, $desc) {
+  	if ( is_null( $this->_exclude_product_ids) ) 
+  		$this->_exclude_product_ids = Helpers::noEmptyValues(NULL);
+  	$this->_exclude_product_ids = Helpers::noEmptyValues( $this->_exclude_product_ids );
+  	update_post_meta($this->_actual_model_id,"exclude_product_ids",join(',',$this->_exclude_product_ids) );
+  }
+  // public function updateProductIds($type,$name,$desc,$value) {
+    
+  //   if ( $type == 'getter') {
+  //     if ( isset( $this->{"_{$desc['name']}"} ) ) {
+  //       return $this->{"_{$desc['name']}"};
+  //     }
+  //     $str = get_post_meta($this->_actual_model_id, $desc['name'],true);
+  //       $str = explode(",",$str);
+  //     $this->{"_{$desc['name']}"} = $str;
+  //     return $this->{"_{$desc['name']}"};
+  //   } else if ( $type == 'setter' ) {
+  //     $this->{"_{$desc['name']}"} = $value;
+  //   } else if ( $type == 'updater' ) {
+  //     update_post_meta($this->_actual_model_id,$desc['name'],join(",",$value));
+  //   } else {
+  //     throw new \Exception("updateProductIds does not understand type of $type");
+  //   }
+  // }
    
 }

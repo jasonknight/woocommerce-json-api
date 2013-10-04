@@ -50,7 +50,24 @@ class Helpers {
       return null;
     }
   }
-  function mergeUrls($u1,$u2) {
+  public static function noEmptyValues($array) {
+    if ( is_null($array) ) {
+      return array();
+    }
+    if ( !is_array($array) ) {
+      throw new \Exception( __('noEmptyValues expects an array but was given ' . gettype($array),'WCAPI') );
+    }
+    $new_array = array();
+    foreach ( $array as $key=>$value ) {
+      if ( empty( $value ) ) {
+        continue;
+      } else {
+        $new_array[$key] = $value;
+      }
+    }
+    return $new_array;
+  }
+  public static function mergeUrls($u1,$u2) {
     $u1 = explode("/",$u1);
     $u2 = explode("/",$u2);
     $new_u = array_unique(array_merge($u1,$u2));

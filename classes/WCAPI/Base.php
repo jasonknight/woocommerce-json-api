@@ -513,11 +513,17 @@ class Base extends Helpers {
       Helpers::debug(get_called_class() . "::__set $name is not defined in meta_table");
     }
     if ( isset( $meta_table[$name] ) ) {
-      if ( isset($meta_table[$name]['setter'])) {
-        $desc = $meta_table[$name];
-        call_user_func($desc['setter'],$this,$name, $desc, $value, false);
-      } else {
-        Helpers::debug("There is no setter for this attr.");
+      $desc = $meta_table[$name];
+      if ( isset($desc['setter'])) {
+        if ( is_string($desc['setter']) ) {
+          Helpers::debug(get_called_class() . "::__set using member function for $name with " . var_export($value,true));
+          $this->{ $desc['setter'] }( $value, $desc );
+        } else if (is_callable($desc['setter'])) {
+          Helpers::debug(get_called_class() . "::__set using callable! with value ");
+          call_user_func($desc['setter'],$this,$name, $desc, $value, $filter_value );
+        } else {
+          throw new \Exception( $desc['setter'] .' setter is not a function in this scope');
+        }
       }
       $this->_meta_attributes[$name] = $value;
     } else if (strtolower($name) == 'id') {
