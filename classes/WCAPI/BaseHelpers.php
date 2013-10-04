@@ -50,6 +50,15 @@ class Helpers {
       return null;
     }
   }
+  function mergeUrls($u1,$u2) {
+    $u1 = explode("/",$u1);
+    $u2 = explode("/",$u2);
+    $new_u = array_unique(array_merge($u1,$u2));
+    if ( strpos($new_u[0],'http:') !== false ) {
+      $new_u[0] .= '/';
+    }
+    return join('/',$new_u);
+  }
   public static function error($text) {
     $fp = @fopen(REDE_PLUGIN_BASE_PATH . "errors.log",'a');
     if ($fp) {
