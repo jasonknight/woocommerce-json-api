@@ -7,7 +7,7 @@ $data = array(
   'proc'        => 'get_orders',
   'arguments'   => array(
     'token' => $token,
-    'per_page' => 2,
+    'per_page' => 1,
     'page'     => 1
   )
 );
@@ -67,3 +67,36 @@ foreach ( $orders['payload'] as $order) {
 }
 
 notEqual($note_count2, $note_count);
+
+$Header("Creating a new Order");
+$data = array(
+  'action'      => 'woocommerce_json_api',
+  'proc'        => 'get_orders',
+  'arguments'   => array(
+    'token' => $token,
+    'per_page' => 2,
+    'page'     => 1
+  )
+);
+$result = curl_post($url,$data);
+$result = json_decode($result,true);
+
+$new_order = $result['payload'][0];
+unset($new_order['id']);
+unset($new_order['notes']);
+$relations = array('order_items','tax_items','coupon_items');
+foreach ( $relations as $relation ) {
+  foreach ($new_order[$relation] as &$item) {
+    unset($item['id']);
+  }
+}
+$new_order['name'] = "From the API";
+$new_order['status'] = 'processing';
+$result['payload'] = array($new_order);
+$result['proc'] = 'set_orders';
+$new_result = curl_post($url,$result);
+$new_result = json_decode($new_result,true);
+
+equal($new_result['status'],true);
+keyExists('id',$new_result['payload'][0]);
+

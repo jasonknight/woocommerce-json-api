@@ -767,7 +767,7 @@ class WC_JSON_API_Provider_v1 extends JSONAPIHelpers {
       $product = null;
       if (isset($attrs['id'])) {
         $product = API\Product::find($attrs['id']);
-      } else if ( isset($attrs['sku'])) {
+      } else if ( isset($attrs['sku']) && ! empty($attrs['sku'])) {
         $product = API\Product::find_by_sku($attrs['sku']);
       }
       if ($product && is_object($product) && $product->isValid()) {
@@ -793,6 +793,11 @@ class WC_JSON_API_Provider_v1 extends JSONAPIHelpers {
         if ( ! $product->isValid() ) {
           JSONAPIHelpers::debug("Product is not valid!");
           return $this->done();
+        } else {
+          $this->result->addNotification( 
+              __('Created product','woocommerce_json_api'), 
+              array('id' => $product->_actual_model_id, 'sku' => $product->sku)
+          );
         }
         $attrs = $product->asApiArray();
       }
@@ -844,8 +849,17 @@ class WC_JSON_API_Provider_v1 extends JSONAPIHelpers {
     foreach ( $categories as &$category ) {
       if ( isset($category['id']) ) {
         $actual = API\Category::find( $category['id'] );
-        $actual->fromApiArray($category);
-        $actual->update();
+        if ( $actual->isValid() ) {
+          $actual->fromApiArray($category);
+          $actual->update();
+        } else {
+          $this->result->addError(
+            __("Could not find that category"),
+            JSONAPI_MODEL_NOT_EXISTS,
+            array('id' => $category['id'])
+          );
+          return $this->done();
+        }
       } else {
         $actual = new API\Category();
         $actual->create( $category );
@@ -1112,6 +1126,25 @@ class WC_JSON_API_Provider_v1 extends JSONAPIHelpers {
         $model->fromApiArray($order);
         $model->update();
         $orders[] = $model->asApiArray();
+      } else {
+        $model = new API\Order();
+        $model->create($order);
+        if ( $model->isValid() ) {
+          // We need to call the status method again
+          $model->updateStatus($order['status']);
+          $orders[] = $model->asApiArray();
+          $this->result->addNotification(
+            __("Created Order"),
+            array('id' => $model->_actual_model_id)
+          );
+        } else {
+          $this->addError(
+            __('Cannot create Order','woocommerce_json_api'),
+            JSONAPI_CANNOT_INSERT_RECORD
+          );
+          $this->result->setPayload($orders);
+          return $this->done();
+        }
       }
     }
     $this->result->setPayload($orders);

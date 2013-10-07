@@ -296,24 +296,5 @@ class Coupon extends Base{
   		$this->_exclude_product_ids = Helpers::noEmptyValues(NULL);
   	$this->_exclude_product_ids = Helpers::noEmptyValues( $this->_exclude_product_ids );
   	update_post_meta($this->_actual_model_id,"exclude_product_ids",join(',',$this->_exclude_product_ids) );
-  }
-  // public function updateProductIds($type,$name,$desc,$value) {
-    
-  //   if ( $type == 'getter') {
-  //     if ( isset( $this->{"_{$desc['name']}"} ) ) {
-  //       return $this->{"_{$desc['name']}"};
-  //     }
-  //     $str = get_post_meta($this->_actual_model_id, $desc['name'],true);
-  //       $str = explode(",",$str);
-  //     $this->{"_{$desc['name']}"} = $str;
-  //     return $this->{"_{$desc['name']}"};
-  //   } else if ( $type == 'setter' ) {
-  //     $this->{"_{$desc['name']}"} = $value;
-  //   } else if ( $type == 'updater' ) {
-  //     update_post_meta($this->_actual_model_id,$desc['name'],join(",",$value));
-  //   } else {
-  //     throw new \Exception("updateProductIds does not understand type of $type");
-  //   }
-  // }
-   
+  }  
 }

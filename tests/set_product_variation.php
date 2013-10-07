@@ -20,6 +20,7 @@ $new_product_data = array(
   'status' => 'instock',
   'product_type' => 'simple',
   'parent_id' => '203',
+  'size_attribute' => 'small', // this is our dynamic attribute
   'images' => array(
     array('name' => 'fractal.png'),
     array('name' => 'fractal2.png'),
@@ -35,10 +36,33 @@ $data = array(
   'arguments'   => array(
     'token' => $token,
   ),
-  'payload' => array(array('id' => 203,'product_type' => 'variable')),
-  // 'images[0]' => "@" . dirname(__FILE__) ."/fractal.png",
-  // 'images[1]' => "@" . dirname(__FILE__) ."/fractal2.png",
-  // 'images[2]' => "@" . dirname(__FILE__) ."/fractal3.png",
+  'payload' => array(array('id' => 203,'product_type' => 'variable', 'variations' => array($new_product_data))),
+   'images[0]' => "@" . dirname(__FILE__) ."/fractal.png",
+   'images[1]' => "@" . dirname(__FILE__) ."/fractal2.png",
+   'images[2]' => "@" . dirname(__FILE__) ."/fractal3.png",
+   'model_filters' => array(
+    /*
+     * We need to edit a dynamic attribute, so we have
+     * to let the model layer know it should load up 
+     * a specific attribute.
+     * 
+     * In this case, we have an attribute called Size,
+     * WooCom will save this in the db as: attribute_size
+     */
+    'WCAPI_product_meta_attributes_table' => array(
+      'size_attribute' => array(
+       'name' => 'attribute_size',          
+       'type' => 'string', 
+       'values' => array(
+        'small',
+        'medium',
+        'large',
+       ),
+       'sizehint' => 2
+     ),
+    )
+
+  ),
 );
 
 $result = curl_post($url,$data);

@@ -79,5 +79,12 @@ class WooCommerce_JSON_API_Result {
     }
     $this->params['warnings'][] = $warn;
   }
+  public function addNotification( $text, $merge = array()) {
+    $notice = array( 'text' => $text);
+    foreach ($merge as $k=>$v) {
+      $notice[$k] = $v;
+    }
+    $this->params['notifications'][] = $notice;
+  }
   
 }

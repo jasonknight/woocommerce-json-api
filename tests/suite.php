@@ -9,3 +9,4 @@ include "set_store_settings.php";
 include "set_products.php";
 include "set_product_image.php";
 include "orders.php";
+include "set_orders_status.php";

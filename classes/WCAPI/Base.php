@@ -204,6 +204,9 @@ class Base extends Helpers {
     }
     return $this;
   }
+  public function getIdentString() {
+    return get_called_class() . "({$this->_actual_model_id}): ";
+  }
   public function saveMetaAttributes() {
     Helpers::debug("Base::saveMetaAttributes " . get_called_class() . "({$this->_actual_model_id}) called");
     include WCAPIDIR."/_globals.php";
@@ -211,9 +214,9 @@ class Base extends Helpers {
     $meta_table              = $this->orEq( $self->settings, 'meta_table', $wpdb->postmeta ); 
     $meta_table_foreign_key  = $this->orEq( $self->settings, 'meta_table_foreign_key', 'post_id' );
     $save_meta_function = $self->settings['save_meta_function'];
-    Helpers::debug("meta_table is $meta_table fkey is $meta_table_foreign_key");
+    Helpers::debug($this->getIdentString() ."meta_table is $meta_table fkey is $meta_table_foreign_key");
     if ( $save_meta_function) {
-      Helpers::debug("calling save_meta_function");
+      Helpers::debug($this->getIdentString() ."calling save_meta_function");
       $meta_sql = call_user_func($save_meta_function, $this);
     } else {
       $hits = 0;
@@ -223,42 +226,45 @@ class Base extends Helpers {
           SET `meta_value` = CASE `meta_key`
             ";
             foreach ($self->meta_attributes_table  as $attr => $desc) {
-              Helpers::debug("METASQL: $attr => {$desc['name']}");
+              Helpers::debug($this->getIdentString() ."METASQL: $attr => {$desc['name']}");
               if ( isset( $this->_meta_attributes[$attr] ) ) {
+                Helpers::debug($this->getIdentString() ."Searching meta_attribute for $attr");
                 $value = $this->_meta_attributes[$attr];
                 if ( empty( $value ) && isset( $desc['default'] ) ) {
+                  Helpers::debug($this->getIdentString() .'The value was empty but a default was set.');
                   $value = $desc['default'];
                 }
                 if ( ! empty($value) ) {
                   if ( isset( $desc['updater'] ) ) {
-                    Helpers::debug("METASQL:Calling updater! for $attr");
+                    Helpers::debug($this->getIdentString() ."METASQL:Calling updater! for $attr");
                     call_user_func($desc['updater'],$this, $attr, $value, $desc );
                   } else {
-                    Helpers::debug("METASQL:No updater set for $attr for value $value");
+                    Helpers::debug($this->getIdentString() ."METASQL:No updater set for $attr for value $value");
                     //$meta_keys[] = $wpdb->prepare("%s",$desc['name']);
                     $attribute_names[] = $wpdb->prepare( "%s", $desc['name']);
                     $meta_sql .= $wpdb->prepare( "\tWHEN '{$desc['name']}' THEN %s\n ", $value);
                     $hits++;
                   }
                 } else {
-                  Helpers::debug("METASQL: The value was empty");
+                  Helpers::debug($this->getIdentString() ."METASQL: The value was empty");
                 }
               } else {
-                Helpers::debug("METASQL: Not set in this->_meta_attributes");
+                Helpers::debug($this->getIdentString() ."METASQL: Not set in this->_meta_attributes");
               }
             }
             $meta_sql .= "
             ELSE `meta_value`
           END 
-        WHERE `{$meta_table_foreign_key}` = '{$this->_actual_model_id} AND `meta_key` IN (".join(",",$attribute_names).")
+        WHERE `{$meta_table_foreign_key}` = '{$this->_actual_model_id}' AND `meta_key` IN (".join(",",$attribute_names).")
       ";
     }
-    if ( is_string($meta_sql)) {
-      Helpers::debug("METASQL: is a string!");
+    if ( is_string($meta_sql) && count($attribute_names) > 0) {
+      Helpers::debug($this->getIdentString() ."METASQL: is a string!");
+      Helpers::debug($this->getIdentString() ."METASQL: ". $meta_sql);
       $ret = $wpdb->query($meta_sql);
       static::maybe_throw_wp_error( $ret );
     } else {
-      Helpers::debug("METASQL: was not a string");
+      Helpers::debug($this->getIdentString() ."METASQL: was not a string");
     }
   }
   // We need an easier interface to fetching items
@@ -352,7 +358,7 @@ class Base extends Helpers {
                   Helpers::debug("default connection");
                   $ms = $model->getModelSettings();
                   $fkey = $desc['foreign_key'];
-                  $sql = "UPDATE {$ms['model_table']} SET {$fkey} = %s WHERE ID = %s";
+                  $sql = "UPDATE {$ms['model_table']} SET {$fkey} = %s WHERE {$ms['model_table_id']} = %s";
                   $sql = $wpdb->prepare($sql,$this->_actual_model_id, $model->_actual_model_id);
                   Helpers::debug("connection sql is: $sql");
                   $wpdb->query($sql);
@@ -505,7 +511,7 @@ class Base extends Helpers {
   
   // Dynamic setter
   public function __set( $name, $value ) {
-    Helpers::debug(get_called_class() . "::__set $name");
+    Helpers::debug(get_called_class() . "::__set $name " . var_export($value,true));
     $meta_table = $this->actual_meta_attributes_table;
     $model_table = $this->actual_model_attributes_table;
     $s = $this->actual_model_settings;
@@ -513,8 +519,10 @@ class Base extends Helpers {
       Helpers::debug(get_called_class() . "::__set $name is not defined in meta_table");
     }
     if ( isset( $meta_table[$name] ) ) {
+      Helpers::debug(get_called_class() . "::__set isset meta_table $name " . var_export($value,true));
       $desc = $meta_table[$name];
       if ( isset($desc['setter'])) {
+        Helpers::debug(get_called_class() . "::__set if isset setter $name " . var_export($value,true));
         if ( is_string($desc['setter']) ) {
           Helpers::debug(get_called_class() . "::__set using member function for $name with " . var_export($value,true));
           $this->{ $desc['setter'] }( $value, $desc );
@@ -525,12 +533,17 @@ class Base extends Helpers {
           throw new \Exception( $desc['setter'] .' setter is not a function in this scope');
         }
       }
+      Helpers::debug(get_called_class() . "::__set setting $name  to" . var_export($value,true) . " in meta_table");
       $this->_meta_attributes[$name] = $value;
+      Helpers::debug("meta_attributes $name is now " . var_export($this->_meta_attributes[$name],true) );
     } else if (strtolower($name) == 'id') {
+      Helpers::debug(get_called_class() . "::__set if strtolower id $name " . var_export($value,true));
       $this->id = $value;
     } else if ( isset( $model_table[$name] ) ) {
+      Helpers::debug(get_called_class() . "::__set if isset mode_table $name " . var_export($value,true));
       $this->_model_attributes[$name] = $value;
     }  else if ( isset( $s['has_many'] ) && $this->inArray( $name, array_keys($s['has_many']) ) ) {
+      Helpers::debug(get_called_class() . "::__set if isset has_many $name " . var_export($value,true));
       $this->{$name} = $value;
     } else {
       throw new \Exception( sprintf(__('That attribute %s does not exist to be set to %s. for %s','woocommerce_json_api'),"`$name`", (string)var_export($value,true), get_called_class()) );
@@ -634,11 +647,12 @@ class Base extends Helpers {
       $model->fromDatabaseResult( $record );
     
     } else {
-      $model = null;
+      $model->setValid(false);
     }
     return $model;
   }
   public function fromDatabaseResult( $record ) {
+    Helpers::debug( $this->getIdentString() . "::fromDatabaseResult " . var_export($record,true));
     include WCAPIDIR."/_globals.php";
     include WCAPIDIR."/_model_static_attributes.php";
     $model = $this;
@@ -666,6 +680,7 @@ class Base extends Helpers {
     $model->setNewRecord( false );
   }
   public function fromApiArray( $attrs ) {
+    Helpers::debug( $this->getIdentString() . "::fromApiArray " . var_export($attrs,true) );
     $meta_table = $this->actual_meta_attributes_table;
     $model_table = $this->actual_model_attributes_table;
     $s = $this->actual_model_settings;
@@ -739,7 +754,7 @@ class Base extends Helpers {
   }
 
   public function create( $attrs = null ) {
-    Helpers::debug("Base::create() for " . get_called_class() );
+    Helpers::debug("Base::create() for " . $this->getIdentString() );
     include WCAPIDIR."/_model_static_attributes.php";
     $meta_table = $this->actual_meta_attributes_table;
     $model_table = $this->actual_model_attributes_table;
@@ -749,7 +764,7 @@ class Base extends Helpers {
 
     // Maybe we want to set attribs and create in one go.
     if ( $attrs ) {
-      Helpers::debug( "attrs is set" );
+      Helpers::debug( $this->getIdentString() . "attrs is set" );
       Helpers::debug( var_export($attrs,true) );
       foreach ( $attrs as $name=>$value ) {
         if ( isset( $self->attributes_table[$name]) ) {

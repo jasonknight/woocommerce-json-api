@@ -92,8 +92,8 @@ class Helpers {
     }
     $fp = @fopen(REDE_PLUGIN_BASE_PATH . "debug.log",'a');
     if ($fp) {
-      $text = str_replace("\n","\\n",$text);
-      $cmd = new CmdColors();
+      //$text = str_replace("\n","\\n",$text);
+      //$cmd = new CmdColors();
       // $keywords = array('SELECT','FROM','WHERE','AND','NOT','IN','UPDATE','SET','INSERT','VALUES','=>','AS','=','FALSE','false','TRUE','true');
       // foreach ($keywords as $kw ) {
       //   $nkw = $cmd->getColoredString($kw,'red');

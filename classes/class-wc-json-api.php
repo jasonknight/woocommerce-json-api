@@ -16,6 +16,7 @@ define('JSONAPI_INTERNAL_ERROR',                -9);
 define('JSONAPI_PRODUCT_NOT_EXISTS', 1);
 define('JSONAPI_ORDER_NOT_EXISTS', 2);
 define('JSONAPI_NO_RESULTS_POSSIBLE', 3);
+define('JSONAPI_MODEL_NOT_EXISTS', 1);
 
 require_once( plugin_dir_path(__FILE__) . '/class-rede-helpers.php' );
 require_once( plugin_dir_path(__FILE__) . '/class-wc-json-api-result.php' );
@@ -159,14 +160,7 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
     // Reorganize any uploaded files and put them in
     // the params
     $files = array();
-    // $file_count = count($_FILES['name']);
-    // $file_keys = array_keys($_FILES);
 
-    // for ($i=0; $i<$file_count; $i++) {
-    //     foreach ($file_keys as $key) {
-    //         $files[$i][$key] = $_FILES[$key][$i];
-    //     }
-    // }
 
     $params['uploads'] = $files; 
 

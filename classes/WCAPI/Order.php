@@ -51,6 +51,11 @@ class Order extends Base {
     $table = array(
       'name'            => array('name' => 'post_title',  'type' => 'string'),
       'guid'            => array('name' => 'guid',        'type' => 'string'),
+      'type'                  => array('name' => 'post_type',
+                                       'type' => 'string',
+                                       'default' => 'shop_order',
+                                       'sizehint' => 5
+                                  ),
 
     );
     $table = apply_filters( 'WCAPI_order_model_attributes_table', $table );
@@ -157,8 +162,11 @@ class Order extends Base {
     $this->_status = $s;
   }
   public function updateStatus( $to ) {
-    $order = new WC_Order( $this->_actual_model_id );
-    $order->update_status( $to );
+    // $order = new \WC_Order( $this->_actual_model_id );
+    // $order->update_status( $to );
+    // Right now, we don't want the overhead of the WooCom
+    // events that are triggered with a status update.
+    $this->updateTerm('status','shop_order_status',$to);
   }
   public function asApiArray() {
     $attrs = parent::asApiArray();
