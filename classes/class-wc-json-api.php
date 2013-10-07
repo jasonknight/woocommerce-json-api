@@ -117,6 +117,7 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
   *  to a certain inflexibility in what you can do with it.
   */
   public function route( $params ) {
+    global $wpdb;
     $method = $this->orEq( $params, 'method',false);
     $proc = $this->orEq($params, 'proc',false);
     if ( 
@@ -171,7 +172,11 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
     if ( isset( $params['model_filters'] ) ) {
       
       foreach ( $params['model_filters'] as $filter_text=>$filter ) {
+        foreach ($filter as $key=>&$value) {
+          $value['name'] = substr($wpdb->prepare("%s",$value['name']),1,strlen($value['name'])-2);
+        }
         $callback = function ($table) use ($filter) {
+
             return array_merge($table,$filter);
         };
         add_filter($filter_text, $callback );
