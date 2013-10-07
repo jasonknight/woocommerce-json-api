@@ -129,9 +129,9 @@ function onLoadMethodsButtonClick() {
 
 function onGetMethodButtonClick(proc) {
   //console.log("onMethodButtonClick", proc);
-  $('#results').html('');
-  $('#arguments').html('');
-  $('#messages').html('');
+  $('#results').html("");
+  $('#arguments').html("");
+  $('#messages').html("");
   var request;
   var div = $('#arguments');
   var tmpl_query = _.template($("#template_query_argument").html());
@@ -337,7 +337,7 @@ function displayModel(data) {
   } else {
     var msg = "The method 'get_supported_attributes' does not define Klass '" + data.proc.classify() + "'. Inplace-editing of fields is therefore not supported. Simply displaying values instead.";
     $("#results").append(tmpl_message({
-      messages: [statusmessage],
+      message: statusmessage,
       severity: "notification"
     }));
     renderDisplayOnlyTable($("#results"), data.payload);
@@ -347,6 +347,7 @@ function displayModel(data) {
 
 /* SET FUNCTIONS */
 function onSetMethodButtonClick(proc) {
+
   
   var json_path = [proc.replace("set_", "")];
   var table = proc.tableize();
@@ -359,13 +360,16 @@ function onSetMethodButtonClick(proc) {
   var cols = '';
   var default_value;
   
+  $("#messages").html("");
+  $("#arguments").html("");
+  
   $("#results").html(tmpl_submit_button({
     table: table,
   }));
   
+  //console.log($supported_attributes[klass]);
+  
   $.each($supported_attributes[klass], function(key, desc) {
-    console.log(key, desc);
-    
     if (desc.default) {
       // if get_supported_attributes specifies a default value, use that
       default_value = desc.default;
@@ -395,6 +399,7 @@ function onSetMethodButtonClick(proc) {
       value: cols
     });
   });
+ 
   $("#results").append(row);
 }
 
@@ -406,6 +411,13 @@ function onSubmitModelButtonClick(table) {
   request.payload = [{}];
   
   $.each($supported_attributes[klass], function(key, desc) {
+    
+    /*
+    if (key == "id") {
+      return true;
+    }
+    */
+    
     var element;
     var value;
     var json_path;
@@ -479,7 +491,7 @@ function renderEditFields(collection, table, depth, json_path) {
       ) {
         msg = "ERROR! Key '" + key + "' of Klass '" + klass + "' is an " + reveal(model[key]) + ". The proc get_supported_attributes defined it as a " + desc.type.titleize();
         cols += tmpl_message({
-          messages: [msg],
+          message: msg,
           severity: "error"
         });
         continue;

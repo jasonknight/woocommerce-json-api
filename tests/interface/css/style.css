@@ -24,11 +24,11 @@ div.row {
 }
 
 div.attr-row label {
-  font-size: 110% !important;
 }
 
 label {
   color: #000099;
+  font-size: 70%
 }
 
 div.attr-input-error {

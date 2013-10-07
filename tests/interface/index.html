@@ -188,9 +188,7 @@
         </div>
       <% } else { %>
         <label><%= key %></label>
-        <% if ( key == "id" ) { %>
-          <span><b>#<%= value %></b></span>
-        <% } else if ( (type == "string" && values) || ( type == "bool" && values ) ) { %>
+        <% if ( (type == "string" && values) || ( type == "bool" && values ) ) { %>
           <select class="editme" json_path="<%= json_path %>" record_id=<%= record_id %>>
             <% _.each(values, function(idx) { %>
               <option value=<%= idx %>><%= idx %></option>

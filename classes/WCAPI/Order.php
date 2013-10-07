@@ -58,56 +58,187 @@ class Order extends Base {
   }
   public static function getMetaAttributes() {
     $table = array(
-      'order_key'             => array('name' => '_order_key',                  'type' => 'string'), 
-      'billing_first_name'    => array('name' => '_billing_first_name',         'type' => 'string'), 
-      'billing_last_name'     => array('name' => '_billing_last_name',          'type' => 'string'), 
-      'billing_company'       => array('name' => '_billing_company' ,           'type' => 'string'), 
-      'billing_address_1'     => array('name' => '_billing_address_1',          'type' => 'string'), 
-      'billing_address_2'     => array('name' => '_billing_address_2',          'type' => 'string'), 
-      'billing_city'          => array('name' => '_billing_city',               'type' => 'string'), 
-      'billing_postcode'      => array('name' => '_billing_postcode',           'type' => 'string'), 
-      'billing_country'       => array('name' => '_billing_country',            'type' => 'string'), 
-      'billing_state'         => array('name' => '_billing_state',              'type' => 'string'), 
-      'billing_email'         => array('name' => '_billing_email',              'type' => 'string'), 
-      'billing_phone'         => array('name' => '_billing_phone',              'type' => 'string'), 
-      'shipping_first_name'   => array('name' => '_shipping_first_name',        'type' => 'string'), 
-      'shipping_last_name'    => array('name' => '_shipping_last_name' ,        'type' => 'string'), 
-      'shipping_company'      => array('name' => '_shipping_company',           'type' => 'string'), 
-      'shipping_address_1'    => array('name' => '_shipping_address_1' ,        'type' => 'string'), 
-      'shipping_address_2'    => array('name' => '_shipping_address_2',         'type' => 'string'), 
-      'shipping_city'         => array('name' => '_shipping_city',              'type' => 'string'), 
-      'shipping_postcode'     => array('name' => '_shipping_postcode',          'type' => 'string'), 
-      'shipping_country'      => array('name' => '_shipping_country',           'type' => 'string'), 
-      'shipping_state'        => array('name' => '_shipping_state',             'type' => 'string'), 
-      'shipping_method'       => array('name' => '_shipping_method' ,           'type' => 'string'), 
-      'shipping_method_title' => array('name' => '_shipping_method_title',      'type' => 'string'), 
-      'payment_method'        => array('name' => '_payment_method',             'type' => 'string'), 
-      'payment_method_title'  => array('name' => '_payment_method_title',       'type' => 'string'), 
-      'order_discount'        => array('name' => '_order_discount',             'type' => 'number'), 
-      'cart_discount'         => array('name' => '_cart_discount',              'type' => 'number'), 
-      'order_tax'             => array('name' => '_order_tax' ,                 'type' => 'number'), 
-      'order_shipping'        => array('name' => '_order_shipping' ,            'type' => 'number'), 
-      'order_shipping_tax'    => array('name' => '_order_shipping_tax' ,        'type' => 'number'), 
-      'order_total'           => array('name' => '_order_total',                'type' => 'number'), 
-      'customer_user'         => array('name' => '_customer_user',              'type' => 'number'), 
-      'completed_date'        => array('name' => '_completed_date',             'type' => 'datetime'), 
-      'status'                => array(
-                                        'name' => 'status', 
-                                        'type' => 'string', 
-                                        'values' => static::getOrderStatuses(),
-                                        // This is more or less just to have an example of how
-                                        // the getter/setter/updaters work
-                                        'getter' => function ($model, $name, $desc, $filter ) { 
-                                          return $model->getStatus(); 
-                                        },
-                                        'setter' => function ($model,$name, $desc, $value, $filter_value) {
-                                          $model->setStatus( $value );
-                                        },
-                                        'updater' => function ( $model, $name, $value, $desc ) { 
-                                          $model->updateStatus($value); 
-                                        },
-                                ),
-      
+      'order_key' => array(
+        'name' => '_order_key',
+        'type' => 'string',
+        'sizehint' => 2
+        ),
+      'billing_first_name' => array(
+        'name' => '_billing_first_name',
+        'type' => 'string',
+        'sizehint' => 5
+        ),
+      'billing_last_name' => array(
+        'name' => '_billing_last_name',
+        'type' => 'string',
+        'sizehint' => 5
+        ),
+      'billing_company' => array(
+        'name' => '_billing_company',
+        'type' => 'string',
+        'sizehint' => 5
+        ),
+      'billing_address_1' => array(
+        'name' => '_billing_address_1',
+        'type' => 'string',
+        'sizehint' => 5
+        ),
+      'billing_address_2' => array(
+        'name' => '_billing_address_2',
+        'type' => 'string',
+        'sizehint' => 5
+        ),
+      'billing_city' => array(
+        'name' => '_billing_city',
+        'type' => 'string',
+        'sizehint' => 3,
+        ),
+      'billing_postcode' => array(
+        'name' => '_billing_postcode',
+        'type' => 'string',
+        'sizehint' => 2
+        ),
+      'billing_country' => array(
+        'name' => '_billing_country',
+        'type' => 'string',
+        'sizehint' => 3
+        ),
+      'billing_state' => array(
+        'name' => '_billing_state',
+        'type' => 'string',
+        'sizehint' => 3
+        ),
+      'billing_email' => array(
+        'name' => '_billing_email',
+        'type' => 'string',
+        'sizehint' => 4
+        ),
+      'billing_phone' => array(
+        'name' => '_billing_phone',
+        'type' => 'string',
+        'sizehint' => 4
+        ),
+      'shipping_first_name' => array(
+        'name' => '_shipping_first_name',
+        'type' => 'string',
+        'sizehint' => 5
+        ),
+      'shipping_last_name' => array(
+        'name' => '_shipping_last_name' ,
+        'type' => 'string',
+        'sizehint' => 5
+        ),
+      'shipping_company' => array(
+        'name' => '_shipping_company',
+        'type' => 'string',
+        'sizehint' => 4
+        ),
+      'shipping_address_1' => array(
+        'name' => '_shipping_address_1',
+        'type' => 'string',
+        'sizehint' => 5
+        ),
+      'shipping_address_2' => array(
+        'name' => '_shipping_address_2',
+        'type' => 'string',
+        'sizehint' => 5
+        ), 
+      'shipping_city' => array(
+        'name' => '_shipping_city',
+        'type' => 'string',
+        'sizehint' => 4
+        ), 
+      'shipping_postcode' => array(
+        'name' => '_shipping_postcode',
+        'type' => 'string',
+        'sizehint' => 3
+        ), 
+      'shipping_country' => array(
+        'name' => '_shipping_country',
+        'type' => 'string',
+        'sizehint' => 2
+        ), 
+      'shipping_state' => array(
+        'name' => '_shipping_state',
+        'type' => 'string',
+        'sizehint' => 4
+        ), 
+      'shipping_method' => array(
+        'name' => '_shipping_method',
+        'type' => 'string',
+        'sizehint' => 3
+        ), 
+      'shipping_method_title' => array(
+        'name' => '_shipping_method_title',
+        'type' => 'string',
+        'sizehint' => 3
+        ), 
+      'payment_method' => array(
+        'name' => '_payment_method',
+        'type' => 'string',
+        'sizehint' => 3
+        ), 
+      'payment_method_title' => array(
+        'name' => '_payment_method_title',
+        'type' => 'string',
+        'sizehint' => 3
+        ), 
+      'order_discount' => array(
+        'name' => '_order_discount',
+        'type' => 'number',
+        'sizehint' => 1
+        ), 
+      'cart_discount' => array(
+        'name' => '_cart_discount',
+        'type' => 'number',
+        'sizehint' => 1
+        ), 
+      'order_tax' => array(
+        'name' => '_order_tax',
+        'type' => 'number',
+        'sizehint' => 1
+        ), 
+      'order_shipping' => array(
+        'name' => '_order_shipping',
+        'type' => 'number',
+        'sizehint' => 1
+        ), 
+      'order_shipping_tax' => array(
+        'name' => '_order_shipping_tax',
+        'type' => 'number',
+        'sizehint' => 1
+        ), 
+      'order_total' => array(
+        'name' => '_order_total',
+        'type' => 'number',
+        'sizehint' => 1
+        ), 
+      'customer_user' => array(
+        'name' => '_customer_user',
+        'type' => 'number',
+        'sizehint' => 1
+        ), 
+      'completed_date' => array(
+        'name' => '_completed_date',
+        'type' => 'datetime',
+        'sizehint' => 1
+        ), 
+      'status' => array(
+        'name' => 'status', 
+        'type' => 'string', 
+        'values' => static::getOrderStatuses(),
+        // This is more or less just to have an example of how
+        // the getter/setter/updaters work
+        'getter' => function ($model, $name, $desc, $filter ) { 
+          return $model->getStatus();
+          },
+        'setter' => function ($model,$name, $desc, $value, $filter_value) {
+          $model->setStatus( $value );
+          },
+        'updater' => function ( $model, $name, $value, $desc ) { 
+          $model->updateStatus($value); 
+          },
+        ),
     );
     /*
       With this filter, plugins can extend this ones handling of meta attributes for a product,
