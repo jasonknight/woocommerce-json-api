@@ -369,6 +369,7 @@ function onSetMethodButtonClick(proc) {
   
   //console.log($supported_attributes[klass]);
   
+  //if ($supported_attributes[klass] =
   $.each($supported_attributes[klass], function(key, desc) {
     if (desc.default) {
       // if get_supported_attributes specifies a default value, use that
@@ -446,59 +447,35 @@ function onSubmitModelComplete(data, options) {
 /* ============================ */
 
 function renderEditFields(collection, table, depth, json_path) {
+  console.log("renderEditFields", collection, table, depth, json_path);
   var klass = table.classify();
   var html_result = '';
   var msg;
   
+  /*
+  // test if klass is specified
+  if ( ! $supported_attributes[klass] ) {
+    msg = "Klass '" + klass + "' not defined by proc 'get_supported_attributes'. Skipping.";
+    $("#messages").append(tmpl_message({
+      message: msg,
+      severity: "warning"
+    }));
+    return;
+  }
+  */
+  
   for (var i = 0; i < collection.length; i++) {
     var model = collection[i];
-    //console.log("Model",model);
     var cols = '';
     var record_id = model.id;
     
     for (var key in model) {
-      
-      if ( ! $supported_attributes[klass] ) {
-        msg = "Klass '" + klass + "' not defined by proc 'get_supported_attributes'. Skipping.";
-        cols += tmpl_message({
-          message: msg,
-          severity: "warning"
-        });
-        continue;
-      }
-      
-      if ( ! $supported_attributes[klass][key] ) {
-        msg = "Attribute '" + key + "' in klass '" + klass + "' not defined by proc 'get_supported_attributes'. Skipping.";
-        cols += tmpl_message({
-          message: msg,
-          severity: "warning"
-        });
-        continue;
-      }
-      
-      var desc = $supported_attributes[klass][key];
-        
-      // output error if types don't match
-      if (
-        reveal(model[key]) != "[object " + desc.type.titleize() + "]" &&
-        // exceptions to the previous rule. those are represented as strings on the JS side, so we allow them
-        ! ( desc.type == "bool" ||
-          desc.type == "number" ||
-          desc.type == "date(y-m-d)" ||
-          desc.type == "timestamp" ||
-          desc.type == "text"
-        )
-      ) {
-        msg = "ERROR! Key '" + key + "' of Klass '" + klass + "' is an " + reveal(model[key]) + ". The proc get_supported_attributes defined it as a " + desc.type.titleize();
-        cols += tmpl_message({
-          message: msg,
-          severity: "error"
-        });
-        continue;
-      }
         
       
-      if ( reveal(model[key]) == "[object Array]" && reveal(model[key][0]) == "[object Object]" ) {
+      if (  reveal(model[key]) == "[object Array]" &&
+            model[key].length > 0 &&
+            reveal(model[key][0]) == "[object Object]"
+         ) {
           // this is an array containing objects. display HAS_MANY relationship in place, via Recursion
           var rendered_hasmany_header = tmpl_header({
             klass: key.titleize(),
@@ -526,6 +503,51 @@ function renderEditFields(collection, table, depth, json_path) {
         
       } else {
         // simple datatypes
+        
+        // test for length
+        if ( reveal(model[key]) == "[object Array]" &&
+             model[key].length == 0 &&
+             typeof $supported_attributes[klass][key] == "undefined"
+        ) {
+          msg = "Attribute '" + key + "' in klass '" + klass + "' has zero length. Not rendering";
+          cols += tmpl_message({
+            message: msg,
+            severity: "warning"
+          });
+          continue;
+        }
+        
+        // test if key of klass is specified
+        if ( ! $supported_attributes[klass][key]
+        ) {
+          msg = "Attribute '" + key + "' in klass '" + klass + "' not defined by proc 'get_supported_attributes'. Skipping.";
+          cols += tmpl_message({
+            message: msg,
+            severity: "warning"
+          });
+          continue;
+        }
+        
+        var desc = $supported_attributes[klass][key];
+        
+        // test if actual value matches with the specifcations
+        if ( 
+          reveal(model[key]) != "[object " + desc.type.titleize() + "]" &&
+          // exceptions to the previous rule. those are represented as strings on the JS side, so we allow them
+          ! ( desc.type == "bool" ||
+          desc.type == "number" ||
+          desc.type == "date(y-m-d)" ||
+          desc.type == "timestamp" ||
+          desc.type == "text"
+          )
+        ) {
+          msg = "ERROR! Key '" + key + "' of Klass '" + klass + "' is an " + reveal(model[key]) + ". The proc get_supported_attributes defined it as a " + desc.type.titleize();
+          cols += tmpl_message({
+            message: msg,
+            severity: "error"
+          });
+          continue;
+        }
 
         tmpl_data = {
           columns: Math.floor(desc.sizehint * 22 / 10), 
