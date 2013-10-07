@@ -182,7 +182,7 @@ class Coupon extends Base{
       'customer_email' => array(
         'name' => 'customer_email',
         'type' => 'array', 
-        'sizehint' => 1,
+        'sizehint' => 10,
       ),
     );
     /*

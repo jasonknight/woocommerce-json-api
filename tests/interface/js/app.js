@@ -3,23 +3,40 @@ var $methods = null;
 var $supported_attributes;
 var $query_results = {};
 
+var tmpl_attr;
+var tmpl_attr_row;
+var tmpl_header;
+var tmpl_message;
+var tmpl_message_response;
+
 /* DOCUMENTREADY */
 $(function () {
+  
+  tmpl_attr = _.template($("#template_attribute").html());
+  tmpl_message_response    = _.template($("#template_message_response").html());
+  tmpl_message = _.template($("#template_message").html());
+  tmpl_attr_row = _.template($("#template_row_attribute").html());
+  tmpl_header = _.template($("#template_attribute_heading").html());
+  
   $('#load_methods_button').on('click',onLoadMethodsButtonClick);
   /* AUTOMATION */
   onLoadMethodsButtonClick();
 });
 
 String.prototype.tableize = function () {
-  if (this.indexOf("get_") == 0) {
+  if ( this.indexOf("get_") == 0 ) {
     return this.replace("get_", "");
+  } else if ( this.indexOf("set_") == 0 ) {
+    return this.replace("set_", "");
   } else {
     return "tableizeInputStringNotSupported";
   }
 };
 
 String.prototype.titleize = function () {
-  return this.replace(/_/g," ").replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+  return this.replace(/_/g," ").replace(/\w\S*/g, function(txt){
+    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+  });
 };
 
 var reveal = function (m) {
@@ -28,10 +45,13 @@ var reveal = function (m) {
 
 String.prototype.classify = function () {
   var str = "";
-  str = this.replace("get_", "").titleize().replace(/ /g, "").slice(0, -1);
+  str = this.replace("get_", "").titleize().replace(/ /g, "");
+  
   if (this.substring(this.length - 3, this.length) == "ies") {
-    str = str.substr(0, str.length - 3) + "ry";
-  } else if (this.substring(this.length - 2, this.length) == "es" && this != "get_images") {
+    str = str.substr(0, str.length - 3) + "y";
+  } else if (this.substring(this.length - 2, this.length) == "es") {
+    str = str.slice(0, -2);
+  } else if (this.substring(this.length - 1, this.length) == "s" ) {
     str = str.slice(0, -1);
   }
   return str;
@@ -76,14 +96,16 @@ function prepareRequest(name,existing_req) {
 function getRequest(req, callback, options) {
   var s = getSettings();
   //$.getJSON(s.url, req, onGetRequestComplete );
+  displayRequestDebug(req);
   $.ajax({
     type: "POST",
     url: s.url,
     data: JSON.stringify(req),
     contentType: 'application/json',
     success: function(data) {
-      callback(data, options);
-      displayDebug(data);
+      if (callback)
+        callback(data, options);
+      displayResponseDebug(data);
       console.log("getRequest RECEIVED:", data);
     },
     dataType: 'json',
@@ -107,12 +129,13 @@ function onLoadMethodsButtonClick() {
 
 function onGetMethodButtonClick(proc) {
   //console.log("onMethodButtonClick", proc);
-  $('#results').html('');
-  $('#arguments').html('');
+  $('#results').html("");
+  $('#arguments').html("");
+  $('#messages').html("");
   var request;
   var div = $('#arguments');
-  var tmpl = _.template($('#argument_template').html());
-  var tmpl_select = _.template($('#argument_template_select').html());
+  var tmpl_query = _.template($("#template_query_argument").html());
+  var tmpl_query_select = _.template($("#template_query_argument_select").html());
   var query_args = [];
   
   switch(proc) {
@@ -156,9 +179,9 @@ function onGetMethodButtonClick(proc) {
       }
       for ( var i = 0; i < query_args.length; i++ ) {
         if (query_args[i].options) {
-          div.append( tmpl_select( query_args[i] ) );
+          div.append( tmpl_query_select( query_args[i] ) );
         } else {
-          div.append( tmpl( query_args[i] ) );
+          div.append( tmpl_query( query_args[i] ) );
         }
       }
       var button = $('<div class="small button">Load</div>');
@@ -198,19 +221,24 @@ function onGetMethodButtonClick(proc) {
 /* DISPLAY CALLBACKS AFTER REQUEST */
 /* ============================ */
 
-function displayDebug( data ) {
-  console.log(data);
-  var req_vars = ['action','proc','arguments','errors','warnings','notifications','status'];
+function displayRequestDebug( data ) {
+  //var req_vars = ['action','proc','arguments','errors','warnings','notifications','status'];
   var div = $('#request_debug');
   div.html('');
+  /*
   for ( var i = 0; i < req_vars.length; i++ ) {
     div.append('<h5>' + req_vars[i].titleize() + '</h5>');
     div.append('<pre>' + JSON.stringify(data[req_vars[i]],undefined,2) + '</pre>');
   }
+  */
+  div.html("<pre>" + JSON.stringify(data, null, "  ") + "</pre>");
   div.effect("highlight");
-  div = $('#payload_debug');
+}
+
+function displayResponseDebug( data ) {
+  div = $('#response_debug');
   div.html('');
-  div.append('<pre>' + JSON.stringify(data[ 'payload' ],undefined,2) + '</pre>');
+  div.html("<pre>" + JSON.stringify(data, null, "  ") + "</pre>");
   div.effect("highlight");
 }
 
@@ -221,13 +249,12 @@ function displayAPIMethods( data ) {
     var button = $('<div class="small button">' + key.titleize() + '<div>');
     
     if ( key.indexOf('set_') == 0) {
-      console.log("XXXXX", key);
       button.addClass('alert');
-      button.on('click', function(method) {
+      button.on('click', function(k) {
         return function() {
-          onSetMethodButtonClick(method);
+          onSetMethodButtonClick(k);
         }
-      }(data.proc));
+      }(key));
     }
     
     if ( key.indexOf('get_') == 0) {
@@ -238,8 +265,8 @@ function displayAPIMethods( data ) {
       }(key));
     }
     
-    $('#methods').append(button);
-    $('#methods').append('<br />');
+    $('#methods').prepend(button);
+    $('#methods').prepend('<br />');
   }
 
   /* AUTOMATION CODE */
@@ -264,27 +291,41 @@ function displaySupportedAttributes(data) {
   $('#results').html("Supported attributes have been saved to global JS variable '$supported_attributes'. You can inpsect it in your console.");
 }
 
+function renderResponseMessages(data) {
+  var tmpl_message_response_rendered = "";
+  var tmpl_message_rendered;
+  
+  tmpl_message_response_rendered += tmpl_message_response({
+    messages: data.errors,
+    severity: "error"
+  });
+
+  tmpl_message_response_rendered += tmpl_message_response({
+    messages: data.warnings,
+    severity: "warning"
+  });
+
+  tmpl_message_response_rendered += tmpl_message_response({
+    messages: data.notifications,
+    severity: "notification"
+  });
+  
+  $("#messages").append(tmpl_message_response_rendered);
+}
+
 function displayModel(data) {
   $('#results').html('');
   
-  if (data.errors.length > 0) {
-    var tmpl_error = _.template($('#response_errors').html());
-    $('#results').append(tmpl_error({ messages: data.errors }));
-  }
+  renderResponseMessages(data);
   
-  if (data.warnings.length > 0) {
-    var tmpl_warning = _.template($('#response_warnings').html());
-    $('#results').append(tmpl_warning({ messages: data.warnings }));
-  }
-  
-  if (data.notifications.length > 0) {
-    var tmpl_notification = _.template($('#response_notifications').html());
-    $('#results').append(tmpl_warning({ messages: data.notifications }));
-  }
-  
-  var tmpl_notice = _.template($('#statusmessage_template').html());
   var statusmessage = "Received payload of length " + data.payload.length;
-  $('#results').append(tmpl_notice({ statusmessage: statusmessage }));
+  tmpl_message_rendered = tmpl_message({
+    message: statusmessage,
+    severity: "success"
+  });
+
+  
+  $("#messages").append(tmpl_message_rendered);
   
   json_path = [data.proc.replace("get_", "")];
   klass = data.proc.classify();
@@ -294,32 +335,309 @@ function displayModel(data) {
     $(".datepicker").datepicker();
     $(".editme").on('change', onInputChanged);
   } else {
-    var statusmessage = "WARNING: The method 'get_supported_attributes' does not define Klass '" + data.proc.classify() + "'. Inplace-editing of fields is therefore not supported. Simply displaying values instead.";
-    $("#results").append(tmpl_notice({ statusmessage: statusmessage }));
-    renderEditTable($('#results'), data.payload);
+    var msg = "The method 'get_supported_attributes' does not define Klass '" + data.proc.classify() + "'. Inplace-editing of fields is therefore not supported. Simply displaying values instead.";
+    $("#results").append(tmpl_message({
+      message: statusmessage,
+      severity: "notification"
+    }));
+    renderDisplayOnlyTable($("#results"), data.payload);
   }
 }
 
 
 /* SET FUNCTIONS */
 function onSetMethodButtonClick(proc) {
-  json_path = [proc.replace("set_", "")];
-  klass = proc.classify();
-  console.log("onSetMethodButtonClick called with", proc, klass);
-  $.each($supported_attributes[klass], function(attr, desc) {
-    $("#response").append(attr);
+
+  
+  var json_path = [proc.replace("set_", "")];
+  var table = proc.tableize();
+  var klass = proc.tableize().classify();
+  
+  var tmpl_submit_button = _.template($("#template_submit_model_button").html());
+
+
+  var row;
+  var cols = '';
+  var default_value;
+  
+  $("#messages").html("");
+  $("#arguments").html("");
+  
+  $("#results").html(tmpl_submit_button({
+    table: table,
+  }));
+  
+  //console.log($supported_attributes[klass]);
+  
+  //if ($supported_attributes[klass] =
+  $.each($supported_attributes[klass], function(key, desc) {
+    if (desc.default) {
+      // if get_supported_attributes specifies a default value, use that
+      default_value = desc.default;
+    } else {
+      // else, invent our own
+      if (desc.type == "array") {
+        default_value = [];
+      } else {
+        default_value = "";
+      }
+    }
+    
+    tmpl_data = {
+      columns: Math.floor(desc.sizehint * 22 / 10), 
+      value: default_value,
+      values: desc.values,
+      key: key,
+      type: desc.type,
+      nested: false,
+      json_path: table + "." + key,
+      record_id: 0,
+      klass: klass,
+    };
+
+    cols += tmpl_attr(tmpl_data);
+    row = tmpl_attr_row({
+      value: cols
+    });
   });
+ 
+  $("#results").append(row);
 }
 
+function onSubmitModelButtonClick(table) {
+  var klass = table.classify();
+  var request = prepareRequest();
+  
+  request.proc = "set_" + table;
+  request.payload = [{}];
+  
+  $.each($supported_attributes[klass], function(key, desc) {
+    
+    /*
+    if (key == "id") {
+      return true;
+    }
+    */
+    
+    var element;
+    var value;
+    var json_path;
+    
+    element = $("[json_path='" + table + "." + key + "']");
+    value = element.val();
+    json_path = element.attr("json_path");
+    
+    console.log(key, value);
+    
+    if ( desc.type == "array" ) {
+      value = value.split(",");
+    }
+    setDeepHashValue(request.payload[0], key, value);
+  });
+  getRequest(request, onSubmitModelComplete, {}); //xxx
+}
 
-
+function onSubmitModelComplete(data, options) {
+  console.log("onSubmitModelComplete", data, options);
+  renderResponseMessages(data);
+}
 
 /* ============================ */
 /* HELPER FUNCTIONS */
 /* ============================ */
 
+function renderEditFields(collection, table, depth, json_path) {
+  console.log("renderEditFields", collection, table, depth, json_path);
+  var klass = table.classify();
+  var html_result = '';
+  var msg;
+  
+  /*
+  // test if klass is specified
+  if ( ! $supported_attributes[klass] ) {
+    msg = "Klass '" + klass + "' not defined by proc 'get_supported_attributes'. Skipping.";
+    $("#messages").append(tmpl_message({
+      message: msg,
+      severity: "warning"
+    }));
+    return;
+  }
+  */
+  
+  for (var i = 0; i < collection.length; i++) {
+    var model = collection[i];
+    var cols = '';
+    var record_id = model.id;
+    
+    for (var key in model) {
+        
+      
+      if (  reveal(model[key]) == "[object Array]" &&
+            model[key].length > 0 &&
+            reveal(model[key][0]) == "[object Object]"
+         ) {
+          // this is an array containing objects. display HAS_MANY relationship in place, via Recursion
+          var rendered_hasmany_header = tmpl_header({
+            klass: key.titleize(),
+            depth: depth + 3,
+          });
+          depth += 1;
+          json_path.push(key);
+          var v = renderEditFields(model[key], key, depth, json_path);
+          depth -= 1;
+          v = rendered_hasmany_header + v;
+          tmpl_data = {
+            columns: 22, 
+            value: v,
+            key: key,
+            nested: true,
+            depth: depth,
+            record_id: 0,
+            klass: 'nested',
+          };
+          //console.log("tmpl_data is", tmpl_data);
+          cols += tmpl_attr(tmpl_data);
+          
+      //} else if ( reveal(model[key]) == "[object Array]" ) {
+        // loop over the array here, no recursion needed
+        
+      } else {
+        // simple datatypes
+        
+        // test for length
+        if ( reveal(model[key]) == "[object Array]" &&
+             model[key].length == 0 &&
+             typeof $supported_attributes[klass][key] == "undefined"
+        ) {
+          msg = "Attribute '" + key + "' in klass '" + klass + "' has zero length. Not rendering";
+          cols += tmpl_message({
+            message: msg,
+            severity: "warning"
+          });
+          continue;
+        }
+        
+        // test if key of klass is specified
+        if ( ! $supported_attributes[klass][key]
+        ) {
+          msg = "Attribute '" + key + "' in klass '" + klass + "' not defined by proc 'get_supported_attributes'. Skipping.";
+          cols += tmpl_message({
+            message: msg,
+            severity: "warning"
+          });
+          continue;
+        }
+        
+        var desc = $supported_attributes[klass][key];
+        
+        // test if actual value matches with the specifcations
+        if ( 
+          reveal(model[key]) != "[object " + desc.type.titleize() + "]" &&
+          // exceptions to the previous rule. those are represented as strings on the JS side, so we allow them
+          ! ( desc.type == "bool" ||
+          desc.type == "number" ||
+          desc.type == "date(y-m-d)" ||
+          desc.type == "timestamp" ||
+          desc.type == "text"
+          )
+        ) {
+          msg = "ERROR! Key '" + key + "' of Klass '" + klass + "' is an " + reveal(model[key]) + ". The proc get_supported_attributes defined it as a " + desc.type.titleize();
+          cols += tmpl_message({
+            message: msg,
+            severity: "error"
+          });
+          continue;
+        }
 
-function renderEditTable(parent_element, collection) {
+        tmpl_data = {
+          columns: Math.floor(desc.sizehint * 22 / 10), 
+          value: model[key],
+          values: desc.values,
+          key: key,
+          type: desc.type,
+          nested: false,
+          json_path: table + "." + key,
+          record_id: record_id,
+          klass: klass,
+        };
+
+        cols += tmpl_attr(tmpl_data);
+      }
+    }
+    
+    var rendered_header = tmpl_header({
+      klass: klass,
+      depth: depth + 1,
+    });
+    var rendered_row = tmpl_attr_row({
+      value: cols,
+      klass: klass,
+    });
+    
+    // prepend header for each new record
+    if (depth == 0) {
+      html_result += rendered_header + rendered_row;
+    } else {
+      html_result += rendered_row;
+    }
+  }
+  return html_result;
+}
+
+
+
+function onInputChanged() {
+  var input = $(this);
+  var json_path = input.attr("json_path").split(".");
+  var klass = json_path[0].classify();
+  var attribute = json_path[1];
+  var desc = $supported_attributes[klass][attribute];
+  
+  //console.log("onInputChanged", input.val());
+  var request = prepareRequest();
+  request.proc = "set_" + json_path.shift();
+  //json_path.shift();
+  request.payload = [{
+    id: input.attr("record_id"),
+  }];
+  
+
+  var value = input.val();
+
+   /* since arrays of values are not easily displayed as a form,
+   * they are displayed as comma-separated lists. We have to
+   * convert those back to an array
+  */
+  if ( desc.type == "array" ) {
+    value = value.split(",");
+  }
+  setDeepHashValue(request.payload[0], json_path.join("."), value);
+  getRequest(request, inputChangedComplete, {element: input});
+  
+}
+
+function inputChangedComplete(data, options) {
+  //console.log("CHANGED COMPLETE", data, options.element);
+  var msg;
+  
+  if (data.status == true) {
+    msg = "Request '" + data.proc + "' succeeded!";
+  } else {
+    msg = "Request '" + data.proc + "' did not succeed.";
+  }
+
+  options.element.effect('highlight');
+  var rendered_statusmessage = tmpl_message({
+    messages: [msg],
+    severity: "success"
+  });
+  $(rendered_statusmessage).insertAfter(options.element);
+  
+}
+
+
+// this function doesn't make use of the underscore templating system. anyway it's useful for now
+function renderDisplayOnlyTable(parent_element, collection) {
   var table = $(document.createElement('table'));
   parent_element.append(table);
   var header = $(document.createElement('tr'));
@@ -353,7 +671,7 @@ function renderEditTable(parent_element, collection) {
       var col = $(document.createElement('td'));
       if (reveal(v) == "[object Object]" || reveal(v) == "[object Array]") {
         // start recursion
-        renderEditTable(col, v);
+        renderDisplayOnlyTable(col, v);
       } else {
         var span = $(document.createElement('span'));
         span.html(v);
@@ -365,141 +683,6 @@ function renderEditTable(parent_element, collection) {
   });
 }
 
-function renderEditFields(collection, table, depth, json_path) {
-  //console.log("RENDER CALLED", collection, table, depth, json_path);
-  var klass = table.classify();
-  //console.log("KLASS BEGINNING", klass);
-  
-  
-  var html_result = '';
-
-  var data;
-  var tmpl_attr     = _.template($('#attribute_template').html());
-  var tmpl_attr_error = _.template($('#attribute_template_error').html());
-  var tmpl_attr_row = _.template($('#attribute_row_template').html());
-  var tmpl_header   = _.template($("#attribute_row_heading_template").html());
-  
-  for (var i = 0; i < collection.length; i++) {
-    var model = collection[i];
-    //console.log("Model",model);
-    var cols = '';
-    var record_id = model.id;
-    for (var key in model) {
-
-      if ( reveal(model[key]) == '[object Array]') {
-        // display HAS_MANY relationship in place, via Recursion
-        var rendered_hasmany_header = tmpl_header({
-          klass: key.titleize(),
-          depth: depth + 3,
-        });
-        depth += 1;
-        json_path.push(key);
-        var v = renderEditFields(model[key], key, depth, json_path);
-        depth -= 1;
-        v = rendered_hasmany_header + v;
-        tmpl_data = {
-          columns: 22, 
-          value: v,
-          key: key,
-          nested: true,
-          depth: depth,
-          record_id: 0,
-          klass: 'nested',
-        };
-        //console.log("tmpl_data is", tmpl_data);
-        cols += tmpl_attr(tmpl_data);
-        
-      } else {
-        // simple datatypes
-        
-        if ( ! $supported_attributes[klass] ) {
-          var msg = "Klass '" + klass + "' not defined by the response of  'get_supported_attributes' method. Skipping.";
-          cols += tmpl_attr_error({ error_message: msg });
-          continue;
-        }
-        
-        if ( ! $supported_attributes[klass][key] ) {
-          var msg = "Attribute '" + key + "' in klass '" + klass + "' not defined by the response of get_supported_attributes method. Skipping.";
-          cols += tmpl_attr_error({ error_message: msg });
-          continue;
-        }
-        
-        var desc = $supported_attributes[klass][key];
-        
-        tmpl_data = {
-          columns: Math.floor(desc.sizehint * 22 / 10), 
-          value: model[key],
-          values: desc.values,
-          key: key,
-          type: desc.type,
-          nested: false,
-          json_path: table + "." + key,
-          record_id: record_id,
-          klass: klass,
-        };
-        
-        // output error if types don't match
-        if (desc.type == "array" && reveal(model[key]) != "[object " + desc.type.titleize() + "]") {
-          var msg = "ERROR! Key '" + key + "' of Klass '" + klass + "' is supposed to be a " + desc.type.titleize() + " but we got a " + reveal(model[key]) + " from the backend.";
-          cols += tmpl_attr_error({ error_message: msg });
-          continue;
-        }
-        cols += tmpl_attr(tmpl_data);
-      }
-    }
-    
-    var rendered_header = tmpl_header({
-      klass: klass,
-      depth: depth + 1,
-    });
-    var rendered_row = tmpl_attr_row({
-      value: cols,
-      klass: klass,
-    });
-    
-    // prepend header for each new record
-    if (depth == 0) {
-      html_result += rendered_header + rendered_row;
-    } else {
-      html_result += rendered_row;
-    }
-  }
-  return html_result;
-}
-
-function onInputChanged() {
-  var input = $(this);
-  var json_path = input.attr("json_path").split(".");
-  
-  //console.log("onInputChanged", input.val());
-  var request = prepareRequest();
-  request.proc = "set_" + json_path.shift();
-  //json_path.shift();
-  request.payload = [{
-    id: input.attr("record_id"),
-  }];
-  setDeepHashValue(request.payload[0], json_path.join("."), input.val());
-  getRequest(request, inputChangedComplete, {element: input});
-  
-}
-
-function inputChangedComplete(data, options) {
-  //console.log("CHANGED COMPLETE", data, options.element);
-  var msg;
-  
-  if (data.status == true) {
-    msg = "Request '" + data.proc + "' succeeded!";
-  } else {
-    msg = "Request '" + data.proc + "' did not succeed.";
-  }
-  options.element.effect('highlight');
-  var tmpl_statusmessage = _.template($('#statusmessage_template').html());
-  var rendered_statusmessage = tmpl_statusmessage({
-    statusmessage: msg,
-  });
-  $(rendered_statusmessage).insertAfter(options.element);
-  
-}
 
 function setDeepHashValue(obj, path, value) {
   var parts = path.split('.');

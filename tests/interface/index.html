@@ -61,10 +61,10 @@
 
         <div class="small-14 columns">
           <div class="panel">
-            <h4>Query arguments</h4>
+            <div id="messages">
+            </div>
             <div id="arguments">
             </div>
-            <h4>Query results</h4>
             <div id="results">
             </div>
           </div>
@@ -76,8 +76,8 @@
             <div id="request_debug"></div>
           </div>
           <div class="panel">
-            <h4>Raw JSON Payload</h4>
-            <div id="payload_debug"></div>
+            <h4>Raw JSON Response</h4>
+            <div id="response_debug"></div>
           </div>
         </div>
       </div>
@@ -127,19 +127,14 @@
     $(document).foundation();
   </script>
   
-  <script type="text/template" id="argument_template">
+  <script type="text/template" id="template_query_argument">
     <div class="small-<%= columns %> columns">
       <label><%= label %></label>
       <input type="text" id="<%= id %>" placeholder="<%= placeholder %>" />
     </div>
   </script>
-  <script type="text/template" id="argument_template_text">
-    <div class="small-<%= columns %> columns">
-      <label><%= label %></label>
-      <textarea id="<%= id %>" placeholder="<%= placeholder %>" rows="5"></textarea>
-    </div>
-  </script>
-  <script type="text/template" id="argument_template_select">
+
+  <script type="text/template" id="template_query_argument_select">
     <div class="small-<%= columns %> columns">
       <label><%= label %></label>
       <select id="<%= id %>">
@@ -148,48 +143,52 @@
     </div>
   </script>
   
+  <script type="text/template" id="template_message_response">
+    <% _.each(messages, function(val) { %>
+      <div class="small-22 columns message-<%= severity %>">
+        <%= severity %>: <%= val.code %>: <%= val.text.replace(/\n/g, "<br />") %>
+        <% _.each(val.trace, function(t) { %>
+          <pre class="small-22 columns message-<%= severity %>">
+            <%= t %>
+          </pre>
+        <% }); %>
+      </div>
+    <% }); %>
+  </script>
   
-  <script type="text/template" id="attribute_template_error">
-    <div class="small-22 columns attr-input-error">
-      <%= error_message %>
+  <script type="text/template" id="template_message">
+    <div class="small-22 columns message-<%= severity %>">
+      <%= message %>
     </div>
   </script>
   
-  <script type="text/template" id="response_errors">
-    <% _.each(messages, function(val) { %>
-      <div class="small-22 columns response-error">
-        ERROR CODE <%= val.code %>: <%= val.text %>
-      </div>
-    <% }); %>
+  <script type="text/template" id="template_row_attribute">
+    <div class="row attr-row">
+      <%= value %>
+    </div>
   </script>
   
-  <script type="text/template" id="response_warnings">
-    <% _.each(messages, function(val) { %>
-      <div class="small-22 columns response-warning">
-        WARNING CODE <%= val.code %>: <%= val.text %>
-      </div>
-    <% }); %>
+  <script type="text/template" id="template_submit_model_button">
+    <span class="button" onclick="onSubmitModelButtonClick('<%= table %>')">
+      Submit <%= table.classify() %>!
+    </span>
   </script>
   
-  <script type="text/template" id="response_notifications">
-    <% _.each(messages, function(val) { %>
-      <div class="small-22 columns response-notification">
-        NOTIFICATION CODE <%= val.code %>: <%= val.text %>
-      </div>
-    <% }); %>
+  
+  <script type="text/template" id="template_attribute_heading">
+    <hr />
+    <h<%= depth %>><%= klass %></h<%= depth %>>
   </script>
   
-  <script type="text/template" id="attribute_template">
+  <script type="text/template" id="template_attribute">
     <div class="small-<%= columns %> columns" id="input_<%= klass %>_<%= record_id %>_<%= key %>">
       <% if (nested) { %>
         <div class="row attr-row">
           <%= value %>
         </div>
       <% } else { %>
-        <label><%= key %><br><small>ID <%= record_id %>, <%= json_path %></small></label>
-        <% if ( key == "id" ) { %>
-          <span><b>#<%= value %></b></span>
-        <% } else if ( (type == "string" && values) || ( type == "bool" && values ) ) { %>
+        <label><%= key %></label>
+        <% if ( (type == "string" && values) || ( type == "bool" && values ) ) { %>
           <select class="editme" json_path="<%= json_path %>" record_id=<%= record_id %>>
             <% _.each(values, function(idx) { %>
               <option value=<%= idx %>><%= idx %></option>
@@ -201,7 +200,7 @@
           <textarea value="<%= value %>" class="small-<%= columns %> columns editme" json_path="<%= json_path %>" record_id=<%= record_id %>></textarea>
         <% } else if ( type == "number" ) { %>
           <input type="number" value="<%= value %>" class="small-<%= columns %> columns editme" json_path="<%= json_path %>" record_id=<%= record_id %>></input>
-        <% } else if ( type == "timestamp" ) { %>
+        <% } else if ( type == "date(y-m-d)" || type == "timestamp" ) { %>
           <input value="<%= value %>" class="small-<%= columns %> columns datepicker editme" json_path="<%= json_path %>" record_id=<%= record_id %>></input>
         <% } else if ( type == "array" ) { %>
           <input value="<%= value.join(',') %>" class="small-<%= columns %> columns editme" json_path="<%= json_path %>" record_id=<%= record_id %>></input>
@@ -212,19 +211,5 @@
     </div>
   </script>
   
-  <script type="text/template" id="attribute_row_template">
-    <div class="row attr-row">
-      <%= value %>
-    </div>
-  </script>
-  
-  <script type="text/template" id="attribute_row_heading_template">
-    <hr />
-    <h<%= depth %>><%= klass %></h<%= depth %>>
-  </script>
-  
-  <script type="text/template" id="statusmessage_template">
-    <div class="small-22 columns statusmessage"><%= statusmessage %></div>
-  </script>
 </body>
 </html>
