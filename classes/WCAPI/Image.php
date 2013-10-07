@@ -71,7 +71,7 @@ class Image extends Base {
       'path'  => array('name' => '_wp_attached_file', 'type' => 'string', 'sizehint' => 10),
       'metadata'  => array('name' => '_wp_attachment_metadata', 'type' => 'array', 'sizehint' => 10),
       'alt'  => array('name' => '_wp_attachment_image_alt', 'type' => 'string', 'sizehint' => 10),
-      'base_url' => array('name' => 'base_url', 'type' => 'string', 'sizehint' => 10, 'default' => $upload_dir['url']),
+      
     );
 
     $table = apply_filters( 'WCAPI_image_meta_attributes_table', $table );
