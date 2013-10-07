@@ -82,12 +82,14 @@ class Base extends Helpers {
     // with values that exist on the base model.
     static::setupModelAttributes();
     static::setupMetaAttributes();
+    Helpers::debug(get_called_class() . '::getModelSettings');
     return static::$_model_settings;
   }
   public static function getDefaultModelSettings() {
     $wpdb = static::$adapter;
     // Here we have all the default settings
     // for a model.
+    Helpers::debug(get_called_class() . "::getDefaultModelSettings");
     return array(
       'model_table'               => $wpdb->posts,
       'meta_table'                => $wpdb->postmeta,
@@ -166,6 +168,7 @@ class Base extends Helpers {
   public function getAdapter() { return static::$adapter;}
   // converts the meta attribs the other way around, from friendly name to unfriendly name.l
   public function remapMetaAttributes() {
+    Helpers::debug(get_called_class()."::remapMetaAttributes");
     $attrs = array();
     foreach ( static::$_meta_attributes_table as $name => $desc ) {
        $value = $this->dynamic_get($name, $desc);
@@ -180,7 +183,7 @@ class Base extends Helpers {
   public function loadMetaAttributes() {
     static::setupMetaAttributes();
     static::setupModelAttributes();
-    Helpers::debug("Base::loadMetaAttributes called");
+    Helpers::debug(get_called_class() ."::loadMetaAttributes called");
     $s = static::getModelSettings();
     $meta_function = $s['meta_function'];
     $load_meta_function = $s['load_meta_function'];
@@ -890,6 +893,7 @@ class Base extends Helpers {
     $keys = array();
     $values = array();
     $table = "`$table`";
+    Helpers::debug(get_called_class() . "::insert $table");
     foreach ( $key_values as $key=>$value ) {
       if ( $key = $this->databaseAttribute($key) ) {
         $keys[] = "`$key`";
@@ -910,7 +914,9 @@ class Base extends Helpers {
     include WCAPIDIR."/_globals.php";
     include WCAPIDIR."/_model_static_attributes.php";
     if ( $table == THIS_IM_SURE ) {
+      
       $table = "`{$self->settings['model_table']}`";
+      Helpers::debug(get_called_class() . "::delete $table THIS_IM_SURE");
       if ( $where == null ) {
         $where = array(
           "{$self->settings['model_table_id']}" => $this->_actual_model_id,
@@ -919,7 +925,7 @@ class Base extends Helpers {
     } else {
       $table = "`$table`";
     }
-    
+    Helpers::debug(get_called_class() . "::delete $table");
     $sql = "DELTE FROM $table";
     if ( is_array( $where ) ) {
       $conditions = array();
