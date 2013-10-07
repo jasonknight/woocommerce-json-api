@@ -142,12 +142,13 @@ class Image extends Base {
 
     if ( isset($attributes['metadata']) ) {
 
-      $upload_dir = wp_upload_dir();
+      $upload_dir = wp_get_attachment_image_src( $this->_actual_model_id, 'full');
       $md = $attributes['metadata'];
-      $md['url'] = $this->mergeUrls($upload_dir['url'],$md['file']);
+      $md['url'] = $upload_dir[0];
       $attributes['metadata'] = $md;
       foreach ( $attributes['metadata']['sizes'] as $key=>&$md ) {
-        $md['url'] = $this->mergeUrls($upload_dir['url'],$md['file']);
+        $upload_dir = wp_get_attachment_image_src( $this->_actual_model_id, $key);
+        $md['url'] = $upload_dir[0];
       }
 
 
