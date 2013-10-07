@@ -31,27 +31,27 @@ label {
   color: #000099;
 }
 
-div.statusmessage {
-  color: green;
-}
-
 div.attr-input-error {
   color: red;
 }
 
-div.response-warning {
-  color: brown;
-}
-
-div.response-error {
-  color: red;
-}
-
-div.response-notification {
+div.message-warning {
   color: orange;
 }
 
+div.message-error {
+  color: red;
+}
+
+div.message-notification {
+  color: blue;
+}
+
+div.message-success {
+  color: green;
+}
+
 div#request_debug,
-div#payload_debug {
+div#response_debug {
   font-size: 80%;
 }
