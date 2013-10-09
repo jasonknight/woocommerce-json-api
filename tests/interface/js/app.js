@@ -46,7 +46,9 @@ var reveal = function (m) {
 String.prototype.classify = function () {
   var str = "";
   str = this.replace("get_", "").titleize().replace(/ /g, "");
-  
+  if ( str == "Images" ) {
+    return "Image";
+  }
   if (this.substring(this.length - 3, this.length) == "ies") {
     str = str.substr(0, str.length - 3) + "y";
   } else if (this.substring(this.length - 2, this.length) == "es") {
@@ -54,6 +56,7 @@ String.prototype.classify = function () {
   } else if (this.substring(this.length - 1, this.length) == "s" ) {
     str = str.slice(0, -1);
   }
+  console.log("str is: " + str + " was " + this);
   return str;
 };
 
@@ -518,8 +521,8 @@ function renderEditFields(collection, table, depth, json_path) {
         }
         
         // test if key of klass is specified
-        if ( ! $supported_attributes[klass][key]
-        ) {
+        console.log(klass,key);
+        if ( ! $supported_attributes[klass][key] ) {
           msg = "Attribute '" + key + "' in klass '" + klass + "' not defined by proc 'get_supported_attributes'. Skipping.";
           cols += tmpl_message({
             message: msg,

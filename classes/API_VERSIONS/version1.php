@@ -12,7 +12,7 @@ class WC_JSON_API_Provider_v1 extends JSONAPIHelpers {
   public static $implemented_methods;
 
   public static function getImplementedMethods() {
-    $accepted_resources = array('Product','ProductAttribute','Category','Comment','Order','OrderItem','OrderTaxItem','OrderCouponItem','Customer','Coupon','Review','Image');
+    $accepted_resources = array('Product','ProductAttribute','Category','Comment','Order','OrderItem','OrderTaxItem','OrderCouponItem','Customer','Coupon','Review','Image','Tag');
     self::$implemented_methods = array(
       'get_system_time' => null,
       'get_supported_attributes' => array(
@@ -646,7 +646,7 @@ class WC_JSON_API_Provider_v1 extends JSONAPIHelpers {
   }
 
   public function get_supported_attributes( $params ) {
-    $accepted_resources = array('Product','ProductAttribute','Category','Comment','Order','OrderItem','OrderTaxItem','OrderCouponItem','Customer','Coupon','Review','Image');
+    $accepted_resources = array('Product','ProductAttribute','Category','Comment','Order','OrderItem','OrderTaxItem','OrderCouponItem','Customer','Coupon','Review','Image','Tag', 'FeaturedImage');
     $models = $this->orEq( $params['arguments'], 'resources', $accepted_resources);
     
     if ( ! is_array($models) ) {
@@ -670,6 +670,8 @@ class WC_JSON_API_Provider_v1 extends JSONAPIHelpers {
         $model = new API\Comment();
       } else if ( $m == 'Image' ) {
         $model = new API\Image();
+      } else if ( $m == 'FeaturedImage' ) {
+        $model = new API\Image();
       } else if ( $m == 'Review' ) {
         $model = new API\Review();
       } else if ( $m == 'OrderTaxItem' ) {
@@ -678,6 +680,8 @@ class WC_JSON_API_Provider_v1 extends JSONAPIHelpers {
         $model = new API\OrderCouponItem();
       } else if ( $m == 'ProductAttribute' ) {
         $model = new API\ProductAttribute();
+      } else if ( $m == 'Tag' ) {
+        $model = new API\Category();
       } else {
         $this->badArgument($m, join(',', $accepted_resources ) );
         return $this->done();
