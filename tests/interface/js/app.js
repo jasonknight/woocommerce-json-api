@@ -507,6 +507,17 @@ function renderEditFields(collection, table, depth, json_path) {
       } else {
         // simple datatypes
         
+        // test if klass is specified
+        if ( ! $supported_attributes[klass]
+        ) {
+          msg = "Klass '" + klass + "' not defined by proc 'get_supported_attributes'. Skipping.";
+          cols += tmpl_message({
+            message: msg,
+            severity: "error"
+          });
+          continue;
+        }
+        
         // test for length
         if ( reveal(model[key]) == "[object Array]" &&
              model[key].length == 0 &&
@@ -520,16 +531,7 @@ function renderEditFields(collection, table, depth, json_path) {
           continue;
         }
         
-        // test if klass is specified
-        if ( ! $supported_attributes[klass]
-        ) {
-          msg = "Klass '" + klass + "' not defined by proc 'get_supported_attributes'. Skipping.";
-          cols += tmpl_message({
-            message: msg,
-            severity: "error"
-          });
-          continue;
-        }
+        
         
         // test if key of klass is specified
         console.log(klass,key);
