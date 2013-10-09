@@ -517,6 +517,17 @@ function renderEditFields(collection, table, depth, json_path) {
           continue;
         }
         
+        // test if klass is specified
+        if ( ! $supported_attributes[klass]
+        ) {
+          msg = "Klass '" + klass + "' not defined by proc 'get_supported_attributes'. Skipping.";
+          cols += tmpl_message({
+            message: msg,
+            severity: "error"
+          });
+          continue;
+        }
+        
         // test if key of klass is specified
         if ( ! $supported_attributes[klass][key]
         ) {
