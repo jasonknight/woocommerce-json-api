@@ -1,45 +1,54 @@
 <?php
 require_once "functions.php";
 include "config.php";
-$Header("Writing Product Images");
+$Header("Setting Product Variation");
 
 $r = rand(1,9999999);
 $sr = rand(1,5);
 $p =$sr * 1.25;
 
 
+$master_product_data = array(
+  'name' => "An API Created Variable Product",
+  'price' => $p,
+  'sku' => "API$r",
+  'visibility' => 'visible',
+  'product_type' => 'variable',
+  'type' => 'product',
+  'status' => 'instock',
+  'attributes' => array(
+    'size' => array(
+      'name' => 'Size',
+      'value' => array('Small','Medium','Large'),
+      'is_variation' => 'yes',
+      'is_visible' => 'yes',
+      'is_taxonomy' => 'no'
+    )
+
+  ),
+);
+
 // Try uploading an image
 
 $new_product_data = array(
   'name' => "An API Created Product 203 Variation",
   'price' => $p,
-  'sku' => "API$r",
+  'sku' => "API{$r}V",
   'visibility' => 'visible',
   'product_type' => 'simple',
   'type' => 'product_variation',
   'status' => 'instock',
-  'product_type' => 'simple',
-  'parent_id' => '203',
   'size_attribute' => 'small', // this is our dynamic attribute
-  'images' => array(
-    array('name' => 'fractal.png'),
-    array('name' => 'fractal2.png'),
-  ),
-  'featured_image' => array(
-    array('name' => 'fractal3.png'),
-  )
 );
 
+$master_product_data['variations'] = array($new_product_data);
 $data = array(
   'action'      => 'woocommerce_json_api',
   'proc'        => 'set_products',
   'arguments'   => array(
     'token' => $token,
   ),
-  'payload' => array(array('id' => 203,'product_type' => 'variable', 'variations' => array($new_product_data))),
-   'images[0]' => "@" . dirname(__FILE__) ."/fractal.png",
-   'images[1]' => "@" . dirname(__FILE__) ."/fractal2.png",
-   'images[2]' => "@" . dirname(__FILE__) ."/fractal3.png",
+  'payload' => array($master_product_data),
    'model_filters' => array(
     /*
      * We need to edit a dynamic attribute, so we have
@@ -66,7 +75,8 @@ $data = array(
 );
 
 $result = curl_post($url,$data);
-echo $result;
+echo "Result is: " . $result;
 $result = json_decode($result,true); 
 $product = $result['payload'][0];
-keyExists('id',$product['images'][0],'Was the id of the image set?');
+keyExists('variations',$product,'Is the variations key set?');
+hasAtLeast($product['variations'],1,"Has at least 1 variation?");

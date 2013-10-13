@@ -130,7 +130,6 @@ class Coupon extends Base{
         'type' => 'array', 
         'sizehint' => 10,
         'getter' => 'getProductIds',
-        'setter' => 'setProductIds',
         'updater' => 'updateProductIds',
       ),
       'exclude_product_ids' => array(
@@ -138,7 +137,6 @@ class Coupon extends Base{
         'type' => 'string', 
         'sizehint' => 10,
         'getter' => 'getExcludeProductIds',
-        'setter' => 'setExcludeProductIds',
         'updater' => 'updateExcludeProductIds',
       ),
       'expiry_date' => array(
@@ -251,13 +249,13 @@ class Coupon extends Base{
     return $product;
   }
   public function getProductIds($desc) {
-  	if ( $this->_product_ids ) {
+  	if ( isset($this->_meta_attributes['product_ids']) ) {
   		return $this->_product_ids;
   	} else {
   		$str = get_post_meta($this->_actual_model_id, "product_ids",true );
-  		$this->_product_ids = Helpers::noEmptyValues(explode(",",$str));
+  		$this->_meta_attributes['product_ids'] = Helpers::noEmptyValues(explode(",",$str));
   	}
-  	return $this->_product_ids;
+  	return $this->_meta_attributes['product_ids'];
   }
   public function setProductIds($value, $desc) {
   	if ( is_string( $value ) ) {
@@ -265,23 +263,24 @@ class Coupon extends Base{
   	} else if ( ! is_array($value) && !is_null($value) ) {
   		throw new \Exception( __('setProductIds expects either an array, or string but received ' . gettype($value),'WCAPI') );
   	}
-  	$this->_product_ids = Helpers::noEmptyValues($value);
+  	$this->_meta_attributes['product_ids'] = Helpers::noEmptyValues($value);
   }
-  public function updateProductIds($model, $attr, $value, $desc) {
-  	if ( is_null( $this->_product_ids) ) 
-  		$this->_product_ids = Helpers::noEmptyValues(NULL);
-  	$this->_product_ids = Helpers::noEmptyValues($this->_product_ids);
-  	update_post_meta($this->_actual_model_id,"product_ids",join(',',$this->_product_ids) );
+  public function updateProductIds($value, $desc) {
+  	if ( !isset($this->_meta_attributes['product_ids']) || is_null( $this->_meta_attributes['product_ids']) ){
+  		$this->_meta_attributes['product_ids'] = Helpers::noEmptyValues(NULL);
+    }
+  	$this->_meta_attributes['product_ids'] = Helpers::noEmptyValues($this->_meta_attributes['product_ids']);
+  	update_post_meta($this->_actual_model_id,"product_ids",join(',',$this->_meta_attributes['product_ids']) );
   }
 
   public function getExcludeProductIds($desc) {
-  	if ( $this->_exclude_product_ids ) {
-  		return $this->_exclude_product_ids;
+  	if ( $this->_meta_attributes['exclude_product_ids']) {
+  		return $this->_meta_attributes['exclude_product_ids'];
   	} else {
   		$str = get_post_meta($this->_actual_model_id, "exclude_product_ids",true );
-  		$this->_exclude_product_ids = Helpers::noEmptyValues(explode(",",$str));
+  		$this->_meta_attributes['exclude_product_ids'] = Helpers::noEmptyValues(explode(",",$str));
   	}
-  	return $this->_exclude_product_ids;
+  	return $this->_meta_attributes['exclude_product_ids'];
   }
   public function setExcludeProductIds($value, $desc) {
   	if ( is_string( $value ) ) {
@@ -289,12 +288,13 @@ class Coupon extends Base{
   	} else if ( ! is_array($value) && !is_null($value)) {
   		throw new \Exception( __('setExcludeProductIds expects either an array, or string','WCAPI') );
   	}
-  	$this->_product_ids = Helpers::noEmptyValues($value);
+  	$this->_meta_attributes['exclude_product_ids'] = Helpers::noEmptyValues($value);
   }
-  public function updateExcludeProductIds($model, $attr, $value, $desc) {
-  	if ( is_null( $this->_exclude_product_ids) ) 
-  		$this->_exclude_product_ids = Helpers::noEmptyValues(NULL);
-  	$this->_exclude_product_ids = Helpers::noEmptyValues( $this->_exclude_product_ids );
-  	update_post_meta($this->_actual_model_id,"exclude_product_ids",join(',',$this->_exclude_product_ids) );
+  public function updateExcludeProductIds($value, $desc) {
+  	if ( !isset($this->_meta_attributes['explude_product_ids']) || is_null( $this->_meta_attributes['exclude_product_ids'] ) ) {
+  		$this->_meta_attributes['exclude_product_ids'] = Helpers::noEmptyValues(NULL);
+    }
+  	$this->_meta_attributes['exclude_product_ids'] = Helpers::noEmptyValues( $this->_meta_attributes['exclude_product_ids'] );
+  	update_post_meta($this->_actual_model_id,"exclude_product_ids",join(',',$this->_meta_attributes['exclude_product_ids']) );
   }  
 }

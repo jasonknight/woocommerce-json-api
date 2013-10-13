@@ -50,6 +50,17 @@ class JSONAPIHelpers {
     }
     
   }
+  public static function truncateDebug() {
+    if ( ! defined('WC_JSON_API_DEBUG') ) {
+      return;
+    }
+    $fp = @fopen(REDE_PLUGIN_BASE_PATH . "debug.log",'w+');
+    if ($fp) {
+      fwrite($fp,"Truncated.");
+      fclose($fp);
+    }
+    
+  }
   public static function debug($text) {
     if ( ! defined('WC_JSON_API_DEBUG') ) {
       return;

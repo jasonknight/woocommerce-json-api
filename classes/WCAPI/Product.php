@@ -241,14 +241,12 @@ class Product extends Base{
                              ),
       'attributes'        => array(
                               'name' => '_product_attributes',   
-                              'type' => 'array', 
+                              'type' => 'object', 
                               'default' => '',
                               'sizehint' => 3,
+                              'class_name' => 'ProductAttribute',
                               'getter' => 'getProductAttributes',
-                              'setter' => 'setProductAttributes',
-                              'updater' => function ( $model, $name, $value, $desc ) { 
-                                $model->updateProductAttributes('updater',$name,$desc,$value);
-                              },
+                              'updater' => 'updateProductAttributes',
                              ), 
       'tax_class'         => array('name' => '_tax_class',        'type' => 'string', 'sizehint' => 2),
       'tax_status'        => array(
@@ -268,15 +266,8 @@ class Product extends Base{
         'sizehint' => 3,
         'default' => 'simple',
         'values' => array('simple','grouped','variable','external'),
-         'getter' => function ($model, $name, $desc, $filter ) { 
-            return $model->getTerm('product_type','product_type','product'); 
-          },
-          'setter' => function ($model,$name, $desc, $value, $filter_value) {
-            
-          },
-          'updater' => function (&$model, $name, $value, $desc ) { 
-            $model->updateTerm('product_type','product_type',$value);
-          },
+        'getter' => 'getProductType',
+        'updater' => 'updateProductType',
        ),
     );
     /*
@@ -370,65 +361,70 @@ class Product extends Base{
     }
     return $product;
   }
-  public function updateProductAttributes($type,$name,$desc,$value) {
-    $var_name = $name;
-    if ( $type == 'getter') {
-      if ( isset( $this->{"{$var_name}"} ) ) {
-        return $this->{"{$var_name}"};
-      }
-      $collection = array();
-      if ( is_array( $value ) ) {
-        foreach ( $value as $v) {
-          $attr = new ProductAttribute($v);
-          $collection[] = $attr->attrs;
-        }
-      }
-      $this->{"{$var_name}"} = $collection;
-      return $this->{"{$var_name}"};
-    } else if ( $type == 'setter' ) {
-      $this->{"{$var_name}"} = $value;
-    } else if ( $type == 'updater' ) {
-      $value = $this->{"{$var_name}"};
-      $collection = array();
-      if ( is_array( $value ) ) {
-        foreach ( $value as $v) {
-          $attr = new ProductAttribute($v,$this->_actual_model_id);
-          $intermediate = $attr->getForDb();
-          if ( isset($intermediate['is_taxonomy']) && intval($intermediate['is_taxonomy']) == 1) {
-            wp_update_object_terms($this->_actual_model_id, $intermediate['value'], 'names');
-            unset($intermediate['value']);
-          }
-          $collection = array_merge($collection,$intermediate);
-        }
-      }
-      update_post_meta($this->_actual_model_id,$var_name,$collection);
-    } else {
-      throw new \Exception("updateProductIds does not understand type of $type");
-    }
-  }
   public function getProductAttributes($desc) {
     $name = "attributes";
     if ( isset($this->_meta_attributes[$name])) {
       return $this->_meta_attributes[$name]; 
     } else {
-      return array();
+      $attrs = maybe_unserialize(get_post_meta($this->_actual_model_id,'_product_attributes',true));
+      foreach ($attrs as &$attr) {
+        if ( intval($attr['is_taxonomy']) == 1) {
+          $cat = new Category();
+          $cattrs = woocommerce_get_product_terms( $this->_actual_model_id, $attr['name'], 'all' );
+          $attr['value'] = array();
+          foreach ( $cattrs as $catt) {
+            $cat->fromDatabaseResult( Helpers::std2a($catt) );
+            $attr['value'][] = $cat->asApiArray();
+          }
+        }
+        foreach (array('is_visible','is_variation','is_taxonomy') as $key) {
+          if ( isset($attr[$key])) {
+            $attr[$key] = Helpers::toWPBool($attr[$key]);
+          }
+        }
+        if ( isset($attr['value'])) {
+          $attr['value'] = explode("|",$attr['value']);
+        }
+      }
+      $this->_meta_attributes['attributes'] = $attrs;
+      return $this->_meta_attributes['attributes'];
     }
   }
-  public function setProductAttributes($value,$desc) {
+  public function updateProductAttributes($value,$desc) {
+    Helpers::debug("Updating ProductAttributes");
     $name = "attributes";
     $value = maybe_unserialize( $value );
-    $collection = array();
-    if ( is_array( $value ) ) {
-      foreach ( $value as $v) {
-        Helpers::debug("array  is: " . var_export($v,true));
-        $attr = new ProductAttribute($v,$this->_actual_model_id);
-        Helpers::debug("Attr is: " . var_export($attr,true));
-        $collection = array_merge($collection, $attr->asApiArray());
+    $this->_meta_attributes['attributes'] = $value;
+    $attrs = $this->_meta_attributes['attributes'];
+    $attrs = maybe_unserialize( $attrs );
+    Helpers::debug("Attrs is: " . var_export($attrs,true));
+    if ( ! is_array($attrs) ) {
+      $attrs = array();
+    } 
+    foreach ($attrs as &$attr) {
+
+      foreach (array('is_visible','is_variation','is_taxonomy') as $key) {
+        if ( isset($attr[$key])) {
+          $attr[$key] = Helpers::toRealBool($attr[$key]);
+        } else {
+          Helpers::debug("key $key is not set on " . var_export($attr,true));
+        }
       }
-      $this->_meta_attributes[$name] = $collection;
-    } else {
-      Helpers::debug("attributes wasn't an array");
+      if ( isset($attr['value']) && is_array($attr['value'])) {
+        $attr['value'] = join("|",$attr['value']);
+      }
     }
+
+    update_post_meta($this->_actual_model_id, '_product_attributes', $attrs);
+  }
+
+  public function getProductType($desc) {
+    $this->_meta_attributes['product_type'] = $this->getTerm('product_type','product_type','unknown'); 
+    return $this->_meta_attributes['product_type'];
+
+  }
+  public function updateProductType($value,$desc) {
+    $this->updateTerm('product_type','product_type',$value);
   }
    
 }

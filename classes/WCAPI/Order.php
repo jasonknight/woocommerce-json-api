@@ -234,15 +234,8 @@ class Order extends Base {
         'values' => static::getOrderStatuses(),
         // This is more or less just to have an example of how
         // the getter/setter/updaters work
-        'getter' => function ($model, $name, $desc, $filter ) { 
-          return $model->getStatus();
-          },
-        'setter' => function ($model,$name, $desc, $value, $filter_value) {
-          $model->setStatus( $value );
-          },
-        'updater' => function ( $model, $name, $value, $desc ) { 
-          $model->updateStatus($value); 
-          },
+        'getter' => 'getStatus',
+        'updater' => 'updateStatus',
         ),
     );
     /*
@@ -266,8 +259,8 @@ class Order extends Base {
   }
   public function getStatus() {
     $wpdb = self::$adapter;
-    if ( $this->_status ) {
-      return $this->_status;
+    if ( isset($this->_meta_attributes['status']) ) {
+      return $this->_meta_attributes['status'];
     }
     $sql = "
       SELECT 
@@ -285,14 +278,10 @@ class Order extends Base {
     ";
 
     $terms = $wpdb->get_results( $sql , 'ARRAY_A');
-    $this->_status = (isset($terms[0])) ? $terms[0]['slug'] : 'pending';
-    return $this->_status;
+    $this->_meta_attributes['status'] = (isset($terms[0])) ? $terms[0]['slug'] : 'pending';
+    return $this->_meta_attributes['status'];
   }
-
-  public function setStatus( $s ) {
-    $this->_status = $s;
-  }
-  public function updateStatus( $to ) {
+  public function updateStatus( $to, $desc ) {
     // $order = new \WC_Order( $this->_actual_model_id );
     // $order->update_status( $to );
     // Right now, we don't want the overhead of the WooCom

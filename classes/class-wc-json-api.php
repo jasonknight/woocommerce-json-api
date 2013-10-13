@@ -173,7 +173,7 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
       
       foreach ( $params['model_filters'] as $filter_text=>$filter ) {
         foreach ($filter as $key=>&$value) {
-          $value['name'] = substr($wpdb->prepare("%s",$value['name']),1,strlen($value['name'])-2);
+          $value['name'] = substr($wpdb->prepare("%s",$value['name']),1,strlen($value['name']));
         }
         $callback = function ($table) use ($filter) {
 

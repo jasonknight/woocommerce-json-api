@@ -42,6 +42,18 @@ class Helpers {
     }
     
   }
+  public static function toWPBool($b) {
+    if ( $b == 1 || $b === 'yes') {
+      $ret = 'yes'; 
+    } else {
+      $ret = 'no';
+    }
+    Helpers::debug("toWpBool b:$b ret:$ret");
+    return $ret;
+  }
+  public static function toRealBool( $b ) {
+    return $b == 'yes' ? 1 : 0;
+  }
   public static function databaseAttribute( $str ) {
     preg_match("/[\w\d]+/",$str,$matches);
     if ( is_array($matches) && isset($matches[0]) && strlen($matches[0]) == strlen($str) ) {

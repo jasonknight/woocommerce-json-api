@@ -240,7 +240,7 @@ class Base extends Helpers {
                 if ( ! empty($value) ) {
                   if ( isset( $desc['updater'] ) ) {
                     Helpers::debug($this->getIdentString() ."METASQL:Calling updater! for $attr");
-                    call_user_func($desc['updater'],$this, $attr, $value, $desc );
+                    $this->apply_updater($value,$desc,'::saveMetaAttributes');
                   } else {
                     Helpers::debug($this->getIdentString() ."METASQL:No updater set for $attr for value $value");
                     //$meta_keys[] = $wpdb->prepare("%s",$desc['name']);
@@ -253,6 +253,10 @@ class Base extends Helpers {
                 }
               } else {
                 Helpers::debug($this->getIdentString() ."METASQL: Not set in this->_meta_attributes");
+                if ( isset( $desc['updater'] ) ) {
+                  Helpers::debug($this->getIdentString() ."METASQL:Calling updater! for $attr");
+                  $this->apply_updater($value,$desc,'::saveMetaAttributes');
+                }
               }
             }
             $meta_sql .= "
@@ -268,6 +272,64 @@ class Base extends Helpers {
       static::maybe_throw_wp_error( $ret );
     } else {
       Helpers::debug($this->getIdentString() ."METASQL: was not a string");
+    }
+  }
+  public function createMetaAttributes() {
+    Helpers::debug("Base::createMetaAttributes " . get_called_class() . "({$this->_actual_model_id}) called");
+    include WCAPIDIR."/_globals.php";
+    include WCAPIDIR."/_model_static_attributes.php";
+    $meta_table              = $this->orEq( $self->settings, 'meta_table', $wpdb->postmeta ); 
+    $meta_table_foreign_key  = $this->orEq( $self->settings, 'meta_table_foreign_key', 'post_id' );
+    $save_meta_function = $self->settings['save_meta_function'];
+    Helpers::debug($this->getIdentString() ."meta_table is $meta_table fkey is $meta_table_foreign_key");
+    if ( $save_meta_function) {
+      Helpers::debug($this->getIdentString() ."calling save_meta_function");
+      $meta_sql = call_user_func($save_meta_function, $this);
+    } else {
+      $hits = 0;
+      $meta_sql = array();
+      $attribute_names = array();
+      foreach ($self->meta_attributes_table  as $attr => $desc) {
+        Helpers::debug($this->getIdentString() ."METASQL: $attr => {$desc['name']}");
+        if ( isset( $this->_meta_attributes[$attr] ) ) {
+          Helpers::debug($this->getIdentString() ."Searching meta_attribute for $attr");
+          $value = $this->_meta_attributes[$attr];
+          if ( empty( $value ) && isset( $desc['default'] ) ) {
+            Helpers::debug($this->getIdentString() .'The value was empty but a default was set.');
+            $value = $desc['default'];
+          }
+          if ( ! empty($value) ) {
+            if ( isset( $desc['updater'] ) ) {
+              Helpers::debug($this->getIdentString() ."METASQL:Calling updater! for $attr");
+              $this->apply_updater($value,$desc,'::saveMetaAttributes');
+            } else {
+              Helpers::debug($this->getIdentString() ."METASQL:No updater set for $attr for value $value");
+              //$meta_keys[] = $wpdb->prepare("%s",$desc['name']);
+              $attribute_names[] = $wpdb->prepare( "%s", $desc['name']);
+              $meta_sql[] = $wpdb->prepare( "INSERT INTO {$wpdb->postmeta} (post_id,meta_key,meta_value) VALUES ({$this->_actual_model_id},'{$desc['name']}', %s)", $value);
+              $hits++;
+            }
+          } else {
+            Helpers::debug($this->getIdentString() ."METASQL: The value was empty");
+          }
+        } else {
+          Helpers::debug($this->getIdentString() ."METASQL: Not set in this->_meta_attributes");
+          if ( isset( $desc['updater'] ) ) {
+            Helpers::debug($this->getIdentString() ."METASQL:Calling updater! for $attr");
+            $this->apply_updater($value,$desc,'::saveMetaAttributes');
+          }
+        }
+      }
+    }
+    if ( is_array($meta_sql) && count($attribute_names) > 0 && count($meta_sql) > 0) {
+
+      Helpers::debug($this->getIdentString() ."METASQL: ". var_export($meta_sql,true));
+      foreach ( $meta_sql as $stmt) {
+        $ret = $wpdb->query($stmt);
+        static::maybe_throw_wp_error( $ret );
+      }
+    } else {
+      Helpers::debug($this->getIdentString() ."METASQL: was not valid");
     }
   }
   // We need an easier interface to fetching items
@@ -492,7 +554,7 @@ class Base extends Helpers {
     if ( isset( $meta_table[$name] ) ) {
       $desc = $meta_table[$name];
       if ( isset($desc['getter']) && is_callable( $desc['getter'] )) {
-        $value = call_user_func($desc['getter'], $this, $name, $desc, false);
+        $value = call_user_func($desc['getter'], $desc);
       }
       if ( isset ( $this->_meta_attributes[$name] ) ) {
         return $this->_meta_attributes[$name];
@@ -518,27 +580,19 @@ class Base extends Helpers {
     $meta_table = $this->actual_meta_attributes_table;
     $model_table = $this->actual_model_attributes_table;
     $s = $this->actual_model_settings;
+
     if ( ! isset( $meta_table[$name] ) ) {
       Helpers::debug(get_called_class() . "::__set $name is not defined in meta_table");
     }
     if ( isset( $meta_table[$name] ) ) {
-      Helpers::debug(get_called_class() . "::__set isset meta_table $name " . var_export($value,true));
+      Helpers::debug(get_called_class() . "::__set is set meta_table $name " . var_export($value,true));
       $desc = $meta_table[$name];
       if ( isset($desc['setter'])) {
-        Helpers::debug(get_called_class() . "::__set if isset setter $name " . var_export($value,true));
-        if ( is_string($desc['setter']) ) {
-          Helpers::debug(get_called_class() . "::__set using member function for $name with " . var_export($value,true));
-          $this->{ $desc['setter'] }( $value, $desc );
-        } else if (is_callable($desc['setter'])) {
-          Helpers::debug(get_called_class() . "::__set using callable! with value ");
-          call_user_func($desc['setter'],$this,$name, $desc, $value, $filter_value );
-        } else {
-          throw new \Exception( $desc['setter'] .' setter is not a function in this scope');
-        }
+        Helpers::debug("::__set is applying setter for $name");
+        apply_setter($value,$desc,'__set');
+      } else {
+        $this->_meta_attributes[$name] = $value;
       }
-      Helpers::debug(get_called_class() . "::__set setting $name  to" . var_export($value,true) . " in meta_table");
-      $this->_meta_attributes[$name] = $value;
-      Helpers::debug("meta_attributes $name is now " . var_export($this->_meta_attributes[$name],true) );
     } else if (strtolower($name) == 'id') {
       Helpers::debug(get_called_class() . "::__set if strtolower id $name " . var_export($value,true));
       $this->id = $value;
@@ -553,6 +607,42 @@ class Base extends Helpers {
     }
   }
 
+  public function apply_getter($desc,$called_from) {
+    Helpers::debug("Base::apply_getter {$desc['name']} called from $called_from");
+    if ( is_string($desc['getter'])) {
+      Helpers::debug("is_string");
+      return $this->{ $desc['getter'] }($desc);
+    } else if ( is_callable($desc['getter'])) {
+      Helper::debug("is_callable");
+      return call_user_func($desc['getter'], $this, $desc);
+    } else {
+      throw new \Exception( $desc['getter'] .' getter is not a function in this scope');
+    }
+  }
+  public function apply_setter($value, $desc,$called_from) {
+    Helpers::debug("Base::apply_setter {$desc['name']} called from $called_from");
+    if ( is_string($desc['setter'])) {
+      Helpers::debug("is_string");
+     $this->{ $desc['setter'] }($value,$desc);
+    } else if ( is_callable($desc['setter'])) {
+      Helpers::debug("is_callable");
+      call_user_func($desc['setter'], $this, $value, $desc);
+    } else {
+      throw new \Exception( $desc['setter'] .' setter is not a function in this scope');
+    }
+  }
+  public function apply_updater($value, $desc,$called_from) {
+    Helpers::debug("Base::apply_updater {$desc['name']} called from $called_from");
+    if ( is_string($desc['updater'])) {
+      Helpers::debug("is_string");
+      $this->{ $desc['updater'] }($value,$desc);
+    } else if ( is_callable($desc['updater'])) {
+      Helpers::debug("is_callable");
+      call_user_func($desc['updater'], $this, $value, $desc);
+    } else {
+      throw new \Exception( $desc['updater'] .' updater is not a function in this scope');
+    }
+  }
 
   public function dynamic_set( $name, $desc, $value, $filter_value = null ) {
     Helpers::debug(get_called_class(). "::dynamic_set $name and " . var_export($value,true));
@@ -567,19 +657,13 @@ class Base extends Helpers {
     //   }
     // }
     if ( isset($desc['setter']) ) {
-      if ( is_string($desc['setter']) ) {
-        Helpers::debug(get_called_class() . "::dynamic_set using member function for $name with " . var_export($value,true));
-        $this->{ $desc['setter'] }( $value, $desc );
-      } else if (is_callable($desc['setter'])) {
-        Helpers::debug(get_called_class() . "::dynamic_set using callable! with value ");
-        call_user_func($desc['setter'],$this,$name, $desc, $value, $filter_value );
-      } else {
-        throw new \Exception( $desc['setter'] .' setter is not a function in this scope');
-      }
+      Helpers::debug("applying setter for $name");
+      $this->apply_setter($value,$desc,'::dynamic_set');
     } else {
       if ( (!$value || empty($value) ) && (isset($desc['default']) && $desc['default'] && ! empty($desc['default']) ) ) {
         $value = $desc['default'];
       }
+      Helpers::debug("Setting this->$name");
       $this->{ $name } = $value;
       if ( isset($desc['overwrites']) && is_array($desc['overwrites']) ) {
         foreach ($desc['overwrites'] as $attr ) {
@@ -591,14 +675,7 @@ class Base extends Helpers {
 
   public function dynamic_get( $name, $desc, $filter_value = null ) {
     if ( isset($desc['getter']) ) {
-
-      if ( is_string($desc['getter']))
-        $value = $this->{ $desc['getter'] }($desc);
-      else if ( is_callable($desc['getter']))
-        $value = call_user_func($desc['getter'], $this, $name, $desc, $filter_value);
-      else
-        throw new \Exception( $desc['getter'] .' getter is not a function in this scope');
-
+      $value = $this->apply_getter($desc,'::dynamic_get');
     } else {
       $value = $this->{ $name };
     }
@@ -820,26 +897,10 @@ class Base extends Helpers {
       $this->_actual_model_id = $id;
       $this->runAfterCreateCallbacks();
       if ( isset( $self->settings['create_meta_function']) ) {
+        Helpers::debug("calling create_meta_funtion");
         call_user_func($self->settings['create_meta_function'],$this);
       } else {
-        foreach ( $meta_table as $attr => $desc ) {
-          if ( isset( $this->_meta_attributes[$attr] ) ) {
-            $value = $this->_meta_attributes[$attr];
-            if ( empty($value) && isset($desc['default']) ) {
-              $value = $desc['default'];
-            }
-
-            if ( ! empty($value) ) {
-              if ( isset($desc['updater']) ) {
-                call_user_func($desc['updater'], $this, $attr, $value, $desc );
-              } else if ( $update_meta_function ) {
-                call_user_func($update_meta_function, $id, $desc['name'], $value );
-              }
-            }
-
-          } 
-
-        }  
+        $this->createMetaAttributes(); 
       }
       Helpers::debug("saving associations for " . get_called_class());
       $this->saveAssociations();

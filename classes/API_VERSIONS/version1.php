@@ -28,7 +28,7 @@ class WC_JSON_API_Provider_v1 extends JSONAPIHelpers {
       'get_products' => array(
         'order_by' => array(
           'type' => 'string',
-          'values' => array('ID','post_title','post_date','post_author','post_modified','woocommerce_json_api'),
+          'values' => array('ID','post_title','post_date','post_author','post_modified'),
           'default' => "ID",
           'required' => false,
           'sizehint' => 1,
@@ -87,7 +87,7 @@ class WC_JSON_API_Provider_v1 extends JSONAPIHelpers {
       'get_products_from_trash' => array(
         'order_by' => array(
           'type' => 'string',
-          'values' => array('ID','post_title','post_date','post_author','post_modified','woocommerce_json_api'),
+          'values' => array('ID','post_title','post_date','post_author','post_modified'),
           'default' => "ID",
           'required' => false,
           'sizehint' => 1,
@@ -172,7 +172,7 @@ class WC_JSON_API_Provider_v1 extends JSONAPIHelpers {
       'get_images' => array(
         'order_by' => array(
           'type' => 'string',
-          'values' => array('id','count','name','slug'),
+          'values' => array('ID','post_title','post_date','post_author','post_modified'),
           'default' => "name",
           'required' => false,
           'sizehint' => 1,

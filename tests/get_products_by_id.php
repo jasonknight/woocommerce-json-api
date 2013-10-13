@@ -8,7 +8,7 @@ $data = array(
   'arguments'   => array(
     'username' => 'admin',
     'password' => 'nimda',
-    'ids' => array(294),
+    'ids' => array(433),
   ),
   'model_filters' => array(
 
