@@ -91,9 +91,11 @@ class Product extends Base{
           'images' => array(
               'class_name' => 'Image', 
               'sql' => function ($product) {
-                include WCAPIDIR."_globals.php";
+                include WCAPIDIR."/_globals.php";
                 $product_gallery = get_post_meta($product->_actual_model_id,"_product_image_gallery",true);
-                
+                if ( empty($product_gallery) ) {
+                  return null;
+                }
                 $img = new Image();
                 $s = $img->getModelSettings();
                 $sql = "SELECT {$s['model_table_id']} FROM {$s['model_table']} WHERE  {$s['model_table_id']} IN ($product_gallery)";
