@@ -90,20 +90,19 @@ class Product extends Base{
           ),
           'images' => array(
               'class_name' => 'Image', 
-              'foreign_key' => 'post_parent', 
-              'conditions' => array(
-                "post_type = 'attachment'",
-                "post_mime_type IN ('image/jpeg','image/png','image/gif')"
-              ),
+              'sql' => function ($product) {
+                include WCAPIDIR."_globals.php";
+                $product_gallery = get_post_meta($product->_actual_model_id,"_product_image_gallery",true);
+                
+                $img = new Image();
+                $s = $img->getModelSettings();
+                $sql = "SELECT {$s['model_table_id']} FROM {$s['model_table']} WHERE  {$s['model_table_id']} IN ($product_gallery)";
+                return $sql;
+              },
               'connect' => function ($product,$image) {
                 include WCAPIDIR."/_globals.php";
                 Helpers::debug("Product::image::connect");
                 $ms = $image->getModelSettings();
-                $fkey = 'post_parent';
-                $sql = "UPDATE {$ms['model_table']} SET {$fkey} = %s WHERE ID = %s";
-                $sql = $wpdb->prepare($sql,$product->_actual_model_id, $image->_actual_model_id);
-                Helpers::debug("connection sql is: $sql");
-                $wpdb->query($sql);
                 $product_gallery = get_post_meta($product->_actual_model_id,"_product_image_gallery",true);
                 Helpers::debug("product_gallery as fetched from meta: $product_gallery");
                 if ( empty( $product_gallery ) ) {
@@ -324,23 +323,6 @@ class Product extends Base{
   
   public function asApiArray() {
     include WCAPIDIR."/_globals.php";
-    // $category_objs = woocommerce_get_product_terms($this->_actual_model_id, 'product_cat', 'all');
-    // $categories = array();
-
-    // foreach ( $category_objs as $cobj ) {
-    //   // This looks scary if you've never used Javascript () evaluates the
-    //   // the contents and returns the value, in the same way that (3+4) * 8 
-    //   // works. Because we define the class with a Fluid API, most functions
-    //   // that modify state of the object, return the object.
-    //   try {
-    //     $_cat = new Category();
-    //     $categories[] = $_cat->setCategory( $cobj )->asApiArray();
-    //   } catch (Exception $e) {
-    //     // we should put some logging here soon!
-    //     JSONAPIHelpers::error( $e->getMessage() );
-    //   }
-      
-    // }
     $attributes_to_send = parent::asApiArray();
     $attributes_to_send['categories'] = $this->categories;
     $attributes_to_send['tags'] = $this->tags;//wp_get_post_terms($this->_actual_model_id,'product_tag');

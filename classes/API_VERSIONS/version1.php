@@ -1390,7 +1390,7 @@ class WC_JSON_API_Provider_v1 extends JSONAPIHelpers {
     $order_by       = $this->orEq( $params['arguments'], 'order_by', 'ID');
     $order          = $this->orEq( $params['arguments'], 'order', 'ASC');
     $ids            = $this->orEq( $params['arguments'], 'ids', false);
-    $ids            = $this->orEq( $params['arguments'], 'ids', false);
+    $skus           = $this->orEq( $params['arguments'], 'skus', false);
     $parent_ids     = $this->orEq( $params['arguments'], 'parent_ids', false);
     $by_ids = true;
     if ( ! $this->inArray($order_by,$allowed_order_bys) ) {
