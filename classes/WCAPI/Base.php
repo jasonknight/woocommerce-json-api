@@ -48,6 +48,8 @@ class Base extends Helpers {
 
   public $__delete__ = false;
   public $__delete__everything = false;
+  public $__disconnect__ = false;
+  public $__disconnected__ = false;
 
 
   /**
@@ -408,8 +410,15 @@ class Base extends Helpers {
                 Helpers::debug("id is already set");
                 $model =  $klass::find( $value['id'] );
                 if ( $model->isValid() ) {
-                  $model->fromApiArray( $value );
-                  $model->update();
+                  if ( isset($value['__disconnect__']) ) {
+                    call_user_func($desc['disconnect'], $this, $model);
+                    unset($value['__disconnect__']);
+                    $value['__disconnected__'] = true;
+                  } else {
+                    $model->fromApiArray( $value );
+                    $model->update();
+                    call_user_func($desc['connect'], $this, $model);
+                  } 
                 }
               } else {
                 Helpers::debug("need to create association of type $klass");
@@ -547,6 +556,9 @@ class Base extends Helpers {
   */
   public function __get( $name ) {
     Helpers::debug(get_called_class() . "::__get $name");
+    if ( strpos($name,"__") === 0 ) {
+      return $this->{$name};
+    }
     $meta_table = $this->actual_meta_attributes_table;
     $model_table = $this->actual_model_attributes_table;
     $s = $this->actual_model_settings;
@@ -577,6 +589,10 @@ class Base extends Helpers {
   // Dynamic setter
   public function __set( $name, $value ) {
     Helpers::debug(get_called_class() . "::__set $name " . var_export($value,true));
+    if ( strpos($name,"__") === 0 ) {
+      $this->{$name} = $value;
+      return;
+    }
     $meta_table = $this->actual_meta_attributes_table;
     $model_table = $this->actual_model_attributes_table;
     $s = $this->actual_model_settings;
@@ -646,6 +662,10 @@ class Base extends Helpers {
 
   public function dynamic_set( $name, $desc, $value, $filter_value = null ) {
     Helpers::debug(get_called_class(). "::dynamic_set $name and " . var_export($value,true));
+    if ( strpos($name,"__") === 0 ) {
+      $this->{$name} = $value;
+      return;
+    }
     if ( $desc['type'] == 'array') {
       $value = maybe_serialize( $value );
     }
@@ -674,6 +694,10 @@ class Base extends Helpers {
   }
 
   public function dynamic_get( $name, $desc, $filter_value = null ) {
+    Helpers::debug(get_called_class(). "::dynamic_get $name and");
+    if ( strpos($name,"__") === 0 ) {
+      return $this->{$name};
+    }
     if ( isset($desc['getter']) ) {
       $value = $this->apply_getter($desc,'::dynamic_get');
     } else {
@@ -806,7 +830,7 @@ class Base extends Helpers {
     /**
   *  Similar in function to Model.all in Rails, it's just here for convenience.
   */
-  public static function all($fields = 'id', $conditions = null) {
+  public static function all($fields = 'id', $conditions = null, $override_model_conditions = false) {
     $wpdb = static::$adapter;
     // static::setupModelAttributes();
     // static::setupMetaAttributes();
@@ -823,7 +847,11 @@ class Base extends Helpers {
     $model_conditions = $model->getConditionsString($model_conditions);
     $conditions = $model->getConditionsString( $conditions );
     if ( ! empty( $model_conditions) && $conditions && ! empty( $conditions )) {
-      $model_conditions .= " AND ($conditions)";
+      if ( $override_model_conditions ) {
+        $model_conditions = " WHERE $conditions";
+      } else {
+        $model_conditions .= " AND ($conditions)";
+      }
     } else if ( empty( $model_conditions) && $conditions && ! empty( $conditions )) {
       $model_conditions = $conditions;
     }
@@ -997,6 +1025,8 @@ class Base extends Helpers {
       }
       if ( count($conditions) > 0 ) {
         $sql .= " WHERE " . join(' AND ', $conditions);
+      } else {
+        throw new \Exception( __("Array of WHERE conditions doesn't lead to a where clause?",'WCAPI') );
       }
     } else if ( is_string($where) ) {
       $sql .= " WHERE " . $where;
@@ -1004,7 +1034,7 @@ class Base extends Helpers {
       throw new \Exception( sprintf(__("you cannot call %s::delete without a WHERE clause specifcy conditions in \$where, that is highly dangerous!",'WCAPI'), get_called_class()) );
     }
     $sql .= " LIMIT $limit";
-    if ( strpos('WHERE',$sql) === FALSE) {
+    if ( strpos($sql,'WHERE') === FALSE) {
       throw new \Exception( sprintf(__("you cannot call %s::delete without a WHERE clause, that is highly dangerous!",'WCAPI'), get_called_class()) );
     } else {
       $ret = $wpdb->query($sql);

@@ -35,20 +35,10 @@ class Product extends Base{
                 t.term_id = tt.term_id
               ",
               'connect' => function ($product,$category) {
-                include WCAPIDIR."/_globals.php";
-                $product->insert($wpdb->term_relationships, array(
-                    'object_id' => $product->_actual_model_id,
-                    'term_taxonomy_id' => $category->taxonomy_id,
-                  ) 
-                );
+                $product->connectToCategory($category);
               },
               'disconnect' => function ($product,$category) {
-                include WCAPIDIR."/_globals.php";
-                $product->delete($wpdb->term_relationships, array(
-                    'object_id' => $product->_actual_model_id,
-                    'term_taxonomy_id' => $category->taxonomy_id,
-                  ) 
-                );
+                $product->disconnectFromCategory($category);
               }
           ),
           'tags' => array(
@@ -65,20 +55,10 @@ class Product extends Base{
                 t.term_id = tt.term_id
               ",
               'connect' => function ($product,$tag) {
-                include WCAPIDIR."/_globals.php";
-                $product->insert($wpdb->term_relationships, array(
-                    'object_id' => $product->_actual_model_id,
-                    'term_taxonomy_id' => $tag->taxonomy_id,
-                  ) 
-                );
+                $product->connectToCategory($tag);
               },
               'disconnect' => function ($product,$tag) {
-                include WCAPIDIR."/_globals.php";
-                $product->delete($wpdb->term_relationships, array(
-                    'object_id' => $product->_actual_model_id,
-                    'term_taxonomy_id' => $tag->taxonomy_id,
-                  ) 
-                );
+                $product->disconnectFromCategory($tag);
               }
           ),
           'reviews' => array(
@@ -102,32 +82,7 @@ class Product extends Base{
                 return $sql;
               },
               'connect' => function ($product,$image) {
-                include WCAPIDIR."/_globals.php";
-                Helpers::debug("Product::image::connect");
-                $ms = $image->getModelSettings();
-                $product_gallery = get_post_meta($product->_actual_model_id,"_product_image_gallery",true);
-                Helpers::debug("product_gallery as fetched from meta: $product_gallery");
-                if ( empty( $product_gallery ) ) {
-                  Helpers::debug("product_gallery is empty!");
-                  $product_gallery = array();
-                } else if ( ! strpos(',', $product_gallery) == false ) {
-                  Helpers::debug("product_gallery contains  a comma!");
-                  $product_gallery = explode(',',$product_gallery);
-                } else {
-                  Helpers::debug("product_gallery is empty!");
-                  $product_gallery = array($product_gallery);
-                }
-                
-                Helpers::debug( "Product Gallery is: " . var_export($product_gallery,true) ) ;
-                if ( ! in_array($image->_actual_model_id, $product_gallery) ) {
-                  Helpers::debug("id {$image->_actual_model_id} is not in " . join(",",$product_gallery) );
-                  $product_gallery[] = $image->_actual_model_id;
-                  $product_gallery = join(",",$product_gallery);
-                  Helpers::debug("Updating {$product->_actual_model_id}'s' _product_image_gallery to $product_gallery");
-                  update_post_meta($product->_actual_model_id,'_product_image_gallery',$product_gallery);
-                } else {
-                  Helpers::debug("In Array failed.");
-                }
+                $product->connectToImage($image);
               }
           ),
           'featured_image' => array(
@@ -421,5 +376,56 @@ class Product extends Base{
   public function updateProductType($value,$desc) {
     $this->updateTerm('product_type','product_type',$value);
   }
-   
+  public function connectToCategory($category) {
+    $product = $this;
+    include WCAPIDIR."/_globals.php";
+    $product->delete($wpdb->term_relationships, array(
+        'object_id' => $product->_actual_model_id,
+        'term_taxonomy_id' => $category->taxonomy_id,
+      ) 
+    );
+    $product->insert($wpdb->term_relationships, array(
+        'object_id' => $product->_actual_model_id,
+        'term_taxonomy_id' => $category->taxonomy_id,
+      ) 
+    );
+  }
+  public function disconnectFromCategory($category) {
+    $product = $this;
+    include WCAPIDIR."/_globals.php";
+    $product->delete($wpdb->term_relationships, array(
+        'object_id' => $product->_actual_model_id,
+        'term_taxonomy_id' => $category->taxonomy_id,
+      ) 
+    );
+  }
+  public function connectToImage($image) {
+    $product = $this;
+    include WCAPIDIR."/_globals.php";
+    Helpers::debug("Product::image::connect");
+    $ms = $image->getModelSettings();
+    $product_gallery = get_post_meta($product->_actual_model_id,"_product_image_gallery",true);
+    Helpers::debug("product_gallery as fetched from meta: $product_gallery");
+    if ( empty( $product_gallery ) ) {
+      Helpers::debug("product_gallery is empty!");
+      $product_gallery = array();
+    } else if ( ! strpos(',', $product_gallery) == false ) {
+      Helpers::debug("product_gallery contains  a comma!");
+      $product_gallery = explode(',',$product_gallery);
+    } else {
+      Helpers::debug("product_gallery is empty!");
+      $product_gallery = array($product_gallery);
+    }
+    
+    Helpers::debug( "Product Gallery is: " . var_export($product_gallery,true) ) ;
+    if ( ! in_array($image->_actual_model_id, $product_gallery) ) {
+      Helpers::debug("id {$image->_actual_model_id} is not in " . join(",",$product_gallery) );
+      $product_gallery[] = $image->_actual_model_id;
+      $product_gallery = join(",",$product_gallery);
+      Helpers::debug("Updating {$product->_actual_model_id}'s' _product_image_gallery to $product_gallery");
+      update_post_meta($product->_actual_model_id,'_product_image_gallery',$product_gallery);
+    } else {
+      Helpers::debug("In Array failed.");
+    }
+  }
 }
