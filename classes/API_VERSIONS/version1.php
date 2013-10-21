@@ -532,7 +532,7 @@ class WC_JSON_API_Provider_v1 extends JSONAPIHelpers {
         $this->result->addWarning( $post_id. ': ' . __('Product does not exist','woocommerce_json_api'), JSONAPI_PRODUCT_NOT_EXISTS, array( 'id' => $post_id) );
       } else {
 
-        $products[] = $post->asApiArray();
+        $products[] = $post->asApiArray($params['arguments']);
       }
       
     }

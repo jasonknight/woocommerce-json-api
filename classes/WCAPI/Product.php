@@ -323,15 +323,26 @@ class Product extends Base{
     self::$_model_attributes_table = self::getModelAttributes();
   }
   
-  public function asApiArray() {
+  public function asApiArray($args = array()) {
     include WCAPIDIR."/_globals.php";
-    $attributes_to_send = parent::asApiArray();
-    $attributes_to_send['categories'] = $this->categories;
-    $attributes_to_send['tags'] = $this->tags;//wp_get_post_terms($this->_actual_model_id,'product_tag');
-    $attributes_to_send['reviews'] = $this->reviews;
-    $attributes_to_send['variations'] = $this->variations;
-    $attributes_to_send['images'] = $this->images;
-    $attributes_to_send['featured_image'] = $this->featured_image;
+    $attributes_to_send = parent::asApiArray($args);
+    if ( !isset($args['include']) || ! is_array($args['include'])) {
+      $args['include'] = array();
+    }
+    foreach (array('categories','tags','reviews','variations','images','featured_image') as $assoc) {
+      if ( !isset($args['include'][$assoc]) ) {
+        $args['include'][$assoc] = true;
+      }
+      if ( $args['include'][$assoc] == true ) {
+        $attributes_to_send[$assoc] = $this->{$assoc};
+      }
+    }
+    // $attributes_to_send['categories'] = $this->categories;
+    // $attributes_to_send['tags'] = $this->tags;//wp_get_post_terms($this->_actual_model_id,'product_tag');
+    // $attributes_to_send['reviews'] = $this->reviews;
+    // $attributes_to_send['variations'] = $this->variations;
+    // $attributes_to_send['images'] = $this->images;
+    // $attributes_to_send['featured_image'] = $this->featured_image;
     return $attributes_to_send;
   }
 

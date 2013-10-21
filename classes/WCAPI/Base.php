@@ -782,7 +782,7 @@ class Base extends Helpers {
     
     return $this;
   }
-  public function asApiArray() {
+  public function asApiArray($args = array()) {
     $wpdb = static::$adapter;
     $meta_table = $this->actual_meta_attributes_table;
     $model_table = $this->actual_model_attributes_table;

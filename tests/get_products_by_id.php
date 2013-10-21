@@ -9,6 +9,11 @@ $data = array(
     'username' => 'admin',
     'password' => 'nimda',
     'ids' => array(462),
+    'include' => array(
+      'variations' => false,
+      'images' => false,
+      'featured_image' => false,
+    ),
   ),
   'model_filters' => array(
 
@@ -34,7 +39,7 @@ echo "Result is: \n\n";
 echo $result;
 $result = json_decode($result,true);
 $product = $result['payload'][0];
-print_r($product['images']);
+//print_r($product['images']);
 die;
 
 echo "Getting next: ";
