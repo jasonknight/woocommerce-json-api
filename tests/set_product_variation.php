@@ -31,9 +31,19 @@ $master_product_data = array(
 // Try uploading an image
 
 $new_product_data = array(
-  'name' => "An API Created Product 203 Variation",
+  'name' => "An API Created Product 203 Variation #1",
   'price' => $p,
-  'sku' => "API{$r}V",
+  'sku' => "API{$r}V1",
+  'visibility' => 'visible',
+  'product_type' => 'simple',
+  'type' => 'product_variation',
+  'status' => 'instock',
+  'size_attribute' => 'small', // this is our dynamic attribute
+);
+$new_product_data2 = array(
+  'name' => "An API Created Product 203 Variation #2",
+  'price' => $p,
+  'sku' => "API{$r}V2",
   'visibility' => 'visible',
   'product_type' => 'simple',
   'type' => 'product_variation',
@@ -41,7 +51,7 @@ $new_product_data = array(
   'size_attribute' => 'small', // this is our dynamic attribute
 );
 
-$master_product_data['variations'] = array($new_product_data);
+$master_product_data['variations'] = array($new_product_data,$new_product_data2);
 $data = array(
   'action'      => 'woocommerce_json_api',
   'proc'        => 'set_products',
