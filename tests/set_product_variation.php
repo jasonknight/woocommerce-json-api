@@ -48,7 +48,7 @@ $new_product_data2 = array(
   'product_type' => 'simple',
   'type' => 'product_variation',
   'status' => 'instock',
-  'size_attribute' => 'small', // this is our dynamic attribute
+  'size_attribute' => 'medium', // this is our dynamic attribute
 );
 
 $master_product_data['variations'] = array($new_product_data,$new_product_data2);
