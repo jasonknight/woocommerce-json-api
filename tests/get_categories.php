@@ -12,6 +12,7 @@ $data = array(
 $result = curl_post($url,$data);
 
 verifySuccess("Get Categories", $result);
+verifyNonZeroPayload("Categories were returned", $result);
 
 $data = array(
   'action'      => 'woocommerce_json_api',

@@ -235,6 +235,7 @@ class Order extends Base {
         // This is more or less just to have an example of how
         // the getter/setter/updaters work
         'getter' => 'getStatus',
+        'setter' => 'setStatus',
         'updater' => 'updateStatus',
         ),
     );
@@ -259,9 +260,9 @@ class Order extends Base {
   }
   public function getStatus() {
     $wpdb = self::$adapter;
-    if ( isset($this->_meta_attributes['status']) ) {
-      return $this->_meta_attributes['status'];
-    }
+    // if ( isset($this->_meta_attributes['status']) && !empty($this->_meta_attributes['status']) ) {
+    //   return $this->_meta_attributes['status'];
+    // }
     $sql = "
       SELECT 
         t.slug
@@ -280,6 +281,9 @@ class Order extends Base {
     $terms = $wpdb->get_results( $sql , 'ARRAY_A');
     $this->_meta_attributes['status'] = (isset($terms[0])) ? $terms[0]['slug'] : 'pending';
     return $this->_meta_attributes['status'];
+  }
+  public function setStatus($value,$desc) {
+    $this->_meta_attributes['status'] = $value;
   }
   public function updateStatus( $to, $desc ) {
     // $order = new \WC_Order( $this->_actual_model_id );

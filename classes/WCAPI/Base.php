@@ -417,7 +417,9 @@ class Base extends Helpers {
                   } else {
                     $model->fromApiArray( $value );
                     $model->update();
-                    call_user_func($desc['connect'], $this, $model);
+                    if ( isset($desc['connect'])) {
+                      call_user_func($desc['connect'], $this, $model);
+                    }
                   } 
                 }
               } else {
