@@ -8,6 +8,7 @@ class WooCommerce_JSON_API_Result {
     $this->params['status'] = $bool;
   }
   public function setParams( $params ) {
+    global $wpdb;
     if ( isset($params['arguments']['password']) ) {
       // We shouldn't pass back the password.
       $params['arguments']['password'] = '[FILTERED]';
@@ -20,7 +21,15 @@ class WooCommerce_JSON_API_Result {
     $this->params['notifications'] = array();
     $this->params['payload'] = array();
     $this->params['arguments']['token'] = "";
-
+    // Now we need to generate some stats for the call,
+    // like how many products, order, categories there are
+    // and so on.
+    $this->params['statistics'] = array(
+      'products' => $wpdb->get_var("SELECT count(*) FROM {$wpdb->posts} WHERE post_type = 'product' AND post_status != 'trash'"),
+      'products_in_trash' => $wpdb->get_var("SELECT count(*) FROM {$wpdb->posts} WHERE post_type = 'product' AND post_status = 'trash'"),
+      'variations' => $wpdb->get_var("SELECT count(*) FROM {$wpdb->posts} WHERE post_type = 'product_variation' AND post_status != 'trash'"),
+      'orders' => $wpdb->get_var("SELECT count(*) FROM {$wpdb->posts} WHERE post_type = 'shop_order' AND post_status != 'trash'"),
+    );
     return $this;
   }
   public function getParams() {
