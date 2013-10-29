@@ -27,6 +27,7 @@ class Base extends Helpers {
   public $td = 'WCAPI';
 
   public $_result; // so we can add errors
+  public $__order;
   
   // This is actually unecessary and is being 
   // moved to $actuals, eventually this will
@@ -165,6 +166,10 @@ class Base extends Helpers {
   public function per( $num = 25 ) {
     $num = intval($num);
     $this->_per_page = $num;
+    return $this;
+  }
+  public function order($o) {
+    $this->__order = $o;
     return $this;
   }
   public function getAdapter() { return static::$adapter;}
@@ -340,10 +345,14 @@ class Base extends Helpers {
     $wpdb = static::$adapter;
     $sql = $this->_queries_to_run[count($this->_queries_to_run) - 1];
     if ( ! empty($sql) ) {
+      if ( $this->__order && !empty($this->__order) ) {
+        $sql .= " ORDER BY {$this->__order} ";
+      } 
       if ( $this->_per_page && $this->_page ) {
         $page = $this->_page - 1;
         $sql .= " LIMIT {$page},{$this->_per_page}";
       }
+
       $results = $wpdb->get_results($sql,'ARRAY_A');
       Helpers::debug("in function fetch: WPDB returned " . count($results) . " results using $sql");
       if ($callback) {

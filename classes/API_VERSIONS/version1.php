@@ -495,6 +495,7 @@ class WC_JSON_API_Provider_v1 extends JSONAPIHelpers {
       return;
     }
     $conditions = array();
+    $order_stmt = "{$order_by} {$order}";
     if (  
           isset($params['arguments']['include']) && 
           isset($params['arguments']['include']['variations']) &&
@@ -506,11 +507,11 @@ class WC_JSON_API_Provider_v1 extends JSONAPIHelpers {
     }
     if ( ! $ids && ! $skus ) {
         if ($parent_ids) {
-          $posts = API\Product::all('id', "`post_parent` IN (" . join(",",$parent_ids) . ")")->per($posts_per_page)->page($paged)->fetch(function ( $result) {
+          $posts = API\Product::all('id', "`post_parent` IN (" . join(",",$parent_ids) . ")")->per($posts_per_page)->page($paged)->order($order_stmt)->fetch(function ( $result) {
             return $result['id'];
           });
         } else {
-          $posts = API\Product::all('id',$conditions,true)->per($posts_per_page)->page($paged)->fetch(function ( $result) {
+          $posts = API\Product::all('id',$conditions,true)->per($posts_per_page)->page($paged)->order($order_stmt)->fetch(function ( $result) {
             return $result['id'];
           });
         }
