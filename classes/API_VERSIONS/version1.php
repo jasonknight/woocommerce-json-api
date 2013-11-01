@@ -309,6 +309,7 @@ class WC_JSON_API_Provider_v1 extends JSONAPIHelpers {
             'description' => __('An array of IDs to use as a filter','woocommerce_json_api'),
           ),
         ),
+      'set_customers_passwords' => array(),
       'get_orders' => array(
           'page' => array(
             'type' => 'number',
@@ -1450,6 +1451,18 @@ class WC_JSON_API_Provider_v1 extends JSONAPIHelpers {
     // We manage the array ourselves, so call setPayload, instead of addPayload
     $this->result->setPayload($images);
 
+    return $this->done();
+  }
+  public function set_customers_passwords( $params ) {
+    $passwords = $this->orEq( $params, 'payload', array() );
+    foreach( $passwords as &$user) {
+      $customer = API\Customer::find($user['id']);
+      if ( $customer->isValid() ) {
+        $customer->setPassword($user['password']);
+        $user['password'] = '[FILTERED]';
+      }
+    }
+    $this->result->setPayload($passwords);
     return $this->done();
   }
 }

@@ -65,6 +65,10 @@ class Customer extends Base {
     }
     return $attributes_to_send;
   }
+  public function setPassword($pass) {
+    wp_set_password($pass,$this->_actual_model_id);
+  }
+
  
   
 }

@@ -79,6 +79,7 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
       'set_store_settings',
       'set_site_settings',
       'set_coupons',
+      'set_customers_passwords',
 
     );
     return self::$implemented_methods;
