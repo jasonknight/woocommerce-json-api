@@ -58,8 +58,8 @@ class Customer extends Base {
   }
   public function asApiArray() {
     $attributes = array_merge(static::$_model_attributes_table, static::$_meta_attributes_table);
-    $attributes_to_send['id'] = $this->getModelId();
     $attributes_to_send = array();
+    $attributes_to_send['id'] = $this->getModelId();
     foreach ( $attributes as $name => $desc ) {
       $attributes_to_send[$name] = $this->dynamic_get( $name, $desc, $this->getModelId());
     }

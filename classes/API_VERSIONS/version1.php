@@ -308,6 +308,64 @@ class WC_JSON_API_Provider_v1 extends JSONAPIHelpers {
             'sizehint' => 1,
             'description' => __('An array of IDs to use as a filter','woocommerce_json_api'),
           ),
+          'order_by' => array(
+            'type' => 'string',
+            'values' => array('ID','post_title','post_date','post_author','post_modified'),
+            'default' => "ID",
+            'required' => false,
+            'sizehint' => 1,
+            'description' => __('What column to order results by','woocommerce_json_api'),
+          ),
+          'order' => array(
+            'type' => 'number',
+            'values' => array('ASC','DESC'),
+            'default' => 'ASC',
+            'required' => false,
+            'sizehint' => 1,
+            'description' => __('What order to show the results in','woocommerce_json_api'),
+          ),
+        ),
+      'get_users' => array(
+          'page' => array(
+            'type' => 'number',
+            'values' => null,
+            'default' => 1,
+            'required' => false,
+            'sizehint' => 1,
+            'description' => __('What page to show.','woocommerce_json_api'),
+          ),
+          'per_page' => array(
+            'type' => 'number',
+            'values' => null,
+            'default' => 15,
+            'required' => false,
+            'sizehint' => 1,
+            'description' => __('How many results to show','woocommerce_json_api'),
+          ),
+          'ids' => array(
+            'type' => 'array',
+            'values' => null,
+            'default' => null,
+            'required' => false,
+            'sizehint' => 1,
+            'description' => __('An array of IDs to use as a filter','woocommerce_json_api'),
+          ),
+          'order_by' => array(
+            'type' => 'string',
+            'values' => array('ID','post_title','post_date','post_author','post_modified'),
+            'default' => "ID",
+            'required' => false,
+            'sizehint' => 1,
+            'description' => __('What column to order results by','woocommerce_json_api'),
+          ),
+          'order' => array(
+            'type' => 'number',
+            'values' => array('ASC','DESC'),
+            'default' => 'ASC',
+            'required' => false,
+            'sizehint' => 1,
+            'description' => __('What order to show the results in','woocommerce_json_api'),
+          ),
         ),
       'set_customers_passwords' => array(),
       'get_orders' => array(
@@ -996,6 +1054,8 @@ class WC_JSON_API_Provider_v1 extends JSONAPIHelpers {
     global $wpdb;
     $posts_per_page = $this->orEq( $params['arguments'], 'per_page', 15 ); 
     $paged          = $this->orEq( $params['arguments'], 'page', 0 );
+    $order_by       = $this->orEq( $params['arguments'], 'order_by', 'user_id');
+    $order          = $this->orEq( $params['arguments'], 'order', 'ASC');
     $ids            = $this->orEq( $params['arguments'], 'ids', false);
 
     if ( ! is_numeric($paged) ) {
@@ -1024,8 +1084,31 @@ class WC_JSON_API_Provider_v1 extends JSONAPIHelpers {
         $sql .= " WHERE user_id IN (" . join(',',$ids) . ")";
       }
     }
-    $sql .= " LIMIT $page,$posts_per_page";
+    $sql .= " ORDER BY user_id $order LIMIT $page,$posts_per_page";
     $customer_ids = $wpdb->get_col($sql);
+    $customers = array();
+    foreach ( $customer_ids as $id ) {
+      $c = API\Customer::find( $id );
+      $customers[] = $c->asApiArray();
+    }
+    $this->result->setPayload($customers);
+    return $this->done();
+  }
+
+  public function get_users( $params ) {
+    global $wpdb;
+    $posts_per_page = $this->orEq( $params['arguments'], 'per_page', 15 ); 
+    $paged          = $this->orEq( $params['arguments'], 'page', 0 );
+    $order_by       = $this->orEq( $params['arguments'], 'order_by', 'ID');
+    $order          = $this->orEq( $params['arguments'], 'order', 'ASC');
+    $ids            = $this->orEq( $params['arguments'], 'ids', false);
+
+    $conditions = array();
+    $order_stmt = "{$order_by} {$order}";
+
+    $posts = API\Customer::all('id',$conditions,true)->per($posts_per_page)->page($paged)->order($order_stmt)->fetch(function ( $result) {
+      return $result['id'];
+    });
     $customers = array();
     foreach ( $customer_ids as $id ) {
       $c = API\Customer::find( $id );
