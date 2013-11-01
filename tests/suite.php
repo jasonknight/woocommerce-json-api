@@ -2,6 +2,7 @@
 
 include "get_categories.php";
 include "get_customers.php";
+include "get_users.php";
 include "get_store_settings.php";
 include "get_coupons.php";
 include "get_supported_attributes.php";

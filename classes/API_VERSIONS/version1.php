@@ -1106,7 +1106,7 @@ class WC_JSON_API_Provider_v1 extends JSONAPIHelpers {
     $conditions = array();
     $order_stmt = "{$order_by} {$order}";
 
-    $posts = API\Customer::all('id',$conditions,true)->per($posts_per_page)->page($paged)->order($order_stmt)->fetch(function ( $result) {
+    $customer_ids = API\Customer::all('id',$conditions,true)->per($posts_per_page)->page($paged)->order($order_stmt)->fetch(function ( $result) {
       return $result['id'];
     });
     $customers = array();
