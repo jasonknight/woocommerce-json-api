@@ -85,8 +85,64 @@ $data = array(
 );
 
 $result = curl_post($url,$data);
-echo "Result is: " . $result;
 $result = json_decode($result,true); 
 $product = $result['payload'][0];
 keyExists('variations',$product,'Is the variations key set?');
 hasAtLeast($product['variations'],1,"Has at least 1 variation?");
+
+// Now we want to edit the first variation
+
+$old_name = $product['variations'][0]['name'];
+$new_name = $old_name . " Edited";
+echo " First variation name is: {$old_name}\n";
+
+$product['variations'][0]['name'] = $new_name;
+
+$result['payload'] = array($product);
+$result['proc'] = 'set_products';
+$result = curl_post($url,$result);
+
+$result = json_decode($result,true); 
+$product = $result['payload'][0];
+
+// We make sure we get the product fresh from the db
+$data = array(
+  'action'      => 'woocommerce_json_api',
+  'proc'        => 'get_products',
+  'arguments'   => array(
+    'token' => $token,
+    'ids' => array( $product['id']),
+  )
+);
+$result = curl_post($url,$data);
+$result = json_decode($result,true); 
+
+$product = $result['payload'][0];
+
+notEqual($old_name, $product['variations'][0]['name'], "Was the variation name edited?");
+
+// Now we edit it back
+
+$product['variations'][0]['name'] = $old_name;
+
+$result['payload'] = array($product);
+$result['proc'] = 'set_products';
+$result = curl_post($url,$result);
+
+$result = json_decode($result,true); 
+$product = $result['payload'][0];
+
+// We make sure we get the product fresh from the db
+$data = array(
+  'action'      => 'woocommerce_json_api',
+  'proc'        => 'get_products',
+  'arguments'   => array(
+    'token' => $token,
+    'ids' => array( $product['id']),
+  )
+);
+$result = curl_post($url,$data);
+$result = json_decode($result,true); 
+$product = $result['payload'][0];
+
+equal($old_name, $product['variations'][0]['name'],"Did we restore the variation name?");

@@ -399,7 +399,38 @@ class Base extends Helpers {
     }
   }
   
-
+  public function apply_connector($desc,$model,$called_from) {
+    Helpers::debug("Base::apply_connector " . get_class($model) ." called from $called_from");
+    if ( is_string($desc['connect'])) {
+      Helpers::debug("is_string");
+      $this->{ $desc['connect'] }($this, $model);
+    } else if ( is_callable($desc['connect'])) {
+      Helpers::debug("is_callable");
+      call_user_func($desc['connect'], $this, $model);
+    } else {
+      throw new \Exception( $desc['connect'] .' connect is not a function in this scope');
+    }
+  }
+  public function apply_disconnector($desc,$model,$called_from) {
+    Helpers::debug("Base::apply_disconnector {$desc['name']} called from $called_from");
+    if ( is_string($desc['disconnect'])) {
+      Helpers::debug("is_string");
+      $this->{ $desc['disconnect'] }($model);
+    } else if ( is_callable($desc['disconnect'])) {
+      Helpers::debug("is_callable");
+      call_user_func($desc['disconnect'], $this, $model);
+    } else {
+      throw new \Exception( $desc['disconnect'] .' disconnect is not a function in this scope');
+    }
+  }
+  public function genericAssociationConnector($desc,$model) {
+    global $wpdb;
+    Helpers::debug("default connection");
+    $s = $model->getModelSettings();
+    $sql = "UPDATE {$s['model_table']} SET {$desc['foreign_key']} = {$this->_actual_model_id} WHERE {$s['model_table_id']} = {$model->_actual_model_id} LIMIT 1";
+    Helpers::debug("connection sql is: $sql");
+    $wpdb->query($sql);
+  }
   public function saveAssociations() {
     Helpers::debug("Base::saveAssociations beginning");
     $wpdb = static::$adapter;
@@ -420,14 +451,20 @@ class Base extends Helpers {
                 $model =  $klass::find( $value['id'] );
                 if ( $model->isValid() ) {
                   if ( isset($value['__disconnect__']) ) {
-                    call_user_func($desc['disconnect'], $this, $model);
+                    $this->apply_disconnector($desc, $model,'::saveAssociations');
                     unset($value['__disconnect__']);
                     $value['__disconnected__'] = true;
                   } else {
                     $model->fromApiArray( $value );
+                    Helpers::debug("Updating Association");
                     $model->update();
                     if ( isset($desc['connect'])) {
-                      call_user_func($desc['connect'], $this, $model);
+                      Helpers::debug("Applying Connector Function for Existing Resource");
+                      $this->apply_connector($desc,$model,'::saveAssociations');
+                      $value['__connected__'] = true;
+                    } else {
+                      Helpers::debug("No Connector Function for Existing Resource");
+                      $this->genericAssociationConnector($desc,$model);
                     }
                   } 
                 }
@@ -438,15 +475,9 @@ class Base extends Helpers {
                 $model =  $klass::find( $model->_actual_model_id );
                 // now we need to connect them
                 if ( isset( $desc['connect'] ) ) {
-                  call_user_func($desc['connect'], $this, $model);
+                  $this->apply_connector($desc,$model,'::saveAssociations');
                 } else {
-                  Helpers::debug("default connection");
-                  $ms = $model->getModelSettings();
-                  $fkey = $desc['foreign_key'];
-                  $sql = "UPDATE {$ms['model_table']} SET {$fkey} = %s WHERE {$ms['model_table_id']} = %s";
-                  $sql = $wpdb->prepare($sql,$this->_actual_model_id, $model->_actual_model_id);
-                  Helpers::debug("connection sql is: $sql");
-                  $wpdb->query($sql);
+                  $this->genericAssociationConnector($desc,$model);
                 }
                 $value = $model->asApiArray();
               }
@@ -1013,8 +1044,8 @@ class Base extends Helpers {
   public function delete($table, $where = null, $limit = 1) {
     include WCAPIDIR."/_globals.php";
     include WCAPIDIR."/_model_static_attributes.php";
-    if ( $table == THIS_IM_SURE ) {
-      
+    if ( $table === THIS_IM_SURE ) {
+      throw new \Exception("WTF?");
       $table = "`{$self->settings['model_table']}`";
       Helpers::debug(get_called_class() . "::delete $table THIS_IM_SURE");
       if ( $where == null ) {
@@ -1026,7 +1057,7 @@ class Base extends Helpers {
       $table = "`$table`";
     }
     Helpers::debug(get_called_class() . "::delete $table");
-    $sql = "DELTE FROM $table";
+    $sql = "DELETE FROM $table";
     if ( is_array( $where ) ) {
       $conditions = array();
       foreach ( $where as $key=>$value ) {

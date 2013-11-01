@@ -46,32 +46,10 @@ equal($nname, $product['name'],'new name is equal to product name');
 notEqual(round($old_price,2), round($product['price'],2),"{$old_price} should not equal {$product['price']}");
 equal(round($nprice,2), round($product['price'],2),'new price should equal product price');
 
-$tcount = count($product['tags']);
-$ccount = count($product['categories']);
-
 $product['name'] = $oname;
 $product['price'] = $old_price;
 
-$r = rand(0,99999);
-$product['tags'][] = array(
-  "name" =>  "This-is-an-api-tag " . $r,
-  "slug" =>  "this-is-a-tag-".$r,
-  "group_id" =>  "0",
-  "description" =>  "I was created by the API",
-  "parent_id" =>  "0",
-  "count" =>  "1",
-  "taxonomy" =>  "product_tag", 
-);
-$product['categories'][] = array(
-  "name" =>  "This-is-an-api-category " . $r,
-  "slug" =>  "this-is-a-category-".$r,
-  "group_id" =>  "0",
-  "description" =>  "I was created by the API",
-  "parent_id" =>  "0",
-  "count" =>  "1",
-  "taxonomy" =>  "product_cat", 
-);
-  
+
 
 
 $products['proc'] = 'set_products';
@@ -79,11 +57,11 @@ $products['payload'][0] = $product;
 
 
 $result = curl_post($url,$products);
-
 $products = json_decode($result,true);
 $product = $products['payload'][0];
-notEqual($tcount,count($product['tags']),"New product tags?");
-notEqual($ccount, count($product['categories']),"New categories?");
+equal($oname, $product['name'],'old name is equal to product name');
+equal(round($old_price,2), round($product['price'],2),'old price should equal product price');
+
 
 /*
 * Now let's look at creating a completely new product.
