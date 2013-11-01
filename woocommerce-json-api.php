@@ -9,7 +9,7 @@
 */
 
   // Turn on debugging?
-define('WC_JSON_API_DEBUG',false);
+//define('WC_JSON_API_DEBUG', true);
 
 define( 'REDE_PLUGIN_BASE_PATH', plugin_dir_path(__FILE__) );
 if (! defined('REDENOTSET')) {
