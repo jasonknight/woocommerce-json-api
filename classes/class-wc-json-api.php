@@ -321,6 +321,7 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
     wp_set_current_user($user->ID);
     wp_set_auth_cookie( $user->ID, false, is_ssl() );
     $this->setUser($user);
+    $this->result->params['statistics']['user_id'] = $user->ID;
 
   }
   public function unexpectedError( $params, $error ) {
@@ -347,9 +348,11 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
     return $this->done();
   }
   public function createNewResult($params) {
+    global $user_ID;
     if ( ! $this->result ) {
 
       $this->result = new WooCommerce_JSON_API_Result();
+
       $this->result->setParams( $params );
 
     }
