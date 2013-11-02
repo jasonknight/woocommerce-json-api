@@ -1537,8 +1537,12 @@ class WC_JSON_API_Provider_v1 extends JSONAPIHelpers {
     return $this->done();
   }
   public function set_customers_passwords( $params ) {
+    global $user_ID;
     $passwords = $this->orEq( $params, 'payload', array() );
     foreach( $passwords as &$user) {
+      if ( $user['id'] != $user_ID) {
+        continue;
+      }
       $customer = API\Customer::find($user['id']);
       if ( $customer->isValid() ) {
         $customer->setPassword($user['password']);
