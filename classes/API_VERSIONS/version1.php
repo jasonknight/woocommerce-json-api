@@ -560,13 +560,13 @@ class WC_JSON_API_Provider_v1 extends JSONAPIHelpers {
           isset($params['arguments']['include']['variations']) &&
           $params['arguments']['include']['variations'] == false
     ) {
-      $conditions = array("post_type = 'product'");
+      $conditions = array("post_type = 'product' AND post_status != 'trash'");
     } else {
-      $conditions = array("post_type IN ('product','product_variation')");
+      $conditions = array("post_type IN ('product','product_variation')  AND post_status != 'trash'");
     }
     if ( ! $ids && ! $skus ) {
         if ($parent_ids) {
-          $posts = API\Product::all('id', "`post_parent` IN (" . join(",",$parent_ids) . ")")->per($posts_per_page)->page($paged)->order($order_stmt)->fetch(function ( $result) {
+          $posts = API\Product::all('id', "`post_parent` IN (" . join(",",$parent_ids) . ")   AND post_status != 'trash'")->per($posts_per_page)->page($paged)->order($order_stmt)->fetch(function ( $result) {
             return $result['id'];
           });
         } else {
