@@ -1542,7 +1542,7 @@ class WC_JSON_API_Provider_v1 extends JSONAPIHelpers {
     foreach( $passwords as &$user) {
       if ( $user['id'] != $user_ID) {
         continue;
-      }
+      } 
       $customer = API\Customer::find($user['id']);
       if ( $customer->isValid() ) {
         $customer->setPassword($user['password']);
