@@ -903,6 +903,7 @@ class WC_JSON_API_Provider_v1 extends JSONAPIHelpers {
       'fields'         => 'ids',
       'order_by'       => $order_by,
       'order'          => $order,
+      'hide_empty' => false,
     );
     
     if ($ids) {
