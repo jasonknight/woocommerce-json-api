@@ -557,8 +557,8 @@ class WC_JSON_API_Provider_v1 extends JSONAPIHelpers {
     $order_stmt = "{$order_by} {$order}";
     if (  
           isset($params['arguments']['include']) && 
-          isset($params['arguments']['include']['variations']) &&
-          $params['arguments']['include']['variations'] == false
+          isset($params['arguments']['include']['variations_in_products']) &&
+          $params['arguments']['include']['variations_in_products'] == false
     ) {
       $conditions = array("post_type = 'product' AND post_status != 'trash'");
     } else {
