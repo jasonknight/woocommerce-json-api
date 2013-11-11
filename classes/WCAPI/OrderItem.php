@@ -58,4 +58,16 @@ class OrderItem extends Base {
     static::$_model_settings = self::getModelSettings();
     static::$_model_attributes_table = self::getModelAttributes();
   }
+
+  public function fromApiArray($a) {
+    if ( isset( $a['metadata'] ) ) {
+      unset( $a['metadata'] );
+    }
+    parent::fromApiArray($a);
+  }
+  public function asApiArray() {
+    $attributes_to_send = parent::asApiArray();
+    $attributes_to_send['metadata'] = get_metadata( 'order_item', $this->_actual_model_id, '', false );
+    return $attributes_to_send;
+  }
 }
