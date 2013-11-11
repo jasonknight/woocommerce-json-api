@@ -292,6 +292,12 @@ class Product extends Base{
         $attributes_to_send[$assoc] = $this->{$assoc};
       }
     }
+    if ( $attributes_to_send['type'] == 'product_variation' && empty($attributes_to_send['featured_image'])) {
+      $parent_product = Product::find($attributes_to_send['parent_id']);
+      if ( $parent_product->isValid() ) {
+        $attributes_to_send['featured_image'] = $parent->featured_image;
+      }
+    }
     // $attributes_to_send['categories'] = $this->categories;
     // $attributes_to_send['tags'] = $this->tags;//wp_get_post_terms($this->_actual_model_id,'product_tag');
     // $attributes_to_send['reviews'] = $this->reviews;
