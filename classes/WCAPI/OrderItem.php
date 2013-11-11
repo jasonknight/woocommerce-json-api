@@ -68,7 +68,7 @@ class OrderItem extends Base {
   public function asApiArray() {
     $attributes_to_send = parent::asApiArray();
     $attributes_to_send['metadata'] = get_metadata( 'order_item', $this->_actual_model_id, '', false );
-    foreach ($attributes_to_send as $key=>&$value) {
+    foreach ($attributes_to_send['metadata'] as $key=>&$value) {
       $value = $value[0];
     }
     return $attributes_to_send;
