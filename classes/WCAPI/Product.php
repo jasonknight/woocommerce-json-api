@@ -295,7 +295,7 @@ class Product extends Base{
     if ( $attributes_to_send['type'] == 'product_variation' && empty($attributes_to_send['featured_image'])) {
       $parent_product = Product::find($attributes_to_send['parent_id']);
       if ( $parent_product->isValid() ) {
-        $attributes_to_send['featured_image'] = $parent->featured_image;
+        $attributes_to_send['featured_image'] = $parent_product->featured_image;
       }
     }
     // $attributes_to_send['categories'] = $this->categories;
