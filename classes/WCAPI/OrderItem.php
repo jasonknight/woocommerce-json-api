@@ -63,6 +63,9 @@ class OrderItem extends Base {
     if ( isset( $a['metadata'] ) ) {
       unset( $a['metadata'] );
     }
+    if ( isset( $a['product'] ) ) {
+      unset( $a['product'] );
+    }
     parent::fromApiArray($a);
   }
   public function asApiArray() {
@@ -70,6 +73,17 @@ class OrderItem extends Base {
     $attributes_to_send['metadata'] = get_metadata( 'order_item', $this->_actual_model_id, '', false );
     foreach ($attributes_to_send['metadata'] as $key=>&$value) {
       $value = $value[0];
+    }
+    if ( isset($attributes_to_send['metadata']['_variation_id']) && !empty($attributes_to_send['metadata']['_variation_id'])) {
+      $pid = $attributes_to_send['metadata']['_variation_id'];
+    } else {
+      $pid = $attributes_to_send['metadata']['_product_id'];
+    }
+    $product = Product::find($pid);
+    if ( $product->isValid() ) {
+      $attributes_to_send['product'] = $product->asApiArray();
+    } else {
+      $attributes_to_send['product'] = null;
     }
     return $attributes_to_send;
   }
