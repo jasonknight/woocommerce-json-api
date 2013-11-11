@@ -1123,10 +1123,12 @@ class WC_JSON_API_Provider_v1 extends JSONAPIHelpers {
     $posts_per_page = $this->orEq( $params['arguments'], 'per_page', 15 ); 
     $paged          = $this->orEq( $params['arguments'], 'page', 0 );
     $ids            = $this->orEq( $params['arguments'], 'ids', false);
-
+    $order_by       = $this->orEq( $params['arguments'], 'order_by', 'ID');
+    $order          = $this->orEq( $params['arguments'], 'order', 'ASC');
+    $order_stmt = "{$order_by} {$order}";
     if ( ! $ids ) {
       $orders = array();
-      $models = API\Order::all("*")->per($posts_per_page)->page($paged)->fetch();
+      $models = API\Order::all("*")->per($posts_per_page)->page($paged)->order($order_stmt)->fetch();
       foreach ( $models as $model ) {
         $orders[] = $model->asApiArray();
       }
