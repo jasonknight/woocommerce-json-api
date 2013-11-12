@@ -1041,6 +1041,8 @@ class Base extends Helpers {
       throw new \Exception( get_called_class() . " : " . $val->get_messages() );
     }
   }
+  // OMFG, this stuff is not tested, do not use this feature,
+  // just set the publishing of your product to 'trash'
   public function delete($table, $where = null, $limit = 1) {
     include WCAPIDIR."/_globals.php";
     include WCAPIDIR."/_model_static_attributes.php";
