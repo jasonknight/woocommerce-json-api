@@ -82,6 +82,10 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
       'set_coupons',
       'set_customers_passwords',
 
+      // Evile delete methods
+      'delete_products', // You probably just want to put them in
+      // the trash. Pass: publishing = 'trash' or type = 'deleted'
+
     );
     return self::$implemented_methods;
   }

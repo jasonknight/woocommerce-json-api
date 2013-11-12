@@ -84,6 +84,33 @@ class WC_JSON_API_Provider_v1 extends JSONAPIHelpers {
         ),
 
       ),
+      'delete_products' => array(
+        'ids' => array(
+          'type' => 'array',
+          'values' => null,
+          'default' => null,
+          'required' => false,
+          'sizehint' => 10,
+          'description' => __('An array of IDs to use as a filter','woocommerce_json_api'),
+        ),
+        'skus' => array(
+          'type' => 'array',
+          'values' => null,
+          'default' => null,
+          'required' => false,
+          'sizehint' => 10,
+          'description' => __('An array of SKUs to use as a filter','woocommerce_json_api'),
+        ),
+        'parent_ids' => array(
+          'type' => 'array',
+          'values' => null,
+          'default' => null,
+          'required' => false,
+          'sizehint' => 10,
+          'description' => __('An array of parent IDs to use as a filter','woocommerce_json_api'),
+        ),
+
+      ),
       'get_products_from_trash' => array(
         'order_by' => array(
           'type' => 'string',
@@ -610,6 +637,63 @@ class WC_JSON_API_Provider_v1 extends JSONAPIHelpers {
     $this->result->setPayload($products);
 
     return $this->done();
+  }
+
+  public function delete_products( $params ) {
+    $ids            = $this->orEq( $params['arguments'], 'ids', false);
+    $parent_ids     = $this->orEq( $params['arguments'], 'parent_ids', false);
+    $skus           = $this->orEq( $params['arguments'], 'skus', false);
+
+    $by_ids = true;
+    $conditions = array();
+    if ( ! $this->inArray($order_by,$allowed_order_bys) ) {
+      $this->result->addError( __('order_by must be one of these:','woocommerce_json_api') . join( $allowed_order_bys, ','), JSONAPI_BAD_ARGUMENT );
+      return $this->done();
+      return;
+    }
+
+    if ( ! $ids && ! $skus ) {
+        if ($parent_ids) {
+          $posts = API\Product::all('id', "`post_parent` IN (" . join(",",$parent_ids) . ")   AND post_status != 'trash'")->per($posts_per_page)->page($paged)->fetch(function ( $result) {
+            return $result['id'];
+          });
+        } else {
+          $posts = API\Product::all('id',$conditions,true)->per($posts_per_page)->page($paged)->order($order_stmt)->fetch(function ( $result) {
+            return $result['id'];
+          });
+        }
+        
+      JSONAPIHelpers::debug( "IDs from all() are: " . var_export($posts,true) );
+    } else if ( $ids ) {
+    
+      $posts = $ids;
+      
+    } else if ( $skus ) {
+    
+      $posts = array();
+      foreach ($skus as $sku) {
+        $pid = $wpdb->get_var( $wpdb->prepare( "SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key='_sku' AND meta_value='%s' LIMIT 1",$sku) );
+        if ( ! $pid ) {
+          $this->result->addWarning( $sku . ': ' . __('Product does not exist','woocommerce_json_api'), JSONAPI_PRODUCT_NOT_EXISTS, array( 'sku' => $sku) );
+        } else {
+          $posts[] = $pid;
+        }
+      }
+      
+    }
+
+    $products = array();
+    foreach ( $posts as $post_id) {
+      $post = API\Product::find($post_id);
+
+      if ( !$post ) {
+        $this->result->addWarning( $post_id. ': ' . __('Product does not exist','woocommerce_json_api'), JSONAPI_PRODUCT_NOT_EXISTS, array( 'id' => $post_id) );
+      } else {
+        if ( $product->delete(THIS_IM_SURE) ) {
+          $this->result->addNotification( __("Product {$product->_actual_model_id} was deleted.") );
+        }
+      }
+    }
   }
 
   public function get_products_from_trash( $params ) {

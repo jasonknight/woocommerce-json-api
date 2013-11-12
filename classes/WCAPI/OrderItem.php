@@ -76,14 +76,16 @@ class OrderItem extends Base {
     }
     if ( isset($attributes_to_send['metadata']['_variation_id']) && !empty($attributes_to_send['metadata']['_variation_id'])) {
       $pid = $attributes_to_send['metadata']['_variation_id'];
-    } else {
+    } else if (isset($attributes_to_send['metadata']['_product_id']))  {
       $pid = $attributes_to_send['metadata']['_product_id'];
     }
-    $product = Product::find($pid);
-    if ( $product->isValid() ) {
-      $attributes_to_send['product'] = $product->asApiArray();
-    } else {
-      $attributes_to_send['product'] = null;
+    if ( isset($pid) ) {
+      $product = Product::find($pid);
+      if ( $product->isValid() ) {
+        $attributes_to_send['product'] = $product->asApiArray();
+      } else {
+        $attributes_to_send['product'] = null;
+      }
     }
     return $attributes_to_send;
   }

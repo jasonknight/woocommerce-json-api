@@ -12,7 +12,6 @@ $data = array(
   )
 );
 $result = curl_post($url,$data);
-
 $result = json_decode($result,true);
 
 $order = $result['payload'][0];
@@ -29,7 +28,9 @@ $order['status'] = $new_status;
 
 $result['proc'] = 'set_orders';
 $result['payload'] = array($order);
+
 $result = curl_post($url,$result);
+
 $result = json_decode($result,true);
 
 $order = $result['payload'][0];
@@ -40,6 +41,7 @@ $order['status'] = $old_status;
 $result['proc'] = 'set_orders';
 $result['payload'] = array($order);
 $result = curl_post($url,$result);
+
 $result = json_decode($result,true);
 $order = $result['payload'][0];
 equal($old_status,$order['status']);

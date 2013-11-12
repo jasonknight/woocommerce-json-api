@@ -1044,8 +1044,8 @@ class Base extends Helpers {
   public function delete($table, $where = null, $limit = 1) {
     include WCAPIDIR."/_globals.php";
     include WCAPIDIR."/_model_static_attributes.php";
+    $original_table = $table;
     if ( $table === THIS_IM_SURE ) {
-      throw new \Exception("WTF?");
       $table = "`{$self->settings['model_table']}`";
       Helpers::debug(get_called_class() . "::delete $table THIS_IM_SURE");
       if ( $where == null ) {
@@ -1073,7 +1073,7 @@ class Base extends Helpers {
     } else if ( is_string($where) ) {
       $sql .= " WHERE " . $where;
     } else {
-      throw new \Exception( sprintf(__("you cannot call %s::delete without a WHERE clause specifcy conditions in \$where, that is highly dangerous!",'WCAPI'), get_called_class()) );
+      throw new \Exception( sprintf(__("you cannot call %s::delete without a WHERE clause specify conditions in \$where, that is highly dangerous!",'WCAPI'), get_called_class()) );
     }
     $sql .= " LIMIT $limit";
     if ( strpos($sql,'WHERE') === FALSE) {
@@ -1082,6 +1082,19 @@ class Base extends Helpers {
       $ret = $wpdb->query($sql);
       static::maybe_throw_wp_error( $ret );
     }
+    if ( $original_table === THIS_IM_SURE ) {
+      if ( $self->settings['model_table'] == $wpdb->posts ) {
+        // Let's remove all the meta data...
+        $sql = $wpdb->prepare("DELETE FROM {$wpdb->postmeta} WHERE post_id = %s",$this->_actual_model_id);
+        $ret = $wpdb->query($sql);
+        static::maybe_throw_wp_error( $ret );
+
+        $sql = $wpdb->prepare("DELETE FROM {$wpdb->posts} WHERE post_parent = %s AND post_type = 'product_variation'",$this->_actual_model_id);
+        $ret = $wpdb->query($sql);
+        static::maybe_throw_wp_error( $ret );
+      }
+    }
+    return true;
   }
   public function getTerm($name,$type,$default) {
     Helpers::debug("Base::getTerm $name $type $default");
