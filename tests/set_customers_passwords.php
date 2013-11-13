@@ -19,10 +19,11 @@ $user_id = $result['payload'][0]['id'];
 
 $new_pass = 'new_pass_' . rand(0,10);
 $result['payload'] = array( 
-	array( 'id' => 2, 'password' => $new_pass)
+	array( 'id' => 1, 'password' => $new_pass)
 );
 $result['proc'] = 'set_customers_passwords';
 $result = curl_post($url,$result);
+echo $result;
 verifySuccess("did we set it?",$result);
 
 $result = json_decode($result,true);

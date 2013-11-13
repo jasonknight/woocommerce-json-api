@@ -246,6 +246,7 @@ class WC_JSON_API_Provider_v1 extends JSONAPIHelpers {
           'description' => __('How many results to show','woocommerce_json_api'),
         ),
       ),
+      'set_images' => null,
       'get_coupons' => null,
       'get_taxes' => null,
       'get_shipping_methods' => null,
@@ -1623,17 +1624,68 @@ class WC_JSON_API_Provider_v1 extends JSONAPIHelpers {
 
     return $this->done();
   }
+
+  public function set_images( $params ) {
+    JSONAPIHelpers::debug("set_images beginning");
+    $images = $this->orEq( $params, 'payload', array() );
+    foreach ( $images as &$attrs) {
+      $image = null;
+      if (isset($attrs['id'])) {
+        $image = API\Image::find($attrs['id']);
+      }
+      if ($image && is_object($image) && $image->isValid()) {
+        $image->fromApiArray( $attrs );
+        $image->update();
+        $attrs = $image->asApiArray();
+      } else {
+        $this->result->addWarning( 
+          __(
+              'Image does not exist.',
+              'woocommerce_json_api'
+            ),
+          JSONAPI_PRODUCT_NOT_EXISTS, 
+          array( 
+            'id' => isset($attrs['id']) ? $attrs['id'] : 'none',
+          )
+        );
+        // Let's create the image if it doesn't exist.
+        JSONAPIHelpers::debug("Creating a new image");
+        $image = new API\Image();
+        $image->create( $attrs );
+        if ( ! $image->isValid() ) {
+          JSONAPIHelpers::debug("Image is not valid!");
+          return $this->done();
+        } else {
+          $this->result->addNotification( 
+              __('Created image','woocommerce_json_api'), 
+              array('id' => $image->_actual_model_id)
+          );
+        }
+        $attrs = $image->asApiArray();
+      }
+    }
+    $this->result->setPayload( $images );
+    JSONAPIHelpers::debug("set_images done.");
+    return $this->done();
+  }
+
   public function set_customers_passwords( $params ) {
     global $user_ID;
     $passwords = $this->orEq( $params, 'payload', array() );
     foreach( $passwords as &$user) {
       if ( $user['id'] != $user_ID) {
+        $this->result->addError("You cannot change someonelses password",-1);
+        return $this->done();
         continue;
       } 
       $customer = API\Customer::find($user['id']);
       if ( $customer->isValid() ) {
         $customer->setPassword($user['password']);
         $user['password'] = '[FILTERED]';
+        $this->result->addNotification("Password was set!");
+      } else {
+        $this->result->addError("Customer doesn't exist",-1);
+        return $this->done();
       }
     }
     $this->result->setPayload($passwords);

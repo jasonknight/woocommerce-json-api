@@ -81,6 +81,7 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
       'set_site_settings',
       'set_coupons',
       'set_customers_passwords',
+      'set_images',
 
       // Evile delete methods
       'delete_products', // You probably just want to put them in
