@@ -48,11 +48,24 @@ class Helpers {
     } else {
       $ret = 'no';
     }
-    Helpers::debug("toWpBool b:$b ret:$ret");
+    //Helpers::debug("toWpBool b:$b ret:$ret");
     return $ret;
   }
   public static function toRealBool( $b ) {
-    return $b == 'yes' ? 1 : 0;
+    if ( is_string($b) ) {
+      if ( $b == 'yes' || $b == '1') {
+        return true;
+      } else {
+        return false;
+      }
+    }
+    if ( is_int($b) ) {
+      if ( $b == 1 ) {
+        return true;
+      } else {
+        return false;
+      }
+    } 
   }
   public static function databaseAttribute( $str ) {
     preg_match("/[\w\d]+/",$str,$matches);
