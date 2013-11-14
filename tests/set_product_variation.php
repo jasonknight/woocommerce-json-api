@@ -89,6 +89,9 @@ $result = json_decode($result,true);
 $product = $result['payload'][0];
 keyExists('variations',$product,'Is the variations key set?');
 hasAtLeast($product['variations'],1,"Has at least 1 variation?");
+// The first variation size_attribute should be 'small'
+$v1 = $product['variations'][0];
+equal($v1['size_attribute'],'small',"Is the size_attribute set?");
 
 // Now we want to edit the first variation
 
@@ -139,10 +142,34 @@ $data = array(
   'arguments'   => array(
     'token' => $token,
     'ids' => array( $product['id']),
-  )
+  ),
+  'model_filters' => array(
+    /*
+     * We need to edit a dynamic attribute, so we have
+     * to let the model layer know it should load up 
+     * a specific attribute.
+     * 
+     * In this case, we have an attribute called Size,
+     * WooCom will save this in the db as: attribute_size
+     */
+    'WCAPI_product_meta_attributes_table' => array(
+      'size_attribute' => array(
+       'name' => 'attribute_size',          
+       'type' => 'string', 
+       'values' => array(
+        'small',
+        'medium',
+        'large',
+       ),
+       'sizehint' => 2
+     ),
+    )
+
+  ),
 );
 $result = curl_post($url,$data);
 $result = json_decode($result,true); 
 $product = $result['payload'][0];
-
+$v1 = $product['variations'][0];
+equal($v1['size_attribute'],'small',"Is the size_attribute set?");
 equal($old_name, $product['variations'][0]['name'],"Did we restore the variation name?");
