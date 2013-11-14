@@ -59,7 +59,7 @@ $data = array(
     'token' => $token,
   ),
   'payload' => array($master_product_data),
-   'model_filters' => array(
+  'model_filters' => array(
     /*
      * We need to edit a dynamic attribute, so we have
      * to let the model layer know it should load up 
