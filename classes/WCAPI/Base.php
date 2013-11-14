@@ -224,6 +224,7 @@ class Base extends Helpers {
     $meta_table              = $this->orEq( $self->settings, 'meta_table', $wpdb->postmeta ); 
     $meta_table_foreign_key  = $this->orEq( $self->settings, 'meta_table_foreign_key', 'post_id' );
     $save_meta_function = $self->settings['save_meta_function'];
+    $update_meta_function = $self->settings['update_meta_function'];
     Helpers::debug($this->getIdentString() ."meta_table is $meta_table fkey is $meta_table_foreign_key");
     if ( $save_meta_function) {
       Helpers::debug($this->getIdentString() ."calling save_meta_function");
@@ -253,6 +254,10 @@ class Base extends Helpers {
                     //$meta_keys[] = $wpdb->prepare("%s",$desc['name']);
                     $attribute_names[] = $wpdb->prepare( "%s", $desc['name']);
                     $meta_sql .= $wpdb->prepare( "\tWHEN '{$desc['name']}' THEN %s\n ", $value);
+                    if ( $update_meta_function == 'update_post_meta') {
+                      // we do this because in some cases, meta isn't updating
+                      update_post_meta($this->_actual_model_id,$desc['name'],$value);
+                    }
                     $hits++;
                   }
                 } else {
@@ -275,8 +280,10 @@ class Base extends Helpers {
     if ( is_string($meta_sql) && count($attribute_names) > 0) {
       Helpers::debug($this->getIdentString() ."METASQL: is a string!");
       Helpers::debug($this->getIdentString() ."METASQL: ". $meta_sql);
-      $ret = $wpdb->query($meta_sql);
-      static::maybe_throw_wp_error( $ret );
+      if ( $update_meta_function != 'update_post_meta') {
+        $ret = $wpdb->query($meta_sql);
+        static::maybe_throw_wp_error( $ret );
+      }
     } else {
       Helpers::debug($this->getIdentString() ."METASQL: was not a string");
     }
