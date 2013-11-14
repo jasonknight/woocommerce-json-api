@@ -54,16 +54,16 @@ class Helpers {
   public static function toRealBool( $b ) {
     if ( is_string($b) ) {
       if ( $b == 'yes' || $b == '1') {
-        return true;
+        return 1;
       } else {
-        return false;
+        return 0;
       }
     }
     if ( is_int($b) ) {
       if ( $b == 1 ) {
-        return true;
+        return 1;
       } else {
-        return false;
+        return 0;
       }
     } 
   }
