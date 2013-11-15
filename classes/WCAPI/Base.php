@@ -151,27 +151,7 @@ class Base extends Helpers {
     $this->_queries_to_run[] = $sql;
   }
 
-  public function page( $num = 0 ) {
-    $num = intval($num);
-    $tnum = $num - 1;
-    if ( $tnum <= 0 ) {
-      $this->_page = $num;
-    } else {
-      $num = ($num * $this->_per_page);
-      $this->_page = $num;
-    }
-    return $this;
-  }
-
-  public function per( $num = 25 ) {
-    $num = intval($num);
-    $this->_per_page = $num;
-    return $this;
-  }
-  public function order($o) {
-    $this->__order = $o;
-    return $this;
-  }
+  
   public function getAdapter() { return static::$adapter;}
   // converts the meta attribs the other way around, from friendly name to unfriendly name.l
   public function remapMetaAttributes() {
@@ -346,6 +326,37 @@ class Base extends Helpers {
       Helpers::debug($this->getIdentString() ."METASQL: was not valid");
     }
   }
+  public function page( $num = 0 ) {
+    $num = intval($num);
+    if ( $num == 1 ) {
+      $num = 0;
+    } else {
+      $num--;
+    }
+    $page = $num;
+    Helpers::debug("Starting Pagination Calculation page = {$page}");
+    if ( $page < 0 ) {
+      $page = 0;
+    }
+    Helpers::debug("2. page = $page");
+    $page = ( $page * $this->_per_page );
+    if ( $page < 0) {
+      $page = 0;
+    }
+    Helpers::debug("3. page = $page");
+    $this->_page = $page;
+    return $this;
+  }
+
+  public function per( $num = 25 ) {
+    $num = intval($num);
+    $this->_per_page = $num;
+    return $this;
+  }
+  public function order($o) {
+    $this->__order = $o;
+    return $this;
+  }
   // We need an easier interface to fetching items
   public function fetch( $callback = null ) {
     Helpers::debug( "Base::fetch called");
@@ -355,12 +366,9 @@ class Base extends Helpers {
       if ( $this->__order && !empty($this->__order) ) {
         $sql .= " ORDER BY {$this->__order} ";
       } 
-      if ( $this->_per_page && $this->_page ) {
-        $page = (($this->_page - 1) * $this->_per_page) - 1;
-        if ( $page < 0) {
-          $page = 0;
-        }
-        $sql .= " LIMIT {$page},{$this->_per_page}";
+      if ( $this->_per_page || $this->_page) {
+        
+        $sql .= " LIMIT {$this->_page},{$this->_per_page}";
       }
 
       $results = $wpdb->get_results($sql,'ARRAY_A');
