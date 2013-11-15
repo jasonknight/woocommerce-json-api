@@ -469,6 +469,8 @@ class WC_JSON_API_Provider_v1 extends JSONAPIHelpers {
           ),
         ),
       'get_api_methods' => null,
+      'get_user_meta' => null,
+      'set_user_meta' => null,
       
       // Write capable methods
       
@@ -1689,6 +1691,24 @@ class WC_JSON_API_Provider_v1 extends JSONAPIHelpers {
       }
     }
     $this->result->setPayload($passwords);
+    return $this->done();
+  }
+  public function get_user_meta( $params ) {
+    global $user_ID;
+    $metas = $this->orEq( $params, 'payload', array() );
+    foreach ( $metas as &$meta ) {
+      $meta['value'] = get_user_meta( $user_ID, $meta['key'],true);
+    }
+    $this->result->setPayload($metas);
+    return $this->done();
+  }
+  public function set_user_meta( $params ) {
+    global $user_ID;
+    $metas = $this->orEq( $params, 'payload', array() );
+    foreach ( $metas as &$meta ) {
+      update_user_meta( $user_ID, $meta['key'],$meta['value']);
+    }
+    $this->result->setPayload($metas);
     return $this->done();
   }
 }

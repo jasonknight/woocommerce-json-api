@@ -71,6 +71,7 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
       'get_api_methods',
       'get_coupons',
       'get_images',
+      'get_user_meta',
       
       // Write capable methods
       
@@ -82,6 +83,7 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
       'set_coupons',
       'set_customers_passwords',
       'set_images',
+      'set_user_meta',
 
       // Evile delete methods
       'delete_products', // You probably just want to put them in
