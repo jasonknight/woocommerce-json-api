@@ -471,6 +471,8 @@ class WC_JSON_API_Provider_v1 extends JSONAPIHelpers {
       'get_api_methods' => null,
       'get_user_meta' => null,
       'set_user_meta' => null,
+      'get_post_meta' => null,
+      'set_post_meta' => null,
       
       // Write capable methods
       
@@ -1707,6 +1709,24 @@ class WC_JSON_API_Provider_v1 extends JSONAPIHelpers {
     $metas = $this->orEq( $params, 'payload', array() );
     foreach ( $metas as &$meta ) {
       update_user_meta( $user_ID, $meta['key'],$meta['value']);
+    }
+    $this->result->setPayload($metas);
+    return $this->done();
+  }
+  public function get_post_meta( $params ) {
+    global $user_ID;
+    $metas = $this->orEq( $params, 'payload', array() );
+    foreach ( $metas as &$meta ) {
+      $meta['value'] = get_post_meta( $meta['id'], $meta['key'],true);
+    }
+    $this->result->setPayload($metas);
+    return $this->done();
+  }
+  public function set_post_meta( $params ) {
+    global $user_ID;
+    $metas = $this->orEq( $params, 'payload', array() );
+    foreach ( $metas as &$meta ) {
+      update_post_meta( $meta['id'], $meta['key'],$meta['value']);
     }
     $this->result->setPayload($metas);
     return $this->done();
