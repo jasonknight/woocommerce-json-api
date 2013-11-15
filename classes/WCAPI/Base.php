@@ -357,6 +357,9 @@ class Base extends Helpers {
       } 
       if ( $this->_per_page && $this->_page ) {
         $page = (($this->_page - 1) * $this->_per_page) - 1;
+        if ( $page < 0) {
+          $page = 0;
+        }
         $sql .= " LIMIT {$page},{$this->_per_page}";
       }
 
