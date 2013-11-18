@@ -71,7 +71,6 @@ class Product extends Base{
           'images' => array(
               'class_name' => 'Image', 
               'sql' => function ($product) {
-                include WCAPIDIR."/_globals.php";
                 $product_gallery = get_post_meta($product->_actual_model_id,"_product_image_gallery",true);
                 if ( empty($product_gallery) ) {
                   return null;
