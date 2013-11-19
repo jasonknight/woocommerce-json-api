@@ -156,7 +156,9 @@ function woocommerce_json_api_template_redirect() {
   }
   if (is_user_logged_in()) {
     //die("user is logged in");
-    return;
+    if ( !defined('WCJSONAPI_USER_NO_CARE') ) {
+      return;
+    }
   }
   
 

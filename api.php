@@ -8,7 +8,9 @@
 define('WP_USE_THEMES', true);
 define('WCJSONAPI_NO_DIE',true);
 define('WCJSONAPI_NO_HEADERS',true);
-define( 'DOING_AJAX', true );
+define('DOING_AJAX', true );
+define('WCJSONAPI_USER_NO_CARE',true);
+
 //define( 'WP_ADMIN', true );
 $path = dirname( __FILE__ );
 $target = $path . "/../../../wp-load.php";
@@ -21,7 +23,11 @@ if ( file_exists($target) ) {
       // we might have succeeded
       if ( strpos($contents,'"payload": [') !== false ) {
         goto output_the_buffer;
+      } else {
+        goto run_plugin;
       }
+    } else {
+      goto run_plugin;
     }
     run_plugin:
       @ob_clean();
