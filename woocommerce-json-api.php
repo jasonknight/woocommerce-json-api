@@ -25,7 +25,9 @@ require_once( plugin_dir_path(__FILE__) . 'woocommerce-json-api-core.php' );
  * Initialize the plugin. This plugin will be called at the end of the file.
 */
 function woocommerce_json_api_initialize_plugin() {
+  
   $helpers = new JSONAPIHelpers();
+  
   require_once( REDE_PLUGIN_BASE_PATH . '/woocommerce-json-api-actions.php' );
   require_once( plugin_dir_path(__FILE__) . 'woocommerce-json-api-filters.php' );
   require_once( plugin_dir_path(__FILE__) . 'woocommerce-json-api-shortcodes.php' );

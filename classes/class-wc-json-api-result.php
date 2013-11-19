@@ -25,9 +25,9 @@ class WooCommerce_JSON_API_Result {
     // like how many products, order, categories there are
     // and so on.
     $this->params['statistics'] = array(
-      'products' => $wpdb->get_var("SELECT count(*) FROM {$wpdb->posts} WHERE post_type = 'product' AND post_status != 'trash'"),
+      'products' => $wpdb->get_var("SELECT count(*) FROM {$wpdb->posts} WHERE post_type = 'product' AND post_status NOT IN ('trash','draft','auto-draft')"),
       'products_in_trash' => $wpdb->get_var("SELECT count(*) FROM {$wpdb->posts} WHERE post_type = 'product' AND post_status = 'trash'"),
-      'variations' => $wpdb->get_var("SELECT count(*) FROM {$wpdb->posts} WHERE post_type = 'product_variation' AND post_status != 'trash'"),
+      'variations' => $wpdb->get_var("SELECT count(*) FROM {$wpdb->posts} WHERE post_type = 'product_variation' AND post_status NOT IN ('trash','draft','auto-draft')"),
       'orders' => $wpdb->get_var("SELECT count(*) FROM {$wpdb->posts} WHERE post_type = 'shop_order' AND post_status != 'trash'"),
     );
     return $this;

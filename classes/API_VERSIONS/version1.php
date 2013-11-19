@@ -592,13 +592,13 @@ class WC_JSON_API_Provider_v1 extends JSONAPIHelpers {
           isset($params['arguments']['include']['variations_in_products']) &&
           $params['arguments']['include']['variations_in_products'] == false
     ) {
-      $conditions = array("post_type = 'product' AND post_status != 'trash'");
+      $conditions = array("post_type = 'product' AND post_status NOT IN ('trash','draft','auto-draft')");
     } else {
-      $conditions = array("post_type IN ('product','product_variation')  AND post_status != 'trash'");
+      $conditions = array("post_type IN ('product','product_variation')  AND post_status NOT IN ('trash','draft','auto-draft')");
     }
     if ( ! $ids && ! $skus ) {
         if ($parent_ids) {
-          $posts = API\Product::all('id', "`post_parent` IN (" . join(",",$parent_ids) . ")   AND post_status != 'trash'")->per($posts_per_page)->page($paged)->order($order_stmt)->fetch(function ( $result) {
+          $posts = API\Product::all('id', "`post_parent` IN (" . join(",",$parent_ids) . ")  AND post_status NOT IN ('trash','draft','auto-draft')")->per($posts_per_page)->page($paged)->order($order_stmt)->fetch(function ( $result) {
             return $result['id'];
           });
         } else {

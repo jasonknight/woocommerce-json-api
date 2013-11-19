@@ -129,6 +129,7 @@ function woocommerce_json_api_update_user_profile( $user_id ) {
 */
 function woocommerce_json_api_template_redirect() {
   global $wpdb;
+  global $logout_redirect;
   $helpers = new JSONAPIHelpers();
 
   $headers = woocommerce_json_api_parse_headers();
@@ -174,6 +175,8 @@ function woocommerce_json_api_template_redirect() {
       if ( defined('WC_JSON_API_DEBUG') ) {
         JSONAPIHelpers::truncateDebug();
       }
+      
+      remove_filter( 'wp_logout', array( $logout_redirect, 'redirect' ) );
       $api = new WooCommerce_JSON_API();
       $api->setOut('HTTP');
       $api->setUser(null);
