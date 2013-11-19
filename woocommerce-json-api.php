@@ -47,4 +47,4 @@ register_activation_hook( __FILE__, 'woocommerce_json_api_activate' );
 register_deactivation_hook( __FILE__, 'woocommerce_json_api_deactivate' );
 
 // I am hoping this will make the plugin be the last to be initialized
-//add_action( 'init', 'woocommerce_json_api_initialize_plugin',5000 );
+add_action( 'init', 'woocommerce_json_api_initialize_plugin',5000 );
