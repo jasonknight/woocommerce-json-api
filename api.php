@@ -6,10 +6,39 @@
 // We need to see if we can get to the wp-blog-header file.
 // normally, we will be in wp-content/plugins/woocommerce-json-api
 define('WP_USE_THEMES', true);
+define('WCJSONAPI_NO_DIE',true);
+define('WCJSONAPI_NO_HEADERS',true);
 $path = dirname( __FILE__ );
-$target = $path . "/../../../wp-blog-header.php";
+$target = $path . "/../../../wp-load.php";
 if ( file_exists($target) ) {
-  require($target);
+  ob_start();
+    require($target);
+    // This may succeed
+    $contents = ob_get_contents();
+    if ( strpos($contents, "<html") === false && strpos($contents, "<body") === false) {
+      // we might have succeeded
+      if ( strpos($contents,'"payload": [') !== false ) {
+        echo "I got where I need to be on the first go!";
+        goto output_the_buffer;
+      }
+    }
+    run_plugin:
+      ob_clean();
+      if ( !defined('REDE_PLUGIN_BASE_PATH') ) {
+        define( 'REDE_PLUGIN_BASE_PATH', plugin_dir_path(__FILE__) );
+      }
+      if (! defined('REDENOTSET')) {
+        define( 'REDENOTSET','__RED_E_NOTSET__' ); // because sometimes false, 0 etc are
+        // expected but consistently dealing with these situations is tiresome.
+      }
+      require_once( plugin_dir_path(__FILE__) . 'classes/class-rede-helpers.php' );
+      require_once( plugin_dir_path(__FILE__) . 'woocommerce-json-api-core.php' );
+      woocommerce_json_api_template_redirect();
+    output_the_buffer:
+      $contents = ob_get_contents();
+      ob_end_clean();
+      header("Content-Type: application/json");
+      die($contents);
 } else {
   die(0);
 }

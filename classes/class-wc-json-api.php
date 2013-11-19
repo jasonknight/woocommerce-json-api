@@ -374,9 +374,13 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
     JSONAPIHelpers::debug("WooCommerce_JSON_API::done() called..");
     wp_logout();
     if ( $this->return_type == 'HTTP') {
-      header("Content-type: application/json");
+      if ( !defined('WCJSONAPI_NO_HEADERS') ) {
+        header("Content-type: application/json");
+      }
       echo( $this->result->asJSON() );
-      die;
+      if ( !defined('WCJSONAPI_NO_DIE') ) {
+        die;
+      }
     } else if ( $this->return_type == "ARRAY") {
 
       return $this->result->getParams();
