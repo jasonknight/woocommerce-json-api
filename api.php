@@ -8,6 +8,8 @@
 define('WP_USE_THEMES', true);
 define('WCJSONAPI_NO_DIE',true);
 define('WCJSONAPI_NO_HEADERS',true);
+define( 'DOING_AJAX', true );
+define( 'WP_ADMIN', true );
 $path = dirname( __FILE__ );
 $target = $path . "/../../../wp-load.php";
 if ( file_exists($target) ) {
