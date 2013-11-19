@@ -9,7 +9,7 @@ define('WP_USE_THEMES', true);
 define('WCJSONAPI_NO_DIE',true);
 define('WCJSONAPI_NO_HEADERS',true);
 define( 'DOING_AJAX', true );
-define( 'WP_ADMIN', true );
+//define( 'WP_ADMIN', true );
 $path = dirname( __FILE__ );
 $target = $path . "/../../../wp-load.php";
 if ( file_exists($target) ) {
@@ -20,12 +20,11 @@ if ( file_exists($target) ) {
     if ( strpos($contents, "<html") === false && strpos($contents, "<body") === false) {
       // we might have succeeded
       if ( strpos($contents,'"payload": [') !== false ) {
-        echo "I got where I need to be on the first go!";
         goto output_the_buffer;
       }
     }
     run_plugin:
-      ob_clean();
+      @ob_clean();
       if ( !defined('REDE_PLUGIN_BASE_PATH') ) {
         define( 'REDE_PLUGIN_BASE_PATH', plugin_dir_path(__FILE__) );
       }
