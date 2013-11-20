@@ -198,6 +198,17 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
       JSONAPIHelpers::debug( "No Model Filters Present" );
     }
 
+    if ( isset( $params['image_sizes']) ) {
+      JSONAPIHelpers::debug("Image Sizes Are Defined");
+      foreach ( $params['image_sizes'] as $size ) {
+        foreach(array('name','width','height','crop') as $key ) {
+          if ( !isset($size[$key]) ) {
+            throw new \Exception( sprintf(__('%s is required when adding image sizes',$this->td),ucwords($key)) );
+          }
+        }
+        add_image_size( $size['name'], $size['width'], $size['height'], $size['crop'] );
+      }
+    }
     JSONAPIHelpers::debug( "Beggining request" );
     JSONAPIHelpers::debug( var_export($params,true));
 

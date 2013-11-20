@@ -1,3 +1,3 @@
 <?php
-	$url = 'http://woo.localhost/wp-content/plugins/woocommerce-json-api/api.php';
+	$url = 'http://woo.localhost/';
 	$token = '1234';

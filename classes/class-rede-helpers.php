@@ -25,6 +25,7 @@ class JSONAPIHelpers {
   
   private $wp_template;
   private $wp_theme_root;
+  public $td;
 
   // Later on, these will be configurable and can be
   // turned off completely from the controls in the UI.
@@ -91,6 +92,7 @@ class JSONAPIHelpers {
     $this->css              = REDE_PLUGIN_BASE_PATH . 'templates/css/';
     $this->js               = REDE_PLUGIN_BASE_PATH . 'assets/js/'; 
     $this->templates        = REDE_PLUGIN_BASE_PATH . 'templates/';
+    $this->td = 'woocommerce_json_api';
     
     $this->wp_template      = get_template();
     // Just calling get_theme_root doesn't seem to work...

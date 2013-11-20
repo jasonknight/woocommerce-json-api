@@ -82,6 +82,9 @@ class Product extends Base{
               },
               'connect' => function ($product,$image) {
                 $product->connectToImage($image);
+              },
+              'disconnect' => function ($product,$image) {
+                $product->disconnectFromImage($image);
               }
           ),
           'featured_image' => array(
@@ -431,6 +434,42 @@ class Product extends Base{
       update_post_meta($product->_actual_model_id,'_product_image_gallery',$product_gallery);
     } else {
       Helpers::debug("In Array failed.");
+    }
+  }
+  public function disconnectFromImage($image) {
+    $product = $this;
+    include WCAPIDIR."/_globals.php";
+    Helpers::debug("Product::image::connect");
+    $ms = $image->getModelSettings();
+    $product_gallery = get_post_meta($product->_actual_model_id,"_product_image_gallery",true);
+    Helpers::debug("product_gallery as fetched from meta: $product_gallery");
+    if ( empty( $product_gallery ) ) {
+      Helpers::debug("product_gallery is empty!");
+      $product_gallery = array();
+    } else if ( ! strpos(',', $product_gallery) == false ) {
+      Helpers::debug("product_gallery contains  a comma!");
+      $product_gallery = explode(',',$product_gallery);
+    } else {
+      Helpers::debug("product_gallery is empty!");
+      $product_gallery = array($product_gallery);
+    }
+    
+    Helpers::debug( "Product Gallery is: " . var_export($product_gallery,true) ) ;
+    if ( ! in_array($image->_actual_model_id, $product_gallery) ) {
+      Helpers::debug("id {$image->_actual_model_id} is not in " . join(",",$product_gallery) );
+      
+    } else {
+      Helpers::debug("id {$image->_actual_model_id} is not in " . join(",",$product_gallery) );
+      $new_gallery = array();
+      foreach ( $product_gallery as $g) {
+        if ( $g == $image->_actual_model_id) {
+          continue;
+        }
+        $new_gallery[] = $g;
+      }
+      $product_gallery = $new_gallery;
+      Helpers::debug("Updating {$product->_actual_model_id}'s' _product_image_gallery to $product_gallery");
+      update_post_meta($product->_actual_model_id,'_product_image_gallery',$product_gallery);
     }
   }
 }
