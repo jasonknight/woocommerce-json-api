@@ -150,7 +150,7 @@ class Image extends Base {
         foreach ( $attributes['metadata']['sizes'] as $key=>&$md ) {
           // $upload_dir = wp_get_attachment_image_src( $this->_actual_model_id, $key);
           // $md['url'] = $upload_dir[0];
-          $medium_array = image_downsize( $id, $key );
+          $medium_array = image_downsize( $this->_actual_model_id, $key );
           $md['url'] = $medium_array[0];
         }
       }
