@@ -38,7 +38,7 @@ class Upload {
 
 		$this->stat = stat( dirname( $new_file ));
 		$this->perms = $this->stat['mode'] & 0000666;
-		@ chmod( $new_file, $this->perms );
+		@chmod( $new_file, $this->perms );
 
 		// Compute the URL
 		$this->url = $uploads['url'] . "/$filename";

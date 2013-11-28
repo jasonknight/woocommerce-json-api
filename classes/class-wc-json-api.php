@@ -180,7 +180,7 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
 
     // Now we need to allow for people to add dynamic
     // filters to the models.
-    if ( isset( $params['model_filters'] ) ) {
+    if ( isset( $params['model_filters'] ) && is_array($params['model_filters']) ) {
       JSONAPIHelpers::debug( "Model Filters are Present" );
       JSONAPIHelpers::debug( var_export($params['model_filters'],true) );
       foreach ( $params['model_filters'] as $filter_text=>$filter ) {
@@ -198,7 +198,7 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
       JSONAPIHelpers::debug( "No Model Filters Present" );
     }
 
-    if ( isset( $params['image_sizes']) ) {
+    if ( isset( $params['image_sizes']) && is_array($params['image_sizes']) ) {
       JSONAPIHelpers::debug("Image Sizes Are Defined");
       foreach ( $params['image_sizes'] as $size ) {
         foreach(array('name','width','height','crop') as $key ) {
