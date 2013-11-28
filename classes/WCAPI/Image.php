@@ -152,6 +152,7 @@ class Image extends Base {
           // $md['url'] = $upload_dir[0];
           $medium_array = image_downsize( $this->_actual_model_id, $key );
           $md['url'] = $medium_array[0];
+          $md['array is'] = $medium_array;
         }
       }
     }
