@@ -9,39 +9,39 @@ require_once(dirname(__FILE__) . "/OrderItem.php");
 
 class Order extends Base {
 
-  
+
   public $_status;
-  
+
   public static function getModelSettings() {
     include WCAPIDIR."/_globals.php";
     $table = array_merge( Base::getDefaultModelSettings(), array(
         'model_conditions' => "WHERE post_type IN ('shop_order') AND post_status != 'trash'",
         'has_many' => array(
           'order_items' => array(
-            'class_name' => 'OrderItem', 
+            'class_name' => 'OrderItem',
             'foreign_key' => 'order_id',
             'conditions' => "order_item_type = 'line_item'"
           ),
           'tax_items' => array(
-            'class_name' => 'OrderTaxItem', 
+            'class_name' => 'OrderTaxItem',
             'foreign_key' => 'order_id',
             'conditions' => "order_item_type = 'tax'",
           ),
           'coupon_items' => array(
-            'class_name' => 'OrderCouponItem', 
-            'foreign_key' => 'order_id', 
+            'class_name' => 'OrderCouponItem',
+            'foreign_key' => 'order_id',
             'conditions' => "order_item_type = 'coupon'",
           ),
           'notes' => array(
-              'class_name' => 'Comment', 
-              'foreign_key' => 'comment_post_ID', 
+              'class_name' => 'Comment',
+              'foreign_key' => 'comment_post_ID',
               'conditions' => array(
                 "comment_type IN ('order_note')",
                 "comment_approved != 'trash'"
               ),
           ),
         ),
-      ) 
+      )
     );
     $table = apply_filters("WCAPI_order_model_settings",$table);
     return $table;
@@ -147,90 +147,90 @@ class Order extends Base {
         'name' => '_shipping_address_2',
         'type' => 'string',
         'sizehint' => 5
-        ), 
+        ),
       'shipping_city' => array(
         'name' => '_shipping_city',
         'type' => 'string',
         'sizehint' => 4
-        ), 
+        ),
       'shipping_postcode' => array(
         'name' => '_shipping_postcode',
         'type' => 'string',
         'sizehint' => 3
-        ), 
+        ),
       'shipping_country' => array(
         'name' => '_shipping_country',
         'type' => 'string',
         'sizehint' => 2
-        ), 
+        ),
       'shipping_state' => array(
         'name' => '_shipping_state',
         'type' => 'string',
         'sizehint' => 4
-        ), 
+        ),
       'shipping_method' => array(
         'name' => '_shipping_method',
         'type' => 'string',
         'sizehint' => 3
-        ), 
+        ),
       'shipping_method_title' => array(
         'name' => '_shipping_method_title',
         'type' => 'string',
         'sizehint' => 3
-        ), 
+        ),
       'payment_method' => array(
         'name' => '_payment_method',
         'type' => 'string',
         'sizehint' => 3
-        ), 
+        ),
       'payment_method_title' => array(
         'name' => '_payment_method_title',
         'type' => 'string',
         'sizehint' => 3
-        ), 
+        ),
       'order_discount' => array(
         'name' => '_order_discount',
         'type' => 'number',
         'sizehint' => 1
-        ), 
+        ),
       'cart_discount' => array(
         'name' => '_cart_discount',
         'type' => 'number',
         'sizehint' => 1
-        ), 
+        ),
       'order_tax' => array(
         'name' => '_order_tax',
         'type' => 'number',
         'sizehint' => 1
-        ), 
+        ),
       'order_shipping' => array(
         'name' => '_order_shipping',
         'type' => 'number',
         'sizehint' => 1
-        ), 
+        ),
       'order_shipping_tax' => array(
         'name' => '_order_shipping_tax',
         'type' => 'number',
         'sizehint' => 1
-        ), 
+        ),
       'order_total' => array(
         'name' => '_order_total',
         'type' => 'number',
         'sizehint' => 1
-        ), 
+        ),
       'customer_user' => array(
         'name' => '_customer_user',
         'type' => 'number',
         'sizehint' => 1
-        ), 
+        ),
       'completed_date' => array(
         'name' => '_completed_date',
         'type' => 'datetime',
         'sizehint' => 1
-        ), 
+        ),
       'status' => array(
-        'name' => 'status', 
-        'type' => 'string', 
+        'name' => 'status',
+        'type' => 'string',
         'values' => static::getOrderStatuses(),
         // This is more or less just to have an example of how
         // the getter/setter/updaters work
@@ -250,13 +250,13 @@ class Order extends Base {
   public static function setupMetaAttributes() {
     // We only accept these attributes.
     self::$_meta_attributes_table = self::getMetaAttributes();
-  } 
+  }
 
   public static function setupModelAttributes() {
     self::$_model_settings = self::getModelSettings();
 
     self::$_model_attributes_table = self::getModelAttributes();
-    
+
   }
   public function getStatus() {
     $wpdb = self::$adapter;
@@ -264,7 +264,7 @@ class Order extends Base {
     //   return $this->_meta_attributes['status'];
     // }
     $sql = "
-      SELECT 
+      SELECT
         t.slug
       FROM
         wp_terms as t,
@@ -292,7 +292,7 @@ class Order extends Base {
     // events that are triggered with a status update.
     $this->updateTerm('status','shop_order_status',$to);
   }
-  public function asApiArray() {
+  public function asApiArray($args = array()) {
     $attrs = parent::asApiArray();
     $attrs['order_items'] = $this->order_items;
     $attrs['notes'] = $this->notes;

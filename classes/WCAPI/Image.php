@@ -17,7 +17,7 @@ class Image extends Base {
         'model_table_id'             => 'id',
         'meta_table_foreign_key'    => 'post_id',
         'model_conditions' => "WHERE post_type IN ('attachment') AND post_status NOT IN ('trash','auto-draft')",
-      ) 
+      )
     );
     $table = apply_filters('WCAPI_image_model_settings',$table);
     return $table;
@@ -37,29 +37,29 @@ class Image extends Base {
            'default' => 'attachment',
            'sizehint' => 5
       ),
-      
+
       'description' => array('name' => 'post_content', 'type' => 'text', 'sizehint' => 10),
-      
+
       'caption' => array('name' => 'post_excerpt', 'type' => 'text', 'sizehint' => 10),
-      
+
       'parent_id'  => array('name' => 'post_parent','type' => 'string', 'sizehint' => 3),
 
       'publishing' => array(
-        'name' => 'post_status',            
+        'name' => 'post_status',
         'type' => 'string',
         'values' => array(
           'inherit',
           'draft',
           'trash',
         ),
-        'default' => 'inherit', 
+        'default' => 'inherit',
         'sizehint' => 5
       ),
     );
 
 
     $table = apply_filters( 'WCAPI_image_model_attributes_table', $table );
-    
+
     return $table;
   }
 
@@ -71,7 +71,7 @@ class Image extends Base {
       'path'  => array('name' => '_wp_attached_file', 'type' => 'string', 'sizehint' => 10),
       'metadata'  => array('name' => '_wp_attachment_metadata', 'type' => 'array', 'sizehint' => 10),
       'alt'  => array('name' => '_wp_attachment_image_alt', 'type' => 'string', 'sizehint' => 10),
-      
+
     );
 
     $table = apply_filters( 'WCAPI_image_meta_attributes_table', $table );
@@ -90,8 +90,8 @@ class Image extends Base {
     self::$_model_attributes_table = self::getModelAttributes();
 
   }
- 
-  public function create($attrs) {
+
+  public function create($attrs = NULL) {
 
 
     Helpers::debug("Image::create() was called");
@@ -137,7 +137,7 @@ class Image extends Base {
       throw new \Exception( sprintf(__('You cannot create a new image unless you upload an image with the same name as %s',$this->td),$name) );
     }
   }
-  public function asApiArray() {
+  public function asApiArray($args = array()) {
     $attributes = parent::asApiArray();
 
     if ( isset($attributes['metadata']) ) {
@@ -172,7 +172,7 @@ class Image extends Base {
         unset($md['url']);
       }
 
-      
+
     }
 
     parent::fromApiArray( $attributes );

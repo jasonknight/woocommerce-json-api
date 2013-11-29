@@ -37,10 +37,10 @@ class Category extends Base {
           array_merge(
             array('term_id' => $model->_actual_model_id),
             $model->remapMetaAttributes()
-          ) 
+          )
         );
       }
-      ) 
+      )
     );
     $table = apply_filters('WCAPI_category_model_settings',$table);
     return $table;
@@ -94,17 +94,17 @@ class Category extends Base {
     include WCAPIDIR."/_globals.php";
     include WCAPIDIR."/_model_static_attributes.php";
     $sql = "
-      SELECT 
-        categories.*, 
-        taxons.term_taxonomy_id, 
-        taxons.description, 
+      SELECT
+        categories.*,
+        taxons.term_taxonomy_id,
+        taxons.description,
         taxons.parent,
-        taxons.count 
-      FROM 
-        wp_terms as categories, 
-        wp_term_taxonomy as taxons 
+        taxons.count
+      FROM
+        wp_terms as categories,
+        wp_term_taxonomy as taxons
       WHERE
-        (taxons.taxonomy = 'product_cat') and 
+        (taxons.taxonomy = 'product_cat') and
         (categories.term_id = taxons.term_id) and
         (categories.name = %s)
     ";
@@ -125,21 +125,21 @@ class Category extends Base {
   *  Similar in function to Model.all in Rails, it's just here for convenience.
   */
 
-  public static function all($fields = 'id') {
+  public static function all($fields = 'id', $conditions = null, $override_model_conditions = false) {
     include WCAPIDIR."/_globals.php";
     include WCAPIDIR."/_model_static_attributes.php";
     $sql = "
-      SELECT 
-        categories.*, 
-        taxons.term_taxonomy_id, 
-        taxons.description, 
+      SELECT
+        categories.*,
+        taxons.term_taxonomy_id,
+        taxons.description,
         taxons.parent,
-        taxons.count 
-      FROM 
-        wp_terms as categories, 
-        wp_term_taxonomy as taxons 
+        taxons.count
+      FROM
+        wp_terms as categories,
+        wp_term_taxonomy as taxons
       WHERE
-        (taxons.taxonomy = 'product_cat') and 
+        (taxons.taxonomy = 'product_cat') and
         (categories.term_id = taxons.term_id)
     ";
     $category = new Category();

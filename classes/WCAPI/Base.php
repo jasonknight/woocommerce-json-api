@@ -28,13 +28,13 @@ class Base extends Helpers {
 
   public $_result; // so we can add errors
   public $__order;
-  
-  // This is actually unecessary and is being 
+
+  // This is actually unecessary and is being
   // moved to $actuals, eventually this will
   // be a static function that returns an array.
-  public static $_meta_attributes_table; 
+  public static $_meta_attributes_table;
   public static $_model_attributes_table;
-  
+
   public $_meta_attributes;
   public $_model_attributes;
 
@@ -56,10 +56,10 @@ class Base extends Helpers {
   /**
   * We want to establish a "fluid" API for the objects.
   * which is why most of these methods return $this.
-  * 
+  *
   * ( new Object() )->setup()->doCalculation()->update()->done();
   */
-  
+
   public function __construct($mapper=null) {
     parent::init();
     static::setupMetaAttributes();
@@ -124,7 +124,7 @@ class Base extends Helpers {
     foreach ($this->_queries_to_run as $key => $query) {
       $sql .= "$key => [[[ $query ]]]\n";
     }
-    echo $sql; 
+    echo $sql;
   }
   public function getModelId() {
     return $this->_actual_model_id;
@@ -151,7 +151,7 @@ class Base extends Helpers {
     $this->_queries_to_run[] = $sql;
   }
 
-  
+
   public function getAdapter() { return static::$adapter;}
   // converts the meta attribs the other way around, from friendly name to unfriendly name.l
   public function remapMetaAttributes() {
@@ -201,7 +201,7 @@ class Base extends Helpers {
     Helpers::debug("Base::saveMetaAttributes " . get_called_class() . "({$this->_actual_model_id}) called");
     include WCAPIDIR."/_globals.php";
     include WCAPIDIR."/_model_static_attributes.php";
-    $meta_table              = $this->orEq( $self->settings, 'meta_table', $wpdb->postmeta ); 
+    $meta_table              = $this->orEq( $self->settings, 'meta_table', $wpdb->postmeta );
     $meta_table_foreign_key  = $this->orEq( $self->settings, 'meta_table_foreign_key', 'post_id' );
     $save_meta_function = $self->settings['save_meta_function'];
     $update_meta_function = $self->settings['update_meta_function'];
@@ -253,7 +253,7 @@ class Base extends Helpers {
             }
             $meta_sql .= "
             ELSE `meta_value`
-          END 
+          END
         WHERE `{$meta_table_foreign_key}` = '{$this->_actual_model_id}' AND `meta_key` IN (".join(",",$attribute_names).")
       ";
     }
@@ -272,7 +272,7 @@ class Base extends Helpers {
     Helpers::debug("Base::createMetaAttributes " . get_called_class() . "({$this->_actual_model_id}) called");
     include WCAPIDIR."/_globals.php";
     include WCAPIDIR."/_model_static_attributes.php";
-    $meta_table              = $this->orEq( $self->settings, 'meta_table', $wpdb->postmeta ); 
+    $meta_table              = $this->orEq( $self->settings, 'meta_table', $wpdb->postmeta );
     $meta_table_foreign_key  = $this->orEq( $self->settings, 'meta_table_foreign_key', 'post_id' );
     $save_meta_function = $self->settings['save_meta_function'];
     Helpers::debug($this->getIdentString() ."meta_table is $meta_table fkey is $meta_table_foreign_key");
@@ -365,9 +365,9 @@ class Base extends Helpers {
     if ( ! empty($sql) ) {
       if ( $this->__order && !empty($this->__order) ) {
         $sql .= " ORDER BY {$this->__order} ";
-      } 
+      }
       if ( $this->_per_page || $this->_page) {
-        
+
         $sql .= " LIMIT {$this->_page},{$this->_per_page}";
       }
 
@@ -416,7 +416,7 @@ class Base extends Helpers {
       return null;
     }
   }
-  
+
   public function apply_connector($desc,$model,$called_from) {
     Helpers::debug("Base::apply_connector " . get_class($model) ." called from $called_from");
     if ( is_string($desc['connect'])) {
@@ -455,15 +455,15 @@ class Base extends Helpers {
     $meta_table = $this->actual_meta_attributes_table;
     $model_table = $this->actual_model_attributes_table;
     $hm = $this->orEq($this->actual_model_settings,'has_many',array());
-    Helpers::debug("hm: " . var_export( $hm, true ) ); 
+    Helpers::debug("hm: " . var_export( $hm, true ) );
     foreach ($hm as $name => $desc ) {
       if ( isset( $this->{ $name } ) ) {
         $values = $this->{ $name };
         if ( is_array($values) ) {
           foreach ( $values as &$value ) {
             if ( is_array( $value ) ) {
-              $klass = 'WCAPI\\' . $desc['class_name'];  
-              Helpers::debug("is_array and klass is: $klass");           
+              $klass = 'WCAPI\\' . $desc['class_name'];
+              Helpers::debug("is_array and klass is: $klass");
               if ( isset( $value['id'] ) ) {
                 Helpers::debug("id is already set");
                 $model =  $klass::find( $value['id'] );
@@ -484,7 +484,7 @@ class Base extends Helpers {
                       Helpers::debug("No Connector Function for Existing Resource");
                       $this->genericAssociationConnector($desc,$model);
                     }
-                  } 
+                  }
                 }
               } else {
                 Helpers::debug("need to create association of type $klass");
@@ -645,7 +645,7 @@ class Base extends Helpers {
       return $this->loadBelongsToAssociation($name);
     }
   } // end __get
-  
+
   // Dynamic setter
   public function __set( $name, $value ) {
     Helpers::debug(get_called_class() . "::__set $name " . var_export($value,true));
@@ -790,14 +790,14 @@ class Base extends Helpers {
     $model = new static();
     $model->setValid( false );
 
-    $model_table             = $model->orEq( $self->settings, 'model_table', $wpdb->posts );  
+    $model_table             = $model->orEq( $self->settings, 'model_table', $wpdb->posts );
     $meta_table              = $model->orEq( $self->settings, 'meta_table', $wpdb->postmeta );
-    $model_table_id          = $model->orEq( $self->settings, 'model_table_id', 'ID' );   
+    $model_table_id          = $model->orEq( $self->settings, 'model_table_id', 'ID' );
     $meta_table_foreign_key  = $model->orEq( $self->settings, 'meta_table_foreign_key', 'post_id' );
     $meta_function           = $model->orEq( $self->settings, 'meta_function', 'get_post_meta' );
 
     $record = $wpdb->get_row( $wpdb->prepare("SELECT * FROM {$model_table} WHERE {$model_table_id} = %d", (int) $id), 'ARRAY_A' );
-    
+
     if ( $record ) {
       //$model->setModelId( $id );
       // foreach ( static::$_model_attributes_table as $name => $desc ) {
@@ -805,11 +805,11 @@ class Base extends Helpers {
       //   //$model->{$name} = $record[$desc['name']];
       // }
       // $model->loadMetaAttributes();
-      
+
       // $model->setValid( true );
       // $model->setNewRecord( false );
       $model->fromDatabaseResult( $record );
-    
+
     } else {
       $model->setValid(false);
     }
@@ -820,11 +820,11 @@ class Base extends Helpers {
     include WCAPIDIR."/_globals.php";
     include WCAPIDIR."/_model_static_attributes.php";
     $model = $this;
-    $model_table_id          = $model->orEq( $self->settings, 'model_table_id', 'ID' ); 
+    $model_table_id          = $model->orEq( $self->settings, 'model_table_id', 'ID' );
 
     // There is some inconsistencies in the ID,id, user_id, comment_post_ID etc.
     // and when we select, we get back sometimes different things. I neither know
-    // nor really care why. 
+    // nor really care why.
     if ( isset( $record[ $model_table_id ] ) )
       $model->setModelId( $record[ $model_table_id ] );
     else if ( isset( $record[ strtolower($model_table_id) ] ) )
@@ -833,13 +833,13 @@ class Base extends Helpers {
       $model->setModelId( $record[ strtoupper($model_table_id) ] );
     else
       throw new \Exception( __( sprintf('fromDatabaseResult requires that %s be in %s',$model_table_id, var_export($record,true)),'WCAPI' ) ) ;
-      
+
     foreach ( static::$_model_attributes_table as $name => $desc ) {
       $model->dynamic_set( strtolower($name), $desc,$record[ $desc['name'] ] );
       //$model->{$name} = $record[$desc['name']];
     }
     $model->loadMetaAttributes();
-    
+
     $model->setValid( true );
     $model->setNewRecord( false );
   }
@@ -853,7 +853,7 @@ class Base extends Helpers {
       if ( isset($attributes[$name]) ) {
         $desc = $attributes[$name];
         $this->dynamic_set( $name, $desc, $value, $this->getModelId());
-      } 
+      }
     }
     if ( isset( $s['has_many'] ) ) {
       $hm = $s['has_many'];
@@ -863,7 +863,7 @@ class Base extends Helpers {
         }
       }
     }
-    
+
     return $this;
   }
   public function asApiArray($args = array()) {
@@ -896,13 +896,13 @@ class Base extends Helpers {
     // static::setupMetaAttributes();
     $model = new static();
     if ( isset( static::$_model_settings ) ) {
-      $model_table             = $model->orEq( static::$_model_settings, 'model_table', $wpdb->posts );  
-      $model_table_id          = $model->orEq( static::$_model_settings, 'model_table_id', 'ID' );   
-      $model_conditions        = $model->orEq( static::$_model_settings, 'model_conditions', '' );  
+      $model_table             = $model->orEq( static::$_model_settings, 'model_table', $wpdb->posts );
+      $model_table_id          = $model->orEq( static::$_model_settings, 'model_table_id', 'ID' );
+      $model_conditions        = $model->orEq( static::$_model_settings, 'model_conditions', '' );
     } else {
-      $model_table             = $wpdb->posts;  
-      $model_table_id          = 'ID'; 
-      $model_conditions        = '';  
+      $model_table             = $wpdb->posts;
+      $model_table_id          = 'ID';
+      $model_conditions        = '';
     }
     $model_conditions = $model->getConditionsString($model_conditions);
     $conditions = $model->getConditionsString( $conditions );
@@ -941,13 +941,13 @@ class Base extends Helpers {
         } else {
           $this->{ $name } = $value;
         }
-        
+
       }
     }
     $post = array();
 
     $update_meta_function = $s['update_meta_function'];
-    
+
     if ( $s['model_table'] == $wpdb->posts)
       $post['post_author'] = $user_ID;
 
@@ -964,9 +964,9 @@ class Base extends Helpers {
       if ( $wpdb->insert($s['model_table'],$post) ) {
         $id = $wpdb->insert_id;
       } else {
-        $this->_result->addError( 
-          __('Failed to create ' . get_called_class() ), 
-          WCAPI_CANNOT_INSERT_RECORD 
+        $this->_result->addError(
+          __('Failed to create ' . get_called_class() ),
+          WCAPI_CANNOT_INSERT_RECORD
         );
         return $this;
       }
@@ -976,9 +976,9 @@ class Base extends Helpers {
       // we  should handle errors
       Helpers::debug(" is_wp_error");
       $this->setValid(false);
-      $this->_result->addError( 
-        __('Failed to create ' . get_called_class() ), 
-        WCAPI_CANNOT_INSERT_RECORD 
+      $this->_result->addError(
+        __('Failed to create ' . get_called_class() ),
+        WCAPI_CANNOT_INSERT_RECORD
       );
     } else {
       $this->setValid(true);
@@ -988,7 +988,7 @@ class Base extends Helpers {
         Helpers::debug("calling create_meta_funtion");
         call_user_func($self->settings['create_meta_function'],$this);
       } else {
-        $this->createMetaAttributes(); 
+        $this->createMetaAttributes();
       }
       Helpers::debug("saving associations for " . get_called_class());
       $this->saveAssociations();
@@ -1015,8 +1015,8 @@ class Base extends Helpers {
     Helpers::debug(get_called_class() . "({$this->_actual_model_id}) is beginning an update.");
     include WCAPIDIR."/_globals.php";
     include WCAPIDIR."/_model_static_attributes.php";
-    $model_table             = $this->orEq( $self->settings, 'model_table', $wpdb->posts );  
-    $model_table_id          = $this->orEq( $self->settings, 'model_table_id', 'ID' );  
+    $model_table             = $this->orEq( $self->settings, 'model_table', $wpdb->posts );
+    $model_table_id          = $this->orEq( $self->settings, 'model_table_id', 'ID' );
     Helpers::debug("model_table is $model_table and model_table_id is $model_table_id");
     if ( $attrs && is_array($attrs) ) {
       Helpers::debug("attrs where sent, calling fromApiArray");
@@ -1123,7 +1123,7 @@ class Base extends Helpers {
       return $this->{"_$name"};
     }
     $sql = "
-      SELECT 
+      SELECT
         t.slug
       FROM
         {$wpdb->terms} as t,

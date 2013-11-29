@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace WCAPI;
 require_once dirname( __FILE__ ) . '/BaseHelpers.php';
 require_once ABSPATH . "wp-admin/includes/image.php";
@@ -91,7 +91,7 @@ class Upload {
 			wp_update_attachment_metadata( $id, $generated_metadata );
 		} else {
 			Helpers::debug("Failed to save attachment because of: " . $id->get_error_messages() );
-			throw new \Exception( $id->get_error_messages() ); 
+			throw new \Exception( $id->get_error_messages() );
 		}
 		Helpers::debug("Upload::saveMediaAttachment done");
 		return $id;
@@ -106,7 +106,7 @@ class Upload {
 			Helpers::debug(" Returning proper name: $proper_filename");
 			return $proper_fillename;
 		}
-		Helpers::debug(" Returning name {$this->name} ");l
+		Helpers::debug(" Returning name {$this->name} ");
 		return $this->name;
 	}
 }

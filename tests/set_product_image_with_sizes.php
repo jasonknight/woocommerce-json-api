@@ -48,7 +48,7 @@ $data = array(
 );
 
 $result = curl_post($url,$data);
-$result = json_decode($result,true); 
+$result = json_decode($result,true);
 $product = $result['payload'][0];
 keyExists('id',$product['images'][0],'Was the id of the image set?');
 keyExists('Catalog Thumbnail',$product['images'][0]['metadata']['sizes'],'Custom Image Created?');

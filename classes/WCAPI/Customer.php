@@ -51,12 +51,12 @@ class Customer extends Base {
     static::$_meta_attributes_table = self::getMetaAttributes();
   } // end setupMetaAttributes
   public static function setupModelAttributes() {
-        
+
     static::$_model_settings = self::getModelSettings();
 
     static::$_model_attributes_table = self::getModelAttributes();
   }
-  public function asApiArray() {
+  public function asApiArray($args = array()) {
     $attributes = array_merge(static::$_model_attributes_table, static::$_meta_attributes_table);
     $attributes_to_send = array();
     $attributes_to_send['id'] = $this->getModelId();
@@ -69,6 +69,6 @@ class Customer extends Base {
     wp_set_password($pass,$this->_actual_model_id);
   }
 
- 
-  
+
+
 }

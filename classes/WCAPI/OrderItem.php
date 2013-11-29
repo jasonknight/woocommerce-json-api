@@ -20,7 +20,7 @@ class OrderItem extends Base {
           'order' => array('class_name' => 'Order', 'foreign_key' => 'order_id'),
           'product' => array('class_name' => 'Product', 'meta_attribute' => 'product_id'),
         ),
-      ) 
+      )
     );
     $table = apply_filters('WCAPI_order_item_model_settings',$table);
     return $table;
@@ -38,14 +38,14 @@ class OrderItem extends Base {
 
   public static function getMetaAttributes() {
     $table = array(
-      'quantity'          => array('name' => '_qty',           'type' => 'number'), 
-      'tax_class'         => array('name' => '_tax_class',    'type' => 'number'), 
-      'product_id'        => array('name' => '_product_id',    'type' => 'number'), 
-      'variation_id'      => array('name' => '_variation_id',    'type' => 'number'), 
+      'quantity'          => array('name' => '_qty',           'type' => 'number'),
+      'tax_class'         => array('name' => '_tax_class',    'type' => 'number'),
+      'product_id'        => array('name' => '_product_id',    'type' => 'number'),
+      'variation_id'      => array('name' => '_variation_id',    'type' => 'number'),
       'subtotal'          => array('name' => '_line_subtotal',    'type' => 'number'),
-      'total'             => array('name' => '_line_total',    'type' => 'number'),  
-      'tax'               => array('name' => '_line_tax',    'type' => 'number'),  
-      'subtotal_tax'      => array('name' => '_line_subtotal_tax',    'type' => 'number'), 
+      'total'             => array('name' => '_line_total',    'type' => 'number'),
+      'tax'               => array('name' => '_line_tax',    'type' => 'number'),
+      'subtotal_tax'      => array('name' => '_line_subtotal_tax',    'type' => 'number'),
     );
     $table = apply_filters( 'WCAPI_order_item_meta_attributes_table', $table );
     return $table;
@@ -68,7 +68,7 @@ class OrderItem extends Base {
     }
     parent::fromApiArray($a);
   }
-  public function asApiArray() {
+  public function asApiArray($args = array()) {
     $attributes_to_send = parent::asApiArray();
     $attributes_to_send['metadata'] = get_metadata( 'order_item', $this->_actual_model_id, '', false );
     foreach ($attributes_to_send['metadata'] as $key=>&$value) {

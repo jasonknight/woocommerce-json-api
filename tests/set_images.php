@@ -39,9 +39,18 @@ $data = array(
   ),
   'images[0]' => "@" . dirname(__FILE__) ."/fractal.png",
   'images[1]' => "@" . dirname(__FILE__) ."/fractal2.png",
+  'image_sizes' => array(
+      array(
+        'name' => 'Catalog Thumbnail',
+        'width' => 300,
+        'height' => 300,
+        'crop' => false
+      )
+    ),
 );
 
 $result = curl_post($url,$data);
-$result = json_decode($result,true); 
+$result = json_decode($result,true);
+print_r($result);
 $image = $result['payload'][0];
 keyExists('id',$image,'Was the id of the image set?');
