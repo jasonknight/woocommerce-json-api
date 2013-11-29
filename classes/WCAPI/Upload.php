@@ -57,6 +57,7 @@ class Upload {
 		$name = trim( substr( $this->name, 0, -(1 + strlen($name_parts['extension'])) ) );
 
 		$url = $this->url;
+		Helpers::debug("Url is: " . $this->url );
 		if ( isset( $mime_types[ $name_parts['extension'] ] ) ) {
 			$type =  $mime_types[ $name_parts['extension'] ];
 		} else {
@@ -85,7 +86,9 @@ class Upload {
 		Helpers::debug("Saving attachment: " . var_export($attachment,true) );
 		$id = wp_insert_attachment($attachment, $file, NULL);
 		if ( !is_wp_error($id) ) {
-			wp_update_attachment_metadata( $id, wp_generate_attachment_metadata( $id, $file ) );
+			$generated_metadata = wp_generate_attachment_metadata( $id, $file );
+			Helpers::debug( "Updating the metadata of $id to " . var_export($generated_metadata,true ) );
+			wp_update_attachment_metadata( $id, $generated_metadata );
 		} else {
 			Helpers::debug("Failed to save attachment because of: " . $id->get_error_messages() );
 			throw new \Exception( $id->get_error_messages() ); 
@@ -100,8 +103,10 @@ class Upload {
 
 		// Check to see if wp_check_filetype_and_ext() determined the filename was incorrect
 		if ( $proper_filename ) {
-			return $proper_filename;
+			Helpers::debug(" Returning proper name: $proper_filename");
+			return $proper_fillename;
 		}
+		Helpers::debug(" Returning name {$this->name} ");l
 		return $this->name;
 	}
 }
