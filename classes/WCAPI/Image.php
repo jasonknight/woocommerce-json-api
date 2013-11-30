@@ -152,6 +152,12 @@ class Image extends Base {
           // $md['url'] = $upload_dir[0];
           $medium_array = image_downsize( $this->_actual_model_id, $key );
           $md['url'] = $medium_array[0];
+          if ( isset($md['get_attachment_metadata is']) ) {
+            unset($md['get_attachment_metadata is']);
+          }
+          if ( isset($md['array is'])) {
+            unset($md['array is']);
+          }
           //$md['array is'] = $medium_array;
           //$md['get_attachment_metadata is'] = wp_get_attachment_metadata($this->_actual_model_id);
         }
@@ -169,7 +175,15 @@ class Image extends Base {
       $attributes['metadata'] = $md;
       $upload_dir = wp_upload_dir();
       foreach ( $attributes['metadata']['sizes'] as $key=>&$md ) {
-        unset($md['url']);
+        if ( isset($md['url']) ) {
+          unset($md['url']);
+        }
+        if ( isset($md['get_attachment_metadata is']) ) {
+          unset($md['get_attachment_metadata is']);
+        }
+        if ( isset($md['array is'])) {
+          unset($md['array is']);
+        }
       }
 
 
