@@ -152,8 +152,8 @@ class Image extends Base {
           // $md['url'] = $upload_dir[0];
           $medium_array = image_downsize( $this->_actual_model_id, $key );
           $md['url'] = $medium_array[0];
-          $md['array is'] = $medium_array;
-          $md['get_attachment_metadata is'] = wp_get_attachment_metadata($this->_actual_model_id);
+          //$md['array is'] = $medium_array;
+          //$md['get_attachment_metadata is'] = wp_get_attachment_metadata($this->_actual_model_id);
         }
       }
     }
