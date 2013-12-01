@@ -6,7 +6,8 @@ $data = array(
   'action'      => 'woocommerce_json_api',
   'proc'        => 'get_orders',
   'arguments'   => array(
-    'token' => $token,
+    'username' => $username,
+    'password' => $password,
     'per_page' => 1,
     'page'     => 1
   )
@@ -41,7 +42,8 @@ $data = array(
   'action'      => 'woocommerce_json_api',
   'proc'        => 'get_orders',
   'arguments'   => array(
-    'token' => $token,
+    'username' => $username,
+    'password' => $password,
     'per_page' => 1,
     'page'     => 1
   )
@@ -65,7 +67,8 @@ $data = array(
   'action'      => 'woocommerce_json_api',
   'proc'        => 'get_orders',
   'arguments'   => array(
-    'token' => $token,
+    'username' => $username,
+    'password' => $password,
     'per_page' => 1,
     'page'     => 1
   )
