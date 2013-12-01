@@ -34,7 +34,21 @@ $result = curl_post($url,$result);
 $result = json_decode($result,true);
 
 $order = $result['payload'][0];
-equal($new_status,$order['status']);
+equal($new_status,$order['status'], "Order status should eql $new_status on return");
+$data = array(
+  'action'      => 'woocommerce_json_api',
+  'proc'        => 'get_orders',
+  'arguments'   => array(
+    'token' => $token,
+    'per_page' => 1,
+    'page'     => 1
+  )
+);
+$result = curl_post($url,$data);
+$result = json_decode($result,true);
+
+$order = $result['payload'][0];
+equal($new_status,$order['status'], "Order status should eql $new_status on get_orders");
 
 $order['status'] = $old_status;
 
@@ -44,4 +58,18 @@ $result = curl_post($url,$result);
 
 $result = json_decode($result,true);
 $order = $result['payload'][0];
-equal($old_status,$order['status']);
+equal($old_status,$order['status'], "Order status should equal $old_status on return");
+$data = array(
+  'action'      => 'woocommerce_json_api',
+  'proc'        => 'get_orders',
+  'arguments'   => array(
+    'token' => $token,
+    'per_page' => 1,
+    'page'     => 1
+  )
+);
+$result = curl_post($url,$data);
+$result = json_decode($result,true);
+
+$order = $result['payload'][0];
+equal($old_status,$order['status'], "Order status should eql $old_status on get_orders");
