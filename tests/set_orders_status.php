@@ -12,6 +12,7 @@ $data = array(
   )
 );
 $result = curl_post($url,$data);
+echo "Get Orders Result is: " . $result . "\n\n";
 $result = json_decode($result,true);
 
 $order = $result['payload'][0];
