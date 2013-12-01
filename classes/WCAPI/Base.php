@@ -267,7 +267,7 @@ class Base extends Helpers {
         static::maybe_throw_wp_error( $ret );
       }
     } else {
-      Helpers::debug($this->getIdentString() ."METASQL: was not a string");
+      Helpers::debug($this->getIdentString() ."METASQL: was not a string or we updated through the normal mechanisms");
     }
   }
   public function createMetaAttributes() {
@@ -1154,7 +1154,8 @@ class Base extends Helpers {
     if ( $value == null ) {
       $value = $this->{"_$name"};
     }
-    $ret = wp_set_object_terms( $this->_actual_model_id, array( $value ), $type);
+    Helpers::debug("Calling wp_set_object_terms( {$this->_actual_model_id}, array('$value'), $type, false );")
+    $ret = wp_set_object_terms( $this->_actual_model_id, array( $value ), $type,false);
     Helpers::debug("Call to wp_set_object_terms returned " . var_export($ret,true) );
     if ( is_wp_error( $ret ) ) {
       throw new \Exception( $ret->get_messages());
