@@ -1154,7 +1154,7 @@ class Base extends Helpers {
     if ( $value == null ) {
       $value = $this->{"_$name"};
     }
-    Helpers::debug("Calling wp_set_object_terms( {$this->_actual_model_id}, array('$value'), $type, false );")
+    Helpers::debug("Calling wp_set_object_terms( {$this->_actual_model_id}, array('$value'), $type, false );");
     $ret = wp_set_object_terms( $this->_actual_model_id, array( $value ), $type,false);
     Helpers::debug("Call to wp_set_object_terms returned " . var_export($ret,true) );
     if ( is_wp_error( $ret ) ) {
