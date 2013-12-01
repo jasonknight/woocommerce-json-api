@@ -17,10 +17,10 @@ $result = json_decode($result,true);
 $order = $result['payload'][0];
 
 $old_status = $order['status'];
-if ( $old_status == "complete" ) {
+if ( $old_status == "completed" ) {
 	$new_status = 'processing';
 } else {
-	$new_status = 'complete';
+	$new_status = 'completed';
 }
 
 
