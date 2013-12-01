@@ -264,7 +264,7 @@ class Order extends Base {
     //   return $this->_meta_attributes['status'];
     // }
     Helpers::debug("Using WooCom to get status");
-    $order = new WC_Order($this->_actual_model_id);
+    $order = new \WC_Order($this->_actual_model_id);
     return $order->status;
     $sql = "
       SELECT
