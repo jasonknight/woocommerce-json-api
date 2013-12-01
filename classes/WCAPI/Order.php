@@ -277,12 +277,14 @@ class Order extends Base {
         tr.object_id = {$this->_actual_model_id}
       ORDER BY tr.term_order
     ";
-
+    Helpers::debug("Order::getStatus Getting with $sql");
     $terms = $wpdb->get_results( $sql , 'ARRAY_A');
+    Helpers::debug("Received terms: " . var_export($terms,true) );
     $this->_meta_attributes['status'] = (isset($terms[0])) ? $terms[0]['slug'] : 'pending';
     return $this->_meta_attributes['status'];
   }
   public function setStatus($value,$desc) {
+    Helpers::debug("Order::setStatus with value " . var_export($value,true));
     $this->_meta_attributes['status'] = $value;
   }
   public function updateStatus( $to, $desc ) {
@@ -290,6 +292,7 @@ class Order extends Base {
     // $order->update_status( $to );
     // Right now, we don't want the overhead of the WooCom
     // events that are triggered with a status update.
+    Helpers::debug("Order::updateStatus to " . var_export($to,tre) );
     $this->updateTerm('status','shop_order_status',$to);
   }
   public function asApiArray($args = array()) {

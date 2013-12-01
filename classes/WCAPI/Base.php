@@ -1153,6 +1153,7 @@ class Base extends Helpers {
       $value = $this->{"_$name"};
     }
     $ret = wp_set_object_terms( $this->_actual_model_id, array( $value ), $type);
+    Helpers::debug("Call to wp_set_object_terms returned " . var_export($ret,true) );
     if ( is_wp_error( $ret ) ) {
       throw new \Exception( $ret->get_messages());
     } else if ( is_string( $ret ) ) {
