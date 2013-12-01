@@ -232,11 +232,13 @@ class Base extends Helpers {
                   } else {
                     Helpers::debug($this->getIdentString() ."METASQL:No updater set for $attr for value $value");
                     //$meta_keys[] = $wpdb->prepare("%s",$desc['name']);
-                    $attribute_names[] = $wpdb->prepare( "%s", $desc['name']);
-                    $meta_sql .= $wpdb->prepare( "\tWHEN '{$desc['name']}' THEN %s\n ", $value);
+                    
                     if ( $update_meta_function == 'update_post_meta') {
                       // we do this because in some cases, meta isn't updating
                       update_post_meta($this->_actual_model_id,$desc['name'],$value);
+                    } else {
+                      $attribute_names[] = $wpdb->prepare( "%s", $desc['name']);
+                      $meta_sql .= $wpdb->prepare( "\tWHEN '{$desc['name']}' THEN %s\n ", $value);
                     }
                     $hits++;
                   }
