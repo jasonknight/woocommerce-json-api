@@ -30,9 +30,9 @@ $result['proc'] = 'set_orders';
 $result['payload'] = array($order);
 
 $result = curl_post($url,$result);
-
+echo $result;
 $result = json_decode($result,true);
-
+print_r($result['payload']);
 $order = $result['payload'][0];
 echo "After update it is: {$order['status']}\n";
 equal($new_status,$order['status'], "Order status should eql $new_status on return");
