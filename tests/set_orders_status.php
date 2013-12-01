@@ -23,7 +23,7 @@ if ( $old_status == "completed" ) {
 	$new_status = 'completed';
 }
 
-
+echo "Current Order Status is: {$order['status']}\n";
 $order['status'] = $new_status;
 
 $result['proc'] = 'set_orders';
@@ -34,6 +34,7 @@ $result = curl_post($url,$result);
 $result = json_decode($result,true);
 
 $order = $result['payload'][0];
+echo "After update it is: {$order['status']}\n";
 equal($new_status,$order['status'], "Order status should eql $new_status on return");
 $data = array(
   'action'      => 'woocommerce_json_api',

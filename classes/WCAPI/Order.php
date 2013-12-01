@@ -294,6 +294,7 @@ class Order extends Base {
     // events that are triggered with a status update.
     Helpers::debug("Order::updateStatus to " . var_export($to,tre) );
     $order = new \WC_Order($this->_actual_model_id);
+    Helpers::debug("Using WOOCOM to update status");
     $order->update_status($to);
     //$this->updateTerm('status','shop_order_status',$to);
   }
