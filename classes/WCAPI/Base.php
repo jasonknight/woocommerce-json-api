@@ -1157,6 +1157,9 @@ class Base extends Helpers {
     Helpers::debug("Calling wp_set_object_terms( {$this->_actual_model_id}, array('$value'), $type, false );");
     $ret = wp_set_object_terms( $this->_actual_model_id, array( $value ), $type,false);
     Helpers::debug("Call to wp_set_object_terms returned " . var_export($ret,true) );
+    $tmp_term = $this->getTerm($name,$type,'no, it wasnt set');
+    Helpers::debug("Did we really set it? " . var_export($tmp_term,true));
+    
     if ( is_wp_error( $ret ) ) {
       throw new \Exception( $ret->get_messages());
     } else if ( is_string( $ret ) ) {
