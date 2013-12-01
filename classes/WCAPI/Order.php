@@ -292,7 +292,7 @@ class Order extends Base {
     // $order->update_status( $to );
     // Right now, we don't want the overhead of the WooCom
     // events that are triggered with a status update.
-    Helpers::debug("Order::updateStatus to " . var_export($to,tre) );
+    Helpers::debug("Order::updateStatus to " . var_export($to,true) );
     $order = new \WC_Order($this->_actual_model_id);
     Helpers::debug("Using WOOCOM to update status");
     $order->update_status($to);
