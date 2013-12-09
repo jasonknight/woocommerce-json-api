@@ -8,7 +8,16 @@ $data = array(
   'arguments'   => array(
     'token' => $token,
     'per_page' => 2,
-    'page'     => 1
+    'page'     => 1,
+    'include' => array(
+      'variations' => false,
+      'images' => false,
+      'featured_image' => false,
+      'categories' => false,
+      'tags' => false,
+      'reviews' => false,
+      'variations_in_products' => false,
+    ),
   )
 );
 
@@ -35,7 +44,7 @@ $result = curl_post($url,$products);
 // Now do the load a second time:
 
 $result = curl_post($url,$data);
-//echo $result;
+
 
 $products = json_decode($result,true);
 

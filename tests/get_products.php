@@ -18,6 +18,7 @@ $data = array(
       'categories' => false,
       'tags' => false,
       'reviews' => false,
+      'variations_in_products' => false,
     ),
   )
 );

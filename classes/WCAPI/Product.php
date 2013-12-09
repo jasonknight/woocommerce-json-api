@@ -306,7 +306,22 @@ class Product extends Base{
     // $attributes_to_send['variations'] = $this->variations;
     // $attributes_to_send['images'] = $this->images;
     // $attributes_to_send['featured_image'] = $this->featured_image;
+    if ( is_array($attributes_to_send['attributes']) ) {
+      $has_string_keys = false;
+      foreach( $attributes_to_send['attributes'] as $k=>$v) {
+        if ( is_string($k) ) {
+          $has_string_keys = true;
+          break;
+        }
+      }
+      if ( ! $has_string_keys ) {
+        $attributes_to_send['attributes'] = new \stdClass();
+      }
+    } else if ( is_string($attributes_to_send['attributes']) ) {
+      $attributes_to_send['attributes'] = new \stdClass();
+    }
     return $attributes_to_send;
+
   }
 
   public static function find_by_sku( $sku ) {

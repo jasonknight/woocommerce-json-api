@@ -133,8 +133,10 @@ function woocommerce_json_api_template_redirect() {
   $helpers = new JSONAPIHelpers();
 
   $headers = woocommerce_json_api_parse_headers();
-
-  if ( isset($headers['Content-Type']) && $headers['Content-Type'] == 'application/json') {
+  if (function_exists('_wc_jsonapi_log')) { _wc_jsonapi_log(__FILE__ . ' In template Redirect'); }
+  
+  if ( isset($headers['Content-Type']) && $headers['Content-Type'] == 'application/json' && !isset( $_REQUEST['json'] ) ) {
+    if (function_exists('_wc_jsonapi_log')) { _wc_jsonapi_log(__FILE__ . ' Parsing Request Body'); }
     $fp = @fopen('php://input','r');
     $body = '';
     if ($fp) {
@@ -147,16 +149,27 @@ function woocommerce_json_api_template_redirect() {
       fclose( $fp );
     }
     $hash = json_decode( $body, true );
+    if (function_exists('_wc_jsonapi_log')) { _wc_jsonapi_log(__FILE__ . ' Parsed Hash Is: ' . print_r($hash,true)); }
     foreach ( $hash as $key => $value ) {
       $_REQUEST[$key] = $value;
     }
+  } elseif ( isset($_REQUEST['json']) && !empty($_REQUEST['json']) ) {
+    if (function_exists('_wc_jsonapi_log')) { _wc_jsonapi_log(__FILE__ . ' Parsing json out of request '); }
+    $hash = json_decode( stripslashes($_REQUEST['json']), true );
+    foreach ( $hash as $key => $value ) {
+      $_REQUEST[$key] = $value;
+    }
+    if (function_exists('_wc_jsonapi_log')) { _wc_jsonapi_log(__FILE__ . ' Now request is '); }
+    if (function_exists('_wc_jsonapi_log')) { _wc_jsonapi_log($_REQUEST); }
   }
   if (!isset($_REQUEST['action']) || $_REQUEST['action'] != 'woocommerce_json_api') {
     //die("action not set");
+    if (function_exists('_wc_jsonapi_log')) { _wc_jsonapi_log(__FILE__ . ' Action is not set'); }
     return;
   }
   if (is_user_logged_in()) {
     //die("user is logged in");
+    if (function_exists('_wc_jsonapi_log')) { _wc_jsonapi_log(__FILE__ . ' User is logged in! '); }
     if ( !defined('WCJSONAPI_USER_NO_CARE') ) {
       return;
     }
@@ -165,6 +178,7 @@ function woocommerce_json_api_template_redirect() {
 
   JSONAPIHelpers::debug( var_export( $headers, true) );
   if ( isset( $_REQUEST['action'] ) && 'woocommerce_json_api' == $_REQUEST['action']) {
+
     $enabled = get_option( $helpers->getPluginPrefix() . '_enabled');
     $require_https = get_option( $helpers->getPluginPrefix() . '_require_https' );
     if ( $enabled != 'no') {
@@ -195,6 +209,8 @@ function woocommerce_json_api_template_redirect() {
     } else {
       JSONAPIHelpers::debug("JSON API is not set to enabled.");
     }
+  } else {
+    if (function_exists('_wc_jsonapi_log')) { _wc_jsonapi_log(__FILE__ . ' Action is still not set!'); }
   }
 }
 function woocommerce_json_api_admin_menu() {
