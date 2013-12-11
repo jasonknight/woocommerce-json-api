@@ -144,6 +144,9 @@ class Image extends Base {
 
       $upload_dir = wp_get_attachment_image_src( $this->_actual_model_id, 'full');
       $md = $attributes['metadata'];
+      if ( ! is_array($md) ) {
+        $md = array();
+      }
       $md['url'] = $upload_dir[0];
       $attributes['metadata'] = $md;
       if ( isset($attributes['metadata']['sizes']) && is_array($attributes['metadata']['sizes'])) {
