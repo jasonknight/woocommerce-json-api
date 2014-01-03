@@ -10,6 +10,11 @@ if (!defined('EVERYTHING_IM_SURE')) {
 if (!defined('THIS_IM_SURE')) {
   define('THIS_IM_SURE', true );
 }
+if ( !function_exists('except') ) {
+  function except($var) {
+    throw new \Exception( print_r($var,true) );
+  }
+}
 class Base extends Helpers {
   // We want to be able to update the product in one go, as quickly
   // as possible because it is not unrealistic for us to want to

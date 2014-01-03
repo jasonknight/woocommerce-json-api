@@ -336,37 +336,39 @@ class Product extends Base{
   }
   public function getProductAttributes($desc) {
     $name = "attributes";
-    if ( isset($this->_meta_attributes[$name])) {
-      return $this->_meta_attributes[$name]; 
-    } else {
+    // if ( isset($this->_meta_attributes[$name])) {
+    //   return $this->_meta_attributes[$name]; 
+    // } else {
       $attrs = maybe_unserialize(get_post_meta($this->_actual_model_id,'_product_attributes',true));
       foreach ($attrs as &$attr) {
         if ( intval($attr['is_taxonomy']) == 1) {
           $cat = new Category();
           $cattrs = woocommerce_get_product_terms( $this->_actual_model_id, $attr['name'], 'all' );
+
           $attr['value'] = array();
           foreach ( $cattrs as $catt) {
             $cat->fromDatabaseResult( Helpers::std2a($catt) );
+
             $attr['value'][] = $cat->asApiArray();
           }
-        }
+
+        } 
         foreach (array('is_visible','is_variation','is_taxonomy') as $key) {
           if ( isset($attr[$key])) {
             $attr[$key] = Helpers::toWPBool($attr[$key]);
           }
         }
-        if ( isset($attr['value'])) {
+        if ( isset($attr['value']) && is_string($attr['value'])) {
           $attr['value'] = explode("|",$attr['value']);
         }
       }
       $this->_meta_attributes['attributes'] = $attrs;
       return $this->_meta_attributes['attributes'];
-    }
+    //}
   }
   public function updateProductAttributes($value,$desc) {
     Helpers::debug("Updating ProductAttributes");
     $name = "attributes";
-    $value = maybe_unserialize( $value );
     $this->_meta_attributes['attributes'] = $value;
     $attrs = $this->_meta_attributes['attributes'];
     $attrs = maybe_unserialize( $attrs );
@@ -389,6 +391,9 @@ class Product extends Base{
     }
 
     update_post_meta($this->_actual_model_id, '_product_attributes', $attrs);
+    if ( isset($attrs['is_taxonomy']) && $attrs['is_taxonomy'] == 1) {
+      Helpers::debug("It's a taxonomy, so we need to update it.");
+    }
   }
 
   public function getProductType($desc) {
