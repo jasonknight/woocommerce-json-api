@@ -51,6 +51,8 @@ class Order extends Base {
     $table = array(
       'name'            => array('name' => 'post_title',  'type' => 'string'),
       'guid'            => array('name' => 'guid',        'type' => 'string'),
+      'modified_at'           => array('name' => 'post_modified_gmt',     'type' => 'datetime', 'sizehint' => 3),
+      'created_at'            => array('name' => 'post_date_gmt',          'type' => 'datetime', 'sizehint' => 3),
       'type'                  => array('name' => 'post_type',
                                        'type' => 'string',
                                        'default' => 'shop_order',
