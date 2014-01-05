@@ -252,6 +252,8 @@ class Product extends Base{
       'description'           => array('name' => 'post_content',          'type' => 'text', 'sizehint' => 10),
       'short_description'     => array('name' => 'post_excerpt',          'type' => 'text', 'sizehint' => 10),
       'parent_id'             => array('name' => 'post_parent',           'type' => 'string', 'sizehint' => 3),
+      'modified_at'           => array('name' => 'post_modified_gmt',     'type' => 'datetime', 'sizehint' => 3),
+      'created_at'            => array('name' => 'post_date_gmt',          'type' => 'datetime', 'sizehint' => 3),
       'publishing'            => array(
                                     'name' => 'post_status',            
                                     'type' => 'string',
