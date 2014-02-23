@@ -342,7 +342,17 @@ class Product extends Base{
     //   return $this->_meta_attributes[$name]; 
     // } else {
       $attrs = maybe_unserialize(get_post_meta($this->_actual_model_id,'_product_attributes',true));
+      if ( is_string($attrs) ) {
+        $attrs = explode("|",$attrs);
+      }
+      if ( ! is_array($attrs) ) {
+        return array('error', __('Your attributes could not be decoded by the API') );
+      }
       foreach ($attrs as &$attr) {
+        if ( ! $attr ) {
+          continue;
+        }
+
         if ( intval($attr['is_taxonomy']) == 1) {
           $cat = new Category();
           $cattrs = woocommerce_get_product_terms( $this->_actual_model_id, $attr['name'], 'all' );
