@@ -176,6 +176,7 @@ class Product extends Base{
                                     'sizehint' => 3
                               ),
       'height'            => array('name' => '_height',           'type' => 'number', 'sizehint' => 2),
+      'width'            => array('name' => '_width',           'type' => 'number', 'sizehint' => 2),
       'weight'            => array('name' => '_weight',           'type' => 'number', 'sizehint' => 2),
       'length'            => array('name' => '_length',           'type' => 'number', 'sizehint' => 2),
       'price'             => array('name' => '_price',    'type' => 'number', 'sizehint' => 3, 'overwrites' => array('regular_price')),
