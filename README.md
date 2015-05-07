@@ -4,10 +4,10 @@ Don't forget to Follow us on Twitter @RedETools
 
 ### Before you download/use this API
 
-This API is not for end users, sorry. You will need to be a techy to use/install/run it.
+This API is not for end users, sorry. You will need to be tech-savvy to use/install/run it.
 
 Future versions will hopefully be user friendly enough for anyone to make 
-use of it. But this plugin is for developers.
+use of it, but this plugin is for developers.
 
 This API is currently under heavy development! While I run the test suite
 before committing each change, only the get_* methods are guaranteed to work,
