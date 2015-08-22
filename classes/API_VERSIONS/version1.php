@@ -486,6 +486,16 @@ class WC_JSON_API_Provider_v1 extends JSONAPIHelpers {
             'description' => __('A collection of Product arrays for update/create, to create omit `id`','woocommerce_json_api'),
           ),
         ),
+      'set_products_quantities'  => array(
+          'payload' => array(
+            'type' => 'array',
+            'values' => null,
+            'default' => null,
+            'required' => true,
+            'sizehint' => 1,
+            'description' => __('A collection of sku|id => quantity for updating the product quantities','woocommerce_json_api'),
+          ),
+        ),
       'set_coupons'  => array(
           'payload' => array(
             'type' => 'array',
@@ -967,6 +977,64 @@ class WC_JSON_API_Provider_v1 extends JSONAPIHelpers {
     }
     $this->result->setPayload( $products );
     JSONAPIHelpers::debug("set_products done.");
+    return $this->done();
+  }
+  /* 
+    The idea behind this function is for fast update of 
+    product quantities, like say from a POS system to prevent
+    double sales.
+  */
+  public function set_products_quantities( $params ) {
+    global $wpdb;
+    JSONAPIHelpers::debug("set_products_quantities beginning");
+
+    $find_by_sku_sql = "
+        SELECT 
+          post_id
+        FROM 
+          $wpdb->postmeta
+        WHERE 
+          meta_key = '_sku' 
+        AND 
+          meta_value = '%s'
+    ";
+    
+    $products = $this->orEq( $params, 'payload', array() );
+    foreach ( $products as &$attrs) {
+      $product = null;
+      if (isset($attrs['id'])) {
+        JSONAPIHelpers::debug("product id is {$attrs['id']} and qty is {$attrs['quantity']}");
+        update_post_meta($attrs['id'],'_stock',$attrs['quantity']);
+        //update_post_meta($attrs['id'],'_quantity',$attrs['quantity']);
+
+      } else if ( isset($attrs['sku']) && ! empty($attrs['sku'])) {
+        JSONAPIHelpers::debug("product sku is {$attrs['sku']}  and qty is {$attrs['quantity']}");
+        $post_id = $wpdb->get_var( $wpdb->prepare( $find_by_sku_sql, $attrs['sku'] ) );
+
+        if ($post_id && !is_wp_error($post_id)) {
+
+          update_post_meta($post_id,'_stock',$attrs['quantity']);
+          //update_post_meta($attrs['id'],'_quantity',$attrs['quantity']);
+
+        } else {
+
+          $this->result->addWarning( 
+            __(
+                'Product does not exist when finding by sku.',
+                'woocommerce_json_api'
+              ),
+            JSONAPI_PRODUCT_NOT_EXISTS, 
+            array( 
+              'id' => isset($attrs['id']) ? $attrs['id'] : 'none',
+              'sku' => isset($attrs['sku']) ? $attrs['sku'] : 'none',
+            )
+          );
+
+        }
+      } 
+    }
+    $this->result->setPayload( $products );
+    JSONAPIHelpers::debug("set_products_quantities done.");
     return $this->done();
   }
 

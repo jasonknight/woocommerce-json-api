@@ -121,6 +121,8 @@ $product = $result['payload'][0];
 keyExists('id',$product,'Was the id set?');
 
 
+
+
 // Try uploading an image
 
 $new_product_data = array(

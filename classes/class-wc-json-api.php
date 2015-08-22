@@ -77,6 +77,7 @@ class WooCommerce_JSON_API extends JSONAPIHelpers {
       // Write capable methods
       
       'set_products',
+      'set_products_quantities',
       'set_categories',
       'set_orders',
       'set_store_settings',
