@@ -1,0 +1,25 @@
+{
+  "name": "woocommerce-json-api",
+  "version": "1.0.0",
+  "description": "A simple, Abstract JSON API for Wordpress' Awesome Plugin: WooCommerce",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jasonknight/woocommerce-json-api.git"
+  },
+  "keywords": [
+    "woocommerce",
+    "api"
+  ],
+  "author": "Jason Knight <office@red-e.eu> (http://jolierouge.net)",
+  "license": "",
+  "bugs": {
+    "url": "https://github.com/jasonknight/woocommerce-json-api/issues"
+  },
+  "homepage": "https://github.com/jasonknight/woocommerce-json-api#readme"
+}
