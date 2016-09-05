@@ -59,6 +59,9 @@ if ( file_exists($target) ) {
       woocommerce_json_api_template_redirect();
     output_the_buffer:
       $contents = ob_get_contents();
+      // Fix for certain bad plugins who do sneaky shit, even
+      // though DOING_AJAX is defined. You naughty bastards.
+      $contents = str_replace("<!-- WordPressSEOPlugin -->","",$contents);
       ob_end_clean();
       _wc_jsonapi_log("Sending header");
       header("Content-Type: application/json");
