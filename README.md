@@ -168,3 +168,4 @@ And here would be the response, trimmed down a bit:
 ### Visit the Wiki for more Documentation
 
 ### TODO
+[![Become A Patron](https://github.com/jasonknight/gobay/raw/master/assets/patreon.png)](https://www.patreon.com/user?u=4141497)
